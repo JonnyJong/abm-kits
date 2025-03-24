@@ -4,6 +4,7 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import cliProgress from 'cli-progress';
 import svg2ttf from 'svg2ttf';
+// @ts-ignore
 import type { SVGIcons2SVGFontStream } from 'svgicons2svgfont';
 import ttf2woff from 'ttf2woff';
 import { ReadStream } from 'typeorm/platform/PlatformTools';
