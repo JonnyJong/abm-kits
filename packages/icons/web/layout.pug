@@ -1,0 +1,25 @@
+main
+	.projects
+		w-lang.projects-title project-list
+		w-list.project-list
+		w-btn.project-add add-project
+	.picker
+		.picker-filter
+			w-slider.picker-scale
+			w-text.picker-filter-name(placeholder="filter-name")
+			w-select.picker-filter-region(placeholder="filter-region")
+			w-select.picker-filter-type(placeholder="filter-type")
+			w-select.picker-filter-size(placeholder="filter-size")
+		.picker-main
+	.detail
+		.detail-icon
+		w-select#detail-region(placeholder="filter-region")
+		w-select#detail-type(placeholder="filter-type")
+		w-select#detail-size(placeholder="filter-size")
+		div.detail-id
+			#detail-id
+			w-btn#detail-copy
+		w-btn#detail-add add-to-project
+		w-list.project-current
+		w-btn#compile-project compile-project
+		w-btn#compile-all compile-all

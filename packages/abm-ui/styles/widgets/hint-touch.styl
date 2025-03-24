@@ -1,0 +1,35 @@
+:host
+	display inline-block
+	width 28px
+	height 28px
+
+svg
+	fill none
+
+.hand
+	stroke var(--text)
+
+.Tap
+	.tap
+		@extend .hand
+
+.DualTap
+	.tap
+	.tap-2
+		@extend .hand
+
+.Hold
+	.tap
+		fill var(--theme)
+
+.Move
+	.up
+	.left
+	.right
+		@extend .hand
+
+.SwapUp .up
+.SwapRight .right
+.SwapDown .down
+.SwapLeft .left
+	@extend .hand

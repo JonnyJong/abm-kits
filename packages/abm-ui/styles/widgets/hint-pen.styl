@@ -1,0 +1,47 @@
+:host
+	display inline-block
+	width 28px
+	height 28px
+
+svg
+	fill none
+
+.pen
+	stroke var(--text)
+
+.Tap
+	.tap
+		@extend .pen
+
+.DualTap
+	.tap
+	.tap-2
+		@extend .pen
+
+.Hold
+	.tap
+		fill var(--theme)
+
+.Draw .draw
+.DrawHorizontal .draw-left
+.DrawHorizontal .draw-right
+.DrawVertical .draw-up
+.DrawVertical .draw-down
+	@extend .pen
+
+.Move
+	.up
+	.right
+	.down
+	.left
+		@extend .pen
+
+.MoveHorizontal
+	.left
+	.right
+		@extend .pen
+
+.MoveVertical
+	.up
+	.down
+		@extend .pen

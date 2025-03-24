@@ -1,0 +1,48 @@
+:host
+	display inline-block
+	width 28px
+	height 28px
+	vertical-align bottom
+
+svg
+	fill none
+
+.shell
+	stroke var(--text)
+
+.wheel
+	fill var(--text)
+
+.Move
+	.up
+	.right
+	.down
+	.left
+		@extend .shell
+
+.MoveHorizontal
+	.left
+	.right
+		@extend .shell
+
+.MoveVertical
+	.up
+	.down
+		@extend .shell
+
+.Left .btn-left
+.Right .btn-right
+.WheelPress .wheel
+	fill var(--theme)
+
+.WheelPress .wheel
+	stroke var(--theme)
+
+.Wheel
+	.wheel-up
+	.wheel-down
+		@extend .shell
+
+.WheelUp .wheel-up
+.WheelDown .wheel-down
+	@extend .shell

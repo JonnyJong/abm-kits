@@ -1,0 +1,109 @@
+:host
+	position relative
+	display block
+	overflow hidden
+	box-sizing border-box
+	padding 4px calc(var(--w-input-padding-right) + var(--w-input-actions-right)) 4px calc(var(--w-input-padding-left) + var(--w-input-actions-left))
+	height 24px + 8px
+	border 1px solid var(--w-input-border)
+	border-bottom-color var(--w-input-indicator)
+	border-radius 4px
+	background var(--w-input-bg)
+	transition .1s
+	transition-property background, border-bottom-color
+	--w-input-padding-left 4px
+	--w-input-padding-right 4px
+	--w-input-actions-left 4px
+	--w-input-actions-right 4px
+	&[readonly]
+		border-bottom-color var(--w-input-readonly-indicator)
+	&[ui-hover]
+		background var(--w-input-hover-bg)
+	&:focus-within
+		border-bottom-color var(--theme)
+		background var(--w-input-focus-bg)
+	&[invalid]
+		background var(--w-input-invalid-bg)
+		&[ui-hover]
+			background var(--w-input-invalid-hover-bg)
+		&:focus-within
+			border-bottom-color var(--w-input-invalid-indicator)
+			background var(--w-input-invalid-focus-bg)
+	&[disabled]
+		border-bottom-color var(--w-input-disabled-indicator)
+		background var(--w-input-disabled-bg)
+		color var(--w-input-disabled-text)
+	&[autofill]
+		border-radius 4px 4px 0 0
+	&[autofill='up']
+		border-radius 0 0 4px 4px
+	&[autosize]
+		min-width 32px
+		width max-content
+		input
+		textarea
+			position relative
+			padding 0
+			field-sizing content
+	&w-text-field[autosize]
+		height max-content
+
+input
+textarea
+	all unset
+	position absolute
+	box-sizing border-box
+	padding inherit
+	min-height 16px
+	width 100%
+	height 100%
+	inset 0
+	&::selection
+		background var(--theme)
+		color var(--theme-text)
+
+input::-webkit-inner-spin-button
+	display none
+
+.placeholder
+	position absolute
+	box-sizing border-box
+	padding inherit
+	width 100%
+	height 100%
+	color var(--w-input-placeholder)
+	pointer-events none
+	inset 0
+
+textarea
+	+.placeholder
+		white-space pre-wrap
+
+.placeholder-hidden
+	display none
+
+.actions
+	position absolute
+	top 0
+	display flex
+
+.actions-left
+	left 0
+	padding-left 2px
+	width var(--w-input-actions-left)
+
+.actions-right
+	right 0
+	padding-right 2px
+	width var(--w-input-actions-right)
+
+.action
+	flex 0 0 auto
+	padding 2px 6px
+	transition .1s opacity, .1s margin-left
+	--w-btn-disabled-bg none
+
+.action-hidden
+	margin-left -100%
+	opacity 0
+	pointer-events none

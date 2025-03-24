@@ -1,0 +1,37 @@
+{
+	"name": "scc",
+	"version": "1.0.0",
+	"description": "",
+	"private": true,
+	"scripts": {
+		"preinstall": "npx -y only-allow pnpm",
+		"build": "tsc -p tsconfig.browser.json && tsc -p tsconfig.node.json && node build.js"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "MIT",
+	"packageManager": "pnpm@10.6.5",
+	"devDependencies": {
+		"@types/node": "^22.13.11",
+		"typescript": "^5.8.2"
+	},
+	"dependencies": {
+		"obj-codec": "^0.0.5"
+	},
+	"files": ["dist"],
+	"main": "./dist/node.js",
+	"module": "./dist/browser.js",
+	"browser": {
+		"./dist/node.js": "./dist/browser.js"
+	},
+	"exports": {
+		".": {
+			"node": "./dist/node.js",
+			"default": "./dist/browser.js"
+		},
+		"./package.json": "./package.json",
+		"./dist/common.d.ts": "./dist/common.d.ts",
+		"./dist/node": "./dist/node.js",
+		"./dist/browser": "./dist/browser.js"
+	}
+}

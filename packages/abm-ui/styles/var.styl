@@ -1,0 +1,241 @@
+:root
+	--ui-safe-top env(safe-area-inset-top)
+	--ui-safe-right env(safe-area-inset-right)
+	--ui-safe-bottom env(safe-area-inset-bottom)
+	--ui-safe-left env(safe-area-inset-left)
+	--font:
+		'Noto Sans SC',
+		'WenQuanYi Micro Hei',
+		'Noto Sans',
+		'Microsoft YaHei UI',
+		'Microsoft YaHei',
+		'HarmonyOS Sans SC',
+		'MiSans',
+		'PingFang SC',
+		'Hiragino Sans GB',
+		ui-sans-serif,
+		system-ui,
+		sans-serif
+	--font-mono:
+		'Maple Mono NF CN',
+		'Maple Mono SC NF',
+		'Sarasa Term SC',
+		'LXGW WenKai Mono',
+		'JetBrains Mono',
+		'Fira Code',
+		'Cascadia Code',
+		'Source Code Pro',
+		'Monaco',
+		'SF Mono',
+		Menlo,
+		Consolas,
+		'DejaVu Sans Mono',
+		'Liberation Mono',
+		'Courier New',
+		monospace
+
+SchemeLight =
+	--bg #fff
+	--text #000
+	// ===== Layout =====
+	--ui-panel-bg #0000000a
+	// ===== Component =====
+	// Tooltips
+	--ui-tooltips-bg #fffd
+	--ui-tooltips-border #00000018
+	// Dialog
+	--ui-dialog-filter-bg #0008
+	--ui-dialog-bg #fffa
+	--ui-dialog-border #0008
+	--ui-dialog-action-bg #fff8
+	// ===== Widget =====
+	// Progress
+	--w-progress-bar-track #8886
+	// Button
+	--w-btn-backdrop #00000008
+	--w-btn-bg #0001
+	--w-btn-border #00000028
+	--w-btn-hover-bg #0003
+	--w-btn-active-bg #00000004
+	--w-btn-active-content-opacity .6
+	--w-btn-disabled-bg #00000004
+	--w-btn-disabled-border #0002
+	--w-btn-disabled-content-opacity .5
+	--w-btn-danger-bg #ff4e4e
+	--w-btn-danger-border #a22309
+	--w-btn-danger-hover-bg #d43939
+	--w-btn-danger-active-bg #ff4e4ea0
+	--w-btn-danger-disabled-bg #ff4e4e66
+	// Input
+	--w-input-bg #0001
+	--w-input-border #00000028
+	--w-input-indicator #000
+	--w-input-hover-bg #0002
+	--w-input-focus-bg #fff8
+	--w-input-placeholder #0006
+	--w-input-readonly-indicator #0006
+	--w-input-invalid-bg #a2230920
+	--w-input-invalid-hover-bg #a2230940
+	--w-input-invalid-focus-bg #a2230910
+	--w-input-invalid-indicator #dc3614
+	--w-input-disabled-bg #00000008
+	--w-input-disabled-indicator #0004
+	--w-input-disabled-text #0008
+	--w-input-autofill-bg #fffd
+	--w-input-autofill-hover-bg #0002
+	--w-input-autofill-active-bg #0001
+	// Select
+	--w-select-bg #0001
+	--w-select-border #00000028
+	--w-select-hover-bg #0002
+	--w-select-active-bg #00000008
+	--w-select-picker-bg #ffffffd0
+	--w-select-option-hover-bg #0002
+	--w-select-option-active-bg #0001
+	// Nav
+	--w-nav-hover-bg #00000018
+	--w-nav-active-bg #0001
+	--w-nav-active-content-opacity .6
+	--w-nav-disabled-opacity .5
+	// Slider
+	--w-slider-track #8888
+	--w-slider-cover var(--theme)
+	--w-slider-thumb #fff
+	--w-slider-thumb-back #8884
+	--w-slider-thumb-front var(--theme)
+	// Slider 2D
+	--w-slider2d-bg #0001
+	--w-slider2d-border #0002
+	--w-slider2d-thumb-out #000
+	--w-slider2d-thumb-in #fff
+	// Switch
+	--w-switch-bg #0002
+	--w-switch-border #0002
+	--w-switch-hover-bg #0003
+	// Checkbox
+	--w-checkbox-border #0002
+	--w-checkbox-hover-bg #0002
+	--w-checkbox-active-bg #0001
+	// Gamepad
+	--w-gamepad-a #5baa22
+	--w-gamepad-b #eb0800
+	--w-gamepad-x #2579da
+	--w-gamepad-y #9e9b00
+	--w-gamepad-disconnected #aa0000
+	// Hint
+	--w-hint-key-bg #0001
+	--w-hint-key-border #0002
+	--w-hint-gamepad-a #5baa22
+	--w-hint-gamepad-b #eb0800
+	--w-hint-gamepad-x #2579da
+	--w-hint-gamepad-y #9e9b00
+SchemeDark =
+	--bg #111
+	--text #fff
+	// ===== Layout =====
+	--ui-panel-bg #ffffff08
+	// ===== Component =====
+	// Tooltips
+	--ui-tooltips-bg #080808d0
+	--ui-tooltips-border #fff2
+	// Dialog
+	--ui-dialog-filter-bg #0008
+	--ui-dialog-bg #111a
+	--ui-dialog-border #fff2
+	--ui-dialog-action-bg #0006
+	// ===== Widget =====
+	// Progress
+	--w-progress-bar-track #8884
+	// Button
+	--w-btn-backdrop #fff1
+	--w-btn-bg #fff1
+	--w-btn-border #fff2
+	--w-btn-hover-bg #fff2
+	--w-btn-active-bg #ffffff08
+	--w-btn-active-content-opacity .8
+	--w-btn-disabled-bg #ffffff05
+	--w-btn-disabled-border #fff2
+	--w-btn-disabled-content-opacity .6
+	--w-btn-danger-bg #a22309
+	--w-btn-danger-border #a22309
+	--w-btn-danger-hover-bg #c72e0f
+	--w-btn-danger-active-bg #c72e0fa0
+	--w-btn-danger-disabled-bg #c72e0f66
+	// Input
+	--w-input-bg #fff1
+	--w-input-border #fff1
+	--w-input-indicator #fff8
+	--w-input-hover-bg #fff2
+	--w-input-focus-bg #0008
+	--w-input-placeholder #fff8
+	--w-input-readonly-indicator #fff4
+	--w-input-invalid-bg #a2230920
+	--w-input-invalid-hover-bg #a2230940
+	--w-input-invalid-focus-bg #a2230910
+	--w-input-invalid-indicator #dc3614
+	--w-input-disabled-bg #ffffff08
+	--w-input-disabled-indicator #fff4
+	--w-input-disabled-text #fffb
+	--w-input-autofill-bg #080808d0
+	--w-input-autofill-hover-bg #fff2
+	--w-input-autofill-active-bg #fff1
+	// Select
+	--w-select-bg #fff1
+	--w-select-border #fff2
+	--w-select-hover-bg #fff2
+	--w-select-active-bg #ffffff08
+	--w-select-picker-bg #080808d0
+	--w-select-option-hover-bg #fff2
+	--w-select-option-active-bg #fff1
+	// Nav
+	--w-nav-hover-bg #ffffff18
+	--w-nav-active-bg #ffffff08
+	--w-nav-active-content-opacity .8
+	--w-nav-disabled-opacity .7
+	// Slider
+	--w-slider-track #8888
+	--w-slider-cover var(--theme)
+	--w-slider-thumb #404040
+	--w-slider-thumb-back #8884
+	--w-slider-thumb-front var(--theme)
+	// Slider 2D
+	--w-slider2d-bg #fff1
+	--w-slider2d-border #fff1
+	--w-slider2d-thumb-out #fff
+	--w-slider2d-thumb-in #000
+	// Switch
+	--w-switch-bg #fff1
+	--w-switch-border #fff2
+	--w-switch-hover-bg #fff2
+	// Checkbox
+	--w-checkbox-border #fff2
+	--w-checkbox-hover-bg #fff2
+	--w-checkbox-active-bg #fff1
+	// Gamepad
+	--w-gamepad-a #75d731
+	--w-gamepad-b #ff443e
+	--w-gamepad-x #3b86de
+	--w-gamepad-y #fffb54
+	--w-gamepad-disconnected #ff2222
+	// Hint
+	--w-hint-key-bg #fff1
+	--w-hint-key-border #fff2
+	--w-hint-gamepad-a #75d731
+	--w-hint-gamepad-b #ff443e
+	--w-hint-gamepad-x #3b86de
+	--w-hint-gamepad-y #fffb54
+
+[ui-scheme='light']
+	{SchemeLight}
+
+[ui-scheme='dark']
+	{SchemeDark}
+
+[ui-scheme='system']
+body
+	@extend [ui-scheme='light']
+
+@media (prefers-color-scheme dark)
+	[ui-scheme='system']
+	body
+		{SchemeDark}

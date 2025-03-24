@@ -1,0 +1,15 @@
+.w-input-autofill
+	position fixed
+	z-index 60
+	display block
+	overflow hidden overlay
+	max-height s('min(80vh, 300px, calc(100vh - var(--ui-safe-top) - var(--ui-safe-bottom)))')
+	outline 1px solid var(--w-input-border)
+	border-radius 0 0 4px 4px
+	background var(--w-input-autofill-bg)
+	transition .1s height
+	backdrop-filter blur(10px)
+	overscroll-behavior contain
+
+.w-input-autofill-up
+	border-radius 4px 4px 0 0

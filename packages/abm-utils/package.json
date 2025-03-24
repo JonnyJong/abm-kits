@@ -1,0 +1,101 @@
+{
+	"name": "abm-utils",
+	"version": "0.1.0",
+	"description": "The utils lib from ABM",
+	"author": "jonnyjonny",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/JonnyJong/abm-kits.git"
+	},
+	"bugs": {
+		"url": "https://github.com/JonnyJong/abm-kits/issues"
+	},
+	"homepage": "https://github.com/JonnyJong/abm-kits#readme",
+	"files": ["dist", "browser"],
+	"type": "commonjs",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"browser": {
+		"./dist/index.js": "./browser/index.js"
+	},
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"node": "./dist/index.js",
+			"default": "./browser/index.js"
+		},
+		"./package.json": "./package.json",
+		"./function": {
+			"types": "./dist/function.d.ts",
+			"node": "./dist/function.js",
+			"default": "./browser/function.js"
+		},
+		"./math": {
+			"types": "./dist/math.d.ts",
+			"node": "./dist/math.js",
+			"default": "./browser/math.js"
+		},
+		"./collection": {
+			"types": "./dist/collection.d.ts",
+			"node": "./dist/collection.js",
+			"default": "./browser/collection.js"
+		},
+		"./id": {
+			"types": "./dist/id.d.ts",
+			"node": "./dist/id.js",
+			"default": "./browser/id.js"
+		},
+		"./timer": {
+			"types": "./dist/timer.d.ts",
+			"node": "./dist/timer.js",
+			"default": "./browser/timer.js"
+		},
+		"./vector": {
+			"types": "./dist/vector.d.ts",
+			"node": "./dist/vector.js",
+			"default": "./browser/vector.js"
+		},
+		"./color": {
+			"types": "./dist/color.d.ts",
+			"node": "./dist/color.js",
+			"default": "./browser/color.js"
+		},
+		"./log": {
+			"types": "./dist/log.d.ts",
+			"node": "./dist/log.js",
+			"default": "./browser/log.js"
+		},
+		"./locale": {
+			"types": "./dist/locale.d.ts",
+			"node": "./dist/locale.js",
+			"default": "./browser/locale.js"
+		},
+		"./object": {
+			"types": "./dist/object.d.ts",
+			"node": "./dist/object.js",
+			"default": "./browser/object.js"
+		},
+		"./dom": {
+			"types": "./dist/dom.d.ts",
+			"node": "./dist/dom.js",
+			"default": "./browser/dom.js"
+		},
+		"./string": {
+			"types": "./dist/string.d.ts",
+			"node": "./dist/string.js",
+			"default": "./browser/string.js"
+		},
+		"./css": {
+			"types": "./dist/css.d.ts",
+			"node": "./dist/css.js",
+			"default": "./browser/css.js"
+		},
+		"./expression": {
+			"types": "./dist/expression.d.ts",
+			"node": "./dist/expression.js",
+			"default": "./browser/expression.js"
+		}
+	},
+	"scripts": {}
+}

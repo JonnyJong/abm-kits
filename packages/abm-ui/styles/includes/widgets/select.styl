@@ -1,0 +1,28 @@
+.w-select-picker
+	position fixed
+	top var(--w-select-top-begin)
+	left var(--w-select-left)
+	z-index 60
+	overflow hidden
+	width var(--w-select-width)
+	height 32px
+	border 1px solid var(--w-select-border)
+	border-radius 4px
+	background var(--w-select-picker-bg)
+	backdrop-filter blur(10px)
+
+.w-select-list
+	position relative
+	top var(--w-select-item-diff)
+	display flex
+	flex-direction column
+	overflow hidden auto
+
+.w-select-picker-show
+	top var(--w-select-top-end)
+	height var(--w-select-height)
+	transition .3s height var(--ease-out), .3s top var(--ease-out), .1s opacity
+	--ease-out cubic-bezier(0, 0, 0, 1)
+	.w-select-list
+		top 0px
+		transition .3s top var(--ease-out)

@@ -1,0 +1,32 @@
+:host
+	display block
+	width 24px
+	height 24px
+	border 1px solid var(--w-checkbox-border)
+	border-radius 4px
+	transition .1s background
+	&[checked]
+		background var(--theme-ac)
+		--w-checkbox-hover-bg var(--theme)
+		--w-checkbox-active-bg var(--theme-aa)
+		svg
+			stroke-dashoffset 0
+	&:not([disabled])
+		&[ui-hover]
+			background var(--w-checkbox-hover-bg)
+		&[ui-active]
+			background var(--w-checkbox-active-bg)
+	&[disabled]
+		svg
+			opacity .5
+
+svg
+	padding 2px
+	width 18px
+	height 18px
+	transition .1s stroke-dashoffset
+	stroke var(--theme-text)
+	stroke-linecap round
+	stroke-linejoin round
+	stroke-dasharray 15
+	stroke-dashoffset 15

@@ -1,0 +1,43 @@
+.picker
+	display flex
+	flex-direction column
+	height 100vh
+
+.picker-filter
+	display grid
+	padding-bottom 8px
+	grid-template-columns repeat(3, 1fr)
+	grid-template-rows repeat(3, auto)
+	gap 8px
+	grid-auto-flow row
+	grid-template-areas 'scale scale scale' 'name name name' 'region type size'
+	&>*
+		width 100%
+
+.picker-filter-name
+	grid-area name
+
+.picker-filter-region
+	grid-area region
+
+.picker-filter-type
+	grid-area type
+
+.picker-filter-size
+	grid-area size
+
+.picker-scale
+	grid-area scale
+
+.picker-main
+	display flex
+	flex 1
+	flex-wrap wrap
+	justify-content space-between
+	align-content flex-start
+	overflow scroll
+	gap calc((var(--scale, 128px) / 8))
+
+:where(.picker-main)
+	.icon
+		opacity .8

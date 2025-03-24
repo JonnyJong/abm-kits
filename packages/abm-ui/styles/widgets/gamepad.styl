@@ -1,0 +1,71 @@
+:host
+	position relative
+	display block
+	max-width 600px
+	width 100%
+	height auto
+
+path
+circle
+	fill none
+	stroke var(--text)
+
+mask path
+	fill #fff
+	stroke none
+
+svg
+	max-width inherit
+	width inherit
+	height inherit
+	.a
+		--text var(--w-gamepad-a)
+	.b
+		--text var(--w-gamepad-b)
+	.x
+		--text var(--w-gamepad-x)
+	.y
+		--text var(--w-gamepad-y)
+
+.text
+	stroke none
+	fill var(--text)
+
+rect
+	fill var(--theme)
+
+@keyframes connected
+	to
+		stroke var(--theme)
+
+.connected .home
+	animation connected 1s infinite alternate
+
+.home .home
+.back .back
+.start .start
+.up .up
+.right .right
+.down .down
+.left .left
+.lb .lb
+.rb .rb
+.lsb .lsb
+.rsb .rsb
+	fill var(--theme)
+
+.a .a
+.b .b
+.x .x
+.y .y
+	path
+		fill var(--text)
+	.text
+		fill var(--bg)
+
+.vibrate
+	position absolute
+	right 0
+	bottom 8px
+	left 0
+	margin auto

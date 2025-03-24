@@ -1,0 +1,58 @@
+:host
+	position relative
+	display block
+	padding 9px
+	--size 12px
+	&:not([disabled])
+		&[ui-hover]
+			--size 16px
+		&[ui-slide]
+			--size 8px
+	&.w-slider-sliding
+		.track:before
+		.thumb
+			transition none
+	&[disabled]
+		.track:before
+		.thumb:after
+			opacity .7
+
+.track
+	height 4px
+	border-radius 2px
+	background var(--w-slider-track)
+	&:before
+		display block
+		width var(--value, 0%)
+		height 100%
+		border-radius 2px
+		background var(--w-slider-cover)
+		content ''
+		transition .1s width
+
+.thumb
+	position absolute
+	top 0
+	left var(--value, 0%)
+	width 22px
+	height 22px
+	border-radius 100%
+	background var(--w-slider-thumb-back)
+	transition .1s translate, .1s left
+	translate calc(var(--value, 0%) * -1) 0
+	&:before
+	&:after
+		position absolute
+		margin auto
+		border-radius 100%
+		content ''
+		inset 0
+	&:before
+		width 20px
+		height 20px
+		background var(--w-slider-thumb)
+	&:after
+		width var(--size)
+		height var(--size)
+		background var(--w-slider-thumb-front)
+		transition .2s width, .2s height

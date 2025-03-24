@@ -1,0 +1,39 @@
+.ui-tooltips
+	position fixed
+	z-index 100
+	overflow hidden
+	max-width calc(100vw - var(--ui-safe-left) - var(--ui-safe-right))
+	max-height calc(100vh - var(--ui-safe-top) - var(--ui-safe-bottom))
+	width 0px
+	height 0px
+	border 1px solid var(--ui-tooltips-border)
+	border-radius 4px
+	background var(--ui-tooltips-bg)
+	opacity 0
+	transition .3s width, .3s height, .1s .1s opacity
+	pointer-events none
+	backdrop-filter blur(4px)
+	interpolate-size allow-keywords
+	will-change top, left
+	contain content
+
+.ui-tooltips-show
+	width auto
+	height auto
+	opacity 1
+	.ui-tooltips-content
+		translate 0% 0%
+
+.ui-tooltips-content
+	padding 8px 12px
+	width max-content
+	background #0000
+	transition .3s translate
+	translate -30% -50%
+
+@media (pointer coarse)
+	.ui-tooltips
+		transition .1s .1s opacity, .3s width, .3s height, .3s translate
+		translate 50% 50%
+	.ui-tooltips-show
+		translate 0% 0%

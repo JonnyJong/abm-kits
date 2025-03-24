@@ -1,0 +1,32 @@
+:host
+	display flex
+	align-items center
+	padding 4px 8px
+	min-height 32px
+	width max-content
+	border 1px solid var(--w-select-border)
+	border-radius 4px
+	background var(--w-select-bg)
+	transition .1s background
+	gap 4px
+	&:not([disabled])
+		&[ui-hover]
+			background var(--w-select-hover-bg)
+		&[ui-active]
+			background var(--w-select-active-bg)
+	&[disabled]
+		.indicator
+		.content
+			opacity .7
+		.placeholder
+			opacity .3
+
+.content
+.placeholder
+	flex 1
+
+.hidden
+	display none
+
+.placeholder
+	opacity .7

@@ -1,0 +1,156 @@
+.page-top(ui-nav)
+picture
+	source(media="(prefers-color-scheme: dark)" srcset="./assets/banner.svg")
+	source(media="(prefers-color-scheme: light)" srcset="./assets/banner.light.svg")
+	img(alt="ABM Icon" src="./assets/icon.svg" width="100%" style="padding-top:var(--ui-safe-top)")
+h1 ABM UI
+h2 Settings
+div(ui-panel="large" ui-layout="flow-column")
+	div Theme
+	w-color#settings-theme
+	div Color Scheme
+	w-select#settings-schema
+h2 Event
+h2 Keyboard
+h2 GameController
+div#dev-gamepad(ui-panel="large" style="display: flex;")
+	w-gamepad(target="0")
+	w-gamepad(target="1")
+	w-gamepad(target="2")
+	w-gamepad(target="3")
+h2 Components
+h3 Tooltips
+div#dev-tooltips(ui-panel="large")
+h3 Dialog
+div#dev-dialog(ui-panel="large" ui-layout="flow-column")
+h2 Widgets
+h3 Locale
+div.dev-panel#dev-lang(ui-panel="large")
+h3 Icon
+div.dev-panel#dev-icon(ui-panel="large")
+h3 Progress
+div.dev-panel#dev-progress-bar(ui-panel="large")
+div.dev-panel#dev-progress-ring(ui-panel="large")
+h3 Button
+div.dev-panel#dev-btn(ui-panel="large")
+h3 List
+div.dev-panel#dev-list(ui-panel="large")
+h3 Input
+h4 Text
+div.dev-panel#dev-text(ui-panel="large")
+h4 Password
+div.dev-panel#dev-psw(ui-panel="large")
+h4 Number
+div.dev-panel#dev-number(ui-panel="large")
+h4 Text Field
+div.dev-panel#dev-text-field(ui-panel="large")
+h3 Select
+div.dev-panel#dev-select(ui-panel="large")
+h3 Nav
+div.dev-panel#dev-nav(ui-panel="large")
+h3 Slider
+div.dev-panel#dev-slider(ui-panel="large")
+h3 Slider 2D
+div.dev-panel#dev-slider-2d(ui-panel="large")
+h3 Switch
+div.dev-panel#dev-switch(ui-panel="large")
+h3 Checkbox
+div.dev-panel#dev-checkbox(ui-panel="large")
+h3 Color Picker
+div.dev-panel#dev-color-picker(ui-panel="large")
+h3 Color
+div.dev-panel#dev-color(ui-panel="large")
+h3 Hint
+div#dev-hint(ui-panel="large")
+	w-hint
+		div(slot="mouse")
+			='Use'
+			w-hint-mouse Left
+			='to active a button, and use'
+			w-hint-key ArrowUp
+			w-hint-key ArrowRight
+			w-hint-key ArrowDown
+			w-hint-key ArrowLeft
+			='to navigate.'
+		div(slot="gamepad")
+			='Use'
+			w-hint-gamepad A
+			='to active a button, and use'
+			w-hint-gamepad Up
+			w-hint-gamepad Right
+			w-hint-gamepad Down
+			w-hint-gamepad Left
+			='to navigate.'
+		div(slot="touch")
+			='Use'
+			w-hint-touch Tap
+			='to active a button.'
+		div(slot="pen")
+			='Use'
+			w-hint-pen Tap
+			='to active a button, and use'
+			w-hint-key ArrowUp
+			w-hint-key ArrowRight
+			w-hint-key ArrowDown
+			w-hint-key ArrowLeft
+			='to navigate.'
+h4 Key
+div#dev-hint-key(ui-panel="large")
+h4 Mouse
+div#dev-hint-mouse(ui-panel="large")
+	w-hint-mouse Move
+	w-hint-mouse MoveHorizontal
+	w-hint-mouse MoveVertical
+	w-hint-mouse Wheel
+	w-hint-mouse WheelPress
+	w-hint-mouse WheelUp
+	w-hint-mouse WheelDown
+	w-hint-mouse Left
+	w-hint-mouse Right
+	w-hint-mouse
+h4 Gamepad
+div#dev-hint-gamepad(ui-panel="large")
+	w-hint-gamepad Home
+	w-hint-gamepad Back
+	w-hint-gamepad Start
+	w-hint-gamepad A
+	w-hint-gamepad B
+	w-hint-gamepad X
+	w-hint-gamepad Y
+	w-hint-gamepad LB
+	w-hint-gamepad RB
+	w-hint-gamepad LT
+	w-hint-gamepad RT
+	w-hint-gamepad LSB
+	w-hint-gamepad RSB
+	w-hint-gamepad Up
+	w-hint-gamepad Right
+	w-hint-gamepad Down
+	w-hint-gamepad Left
+	w-hint-gamepad LS
+	w-hint-gamepad RS
+	w-hint-gamepad
+h4 Touch
+div#dev-hint-touch(ui-panel="large")
+	w-hint-touch Tap
+	w-hint-touch DualTap
+	w-hint-touch Hold
+	w-hint-touch Move
+	w-hint-touch SwapUp
+	w-hint-touch SwapRight
+	w-hint-touch SwapDown
+	w-hint-touch SwapLeft
+	w-hint-touch
+h4 Pen
+div#dev-hint-pen(ui-panel="large")
+	w-hint-pen Tap
+	w-hint-pen DualTap
+	w-hint-pen Hold
+	w-hint-pen Draw
+	w-hint-pen DrawHorizontal
+	w-hint-pen DrawVertical
+	w-hint-pen Move
+	w-hint-pen MoveHorizontal
+	w-hint-pen MoveVertical
+	w-hint-pen
+.page-bottom(ui-nav)

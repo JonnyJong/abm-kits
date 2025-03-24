@@ -1,0 +1,40 @@
+:host
+	display block
+	overflow hidden
+	width var(--w-progress-ring-size, 64px)
+	height var(--w-progress-ring-size, 64px)
+
+@keyframes track
+	100%
+		rotate 270deg
+
+.track
+	display block
+	width 100%
+	rotate -90deg
+
+@keyframes thumb
+	0%
+		stroke-dasharray 1, 200
+		stroke-dashoffset 0
+	50%
+		stroke-dasharray var(--a, 105.75), 200
+		stroke-dashoffset var(--b, -35.25)
+	100%
+		stroke-dasharray 1, 200
+		stroke-dashoffset var(--c, -141)
+
+.thumb
+	transition .1s stroke-dasharray, .1s stroke-dashoffset, .5s stroke-width, .5s r, .2s stroke
+	fill none
+	stroke var(--theme)
+	stroke-width clamp(1, var(--thickness), 24)
+	stroke-linecap round
+	stroke-dasharray var(--offset, 141), 200
+	stroke-dashoffset var(--progress, 141)
+	r calc(25 - clamp(1, var(--thickness), 24) / 2)
+
+.waiting
+	animation track 2s linear infinite
+	.thumb
+		animation thumb 1.3s ease-in-out infinite

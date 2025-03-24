@@ -1,0 +1,103 @@
+:host
+	display grid
+	align-items center
+	max-width 368px
+	grid-template-columns 1fr minmax(0, 200px) 32px 54px 50px
+	grid-template-rows 300px 24px max-content 1fr
+	gap 8px 8px
+	grid-auto-flow row
+	grid-template-areas 'main main main main indicator' 'main-slider main-slider main-slider main-slider indicator' 'tab tab hex-label hex-value hex-value' 'tab-content tab-content tab-content tab-content tab-content'
+	&[alpha]
+		grid-template-columns 1fr minmax(0, 200px) 32px 54px 50px
+		grid-template-rows 300px 24px max-content 1fr max-content
+		grid-template-areas 'main main main main indicator' 'main-slider main-slider main-slider main-slider indicator' 'tab tab hex-label hex-value hex-value' 'tab-content tab-content tab-content tab-content tab-content' 'alpha-label alpha-slider alpha-slider alpha-value alpha-value'
+		.alpha-label
+		.alpha-slider
+		.alpha-value
+			display block
+
+.tab
+	grid-area tab
+
+.tab-content
+	display grid
+	align-items center
+	grid-area tab-content
+	grid-template-columns max-content 1fr 112px
+	grid-template-rows repeat(3, 1fr)
+	gap 8px 8px
+	grid-template-areas 'h-label h-slider h-value' 's-label s-slider s-value' 'l-label l-slider l-value'
+
+.indicator
+	position relative
+	overflow hidden
+	width 100%
+	height 100%
+	border-radius 4px
+	background 0 0 / 20px 20px linear-gradient(45deg, #888 25%, #0000 0, #0000 75%, #888 0), 10px 10px / 20px 20px linear-gradient(45deg, #888 25%, #0000 0, #0000 75%, #888 0), #ddd
+	grid-area indicator
+	&:before
+		position absolute
+		top 0
+		left 0
+		display block
+		width 100%
+		height 100%
+		background var(--color)
+		content ''
+
+.hex-label
+	grid-area hex-label
+
+.hex-value
+	grid-area hex-value
+
+.alpha-label
+	word-break keep-all
+	grid-area alpha-label
+
+.alpha-slider
+	grid-area alpha-slider
+	--w-slider-cover none
+	--w-slider-track linear-gradient(to right, #0000, var(--text)), 0 0 / 6px 6px linear-gradient(45deg, #000 25%, #0000 0, #0000 75%, #000 0), 3px 3px / 6px 6px linear-gradient(45deg, #000 25%, #0000 0, #0000 75%, #000 0), #fff
+
+.alpha-value
+	grid-area alpha-value
+
+.alpha-label
+.alpha-slider
+.alpha-value
+	display none
+
+.main
+	width 100%
+	height 100%
+	grid-area main
+	--w-slider2d-bg linear-gradient(#0000, #888), linear-gradient(to right, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00)
+
+.main-slider
+	grid-area main-slider
+
+.h
+	--w-slider-track linear-gradient(to right, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00)
+	--w-slider-cover none
+
+.s
+	--w-slider-cover none
+
+.l
+.main-slider
+	--w-slider-track linear-gradient(to right, #000, #fff)
+	--w-slider-cover none
+
+.r
+	--w-slider-cover none
+	--w-slider-track linear-gradient(to right, black, red)
+
+.g
+	--w-slider-cover none
+	--w-slider-track linear-gradient(to right, black, green)
+
+.b
+	--w-slider-cover none
+	--w-slider-track linear-gradient(to right, black, blue)

@@ -1,0 +1,30 @@
+:host
+	position relative
+	display block
+	height 300px
+	border 1px solid var(--w-slider2d-border)
+	border-radius 4px
+	background var(--w-slider2d-bg)
+	transition .1s background
+	&[ui-hover]
+		.pointer
+			scale 1.2
+	&[ui-slide]
+		.pointer
+			scale .8
+
+.pointer
+	position absolute
+	top 0
+	left 0
+	width 9px
+	height 9px
+	outline 3px solid var(--w-slider2d-thumb-in)
+	outline-offset -5px
+	border 7px solid var(--w-slider2d-thumb-out)
+	border-radius 100%
+	transition .1s scale, .1s left, .1s top
+	translate -50% -50%
+
+.sliding
+	transition .1s scale

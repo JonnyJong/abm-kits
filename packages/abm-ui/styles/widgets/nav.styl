@@ -1,0 +1,103 @@
+:host
+	position relative
+	display flex
+	&:not([vertical])
+		&[display='icon']
+			.item
+				:last-child
+					margin-top -16px
+					width 0px
+					opacity 0
+					scale 0
+		&[display='text']
+			.item
+				:first-child
+					height 0px
+					scale 0
+				:last-child
+					margin-top 0px
+	&[vertical]
+		flex-direction column
+		width max-content
+		height 100%
+		.indicator
+			top calc(var(--offset) + 8px)
+			left 0
+			width 4px
+			height calc(var(--size) - 16px)
+			transition .2s top, .2s height
+		.item
+			flex-direction row
+			padding 12px
+			height 44px
+			transition .1s background, .3s width
+			:last-child
+				margin 0
+				margin-left 12px
+		&[display='icon']
+			.item
+				width 44px
+		&[display='text']
+			.item
+				:first-child
+					width 0px
+					opacity 0
+					scale 0
+				:last-child
+					margin-left 0px
+	&[disabled]
+		.item
+			&[ui-hover]
+			&[ui-active]
+				background none
+				&>*
+					opacity 1
+
+.item
+	display flex
+	flex-direction column
+	align-items center
+	overflow hidden
+	box-sizing border-box
+	padding 8px
+	padding-top 12px
+	border-radius 4px
+	transition .1s background, .3s padding
+	interpolate-size allow-keywords
+	&:not([disabled])
+		&[ui-hover]
+			background var(--w-nav-hover-bg)
+		&[ui-active]
+			background var(--w-nav-active-bg)
+			&>*
+				opacity var(--w-nav-active-content-opacity)
+	&>*
+		transition .3s opacity, .3s width, .3s margin, .3s height, .3s scale
+	:first-child
+		flex 0 0 auto
+		overflow hidden
+		height calc-size(auto, size)
+		font-size 20px
+		--w-progress-ring-size 20px
+	:last-child
+		margin-top 8px
+		width calc-size(auto, size)
+		// height calc-size(auto, size)
+		line-height 1
+	&[disabled]
+		opacity var(--w-nav-disabled-opacity)
+
+.flex
+	flex 1
+	*
+		display none
+
+.indicator
+	position absolute
+	top 0
+	left calc(var(--offset) + 8px)
+	width calc(var(--size) - 16px)
+	height 4px
+	border-radius 4px
+	background var(--theme)
+	transition .2s left, .2s width

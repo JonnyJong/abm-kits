@@ -1,0 +1,9 @@
+{
+	"extends": "./tsconfig.json",
+	"compilerOptions": {
+		// Basic
+		"module": "ESNext",
+		"moduleResolution": "node",
+	},
+	"include": ["src/browser.ts"],
+}

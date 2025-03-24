@@ -1,0 +1,20 @@
+*
+	box-sizing border-box
+
+body
+	overflow hidden
+	margin 0
+	width 100vw
+	height 100vh
+	background var(--bg)
+	color var(--text)
+	font 16px / 1.5 var(--font)
+	user-select none
+	scrollbar-color var(--theme) var(--theme-a8)
+
+::selection
+	background var(--theme)
+	color var(--theme-text)
+
+@import './presets'
+@import './includes/**/*'

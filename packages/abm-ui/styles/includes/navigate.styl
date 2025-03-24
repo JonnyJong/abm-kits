@@ -1,0 +1,23 @@
+@keyframes ui-nav
+	100%
+		filter drop-shadow(0 0 8px var(--theme))
+
+.ui-nav
+	position fixed
+	z-index 90
+	outline 4px solid var(--theme)
+	outline-offset 2px
+	border-radius calc(var(--border-radius) + 1px)
+	transition .05s top, .05s left, .1s height, .1s width, .2s border-radius, .1s opacity
+	animation ui-nav 1s linear infinite alternate
+	pointer-events none
+	contain strict
+	will-change top, left, height, width
+	&:not(.ui-nav-visible)
+		width 0px !important
+		height 0px !important
+		outline-width 0
+		animation none
+
+body:has(.ui-nav-visible)
+	cursor none

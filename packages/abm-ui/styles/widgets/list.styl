@@ -1,0 +1,22 @@
+@keyframes append
+	from
+		opacity 0
+
+:host
+	position relative
+	display block
+	&>*
+		position absolute
+		box-sizing border-box
+		width 100%
+		transition .2s top, .2s opacity
+		animation append .2s ease
+	&.w-list-dragging>*:not(.w-list-dragging)
+		opacity .5
+
+.w-list-filtered
+	opacity 0
+
+.w-list-dragging
+	transition none
+	animation none

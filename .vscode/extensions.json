@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "biomejs.biome",
+    "editorconfig.editorconfig",
+    "runem.lit-plugin",
+    "sysoev.language-stylus",
+    "thisismanta.stylus-supremacy",
+  ]
+}

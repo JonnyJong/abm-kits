@@ -1,0 +1,22 @@
+{
+	"name": "example",
+	"private": true,
+	"devDependencies": {
+		"@types/stylus": "^0.48.43",
+		"@types/uglifycss": "^0.0.11",
+		"abm-ui": "workspace:*",
+		"abm-utils": "workspace:*",
+		"lit": "~3.2.1",
+		"stylus": "^0.64.0",
+		"typescript": "^5.7.3",
+		"uglifycss": "^0.0.29",
+		"vite": "^6.0.11",
+		"vite-plugin-pug": "^0.4.1"
+	},
+	"scripts": {
+		"dev": "vite"
+	},
+	"dependencies": {
+		"@lit-labs/signals": "~0.1.1"
+	}
+}

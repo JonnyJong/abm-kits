@@ -1,0 +1,53 @@
+:host
+	position relative
+	display block
+	width max-content
+	width 48px
+	height 24px
+	border 1px solid var(--w-switch-border)
+	border-radius 24px
+	background var(--w-switch-bg)
+	transition .1s background
+	--size 16px
+	--thumb 0px
+	&[checked]
+		background var(--theme-ac)
+		--thumb 24px
+		--text var(--theme-text)
+		--w-switch-hover-bg var(--theme)
+	&:not([disabled])
+		&[ui-hover]
+			--size 20px
+		&[ui-slide]
+		&[ui-active]
+			--size 12px
+		&[ui-hover]
+		&[ui-slide]
+		&[ui-active]
+			background var(--w-switch-hover-bg)
+	&[disabled]
+		.thumb
+			opacity .5
+	&.w-switch-sliding
+		.thumb
+			left var(--offset)
+			transition none
+
+.thumb
+	position absolute
+	top 0
+	left var(--thumb)
+	width 23px
+	height 23px
+	transition .1s left
+	&:before
+		position absolute
+		display block
+		margin auto
+		width var(--size)
+		height var(--size)
+		border-radius 100%
+		background var(--text)
+		content ''
+		transition .1s height, .1s width
+		inset 0

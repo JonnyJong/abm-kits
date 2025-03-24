@@ -1,0 +1,33 @@
+{
+	"compilerOptions": {
+		// Basic
+		"target": "ES2022",
+		"module": "ESNext",
+		"moduleResolution": "node",
+		"types": [],
+		// Checking
+		"strict": true,
+		"noImplicitAny": true,
+		"strictNullChecks": true,
+		"strictFunctionTypes": true,
+		"strictPropertyInitialization": true,
+		"noImplicitThis": true,
+		"alwaysStrict": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+		"allowJs": false,
+		"allowSyntheticDefaultImports": true,
+		"forceConsistentCasingInFileNames": true,
+		// Features
+		"esModuleInterop": true,
+		"resolveJsonModule": true,
+		"experimentalDecorators": true,
+		// Output
+		"sourceMap": true,
+		"removeComments": false,
+		"newLine": "lf",
+		"declaration": true,
+	}
+}

@@ -1,0 +1,10 @@
+body:not(:has(.ui-preset-fullscreen))
+	overflow hidden overlay
+
+.dev-panel
+	display flex
+	gap 8px
+
+@media screen and (max-width 700px)
+	.dev-panel
+		flex-direction column-reverse

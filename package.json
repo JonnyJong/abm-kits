@@ -1,0 +1,36 @@
+{
+	"private": true,
+	"name": "abm-kits",
+	"license": "MIT",
+	"scripts": {
+		"preinstall": "npx -y only-allow pnpm",
+		"icon": "concurrently \"pnpm icon:backend\" \"pnpm icon:frontend\"",
+		"icon:frontend": "pnpm --filter icons run page",
+		"icon:backend": "node packages/icons",
+		"icon:build": "pnpm --filter scc run build && pnpm --filter icons run build",
+		"icon:watch": "pnpm --filter scc run build && pnpm --filter icons run watch",
+		"build:utils": "tsc -p ./packages/abm-utils/tsconfig.json && tsc -p ./packages/abm-utils/tsconfig.browser.json",
+		"build:ui": "tsc -p ./packages/abm-ui/tsconfig.json",
+		"build": "npm run build:utils && npm run build:ui",
+		"clean": "node scripts/clean.js",
+		"watch:utils": "tsc -p ./packages/abm-utils/tsconfig.json -w",
+		"watch:ui": "tsc -p ./packages/abm-ui/tsconfig.json -w",
+		"watch": "concurrently \"npm run watch:utils\" \"npm run watch:ui\" \"tsc -p ./packages/abm-utils/tsconfig.browser.json -w\"",
+		"dev": "pnpm --filter example run dev",
+		"prepack": "npm run clean && npm run build",
+		"publish": "pnpm publish --recursive --access public"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^1.9.4",
+		"@types/node": "^22.10.10",
+		"concurrently": "^9.1.2",
+		"typescript": "^5.7.3"
+	},
+	"engines": {
+		"node": ">=22",
+		"pnpm": ">=10"
+	},
+	"pnpm": {
+		"onlyBuiltDependencies": ["@biomejs/biome", "esbuild", "sqlite3", "ttf2woff2"]
+	}
+}
