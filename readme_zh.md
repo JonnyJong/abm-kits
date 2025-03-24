@@ -1,13 +1,11 @@
 [English](./readme.md) | 中文
 
-<h1 align="center">
-	<picture>
+<picture>
 	<source media="(prefers-color-scheme: dark)" srcset="./assets/icon.svg" style="width:100%;max-height:200px">
 	<source media="(prefers-color-scheme: light)" srcset="./assets/icon.light.svg" style="width:100%;max-height:200px">
-	<img alt="ABM Icon" src="./assets/icon.svg" style="width:100%;max-height:200px">
-	</picture>
-	<br>ABM Kits
-</h1>
+	<img alt="ABM Icon" src="./assets/icon.svg" height="200" width="100%">
+</picture>
+<h1 align="center">ABM Kits</h1>
 ABM 的开发工具包。工具包正在开发中……
 
 ## 包

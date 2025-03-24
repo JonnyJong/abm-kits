@@ -1,13 +1,11 @@
 English | [中文](./readme_zh.md)
 
-<h1 align="center">
-	<picture>
+<picture>
 	<source media="(prefers-color-scheme: dark)" srcset="./assets/icon.svg" style="width:100%;max-height:200px">
 	<source media="(prefers-color-scheme: light)" srcset="./assets/icon.light.svg" style="width:100%;max-height:200px">
-	<img alt="ABM Icon" src="./assets/icon.svg" style="width:100%;max-height:200px">
-	</picture>
-	<br>ABM Kits
-</h1>
+	<img alt="ABM Icon" src="./assets/icon.svg" height="200" width="100%">
+</picture>
+<h1 align="center">ABM Kits</h1>
 A development toolkit for ABM. Toolkit is under development...
 
 ## Packages

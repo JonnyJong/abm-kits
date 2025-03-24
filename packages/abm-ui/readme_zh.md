@@ -1,9 +1,7 @@
 [English](./readme.md) | 中文
 
-<h1 align="center">
-	<img src="./assets/icon.svg" alt="ABM Icon" width="100%" style="max-height:200px">
-	<br>ABM UI
-</h1>
+<img src="./assets/icon.svg" alt="ABM Icon" width="100%" height="200">
+<h1 align="center">ABM UI</h1>
 ABM 的 UI 库。
 
 ## 特性
