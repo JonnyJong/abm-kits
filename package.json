@@ -19,7 +19,7 @@
 		"watch": "concurrently \"npm run watch:utils\" \"npm run watch:ui\" \"tsc -p ./packages/abm-utils/tsconfig.browser.json -w\"",
 		"dev": "pnpm --filter example run dev",
 		"prepack": "npm run clean && npm run build",
-		"publish": "pnpm publish --recursive --access public"
+		"publish": "pnpm publish -r --filter abm-utils --access public && pnpm publish -r --filter abm-ui --access public"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
