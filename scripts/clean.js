@@ -11,6 +11,7 @@ const PATHS = [
 ];
 
 async function clean() {
+	console.log('Cleaning...');
 	for (const PATH of PATHS) {
 		const target = path.join(__dirname, '..', PATH);
 		console.log(target);
