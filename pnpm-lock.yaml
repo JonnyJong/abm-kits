@@ -159,45 +159,6 @@ importers:
         specifier: ^0.4.1
         version: 0.4.1
 
-  packages/icons_old:
-    devDependencies:
-      '@fluentui/svg-icons':
-        specifier: 1.1.274
-        version: 1.1.274
-      '@types/node':
-        specifier: ~22.13.5
-        version: 22.13.11
-      '@types/stylus':
-        specifier: ^0.48.43
-        version: 0.48.43
-      '@types/uglifycss':
-        specifier: ^0.0.11
-        version: 0.0.11
-      abm-ui:
-        specifier: workspace:*
-        version: link:../abm-ui
-      abm-utils:
-        specifier: workspace:*
-        version: link:../abm-utils
-      lit:
-        specifier: ~3.2.1
-        version: 3.2.1
-      stylus:
-        specifier: ^0.64.0
-        version: 0.64.0
-      typescript:
-        specifier: ^5.7.3
-        version: 5.8.2
-      uglifycss:
-        specifier: ^0.0.29
-        version: 0.0.29
-      vite:
-        specifier: ^6.0.11
-        version: 6.0.11(@types/node@22.13.11)(stylus@0.64.0)(yaml@2.7.0)
-      vite-plugin-pug:
-        specifier: ^0.4.1
-        version: 0.4.1
-
   packages/scc:
     dependencies:
       obj-codec:
