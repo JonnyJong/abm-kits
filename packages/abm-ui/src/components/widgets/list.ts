@@ -309,6 +309,7 @@ export class WidgetList<
 	#createItem(data: Data): Item {
 		const item = this.#itemClass!.create(data);
 		item.host = this as any;
+		item.part.add('w-list-item');
 		return item;
 	}
 	#validItems: Item[] = [];

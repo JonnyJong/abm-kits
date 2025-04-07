@@ -10,6 +10,9 @@
 	transition .1s height
 	backdrop-filter blur(10px)
 	overscroll-behavior contain
+	&::part(w-list-item)
+		padding 4px 8px
+		transition .1s background, .1s top, .1s opacity
 
 .w-input-autofill-up
 	border-radius 4px 4px 0 0
