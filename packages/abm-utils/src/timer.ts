@@ -260,3 +260,53 @@ export class IntervalController<T = unknown> {
 		this.start();
 	}
 }
+
+interface SerialTask<Args extends any[], Result> {
+	args: Args;
+	resolve: (result: Result) => void;
+	reject: (error: unknown) => void;
+}
+
+/**
+ * @description
+ * 串行任务执行器，保证任务按添加顺序依次执行
+ */
+export class SerialExecutor<Args extends any[], Result> {
+	#exe: Fn<Args, Result | Promise<Result>>;
+	#tasks: SerialTask<Args, Result>[] = [];
+	/**
+	 * @param exe - 实际执行任务的函数
+	 */
+	constructor(exe: Fn<Args, Result | Promise<Result>>) {
+		this.#exe = exe;
+	}
+	#running = false;
+	async #run() {
+		this.#running = true;
+		while (true) {
+			const task = this.#tasks.shift();
+			if (!task) break;
+			try {
+				task.resolve(await this.#exe(...task.args));
+			} catch (error) {
+				task.reject(error);
+			}
+		}
+		this.#running = false;
+	}
+	/**
+	 * 提交新任务到执行队列
+	 *
+	 * @param args - 任务参数
+	 * @returns 返回一个 Promise，在任务执行完成时 resolve/reject
+	 *
+	 * @description
+	 * 任务会被加入队列并按添加顺序依次执行
+	 */
+	process(...args: Args): Promise<Result> {
+		return new Promise((resolve, reject) => {
+			this.#tasks.push({ args, resolve, reject });
+			if (!this.#running) this.#run();
+		});
+	}
+}
