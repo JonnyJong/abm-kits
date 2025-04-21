@@ -292,6 +292,7 @@ export class Dialog<ID extends string = string>
 		options: DialogConfirmInit,
 	): Promise<boolean> & { dialog: Dialog<'confirm' | 'cancel'> } {
 		const dialog = new Dialog({
+			autoHide: true,
 			...options,
 			actions: [
 				Object.assign({}, Dialog.ACTION_CONFIRM, options.actions?.[0], {
@@ -314,6 +315,7 @@ export class Dialog<ID extends string = string>
 	/** 提示对话框 */
 	static ok(options: DialogOKInit): Promise<void> & { dialog: Dialog<'ok'> } {
 		const dialog = new Dialog({
+			autoHide: true,
 			...options,
 			actions: [
 				Object.assign({}, Dialog.ACTION_OK, options.actions?.[0], { id: 'ok' }),
