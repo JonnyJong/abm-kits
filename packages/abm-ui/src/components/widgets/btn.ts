@@ -88,10 +88,14 @@ export class WidgetBtn<
 		if (icon) this.#content.icon = icon;
 	}
 	protected render() {
+		const icon = this.#content.iconSignal.get();
+		const label = this.#content.labelSignal.get();
+		if (icon) (icon as any).part = 'icon';
+		if (label) (label as any).part = 'label';
 		return html`
 			<div class="progress" style=${styleMap({ width: `${this.#progress}%` })}></div>
 			<div class="delay" style=${styleMap({ width: `${this.#activeProgress.get()}%` })}></div>
-			<div class="content">${this.#content.iconSignal.get()}${this.#content.labelSignal.get()}</div>
+			<div class="content" part="content">${icon}${label}</div>
 		`;
 	}
 	//#region Content
