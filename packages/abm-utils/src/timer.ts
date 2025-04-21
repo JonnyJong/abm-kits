@@ -97,11 +97,19 @@ export class RepeatingTriggerController<
 	}
 }
 
+/**
+ * @description
+ * 管理 requestAnimationFrame 的启动/停止，支持同步/异步回调
+ */
 export class AnimationFrameController {
 	#fn: FrameRequestCallback;
 	#requestId: number = NaN;
 	#ignoreErrors = false;
 	#async: boolean;
+	/**
+	 * @param fn - 每帧要执行的回调函数，参数为时间戳
+	 * @param async - 是否异步执行回调函数，可选，默认为 `false`
+	 */
 	constructor(fn: FrameRequestCallback, async?: boolean) {
 		this.#fn = fn;
 		this.#async = !!async;
@@ -134,30 +142,51 @@ export class AnimationFrameController {
 		if (this.#ignoreErrors) return;
 		this.#requestId = NaN;
 	}
+	/**
+	 * 启动动画帧循环
+	 */
 	start() {
 		if (this.isRunning) return;
 		this.#requestNextFrame();
 	}
+	/**
+	 * 停止动画帧循环
+	 */
 	stop() {
 		if (!this.isRunning) return;
 		cancelAnimationFrame(this.#requestId);
 		this.#requestId = NaN;
 	}
+	/**
+	 * 是否正在运行动画帧循环
+	 * @readonly
+	 */
 	get isRunning() {
 		return !isNaN(this.#requestId);
 	}
+	/**
+	 * 是否忽略回调函数中的错误
+	 * @description
+	 * 设置为 `true` 时，发生错误不会停止动画帧循环
+	 */
 	get ignoreErrors() {
 		return this.#ignoreErrors;
 	}
 	set ignoreErrors(value: boolean) {
 		this.#ignoreErrors = !!value;
 	}
+	/**
+	 * 当前帧回调函数
+	 */
 	get fn() {
 		return this.#fn;
 	}
 	set fn(fn: FrameRequestCallback) {
 		this.#fn = fn;
 	}
+	/**
+	 * 是否以异步模式运行回调函数
+	 */
 	get async() {
 		return this.#async;
 	}
@@ -166,16 +195,34 @@ export class AnimationFrameController {
 	}
 }
 
+/**
+ * @description
+ * 管理 setInterval 定时器的启动/停止，支持动态调整间隔时间
+ */
 export class IntervalController<T = unknown> {
+	/**
+	 * 定时执行的目标函数
+	 */
 	fn: Fn<[], any, T>;
+	/**
+	 * 目标函数的 this 绑定对象
+	 */
 	thisArgs: T;
 	#interval: number;
 	#intervalId: number | null = null;
+	/**
+	 * @param fn - 要定时执行的函数
+	 * @param interval - 执行间隔时间（毫秒）
+	 * @param thisArgs - 函数的 this 绑定对象，可选
+	 */
 	constructor(fn: Fn<[], any, T>, interval: number, thisArgs?: T) {
 		this.fn = fn;
 		this.#interval = interval;
 		this.thisArgs = thisArgs as any;
 	}
+	/**
+	 * 启动定时器
+	 */
 	start() {
 		if (this.#intervalId !== null) return;
 		this.#intervalId = setInterval(
@@ -183,14 +230,26 @@ export class IntervalController<T = unknown> {
 			this.#interval,
 		);
 	}
+	/**
+	 * 停止定时器
+	 */
 	stop() {
 		if (this.#intervalId === null) return;
 		clearInterval(this.#intervalId);
 		this.#intervalId = null;
 	}
+	/**
+	 * 是否正在运行定时器
+	 * @readonly
+	 */
 	get isRunning() {
 		return this.#intervalId !== null;
 	}
+	/**
+	 * 当前定时器间隔时间（毫秒）
+	 * @description
+	 * 修改此属性会自动重启定时器以应用新间隔
+	 */
 	get interval() {
 		return this.#interval;
 	}
