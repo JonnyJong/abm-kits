@@ -38,7 +38,7 @@ export interface UIContentInit<Options extends LocaleOptions = LocaleOptions> {
 	/** 图标命名空间 */
 	iconNamespace?: string;
 	/** 进度 */
-	progress?: string;
+	progress?: number;
 }
 
 /** UI 组件内容 */
@@ -183,7 +183,7 @@ export class UIContent<Options extends LocaleOptions = LocaleOptions>
 	//#region Icon
 	#icon?: string;
 	#iconNamespace?: string;
-	#progress?: string;
+	#progress?: number;
 	#updateIcon() {
 		let element = this.#iconState.get();
 
@@ -239,7 +239,7 @@ export class UIContent<Options extends LocaleOptions = LocaleOptions>
 	get progress() {
 		return this.#progress;
 	}
-	set progress(value: string | undefined) {
+	set progress(value: number | undefined) {
 		this.#progress = value;
 		this.#updateIcon();
 	}
@@ -322,7 +322,7 @@ export type UIContentTextInit<Options extends LocaleOptions = LocaleOptions> =
 			/** 图标命名空间 */
 			iconNamespace?: string;
 			/** 进度 */
-			progress?: string;
+			progress?: number;
 	  }
 	| {
 			/**
@@ -346,7 +346,7 @@ export type UIContentTextInit<Options extends LocaleOptions = LocaleOptions> =
 			/** 图标命名空间 */
 			iconNamespace?: string;
 			/** 进度 */
-			progress?: string;
+			progress?: number;
 	  };
 
 export class UIContentText<
@@ -415,7 +415,7 @@ export type UIContentAllInit<Options extends LocaleOptions = LocaleOptions> =
 			/** 图标命名空间 */
 			iconNamespace?: string;
 			/** 进度 */
-			progress?: string;
+			progress?: number;
 	  }
 	| {
 			/**
@@ -439,7 +439,7 @@ export type UIContentAllInit<Options extends LocaleOptions = LocaleOptions> =
 			/** 图标命名空间 */
 			iconNamespace?: string;
 			/** 进度 */
-			progress?: string;
+			progress?: number;
 	  }
 	| {
 			/**
@@ -463,7 +463,7 @@ export type UIContentAllInit<Options extends LocaleOptions = LocaleOptions> =
 			/** 图标命名空间 */
 			iconNamespace?: string;
 			/** 进度 */
-			progress: string;
+			progress: number;
 	  }
 	| {
 			/**
@@ -487,7 +487,7 @@ export type UIContentAllInit<Options extends LocaleOptions = LocaleOptions> =
 			/** 图标命名空间 */
 			iconNamespace?: string;
 			/** 进度 */
-			progress: string;
+			progress: number;
 	  };
 
 /**
