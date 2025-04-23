@@ -16,7 +16,7 @@
 		"typescript": "^5.8.2"
 	},
 	"dependencies": {
-		"obj-codec": "^0.0.5"
+		"obj-codec": "^0.0.6"
 	},
 	"files": ["dist"],
 	"main": "./dist/node.js",
