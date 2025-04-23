@@ -3,29 +3,30 @@ import {
 	Dialog,
 	Navigable,
 	WidgetBtn,
+	WidgetCheckbox,
 	WidgetList,
 	WidgetListItem,
-	WidgetSelect,
+	tooltips,
 } from 'abm-ui';
 import { $, $div, $new, Debounce } from 'abm-utils';
 import { css } from 'lit';
 import { customElement } from 'lit/decorators.js';
-import { IconInfo, Icons } from '../types';
+import { IconInfo, Project, ProjectInfo } from '../types';
 import {
 	compileAllIconForProject,
 	compileProject,
 	createProject,
-	deleteProject,
 	getProject,
 	getProjects,
-	listAvailableProjects,
+	removeProject,
+	renameProject,
 	writeProject,
 } from './api';
 import { selectIcon } from './detail';
 import { createIcon } from './icon';
 
 @customElement('project-item')
-class Project extends WidgetListItem<string> implements Navigable {
+class ProjectListItem extends WidgetListItem<ProjectInfo> implements Navigable {
 	static styles = css`
 		:host(.project-active) {
 			background: var(--theme-a4);
@@ -54,47 +55,53 @@ class Project extends WidgetListItem<string> implements Navigable {
 		class: 'project-name',
 		attr: { 'ui-nav': '' },
 	});
+	#rename = $new<WidgetBtn & Navigable>('w-btn', {
+		prop: { content: { icon: 'Rename' } },
+	});
 	#delete = $new<WidgetBtn & Navigable>('w-btn', {
 		prop: { content: { icon: 'Delete' } },
 	});
-	#name!: string;
+	#info!: ProjectInfo;
 	constructor() {
 		super();
 		this.activeTrigger = this.#main;
 		events.hover.add(this.#main);
 		this.#main.navParent = this;
 		this.#delete.navParent = this;
-		this.#delete.on('active', () => removeProject(this.#name));
+		this.#rename.navParent = this;
+		this.#rename.on('active', () => askRenameProject(this.#info));
+		this.#delete.on('active', () => deleteProject(this.#info.path));
 	}
 	connectedCallback(): void {
 		super.connectedCallback();
 		this.toggleAttribute('ui-nav-group', true);
 	}
 	get data() {
-		return this.#name;
+		return this.#info;
 	}
 	set data(value) {
-		this.#name = value;
-		this.#main.textContent = value;
+		this.#info = value;
+		this.#main.textContent = value.name;
+		tooltips.set(this.#main, value.path);
 	}
-	static create(data: string): Project {
-		const item = $new<Project>('project-item');
+	static create(data: ProjectInfo): ProjectListItem {
+		const item = $new<ProjectListItem>('project-item');
 		item.data = data;
 		return item;
 	}
 	protected render() {
-		this.classList.toggle('project-active', this.#name === projectName);
-		return [this.#main, this.#delete];
+		this.classList.toggle('project-active', this.#info.path === projectPath);
+		return [this.#main, this.#rename, this.#delete];
 	}
 	protected active(): void {
 		[...this.parentNode!.children].forEach((item) =>
 			item.classList.remove('project-active'),
 		);
 		this.classList.add('project-active');
-		loadProject(this.data);
+		loadProject(this.#info.path);
 	}
 	get navChildren() {
-		return [this.#main, this.#delete];
+		return [this.#main, this.#rename, this.#delete];
 	}
 }
 
@@ -159,80 +166,129 @@ class ProjectIcon extends WidgetListItem<IconInfo> implements Navigable {
 	}
 }
 
-let list: WidgetList<string, Project>;
-let projectName: string = undefined as any;
+let list: WidgetList<ProjectInfo, ProjectListItem>;
+let projectPath: string = undefined as any;
 let iconList: WidgetList<IconInfo, ProjectIcon>;
-let icons: Icons;
+let currentProject: Project;
+let includeDefaults: WidgetCheckbox;
 
 async function updateList() {
 	const result = await getProjects();
 	if (result instanceof Error) {
-		Dialog.ok({ title: 'error', content: result.message, autoHide: true });
+		Dialog.ok({ title: 'error', content: result.message });
 		return;
 	}
 	list.items = result;
 }
 
 async function addProject() {
-	const projects = await listAvailableProjects();
-	if (projects instanceof Error) {
-		Dialog.ok({ title: 'error', content: projects.message, autoHide: true });
-		return;
-	}
-	if (projects.length === 0) {
-		return Dialog.ok({
-			title: 'error',
-			content: 'No projects available',
-			autoHide: true,
-		});
-	}
-	const selector = $new<WidgetSelect<string>>('w-select');
-	selector.options = projects.map((name) => {
-		return { value: name, label: name };
+	const nameInput = $new('w-text');
+	const pathInput = $new('w-text');
+	const distInput = $new('w-text');
+	const includeDefaults = $new('w-checkbox');
+	const promise = Dialog.confirm({
+		title: 'create-project',
+		content: [
+			$new('w-lang', 'project-name'),
+			nameInput,
+			$new('w-lang', 'project-path'),
+			pathInput,
+			$new('w-lang', 'project-dist'),
+			distInput,
+			$div(
+				{ attr: { 'ui-layout': 'flow' } },
+				includeDefaults,
+				$new('w-lang', 'include-with-defaults'),
+			),
+		],
+		actions: [
+			{
+				...Dialog.ACTION_CONFIRM,
+				disabled: true,
+			},
+		],
 	});
-	selector.value = projects[0];
-	selector.style.width = '100%';
-	if (
-		!(await Dialog.confirm({
-			title: 'add-project',
-			content: selector,
-			autoHide: true,
-		}))
-	)
-		return;
-	const result = await createProject(selector.value);
+	const check = () => {
+		promise.dialog.actions[0].disabled = !(
+			pathInput.value.length && distInput.value.length
+		);
+	};
+	pathInput.on('input', check);
+	distInput.on('input', check);
+
+	if (!(await promise)) return;
+	const result = await createProject({
+		name: nameInput.value,
+		path: pathInput.value,
+		dist: distInput.value,
+		includeDefaults: includeDefaults.checked,
+	});
 	if (result instanceof Error) {
 		Dialog.ok({
 			title: 'error',
 			content: result.message,
-			autoHide: true,
 		});
+		return;
 	}
-	if (result) updateList();
+	if (typeof result === 'string') {
+		Dialog.ok({
+			title: 'error',
+			content: result,
+		});
+		return;
+	}
+	return updateList();
 }
 
-async function removeProject(name: string) {
-	const confirm = await Dialog.confirm({
-		title: 'delete-project',
-		content: name,
-		actions: [Dialog.ACTION_DANGER_CONFIRM],
-		autoHide: true,
+async function askRenameProject(info: ProjectInfo) {
+	const nameInput = $new('w-text');
+	nameInput.value = info.name;
+	const confirm = Dialog.confirm({
+		title: 'rename-project',
+		content: [$div(info.path), nameInput],
 	});
 	if (!confirm) return;
-	await deleteProject(name);
+	await renameProject(info.path, nameInput.value);
 	updateList();
 }
 
-async function loadProject(name: string) {
-	const result = await getProject(name);
-	if (result instanceof Error) return;
-	projectName = name;
-	icons = result;
-	iconList.items = [...icons.values()];
+async function deleteProject(path: string) {
+	const dialog = new Dialog({
+		title: 'delete-project',
+		content: path,
+		actions: [
+			{
+				...Dialog.ACTION_DANGER_CONFIRM,
+				id: 'project-only',
+				content: { key: 'delete-project-only' },
+			},
+			{
+				...Dialog.ACTION_DANGER_CONFIRM,
+				id: 'project-with-data',
+				content: { key: 'delete-project-data' },
+			},
+			Dialog.ACTION_CANCEL,
+		],
+		autoHide: true,
+	});
+	dialog.show();
+	const choose = await dialog.waitForAction();
+	if (choose === 'cancel') return;
+	await removeProject(path, choose === 'project-with-data');
+	updateList();
+}
+
+async function loadProject(path: string) {
+	const project = await getProject(path);
+	if (project instanceof Error) return;
+	projectPath = path;
+	currentProject = project;
+	includeDefaults.checked = project.includeDefaults;
+	iconList.items = [...currentProject.icons.values()];
 }
 
 const saveProject = Debounce.new(async () => {
-	const err = await writeProject(projectName, icons);
+	const err = await writeProject(projectPath, currentProject);
 	if (!err) return;
 	Dialog.ok({
 		title: 'error',
@@ -242,16 +298,16 @@ const saveProject = Debounce.new(async () => {
 }, 500);
 
 export function addInProject(icon: IconInfo) {
-	if (icons.has(icon.file)) return;
-	icons.set(icon.file, icon);
+	if (currentProject.icons.has(icon.file)) return;
+	currentProject.icons.set(icon.file, icon);
 	iconList.items.push(icon);
 	saveProject();
 }
 
 function removeIcon(icon: IconInfo) {
-	if (!icons.has(icon.file)) return;
-	icons.delete(icon.file);
-	iconList.items = [...icons.values()];
+	if (!currentProject.icons.has(icon.file)) return;
+	currentProject.icons.delete(icon.file);
+	iconList.items = [...currentProject.icons.values()];
 	saveProject();
 }
 
@@ -265,19 +321,25 @@ function compileStartMsg(error?: Error | any) {
 
 export function initProject() {
 	list = $('.project-list')!;
-	list.itemClass = Project;
+	list.itemClass = ProjectListItem;
 	updateList();
 	$<WidgetBtn>('.project-add')?.on('active', addProject);
 
 	iconList = $('.project-current')!;
 	iconList.itemClass = ProjectIcon;
 
+	includeDefaults = $('#compile-include-defaults')!;
+	includeDefaults.on('change', () => {
+		currentProject.includeDefaults = includeDefaults.checked;
+		saveProject();
+	});
+
 	const compileBtn = $<WidgetBtn>('#compile-project')!;
 	const compileAllBtn = $<WidgetBtn>('#compile-all')!;
 	compileBtn.delay = 500;
 	compileAllBtn.delay = 1000;
 	compileBtn.on('active', async () => {
-		const result = await compileProject(projectName);
+		const result = await compileProject(projectPath);
 		compileStartMsg(result);
 	});
 	compileAllBtn.on('active', async () => {
@@ -289,7 +351,7 @@ export function initProject() {
 			}))
 		)
 			return;
-		const result = await compileAllIconForProject(projectName);
+		const result = await compileAllIconForProject(projectPath);
 		compileStartMsg(result);
 	});
 }

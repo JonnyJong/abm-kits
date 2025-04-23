@@ -1,4 +1,4 @@
-import { UIDefaultDict, configs, locale } from 'abm-ui';
+import { DEFAULT_LOCALES, UIDefaultDict, configs, locale } from 'abm-ui';
 import { $$, $ready, createLocaleDict } from 'abm-utils';
 import { initAPI } from './api';
 import { initDetail } from './detail';
@@ -10,21 +10,10 @@ const LOCALES: Record<string, UIDefaultDict> &
 	Record<string, Record<string, string>> = {
 	zh: {
 		// Basic
-		'ui.confirm': '确定',
-		'ui.cancel': '取消',
-		'ui.ok': '好',
-		'ui.color_picker': '颜色选择器',
-		'ui.alpha': '不透明度',
-		'ui.red': '红',
-		'ui.green': '绿',
-		'ui.blue': '蓝',
-		'ui.hue': '色相',
-		'ui.saturation': '饱和度',
-		'ui.lightness': '亮度',
+		...DEFAULT_LOCALES.zh,
 		// Other
 		error: '错误',
 		'project-list': '项目列表',
-		'add-project': '添加项目',
 		'filter-name': '名称',
 		'filter-region': '区域',
 		'filter-type': '类型',
@@ -33,24 +22,41 @@ const LOCALES: Record<string, UIDefaultDict> &
 		'compile-project': '编译项目',
 		'compile-all': '编译所有图标',
 		'delete-project': '删除项目',
+		'delete-project-only': '仅删除项目',
+		'delete-project-data': '删除项目记录和添加的图标',
+		'include-with-defaults': '包含默认图标',
 		'compile-started': '已经启动编译，请检查后端控制台',
 		'compile-all-warning':
 			'注意：未完成功能！编译需要较长时间，且图标不一定可用。',
+		'rename-project': '重命名项目',
+		'create-project': '创建项目',
+		'project-name': '项目名称',
+		'project-path': '项目路径（绝对路径）',
+		'project-dist': '图标生成路径（推荐相对路径）',
 	},
 	en: {
 		// Basic
-		'ui.confirm': 'Confirm',
-		'ui.cancel': 'Cancel',
-		'ui.ok': 'OK',
-		'ui.color_picker': 'Color Picker',
-		'ui.alpha': 'Alpha',
-		'ui.red': 'Red',
-		'ui.green': 'Green',
-		'ui.blue': 'Blue',
-		'ui.hue': 'Hue',
-		'ui.saturation': 'Saturation',
-		'ui.lightness': 'Lightness',
+		...DEFAULT_LOCALES.en,
 		// Other
+		error: 'Error',
+		'project-list': 'Project List',
+		'filter-name': 'Name',
+		'filter-region': 'Region',
+		'filter-type': 'Type',
+		'filter-size': 'Size',
+		'add-to-project': 'Add to project',
+		'compile-project': 'Compile project',
+		'compile-all': 'Compile all icons for project',
+		'delete-project': 'DeleteProject',
+		'delete-project-only': 'Delete project only',
+		'delete-project-data': 'Delete project and added icon records',
+		'include-with-defaults': 'Include defaults icons',
+		'compile-started':
+			'Compilation has been initiated, please check the backend console',
+		'compile-all-warning':
+			'Note: Unfinished feature! Compilation takes longer and icons are not always available.',
+		'rename-project': 'Rename project',
+		'create-project': 'Create project',
 	},
 };
 

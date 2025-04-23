@@ -2,7 +2,7 @@ main
 	.projects
 		w-lang.projects-title project-list
 		w-list.project-list
-		w-btn.project-add add-project
+		w-btn.project-add create-project
 	.picker
 		.picker-filter
 			w-slider.picker-scale
@@ -21,5 +21,8 @@ main
 			w-btn#detail-copy
 		w-btn#detail-add add-to-project
 		w-list.project-current
+		div(ui-layout="flow")
+			w-checkbox#compile-include-defaults
+			w-lang include-with-defaults
 		w-btn#compile-project compile-project
 		w-btn#compile-all compile-all

@@ -8,8 +8,10 @@ import svg2ttf from 'svg2ttf';
 import type { SVGIcons2SVGFontStream } from 'svgicons2svgfont';
 import ttf2woff from 'ttf2woff';
 import { ReadStream } from 'typeorm/platform/PlatformTools';
+import { Icons } from '../types';
 import { getAllIcons } from './db';
-import { ICONS, PROJECT_ROOT } from './path';
+import { DEFAULTS_ICONS } from './defaults';
+import { ICONS } from './path';
 import { getProject } from './project';
 
 export type IconsToCompile = [file: string, id: string][];
@@ -152,15 +154,14 @@ function generateCSS(cssPath: string, icons: IconsToCompile) {
 	return promise;
 }
 
-async function compileIcons(name: string, icons: IconsToCompile) {
-	const dir = path.join(PROJECT_ROOT, name, 'assets');
-	const svg = path.join(dir, 'icon.svg');
-	const ttf = path.join(dir, 'icon.ttf');
-	const woff = path.join(dir, 'icon.woff');
-	const woff2 = path.join(dir, 'icon.woff2');
-	const css = path.join(dir, 'icon.css');
+async function compileIcons(name: string, icons: IconsToCompile, dist: string) {
+	const svg = path.join(dist, 'icon.svg');
+	const ttf = path.join(dist, 'icon.ttf');
+	const woff = path.join(dist, 'icon.woff');
+	const woff2 = path.join(dist, 'icon.woff2');
+	const css = path.join(dist, 'icon.css');
 
-	if (!existsSync(dir)) await mkdir(dir, { recursive: true });
+	if (!existsSync(dist)) await mkdir(dist, { recursive: true });
 
 	try {
 		console.log(`Compiling svg for ${name}`);
@@ -179,43 +180,56 @@ async function compileIcons(name: string, icons: IconsToCompile) {
 	}
 }
 
-function checkProjectAvailable(name: string) {
-	const dir = path.join(PROJECT_ROOT, name);
-	return existsSync(dir);
+function checkProjectAvailable(projectPath: string) {
+	return existsSync(projectPath);
 }
 
 const compiling = new Map<string, Promise<boolean>>();
 
-async function executeCompile(name: string) {
-	if (!checkProjectAvailable(name)) return false;
-	const icons = [...(await getProject(name)).entries()].map<IconsToCompile[0]>(
-		([file, { id }]) => [file, id],
-	);
-	await compileIcons(name, icons);
-	compiling.delete(name);
+function prepareIcons(icons: Icons): IconsToCompile {
+	return [...icons.entries()].map<IconsToCompile[0]>(([file, { id }]) => [
+		file,
+		id,
+	]);
+}
+
+async function executeCompile(projectPath: string) {
+	if (!checkProjectAvailable(projectPath)) return false;
+	const project = await getProject(projectPath);
+	const icons = prepareIcons(project.icons);
+	if (project.includeDefaults) {
+		const defaultsIcons = new Map(DEFAULTS_ICONS);
+		for (const key of project.icons.keys()) {
+			defaultsIcons.delete(key);
+		}
+		icons.push(...prepareIcons(defaultsIcons));
+	}
+	await compileIcons(projectPath, icons, path.join(projectPath, project.dist));
+	compiling.delete(projectPath);
 	return true;
 }
 
-async function executeCompileAll(name: string) {
-	if (!checkProjectAvailable(name)) return false;
+async function executeCompileAll(projectPath: string) {
+	if (!checkProjectAvailable(projectPath)) return false;
+	const project = await getProject(projectPath);
 	const icons = await getAllIcons();
-	await compileIcons(name, icons);
-	compiling.delete(name);
+	await compileIcons(projectPath, icons, path.join(projectPath, project.dist));
+	compiling.delete(projectPath);
 	return true;
 }
 
-export function compileProject(name: string) {
-	let compiler = compiling.get(name);
+export function compileProject(projectPath: string) {
+	let compiler = compiling.get(projectPath);
 	if (compiler) return;
-	compiler = executeCompile(name);
-	compiling.set(name, compiler);
+	compiler = executeCompile(projectPath);
+	compiling.set(projectPath, compiler);
 	return;
 }
 
-export function compileAllIconForProject(name: string) {
-	let compiler = compiling.get(name);
+export function compileAllIconForProject(projectPath: string) {
+	let compiler = compiling.get(projectPath);
 	if (compiler) return;
-	compiler = executeCompileAll(name);
-	compiling.set(name, compiler);
+	compiler = executeCompileAll(projectPath);
+	compiling.set(projectPath, compiler);
 	return;
 }

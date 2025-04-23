@@ -6,7 +6,6 @@ const PATHS = [
 	'packages/abm-utils/dist',
 	'packages/abm-ui/dist',
 	'packages/scc/dist',
-	'packages/icons/icons.sqlite',
 	'packages/icons/node',
 ];
 

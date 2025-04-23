@@ -5,7 +5,6 @@ import { Column, DataSource, Entity, Index, PrimaryColumn } from 'typeorm';
 import { QueryOptions } from '../types';
 import { IconsToCompile } from './compiler';
 import { DB, ICONS } from './path';
-import { Project } from './project';
 
 const INSERT_LIMIT = 150;
 
@@ -43,7 +42,7 @@ const dataSource = new DataSource({
 	type: 'sqlite',
 	database: DB,
 	synchronize: true,
-	entities: [Config, Icon, Project],
+	entities: [Config, Icon],
 });
 
 async function checkUpdateStatus() {

@@ -1,5 +1,5 @@
 import { Bridge } from 'scc/dist/browser';
-import { APIMap, Icons, QueryOptions } from '../types';
+import { APIMap, Project, ProjectInit, QueryOptions } from '../types';
 
 let bridge: Bridge<APIMap>;
 
@@ -11,24 +11,24 @@ export function getProjects() {
 	return bridge.invoke('getProjects');
 }
 
-export function createProject(name: string) {
-	return bridge.invoke('createProject', name);
+export function createProject(options: ProjectInit) {
+	return bridge.invoke('createProject', options);
 }
 
-export function getProject(name: string) {
-	return bridge.invoke('getProject', name);
+export function getProject(projectPath: string) {
+	return bridge.invoke('getProject', projectPath);
 }
 
-export function writeProject(name: string, icons: Icons) {
-	return bridge.invoke('writeProject', name, icons);
+export function writeProject(projectPath: string, project: Project) {
+	return bridge.invoke('writeProject', projectPath, project);
 }
 
-export function deleteProject(name: string) {
-	return bridge.invoke('deleteProject', name);
+export function renameProject(projectPath: string, name: string) {
+	return bridge.invoke('renameProject', projectPath, name);
 }
 
-export function listAvailableProjects() {
-	return bridge.invoke('listAvailableProjects');
+export function removeProject(projectPath: string, deleteData?: boolean) {
+	return bridge.invoke('removeProject', projectPath, deleteData);
 }
 
 export function queryIcon(options: QueryOptions = {}) {

@@ -5,10 +5,10 @@ import { compileAllIconForProject, compileProject } from './compiler';
 import { getIcon, getValues, initDB, queryIcon } from './db';
 import {
 	createProject,
-	deleteProject,
 	getProject,
 	getProjects,
-	listAvailableProjects,
+	removeProject,
+	renameProject,
 	writeProject,
 } from './project';
 
@@ -24,8 +24,8 @@ async function main() {
 		createProject,
 		getProject,
 		writeProject,
-		deleteProject,
-		listAvailableProjects,
+		renameProject,
+		removeProject,
 		queryIcon,
 		getIcon,
 		getValues,
