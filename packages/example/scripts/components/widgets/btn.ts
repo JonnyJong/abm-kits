@@ -6,7 +6,7 @@ const btn = $new<WidgetBtn>('w-btn', {
 	prop: {
 		content: {
 			key: 'ui.confirm',
-			icon: 'Accept',
+			icon: 'Home',
 		},
 	},
 });

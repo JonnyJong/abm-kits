@@ -29,7 +29,6 @@ export function initDialog() {
 		Dialog.confirm({
 			title: title.value,
 			content: $div({ html: content.value }),
-			autoHide: true,
 		});
 	});
 	const ok = $new('w-btn', 'Create OK');
@@ -37,7 +36,6 @@ export function initDialog() {
 		Dialog.ok({
 			title: title.value,
 			content: $div({ html: content.value }),
-			autoHide: true,
 		});
 	});
 
