@@ -284,8 +284,10 @@ export class WidgetList<
 {
 	static styles = css(CSS);
 	#root = this.createRenderRoot();
+	#resizeObserver = new ResizeObserver(() => this.#updateLayout());
 	constructor() {
 		super(['active', 'sort', 'select']);
+		this.#resizeObserver.observe(this);
 	}
 	connectedCallback(): void {
 		super.connectedCallback();
