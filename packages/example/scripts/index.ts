@@ -1,4 +1,10 @@
-import { UIDefaultDict, configs, locale } from 'abm-ui';
+import {
+	DEFAULTS_ICONS,
+	DEFAULT_LOCALES,
+	UIDefaultDict,
+	configs,
+	locale,
+} from 'abm-ui';
 import * as UI from 'abm-ui';
 import * as Utils from 'abm-utils';
 import { $$, createLocaleDict } from 'abm-utils';
@@ -30,17 +36,7 @@ const LOCALES: Record<string, UIDefaultDict> &
 	Record<string, Record<string, string>> = {
 	zh: {
 		// Basic
-		'ui.confirm': '确定',
-		'ui.cancel': '取消',
-		'ui.ok': '好',
-		'ui.color_picker': '颜色选择器',
-		'ui.alpha': '不透明度',
-		'ui.red': '红',
-		'ui.green': '绿',
-		'ui.blue': '蓝',
-		'ui.hue': '色相',
-		'ui.saturation': '饱和度',
-		'ui.lightness': '亮度',
+		...DEFAULT_LOCALES.zh,
 		// Other
 		'dev.properties': '属性',
 		'dev.events': '事件',
@@ -48,17 +44,7 @@ const LOCALES: Record<string, UIDefaultDict> &
 	},
 	en: {
 		// Basic
-		'ui.confirm': 'Confirm',
-		'ui.cancel': 'Cancel',
-		'ui.ok': 'OK',
-		'ui.color_picker': 'Color Picker',
-		'ui.alpha': 'Alpha',
-		'ui.red': 'Red',
-		'ui.green': 'Green',
-		'ui.blue': 'Blue',
-		'ui.hue': 'Hue',
-		'ui.saturation': 'Saturation',
-		'ui.lightness': 'Lightness',
+		...DEFAULT_LOCALES.en,
 		// Other
 		'dev.properties': 'Properties',
 		'dev.events': 'Events',
@@ -79,33 +65,7 @@ configs.init({
 			sheet.replaceSync(css);
 			return sheet;
 		}),
-	defaults: {
-		increase: 'Add',
-		decrease: 'Subtract',
-		calculate: 'Calculator',
-		selectExpand: 'ChevronUpDown',
-		keyDisallow: 'ErrorCircle',
-		keyTab: 'KeyboardTab',
-		keyEnter: 'KeyboardTab',
-		keyShift: 'KeyboardShiftUppercase',
-		keyNumpadAdd: 'Add',
-		keyNumpadSubtract: 'Subtract',
-		keyNumpadMultiply: 'Dismiss',
-		keyNumpadDivide: 'SlashForward',
-		keyArrowUp: 'ArrowUp',
-		keyArrowRight: 'ArrowRight',
-		keyArrowDown: 'ArrowDown',
-		keyArrowLeft: 'ArrowLeft',
-		keySpace: 'Spacebar',
-		keyHome: 'Home',
-		keyBackspace: 'Backspace',
-		up: 'ChevronUp',
-		right: 'ChevronRight',
-		down: 'ChevronDown',
-		left: 'ChevronLeft',
-		gamepadStart: 'Navigation',
-		gamepadBack: 'SquareMultiple',
-	},
+	defaults: DEFAULTS_ICONS,
 });
 
 //#region Components

@@ -28,6 +28,7 @@ import { WidgetSlider2D } from './components/widgets/slider-2d';
 import { WidgetSwitch } from './components/widgets/switch';
 
 // Global
+export * from './defaults';
 export * from './configs';
 export * from './locale';
 
