@@ -37,6 +37,7 @@
 			--w-btn-progress-bg var(--theme-a6)
 	&[state='danger']
 		border-color var(--w-btn-danger-border)
+		color var(--theme-text)
 		--w-btn-progress-bg var(--w-btn-danger-bg)
 		&[ui-hover]
 			--w-btn-progress-bg var(--w-btn-danger-hover-bg)
@@ -86,10 +87,13 @@
 			opacity var(--w-btn-disabled-content-opacity)
 	&[state='primary']
 	&[state='toggle'][checked]
-		.delay
-			background var(--theme)
+	&[state='danger']
 		w-progress-ring
 			--theme var(--theme-text)
+	&[state='primary']
+	&[state='toggle'][checked]
+		.delay
+			background var(--theme)
 	&[state='danger']
 		.delay
 			background var(--w-btn-danger-hover-bg)
