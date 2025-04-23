@@ -361,6 +361,12 @@ class KeyBinder implements IEventSource<KeyBinderEventsInit> {
 	): void {
 		this.#events.on(type, handler);
 	}
+	once<Type extends keyof KeyBinderEventsInit>(
+		type: Type,
+		handler: EventHandler<Type, KeyBinderEventsInit[Type], KeyBinder>,
+	): void {
+		this.#events.once(type, handler);
+	}
 	off<Type extends keyof KeyBinderEventsInit>(
 		type: Type,
 		handler: EventHandler<Type, KeyBinderEventsInit[Type], KeyBinder>,
@@ -622,6 +628,12 @@ class KeyboardManager implements IEventSource<KeyboardEventsInit> {
 		handler: EventHandler<Type, KeyboardEventsInit[Type], KeyboardManager>,
 	): void {
 		this.#events.on(type, handler);
+	}
+	once<Type extends keyof KeyboardEventsInit>(
+		type: Type,
+		handler: EventHandler<Type, KeyboardEventsInit[Type], KeyboardManager>,
+	): void {
+		this.#events.once(type, handler);
 	}
 	off<Type extends keyof KeyboardEventsInit>(
 		type: Type,

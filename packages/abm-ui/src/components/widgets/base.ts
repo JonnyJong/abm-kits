@@ -49,6 +49,13 @@ export abstract class Widget<
 	): void {
 		this.events.on(type, handler);
 	}
+	/** 添加一次性事件处理器 */
+	once<Type extends keyof E & string>(
+		type: Type,
+		handler: EventHandler<Type, E[Type], this>,
+	): void {
+		this.events.once(type, handler);
+	}
 	/** 移除事件处理器 */
 	off<Type extends keyof E & string>(
 		type: Type,

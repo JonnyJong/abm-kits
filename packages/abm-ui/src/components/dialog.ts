@@ -222,6 +222,17 @@ export class Dialog<ID extends string = string>
 		this.#events.on(type, handler);
 	}
 	/**
+	 * 添加一次性事件处理器
+	 * @param type - 事件类型
+	 * - `action`：按钮触发
+	 */
+	once<Type extends keyof DialogEvents>(
+		type: Type,
+		handler: EventHandler<Type, DialogEvents<ID>[Type], any>,
+	): void {
+		this.#events.once(type, handler);
+	}
+	/**
 	 * 移除事件处理器
 	 * @param type - 事件类型
 	 * - `action`：按钮触发

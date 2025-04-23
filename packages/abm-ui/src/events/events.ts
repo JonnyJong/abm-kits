@@ -30,6 +30,10 @@ export interface IEventSource<List extends EventsInitList<List>> {
 		type: Type,
 		handler: EventHandler<Type, List[Type]>,
 	): void;
+	once<Type extends Keys<List>>(
+		type: Type,
+		handler: EventHandler<Type, List[Type]>,
+	): void;
 	off<Type extends Keys<List>>(
 		type: Type,
 		handler: EventHandler<Type, List[Type]>,
@@ -42,15 +46,21 @@ export class Events<
 > implements IEventSource<List>
 {
 	#subscriptions: EventSubscriptions<List> = {} as any;
+	#onceSubscriptions: EventSubscriptions<List> = {} as any;
 	constructor(eventTypes: Types[]) {
 		for (const type of eventTypes) {
 			this.#subscriptions[type] = new Set();
+			this.#onceSubscriptions[type] = new Set();
 		}
 	}
 	emit<Type extends Keys<List>>(event: List[Type] & IEventBasic<Type>) {
+		for (const handler of this.#onceSubscriptions[event.type] ?? []) {
+			runTask(handler, event);
+		}
 		for (const handler of this.#subscriptions[event.type] ?? []) {
 			runTask(handler, event);
 		}
+		this.#onceSubscriptions[event.type]?.clear();
 	}
 	on<Type extends Keys<List>>(
 		type: Type,
@@ -58,10 +68,17 @@ export class Events<
 	) {
 		this.#subscriptions[type]?.add(handler);
 	}
+	once<Type extends Keys<List>>(
+		type: Type,
+		handler: EventHandler<Type, List[Type]>,
+	) {
+		this.#onceSubscriptions[type]?.add(handler);
+	}
 	off<Type extends Keys<List>>(
 		type: Type,
 		handler: EventHandler<Type, List[Type]>,
 	) {
 		this.#subscriptions[type]?.delete(handler);
+		this.#onceSubscriptions[type]?.delete(handler);
 	}
 }

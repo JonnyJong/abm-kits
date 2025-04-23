@@ -279,6 +279,18 @@ export class UIContent<Options extends LocaleOptions = LocaleOptions>
 		this.#events.on(type, handler);
 	}
 	/**
+	 * 添加一次性事件处理器
+	 * @param type - 事件类型
+	 * - `icon`：图标元素变更
+	 * - `label`：文本元素变更
+	 */
+	once<Type extends keyof UIContentEvents>(
+		type: Type,
+		handler: EventHandler<Type, UIContentEvents<Options>[Type], any>,
+	): void {
+		this.#events.once(type, handler);
+	}
+	/**
 	 * 移除事件处理器
 	 * @param type - 事件类型
 	 * - `icon`：图标元素变更

@@ -179,6 +179,12 @@ export class GameController implements IEventSource<GameControllerEventsInit> {
 	): void {
 		this.#events.on(type, handler);
 	}
+	once<Type extends keyof GameControllerEventsInit>(
+		type: Type,
+		handler: EventHandler<Type, GameControllerEventsInit[Type], GameController>,
+	): void {
+		this.#events.once(type, handler);
+	}
 	off<Type extends keyof GameControllerEventsInit>(
 		type: Type,
 		handler: EventHandler<Type, GameControllerEventsInit[Type], GameController>,
