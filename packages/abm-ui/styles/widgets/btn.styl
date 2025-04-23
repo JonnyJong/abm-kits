@@ -4,11 +4,12 @@
 	overflow hidden
 	padding 4px 8px
 	width max-content
-	border 1px solid var(--w-btn-border)
+	border 1px solid var(--w-btn-border-color)
 	border-radius 4px
 	background var(--w-btn-backdrop)
 	transition .1s background
 	--w-btn-progress-bg var(--w-btn-bg)
+	--w-btn-border-color var(--w-btn-border)
 	&[flat]
 		border-color #0000
 		--w-btn-progress-bg #0000
@@ -21,12 +22,11 @@
 		--w-btn-progress-bg var(--w-btn-active-bg)
 	&[disabled]
 		--w-btn-progress-bg var(--w-btn-disabled-bg)
-		&:not([flat])
-			border-color var(--w-btn-disabled-border)
+		--w-btn-border-color var(--w-btn-disabled-border)
 	&[state='primary']
 	&[state='toggle'][checked]
-		border-color var(--theme)
 		color var(--theme-text)
+		--w-btn-border-color var(--theme)
 		--w-btn-backdrop var(--theme-a4)
 		--w-btn-progress-bg var(--theme-ac)
 		&[ui-hover]
@@ -36,8 +36,8 @@
 		&[disabled]
 			--w-btn-progress-bg var(--theme-a6)
 	&[state='danger']
-		border-color var(--w-btn-danger-border)
 		color var(--theme-text)
+		--w-btn-border-color var(--w-btn-danger-border)
 		--w-btn-progress-bg var(--w-btn-danger-bg)
 		&[ui-hover]
 			--w-btn-progress-bg var(--w-btn-danger-hover-bg)
