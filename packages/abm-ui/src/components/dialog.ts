@@ -209,7 +209,10 @@ export class Dialog<ID extends string = string>
 	waitForAction(): Promise<ID> {
 		if (this.#actionPromise) return this.#actionPromise;
 		this.#actionPromise = new Promise((resolve) => {
-			this.once('action', ({ value }) => resolve(value));
+			this.once('action', ({ value }) => {
+				this.#actionPromise = undefined;
+				resolve(value);
+			});
 		});
 		return this.#actionPromise;
 	}
