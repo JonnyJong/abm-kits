@@ -205,6 +205,14 @@ export class Dialog<ID extends string = string>
 		this.#actions.replace(...value);
 	}
 	//#region Events
+	#actionPromise?: Promise<ID>;
+	waitForAction(): Promise<ID> {
+		if (this.#actionPromise) return this.#actionPromise;
+		this.#actionPromise = new Promise((resolve) => {
+			this.once('action', ({ value }) => resolve(value));
+		});
+		return this.#actionPromise;
+	}
 	#events = new Events<DialogEvents<ID>>(['action']);
 	#emit = (id: ID) => {
 		this.#events.emit(new EventValue('action', { target: this, value: id }));
