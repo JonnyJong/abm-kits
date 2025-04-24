@@ -12,3 +12,4 @@ export * from './dom';
 export * from './string';
 export * from './css';
 export * from './expression';
+export * from './events';

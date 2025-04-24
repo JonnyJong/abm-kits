@@ -1,11 +1,16 @@
-import { $new, Color, css } from 'abm-utils';
+import {
+	$new,
+	Color,
+	EventValue,
+	EventValueInit,
+	EventsList,
+	css,
+} from 'abm-utils';
 import CSS from 'color.style';
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { configs } from '../../configs';
 import { events, UIEventActive } from '../../events';
-import { EventValue, EventValueInit } from '../../events/api/value';
-import { EventsList } from '../../events/events';
 import { Navigable } from '../../navigate';
 import { Dialog } from '../dialog';
 import { Widget } from './base';

@@ -1,5 +1,16 @@
 import { Signal } from '@lit-labs/signals';
-import { $div, $new, DOMContents, asArray, clamp, css, sleep } from 'abm-utils';
+import {
+	$div,
+	$new,
+	DOMContents,
+	EventValue,
+	EventValueInit,
+	EventsList,
+	asArray,
+	clamp,
+	css,
+	sleep,
+} from 'abm-utils';
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
@@ -7,8 +18,6 @@ import CSS_ITEM from 'select-item.style';
 import CSS from 'select.style';
 import { configs } from '../../configs';
 import { events, UIEventActive } from '../../events';
-import { EventValue, EventValueInit } from '../../events/api/value';
-import { EventsList } from '../../events/events';
 import { LocaleOptions } from '../../locale';
 import { Navigable, NavigateCallbackOptions, navigate } from '../../navigate';
 import { UIContentText, UIContentTextInit } from '../content';

@@ -1,10 +1,8 @@
-import { $new, css } from 'abm-utils';
+import { $new, EventValue, EventValueInit, EventsList, css } from 'abm-utils';
 import CSS from 'input.style';
 import { html } from 'lit';
 import { property } from 'lit/decorators.js';
 import { events } from '../../../events';
-import { EventValue, EventValueInit } from '../../../events/api/value';
-import { EventsList } from '../../../events/events';
 import { keyboard } from '../../../keyboard';
 import { LocaleOptions } from '../../../locale';
 import {
@@ -42,7 +40,7 @@ export interface WidgetInputProp<
 	autoSize?: boolean;
 }
 
-interface WidgetInputEventsInit<
+export interface WidgetInputEventsInit<
 	Value extends WidgetInputValue = WidgetInputValue,
 	Target extends WidgetInput<Value> = WidgetInput<Value>,
 > {

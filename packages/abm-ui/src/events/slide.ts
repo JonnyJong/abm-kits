@@ -6,9 +6,9 @@ import {
 	callTask,
 	clamp,
 } from 'abm-utils';
-import { GameController } from '../../game-controller';
-import { KeyboardEvents, keyboard } from '../../keyboard';
-import { EventBase } from '../api/base';
+import { EventBase } from 'abm-utils';
+import { GameController } from '../game-controller';
+import { KeyboardEvents, keyboard } from '../keyboard';
 import { IUIEventBase, IUIEventBaseManage, IUIEventHandler } from './base';
 
 export type SlideBorder = [

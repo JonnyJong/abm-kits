@@ -2,6 +2,8 @@ import {
 	$new,
 	AnimationFrameController,
 	DOMContents,
+	EventValue,
+	Events,
 	css,
 	proxyObject,
 } from 'abm-utils';
@@ -10,14 +12,12 @@ import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { configs } from '../../../configs';
 import { events } from '../../../events';
-import { EventValue } from '../../../events/api/value';
-import { Events } from '../../../events/events';
 import { Navigable } from '../../../navigate';
 import { WidgetList, WidgetListItem } from '../list';
 import {
 	InputElement,
 	WidgetInput,
-	WidgetInputEvents,
+	WidgetInputEventsInit,
 	WidgetInputValue,
 } from './base';
 
@@ -137,13 +137,13 @@ export class InputAutoFill<
 		autoFill: IWidgetInputAutoFillItem<Value>[];
 	};
 	#input: InputElement;
-	#events: Events<WidgetInputEvents<Value>>;
+	#events: Events<WidgetInputEventsInit<Value>>;
 	constructor(
 		container: WidgetInput<Value> & {
 			autoFill: IWidgetInputAutoFillItem<Value>[];
 		},
 		input: InputElement,
-		events: Events<WidgetInputEvents<Value>>,
+		events: Events<WidgetInputEventsInit<Value>>,
 	) {
 		this.#container = container;
 		this.#input = input;

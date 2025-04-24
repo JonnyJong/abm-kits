@@ -1,12 +1,18 @@
 import { Signal } from '@lit-labs/signals';
-import { $div, $new, Color, css } from 'abm-utils';
+import {
+	$div,
+	$new,
+	Color,
+	EventValue,
+	EventValueInit,
+	EventsList,
+	css,
+} from 'abm-utils';
 import CSS from 'color-picker.style';
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { configs } from '../../configs';
-import { EventValue, EventValueInit } from '../../events/api/value';
-import { EventsList } from '../../events/events';
 import { Navigable } from '../../navigate';
 import { Widget } from './base';
 import { WidgetNumber } from './input/number';

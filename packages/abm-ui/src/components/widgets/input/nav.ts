@@ -1,14 +1,13 @@
-import { EventValue } from '../../../events/api/value';
-import { Events } from '../../../events/events';
+import { EventValue, Events } from 'abm-utils';
 import { KeyboardEvents, keyboard } from '../../../keyboard';
 import { navigate } from '../../../navigate';
 import { InputAutoFill } from './autofill';
-import { InputElement, WidgetInput, WidgetInputEvents } from './base';
+import { InputElement, WidgetInput, WidgetInputEventsInit } from './base';
 
 export function initInputNavigate(
 	this: WidgetInput<any>,
 	input: InputElement,
-	events: Events<WidgetInputEvents<any>>,
+	events: Events<WidgetInputEventsInit<any>>,
 	autoFill?: InputAutoFill<any>,
 ) {
 	const aliasPressHandler = (event: KeyboardEvents['aliasPress']) => {

@@ -1,4 +1,10 @@
 import {
+	EventBase,
+	EventBaseInit,
+	EventValue,
+	EventValueInit,
+	EventsInitList,
+	EventsList,
 	Fn,
 	SyncList,
 	applyConditionalOperation,
@@ -10,10 +16,7 @@ import {
 import CSS from 'list.style';
 import { customElement, property } from 'lit/decorators.js';
 import { events, UIEventActive, UIEventSlide } from '../../events';
-import { EventBase, EventBaseInit } from '../../events/api/base';
-import { EventValue, EventValueInit } from '../../events/api/value';
-import { EventsInitList, EventsList } from '../../events/events';
-import { Slidable, SlideBorder } from '../../events/ui/slide';
+import { Slidable, SlideBorder } from '../../events/slide';
 import { keyboard } from '../../keyboard';
 import { Navigable, NavigateCallbackOptions, navigate } from '../../navigate';
 import { Widget } from './base';

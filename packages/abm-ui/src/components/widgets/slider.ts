@@ -1,5 +1,8 @@
 import {
 	$div,
+	EventValue,
+	EventValueInit,
+	EventsList,
 	Throttle,
 	clamp,
 	createClampedStepper,
@@ -10,9 +13,7 @@ import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import CSS from 'slider.style';
 import { events, UIEventSlide } from '../../events';
-import { EventValue, EventValueInit } from '../../events/api/value';
-import { EventsList } from '../../events/events';
-import { Slidable, SlideBorder } from '../../events/ui/slide';
+import { Slidable, SlideBorder } from '../../events/slide';
 import { KeyboardEvents, keyboard } from '../../keyboard';
 import { Navigable, NavigateCallbackOptions, navigate } from '../../navigate';
 import { tooltips } from '../tooltips';

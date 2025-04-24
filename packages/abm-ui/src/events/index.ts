@@ -1,6 +1,6 @@
-import { UIEventActiveManager } from './ui/active';
-import { UIEventHoverManager } from './ui/hover';
-import { UIEventSlideManager } from './ui/slide';
+import { UIEventActiveManager } from './active';
+import { UIEventHoverManager } from './hover';
+import { UIEventSlideManager } from './slide';
 
 //#region Provided Event API
 class ProvidedEvents {
@@ -20,9 +20,14 @@ class ProvidedEvents {
 
 export const events = new ProvidedEvents();
 
-export type { UIEventHoverHandler } from './ui/hover';
-export { UIEventHover } from './ui/hover';
-export type { UIEventActiveHandler } from './ui/active';
-export { UIEventActive } from './ui/active';
-export type { UIEventSlideHandler, UIEventSlideState } from './ui/slide';
-export { UIEventSlide } from './ui/slide';
+export type { UIEventHoverHandler } from './hover';
+export { UIEventHover } from './hover';
+export type { UIEventActiveHandler } from './active';
+export { UIEventActive } from './active';
+export type {
+	UIEventSlideHandler,
+	SlideBorder,
+	Slidable,
+	UIEventSlideState,
+} from './slide';
+export { UIEventSlide } from './slide';

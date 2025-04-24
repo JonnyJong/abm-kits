@@ -1,11 +1,6 @@
 import { SignalWatcher } from '@lit-labs/signals';
+import { EventHandler, Events, EventsInitList, IEventSource } from 'abm-utils';
 import { LitElement } from 'lit';
-import {
-	EventHandler,
-	Events,
-	EventsInitList,
-	IEventSource,
-} from '../../events/events';
 import { Navigable } from '../../navigate';
 
 type Keys<List extends Record<string, any>> = keyof List & string;

@@ -1,7 +1,14 @@
 import { Signal } from '@lit-labs/signals';
-import { $div, $new, parseKeyNamespace } from 'abm-utils';
-import { EventBase, EventBaseInit } from '../events/api/base';
-import { EventHandler, Events, IEventSource } from '../events/events';
+import {
+	$div,
+	$new,
+	EventBase,
+	EventBaseInit,
+	EventHandler,
+	Events,
+	IEventSource,
+	parseKeyNamespace,
+} from 'abm-utils';
 import { LocaleOptions } from '../locale';
 import { WidgetIcon } from './widgets/icon';
 import { WidgetLang } from './widgets/lang';

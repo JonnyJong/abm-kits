@@ -1,20 +1,23 @@
-import { $$, $ready, RepeatingTriggerController, callTask } from 'abm-utils';
 import {
+	$$,
 	$apply,
 	$div,
+	$ready,
 	AnimationFrameController,
 	Direction4,
-	Vec2,
-	Vector2,
-} from 'abm-utils';
-import { EventBase, EventBaseInit } from './events/api/base';
-import { EventValue, EventValueInit } from './events/api/value';
-import {
+	EventBase,
+	EventBaseInit,
 	EventHandler,
+	EventValue,
+	EventValueInit,
 	Events,
 	EventsList,
 	IEventSource,
-} from './events/events';
+	RepeatingTriggerController,
+	Vec2,
+	Vector2,
+	callTask,
+} from 'abm-utils';
 import { GameController } from './game-controller';
 import { KeyboardEvents, keyboard } from './keyboard';
 

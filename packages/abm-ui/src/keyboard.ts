@@ -1,12 +1,15 @@
-import { RepeatingTriggerController, areSetEqual } from 'abm-utils';
-import { EventBase, EventBaseInit } from './events/api/base';
-import { EventKey, EventKeyInit } from './events/api/key';
 import {
+	EventBase,
+	EventBaseInit,
 	EventHandler,
+	EventKey,
+	EventKeyInit,
 	Events,
 	EventsList,
 	IEventSource,
-} from './events/events';
+	RepeatingTriggerController,
+	areSetEqual,
+} from 'abm-utils';
 
 declare global {
 	class KeyboardLayoutMap {

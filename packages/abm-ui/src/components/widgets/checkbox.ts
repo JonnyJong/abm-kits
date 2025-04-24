@@ -1,10 +1,8 @@
-import { css } from 'abm-utils';
+import { EventValue, EventValueInit, EventsList, css } from 'abm-utils';
 import CSS from 'checkbox.style';
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { events, UIEventActive } from '../../events';
-import { EventValue, EventValueInit } from '../../events/api/value';
-import { EventsList } from '../../events/events';
 import { Navigable } from '../../navigate';
 import { Widget } from './base';
 import { WidgetSelectProp } from './select';

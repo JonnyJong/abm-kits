@@ -3,6 +3,9 @@ import {
 	$applyColor,
 	AnimationFrameController,
 	Color,
+	EventBase,
+	EventBaseInit,
+	EventsList,
 	clamp,
 	css,
 	runSync,
@@ -11,8 +14,6 @@ import CSS from 'btn.style';
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
-import { EventBase, EventBaseInit } from '../../events/api/base.js';
-import { EventsList } from '../../events/events.js';
 import { events, UIEventActive } from '../../events/index.js';
 import { LocaleOptions } from '../../locale.js';
 import { UIContent, UIContentInit } from '../content.js';

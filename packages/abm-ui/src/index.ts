@@ -34,15 +34,8 @@ export * from './locale';
 
 // Event
 export * from './events';
-// Self-Host Events API
-export * from './events/events';
-export * from './events/api/base';
-export * from './events/api/custom';
-export * from './events/api/key';
-export * from './events/api/vector';
-export * from './events/api/value';
 // Provided Event API
-export * from './events/ui/base';
+export * from './events/base';
 
 // Control
 export * from './keyboard';

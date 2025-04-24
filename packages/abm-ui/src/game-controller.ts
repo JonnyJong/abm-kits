@@ -1,18 +1,19 @@
 import {
 	AnimationFrameController,
+	EventBase,
+	EventBaseInit,
+	EventHandler,
+	EventValue,
+	EventValueInit,
+	EventVector,
+	EventVectorInit,
+	Events,
+	EventsList,
+	IEventSource,
 	Vector2,
 	clamp,
 	createLinearMapper,
 } from 'abm-utils';
-import { EventBase, EventBaseInit } from './events/api/base';
-import { EventValue, EventValueInit } from './events/api/value';
-import { EventVector, EventVectorInit } from './events/api/vector';
-import {
-	EventHandler,
-	Events,
-	EventsList,
-	IEventSource,
-} from './events/events';
 
 export interface GameControllerRumbleOptions {
 	type: GamepadHapticEffectType;

@@ -1,10 +1,8 @@
-import { clamp, css } from 'abm-utils';
+import { EventValue, EventValueInit, EventsList, clamp, css } from 'abm-utils';
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import CSS from 'switch.style';
 import { events, UIEventActive, UIEventSlide } from '../../events';
-import { EventValue, EventValueInit } from '../../events/api/value';
-import { EventsList } from '../../events/events';
 import { KeyboardEvents, keyboard } from '../../keyboard';
 import { Navigable } from '../../navigate';
 import { Widget } from './base';

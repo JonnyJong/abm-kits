@@ -1,5 +1,8 @@
 import {
 	$div,
+	EventValue,
+	EventValueInit,
+	EventsList,
 	Throttle,
 	Vec2,
 	clamp,
@@ -10,9 +13,7 @@ import {
 import { customElement, property } from 'lit/decorators.js';
 import CSS from 'slider-2d.style';
 import { events, UIEventSlide } from '../../events';
-import { EventValue, EventValueInit } from '../../events/api/value';
-import { EventsList } from '../../events/events';
-import { Slidable, SlideBorder } from '../../events/ui/slide';
+import { Slidable, SlideBorder } from '../../events/slide';
 import { KeyboardEvents, keyboard } from '../../keyboard';
 import { Navigable, NavigateCallbackOptions, navigate } from '../../navigate';
 import { tooltips } from '../tooltips';

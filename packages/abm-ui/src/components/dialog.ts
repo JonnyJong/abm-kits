@@ -3,12 +3,15 @@ import {
 	$new,
 	Color,
 	DOMContents,
+	EventHandler,
+	EventValue,
+	EventValueInit,
+	Events,
+	IEventSource,
 	SyncList,
 	asArray,
 	sleep,
 } from 'abm-utils';
-import { EventValue, EventValueInit } from '../events/api/value';
-import { EventHandler, Events, IEventSource } from '../events/events';
 import { navigate } from '../navigate';
 import { UIContent, UIContentInit } from './content';
 import { WidgetBtn, WidgetBtnState } from './widgets/btn';

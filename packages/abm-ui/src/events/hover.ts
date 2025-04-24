@@ -1,6 +1,6 @@
 import { callTask } from 'abm-utils';
-import { navigate } from '../../navigate';
-import { EventBase } from '../api/base';
+import { EventBase } from 'abm-utils';
+import { navigate } from '../navigate';
 import { IUIEventBase, IUIEventBaseManage, IUIEventHandler } from './base';
 
 export class UIEventHover

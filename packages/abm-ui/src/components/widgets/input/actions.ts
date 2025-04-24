@@ -1,10 +1,17 @@
-import { $div, $new, Debounce, find, proxyArray, proxyObject } from 'abm-utils';
-import { EventValue } from '../../../events/api/value';
-import { Events } from '../../../events/events';
+import {
+	$div,
+	$new,
+	Debounce,
+	EventValue,
+	Events,
+	find,
+	proxyArray,
+	proxyObject,
+} from 'abm-utils';
 import { Navigable } from '../../../navigate';
 import { UIContent, UIContentInit } from '../../content';
 import { WidgetBtn } from '../btn';
-import { WidgetInput, WidgetInputEvents, WidgetInputValue } from './base';
+import { WidgetInput, WidgetInputEventsInit, WidgetInputValue } from './base';
 
 export interface WidgetInputActionItem {
 	id: string;
@@ -24,13 +31,13 @@ export interface WidgetInputActionItem {
 
 export class InputActions<Value extends WidgetInputValue = WidgetInputValue> {
 	#input: WidgetInput<Value>;
-	#events: Events<WidgetInputEvents<Value>>;
+	#events: Events<WidgetInputEventsInit<Value>>;
 	#position: 'left' | 'right';
 	#inputWidth = 0;
 	#inputHeight = 0;
 	constructor(
 		input: WidgetInput<Value>,
-		events: Events<WidgetInputEvents<Value>>,
+		events: Events<WidgetInputEventsInit<Value>>,
 		position: 'left' | 'right',
 	) {
 		this.#input = input;
