@@ -1,7 +1,6 @@
-import { $new } from 'abm-utils';
+import { $new, LocaleParams } from 'abm-utils';
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { LocaleOptions } from '../../../locale';
 import { Navigable } from '../../../navigate';
 import { InputActions, WidgetInputActionItem } from './actions';
 import { IWidgetInputAutoFillItem, InputAutoFill } from './autofill';
@@ -20,10 +19,10 @@ export interface WidgetTextProp {
 /** 单行文本输入框 */
 @customElement('w-text')
 export class WidgetText<
-		Options extends LocaleOptions = LocaleOptions,
+		Params extends LocaleParams = LocaleParams,
 		Prop extends Record<string, any> = {},
 	>
-	extends WidgetInput<string, Options, HTMLInputElement, Prop & WidgetTextProp>
+	extends WidgetInput<string, Params, HTMLInputElement, Prop & WidgetTextProp>
 	implements Navigable
 {
 	static properties = { value: { type: String } };
@@ -85,8 +84,8 @@ export class WidgetText<
 			this.#autofill.element,
 		];
 	}
-	cloneNode(deep?: boolean): WidgetText<Options> {
-		const node = super.cloneNode(deep) as WidgetText<Options>;
+	cloneNode(deep?: boolean): WidgetText<Params> {
+		const node = super.cloneNode(deep) as WidgetText<Params>;
 
 		node.value = this.value;
 		node.autoFill = this.autoFill;

@@ -1,128 +1,48 @@
 import { Signal } from '@lit-labs/signals';
-import { parseKeyNamespace, runTask } from 'abm-utils';
+import { LocaleDriver, LocaleParams, parseKeyNamespace } from 'abm-utils';
 
-export type LocaleOptions = Record<string, any>;
+export type UIDefaultLocaleKeys =
+	| 'confirm'
+	| 'cancel'
+	| 'ok'
+	| 'color_picker'
+	| 'alpha'
+	| 'red'
+	| 'green'
+	| 'blue'
+	| 'hue'
+	| 'saturation'
+	| 'lightness';
+export type UIDefaultFlatLocaleKeys = `ui.${UIDefaultLocaleKeys}`;
 
-export interface LocaleDict {
-	get(key: string, options?: LocaleOptions): string;
-	signal?: Signal.State<any>;
+//#region Driver
+
+let localeDriver: LocaleDriver | undefined = undefined;
+const signal = new Signal.State(true);
+
+export function locale(key: string, params?: LocaleParams, namespace?: string) {
+	if (!localeDriver) return key;
+	return localeDriver.getString(key, params, namespace);
 }
 
-export type UIDefaultKeys =
-	| 'ui.confirm'
-	| 'ui.cancel'
-	| 'ui.ok'
-	| 'ui.color_picker'
-	| 'ui.alpha'
-	| 'ui.red'
-	| 'ui.green'
-	| 'ui.blue'
-	| 'ui.hue'
-	| 'ui.saturation'
-	| 'ui.lightness';
-export type UIDefaultDict = {
-	[Key in UIDefaultKeys]: any;
-};
-
-//#region Locale
-const dicts = new Map<string, LocaleDict>();
-const subscriptions = new Map<string, Set<Function>>();
-const signal = new Signal.State(0);
-
-function updateSignal() {
-	signal.set(signal.get() + 1);
+export function getCurrentLocaleDriver() {
+	return localeDriver;
 }
 
-/**
- * 根据键值获取对应的翻译
- */
-export function locale(
-	key: string,
-	options?: LocaleOptions,
-	namespace?: string,
-): string {
-	const i = key.indexOf(':');
-	if (typeof namespace !== 'string' && i !== -1) {
-		namespace = key.slice(0, i);
-	} else {
-		namespace = '';
-	}
-	const dict = dicts.get(namespace);
-	if (!dict) return key;
-	return dict.get(key.slice(i + 1), options);
+function localeUpdateListener() {
+	signal.set(!signal.get());
 }
-/**
- * Locale 更新信号
- */
-locale.signal = signal as Signal.State<unknown>;
-/**
- * 浏览器语言偏好
- */
-locale.prefers = navigator.languages;
-/**
- * 所有字典的命名空间
- */
-locale.getDictsNamespace = () => [...dicts.keys()];
-/**
- * 强制触发更新事件
- */
-locale.emitUpdate = (namespace?: string) => {
-	updateSignal();
-	const handlers = namespace
-		? subscriptions.get(namespace)
-		: [...subscriptions.values()].flatMap((set) => [...set]);
-	if (!handlers) return;
-	for (const handler of subscriptions) {
-		runTask(handler);
-	}
-};
-/**
- * 设置、更新本地化词典
- */
-locale.set = (namespace: string, dict: LocaleDict) => {
-	dicts.set(namespace, dict);
-	updateSignal();
-	locale.emitUpdate(namespace);
-};
-/**
- * 移除本地化字典
- */
-locale.remove = (namespace: string): boolean => {
-	if (!dicts.delete(namespace)) return false;
 
-	locale.emitUpdate(namespace);
-	return true;
-};
-/**
- * 订阅更新事件
- */
-locale.on = (namespace: string, handler: Function) => {
-	const handlers = subscriptions.get(namespace);
-	if (handlers) {
-		handlers.add(handler);
-		return;
-	}
-	subscriptions.set(namespace, new Set([handler]));
-};
-/**
- * 取消订阅更新事件
- */
-locale.off = (namespace: string, handler: Function) => {
-	const handlers = subscriptions.get(namespace);
-	if (!handlers) return;
-	handlers.delete(handler);
-};
+export function setLocaleDriver(driver: LocaleDriver) {
+	if (localeDriver) localeDriver.rmUpdateListener(localeUpdateListener);
+	localeDriver = driver;
+	localeDriver.addUpdateListener(localeUpdateListener);
+	localeUpdateListener();
+}
 
-Object.freeze(locale);
-
-//#region Provider
-
-/**
- * 提供本地化文本的访问
- */
-export class LocaleProvider<Options extends LocaleOptions = LocaleOptions> {
-	#namespace = new Signal.State('');
+export class LocaleProvider<Params extends LocaleParams = LocaleParams> {
 	#key = new Signal.State('');
+	#namespace = new Signal.State('');
 	#keyCompute = new Signal.Computed(() => {
 		const namespace = this.#namespace.get();
 		if (!namespace) return this.#key.get();
@@ -131,14 +51,13 @@ export class LocaleProvider<Options extends LocaleOptions = LocaleOptions> {
 	#textCompute = new Signal.Computed(() => {
 		// Watch locale update
 		signal.get();
-
-		return locale(this.#key.get(), this.#options.get(), this.#namespace.get());
+		return locale(this.#key.get(), this.#params.get(), this.#namespace.get());
 	});
-	#options = new Signal.State<Options | undefined>(undefined);
-	constructor(key?: string, namespace?: string, options?: Options) {
+	#params = new Signal.State<Params | undefined>(undefined);
+	constructor(key?: string, namespace?: string, params?: Params) {
 		if (typeof key === 'string') this.key = key;
 		if (typeof namespace === 'string') this.namespace = namespace;
-		if (options) this.options = options;
+		if (params) this.params = params;
 	}
 	/**
 	 * 命名空间
@@ -163,11 +82,11 @@ export class LocaleProvider<Options extends LocaleOptions = LocaleOptions> {
 	/**
 	 * 翻译参数
 	 */
-	get options() {
-		return this.#options.get();
+	get params() {
+		return this.#params.get();
 	}
-	set options(value: Options | undefined) {
-		this.#options.set(value);
+	set params(value: Params | undefined) {
+		this.#params.set(value);
 	}
 	/**
 	 * 获取本地化文本字符串

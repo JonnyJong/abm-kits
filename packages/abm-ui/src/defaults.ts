@@ -1,5 +1,16 @@
+import { FlatLocaleSource } from 'abm-utils';
 import { UIDefaultsIcons } from './configs';
-import { UIDefaultDict } from './locale';
+import { UIDefaultFlatLocaleKeys, UIDefaultLocaleKeys } from './locale';
+
+function flat(
+	locale: Readonly<{ [key in UIDefaultLocaleKeys]: string }>,
+): Readonly<FlatLocaleSource<string, UIDefaultFlatLocaleKeys>> {
+	const result: FlatLocaleSource<string, UIDefaultFlatLocaleKeys> = {} as any;
+	for (const [key, value] of Object.entries(locale)) {
+		result[`ui.${key as UIDefaultLocaleKeys}`] = value;
+	}
+	return Object.freeze(result);
+}
 
 export const DEFAULTS_ICONS: Readonly<Record<UIDefaultsIcons, string>> =
 	Object.freeze({
@@ -30,33 +41,50 @@ export const DEFAULTS_ICONS: Readonly<Record<UIDefaultsIcons, string>> =
 		gamepadBack: 'SquareMultiple',
 	});
 
-export const DEFAULT_LOCALES: Readonly<
-	Record<'zh' | 'en', Readonly<UIDefaultDict>>
+export const DEFAULT_LOCALES_NESTED: Readonly<
+	Record<
+		'zh' | 'en',
+		Readonly<{ ui: Readonly<{ [key in UIDefaultLocaleKeys]: string }> }>
+	>
 > = Object.freeze({
 	zh: Object.freeze({
-		'ui.confirm': '确定',
-		'ui.cancel': '取消',
-		'ui.ok': '好',
-		'ui.color_picker': '颜色选择器',
-		'ui.alpha': '不透明度',
-		'ui.red': '红',
-		'ui.green': '绿',
-		'ui.blue': '蓝',
-		'ui.hue': '色相',
-		'ui.saturation': '饱和度',
-		'ui.lightness': '亮度',
+		ui: Object.freeze({
+			confirm: '确定',
+			cancel: '取消',
+			ok: '好',
+			color_picker: '颜色选择器',
+			alpha: '不透明度',
+			red: '红',
+			green: '绿',
+			blue: '蓝',
+			hue: '色相',
+			saturation: '饱和度',
+			lightness: '亮度',
+		}),
 	}),
 	en: Object.freeze({
-		'ui.confirm': 'Confirm',
-		'ui.cancel': 'Cancel',
-		'ui.ok': 'OK',
-		'ui.color_picker': 'Color Picker',
-		'ui.alpha': 'Alpha',
-		'ui.red': 'Red',
-		'ui.green': 'Green',
-		'ui.blue': 'Blue',
-		'ui.hue': 'Hue',
-		'ui.saturation': 'Saturation',
-		'ui.lightness': 'Lightness',
+		ui: Object.freeze({
+			confirm: 'Confirm',
+			cancel: 'Cancel',
+			ok: 'OK',
+			color_picker: 'Color Picker',
+			alpha: 'Alpha',
+			red: 'Red',
+			green: 'Green',
+			blue: 'Blue',
+			hue: 'Hue',
+			saturation: 'Saturation',
+			lightness: 'Lightness',
+		}),
 	}),
+});
+
+export const DEFAULT_LOCALES_FLAT: Readonly<
+	Record<
+		'zh' | 'en',
+		Readonly<FlatLocaleSource<string, UIDefaultFlatLocaleKeys>>
+	>
+> = Object.freeze({
+	zh: flat(DEFAULT_LOCALES_NESTED.zh.ui),
+	en: flat(DEFAULT_LOCALES_NESTED.en.ui),
 });

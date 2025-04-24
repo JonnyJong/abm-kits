@@ -1,13 +1,7 @@
-import {
-	DEFAULTS_ICONS,
-	DEFAULT_LOCALES,
-	UIDefaultDict,
-	configs,
-	locale,
-} from 'abm-ui';
+import { DEFAULTS_ICONS, DEFAULT_LOCALES_FLAT, configs } from 'abm-ui';
 import * as UI from 'abm-ui';
 import * as Utils from 'abm-utils';
-import { $$, createLocaleDict } from 'abm-utils';
+import { $$, FlatLocaleSource, createSimpleLocaleDriver } from 'abm-utils';
 import { initDialog } from './components/dialog';
 import { initTooltips } from './components/tooltips';
 import { initBtn } from './components/widgets/btn';
@@ -32,11 +26,10 @@ import { initSettings } from './settings';
 (window as any).Utils = Utils;
 
 //#region Configs
-const LOCALES: Record<string, UIDefaultDict> &
-	Record<string, Record<string, string>> = {
+const LOCALES: Record<string, FlatLocaleSource<string>> = {
 	zh: {
 		// Basic
-		...DEFAULT_LOCALES.zh,
+		...DEFAULT_LOCALES_FLAT.zh,
 		// Other
 		'dev.properties': '属性',
 		'dev.events': '事件',
@@ -44,7 +37,7 @@ const LOCALES: Record<string, UIDefaultDict> &
 	},
 	en: {
 		// Basic
-		...DEFAULT_LOCALES.en,
+		...DEFAULT_LOCALES_FLAT.en,
 		// Other
 		'dev.properties': 'Properties',
 		'dev.events': 'Events',
@@ -53,11 +46,10 @@ const LOCALES: Record<string, UIDefaultDict> &
 };
 
 configs.init({
-	locale: {
-		'': createLocaleDict(
-			locale.prefers[0].split('-')[0] === 'zh' ? LOCALES.zh : LOCALES.en,
-		),
-	},
+	locale: createSimpleLocaleDriver((_namespace, locale) => {
+		if (locale in LOCALES) return LOCALES[locale];
+		return null;
+	}),
 	icon: $$<HTMLLinkElement>('#link-icon')
 		.map((e) => [...e.sheet!.cssRules].map((rule) => rule.cssText).join(''))
 		.map((css) => {

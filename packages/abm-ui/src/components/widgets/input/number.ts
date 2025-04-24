@@ -1,8 +1,12 @@
-import { $new, IExpressionEvaluator, createClampedStepper } from 'abm-utils';
+import {
+	$new,
+	IExpressionEvaluator,
+	LocaleParams,
+	createClampedStepper,
+} from 'abm-utils';
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { configs } from '../../../configs';
-import { LocaleOptions } from '../../../locale';
 import { Navigable } from '../../../navigate';
 import { InputActions } from './actions';
 import { IWidgetInputAutoFillItem, InputAutoFill } from './autofill';
@@ -36,8 +40,8 @@ export interface WidgetNumberProp {
 
 /** 数字输入框 */
 @customElement('w-number')
-export class WidgetNumber<Options extends LocaleOptions = LocaleOptions>
-	extends WidgetInput<number, Options, HTMLInputElement, WidgetNumberProp>
+export class WidgetNumber<Params extends LocaleParams = LocaleParams>
+	extends WidgetInput<number, Params, HTMLInputElement, WidgetNumberProp>
 	implements Navigable
 {
 	static properties = { value: { type: Number } };
@@ -304,8 +308,8 @@ export class WidgetNumber<Options extends LocaleOptions = LocaleOptions>
 			this.#autofill.element,
 		];
 	}
-	cloneNode(deep?: boolean): WidgetNumber<Options> {
-		const node = super.cloneNode(deep) as WidgetNumber<Options>;
+	cloneNode(deep?: boolean): WidgetNumber<Params> {
+		const node = super.cloneNode(deep) as WidgetNumber<Params>;
 
 		node.value = this.value;
 		node.default = this.default;

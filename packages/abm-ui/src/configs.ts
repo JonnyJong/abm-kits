@@ -8,6 +8,8 @@ import {
 	Color,
 	Debounce,
 	IterableWeakSet,
+	LocaleDriver,
+	PromiseOr,
 	ProxyObjectOptions,
 	RGB,
 	RGBA,
@@ -19,7 +21,7 @@ import {
 	runTask,
 } from 'abm-utils';
 import { CSSResult } from 'lit';
-import { LocaleDict, locale } from './locale';
+import { setLocaleDriver } from './locale';
 
 //#region #Icon
 
@@ -381,28 +383,25 @@ class UIScreenConfigs {
 //#region #ALL
 
 export interface UIConfigsInit {
-	locale?: Record<string, LocaleDict>;
-	icon?: ArrayOr<UIIconCSS>;
-	theme?: Color | RGB | RGBA | string;
-	scheme?: ColorScheme;
-	defaults?: Partial<Record<UIDefaultsIcons, string>>;
-	safeArea?: UIScreenSafeAreaInset;
+	locale?: PromiseOr<LocaleDriver>;
+	icon?: PromiseOr<ArrayOr<UIIconCSS>>;
+	theme?: PromiseOr<Color | RGB | RGBA | string>;
+	scheme?: PromiseOr<ColorScheme>;
+	defaults?: PromiseOr<Partial<Record<UIDefaultsIcons, string>>>;
+	safeArea?: PromiseOr<UIScreenSafeAreaInset>;
 }
 
 class UIConfigs {
 	#icon = new UIIconConfigs();
 	#theme = new UIThemeConfigs();
 	#screen = new UIScreenConfigs();
-	init(options: UIConfigsInit) {
-		if (options.icon) this.#icon.add(...asArray(options.icon));
-		if (options.theme) this.#theme.color = options.theme;
-		if (options.scheme) this.#theme.colorScheme = options.scheme;
-		if (options.defaults) this.#icon.defaults = options.defaults;
-		if (options.safeArea) this.#screen.safeArea = options.safeArea;
-		if (!options.locale) return;
-		for (const [key, dict] of Object.entries(options.locale)) {
-			locale.set(key, dict);
-		}
+	async init(options: UIConfigsInit) {
+		if (options.icon) this.#icon.add(...asArray(await options.icon));
+		if (options.theme) this.#theme.color = await options.theme;
+		if (options.scheme) this.#theme.colorScheme = await options.scheme;
+		if (options.defaults) this.#icon.defaults = await options.defaults;
+		if (options.safeArea) this.#screen.safeArea = await options.safeArea;
+		if (options.locale) setLocaleDriver(await options.locale);
 	}
 	get icon(): UIIconConfigs {
 		return this.#icon;

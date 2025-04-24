@@ -1,10 +1,16 @@
-import { $new, EventValue, EventValueInit, EventsList, css } from 'abm-utils';
+import {
+	$new,
+	EventValue,
+	EventValueInit,
+	EventsList,
+	LocaleParams,
+	css,
+} from 'abm-utils';
 import CSS from 'input.style';
 import { html } from 'lit';
 import { property } from 'lit/decorators.js';
 import { events } from '../../../events';
 import { keyboard } from '../../../keyboard';
-import { LocaleOptions } from '../../../locale';
 import {
 	Navigable,
 	NavigateCallbackOptions,
@@ -20,7 +26,7 @@ export type InputElement = HTMLInputElement | HTMLTextAreaElement;
 
 export interface WidgetInputProp<
 	Value extends WidgetInputValue = WidgetInputValue,
-	Options extends LocaleOptions = LocaleOptions,
+	Params extends LocaleParams = LocaleParams,
 > {
 	/** 输入框内容 */
 	value?: Value;
@@ -29,7 +35,7 @@ export interface WidgetInputProp<
 	/** 占位符本地化命名空间 */
 	placeholderNamespace?: string;
 	/** 占位符本地化参数 */
-	placeholderOptions?: Options;
+	placeholderParams?: Params;
 	/** 未通过验证 */
 	invalid?: boolean;
 	/** 禁用 */
@@ -65,19 +71,19 @@ export type WidgetInputEvents<
 /** 输入框基类 */
 export abstract class WidgetInput<
 		Value extends WidgetInputValue = WidgetInputValue,
-		Options extends LocaleOptions = LocaleOptions,
+		Params extends LocaleParams = LocaleParams,
 		Input extends InputElement = InputElement,
 		Prop extends Record<string, any> = {},
 	>
 	extends Widget<
-		WidgetInputProp<Value, Options> & Prop,
+		WidgetInputProp<Value, Params> & Prop,
 		WidgetInputEventsInit<Value>
 	>
 	implements Navigable
 {
 	static styles = css(CSS);
 	protected input: Input;
-	protected _placeholder = $new<WidgetLang<Options>>('w-lang', {
+	protected _placeholder = $new<WidgetLang<Params>>('w-lang', {
 		class: 'placeholder',
 	});
 	constructor(input: Input) {
@@ -121,11 +127,11 @@ export abstract class WidgetInput<
 		this._placeholder.namespace = value;
 	}
 	/** 占位符本地化参数 */
-	get placeholderOptions() {
-		return this._placeholder.options;
+	get placeholderParams() {
+		return this._placeholder.params;
 	}
-	set placeholderOptions(value: Options | undefined) {
-		this._placeholder.options = value;
+	set placeholderParams(value: Params | undefined) {
+		this._placeholder.params = value;
 	}
 	/** 未通过验证 */
 	@property({ type: Boolean, reflect: true }) accessor invalid = false;
@@ -175,14 +181,9 @@ export abstract class WidgetInput<
 	};
 	//#region Others
 	cloneNode(deep?: boolean): Node {
-		const node = super.cloneNode(deep) as WidgetInput<
-			Value,
-			Options,
-			Input,
-			Prop
-		>;
+		const node = super.cloneNode(deep) as WidgetInput<Value, Params, Input, Prop>;
 
-		node.placeholderOptions = this.placeholderOptions;
+		node.placeholderParams = this.placeholderParams;
 		node.placeholderNamespace = this.placeholderNamespace;
 		node.placeholder = this.placeholder;
 		node.invalid = this.invalid;

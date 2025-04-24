@@ -6,6 +6,7 @@ import {
 	EventBase,
 	EventBaseInit,
 	EventsList,
+	LocaleParams,
 	clamp,
 	css,
 	runSync,
@@ -15,7 +16,6 @@ import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { events, UIEventActive } from '../../events/index.js';
-import { LocaleOptions } from '../../locale.js';
 import { UIContent, UIContentInit } from '../content.js';
 import { Widget } from './base.js';
 
@@ -29,9 +29,9 @@ import { Widget } from './base.js';
  */
 export type WidgetBtnState = '' | 'primary' | 'danger' | 'toggle';
 
-export interface WidgetBtnProp<Options extends LocaleOptions = LocaleOptions> {
+export interface WidgetBtnProp<Params extends LocaleParams = LocaleParams> {
 	/** 内容 */
-	content?: string | UIContentInit<Options> | UIContent<Options>;
+	content?: string | UIContentInit<Params> | UIContent<Params>;
 	/** 状态 */
 	state?: WidgetBtnState;
 	/** 扁平 */
@@ -50,21 +50,21 @@ export interface WidgetBtnProp<Options extends LocaleOptions = LocaleOptions> {
 	color?: Color | string;
 }
 
-interface WidgetBtnEventsInit<Options extends LocaleOptions = LocaleOptions> {
+interface WidgetBtnEventsInit<Params extends LocaleParams = LocaleParams> {
 	/** 激活事件 */
-	active: EventBaseInit<WidgetBtn<Options>>;
+	active: EventBaseInit<WidgetBtn<Params>>;
 }
 
-export type WidgetBtnEvents<Options extends LocaleOptions = LocaleOptions> =
-	EventsList<WidgetBtnEventsInit<Options>>;
+export type WidgetBtnEvents<Params extends LocaleParams = LocaleParams> =
+	EventsList<WidgetBtnEventsInit<Params>>;
 
 const STATES: WidgetBtnState[] = ['', 'primary', 'danger', 'toggle'];
 
 /** 按钮组件 */
 @customElement('w-btn')
 export class WidgetBtn<
-	Options extends LocaleOptions = LocaleOptions,
-> extends Widget<WidgetBtnProp, WidgetBtnEventsInit<Options>> {
+	Params extends LocaleParams = LocaleParams,
+> extends Widget<WidgetBtnProp, WidgetBtnEventsInit<Params>> {
 	//#region Styles
 	static styles = css(CSS);
 	//#region Main
@@ -100,16 +100,16 @@ export class WidgetBtn<
 		`;
 	}
 	//#region Content
-	#content = new UIContent<Options>();
+	#content = new UIContent<Params>();
 	/** 内容 */
-	get content(): UIContent<Options> {
+	get content(): UIContent<Params> {
 		this.#initialized = true;
 		return this.#content;
 	}
 	set content(value:
 		| string
-		| UIContent<Options>
-		| UIContentInit<Options>
+		| UIContent<Params>
+		| UIContentInit<Params>
 		| undefined) {
 		this.#initialized = true;
 
@@ -222,8 +222,8 @@ export class WidgetBtn<
 		this.events.emit(new EventBase('active', { target: this }));
 	}
 	//#region Other
-	cloneNode(deep?: boolean): WidgetBtn<Options> {
-		const node = super.cloneNode(deep) as WidgetBtn<Options>;
+	cloneNode(deep?: boolean): WidgetBtn<Params> {
+		const node = super.cloneNode(deep) as WidgetBtn<Params>;
 		node.content = this.#content;
 		node.state = this.state;
 		node.flat = this.flat;

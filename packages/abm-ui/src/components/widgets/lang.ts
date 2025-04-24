@@ -1,23 +1,24 @@
+import { LocaleParams } from 'abm-utils';
 import { customElement, property } from 'lit/decorators.js';
-import { LocaleOptions, LocaleProvider } from '../../locale';
+import { LocaleProvider } from '../../locale';
 import { Widget } from './base';
 
-export interface WidgetLangProp<Options extends LocaleOptions = LocaleOptions> {
+export interface WidgetLangProp<Params extends LocaleParams = LocaleParams> {
 	/** 命名空间 */
 	namespace?: string;
 	/** 本地化键名 */
 	key?: string;
 	/** 本地化参数 */
-	options?: Options;
+	params?: Params;
 }
 
 /** 本地化组件 */
 @customElement('w-lang')
 export class WidgetLang<
-	Options extends LocaleOptions = LocaleOptions,
-> extends Widget<WidgetLangProp<Options>> {
+	Params extends LocaleParams = LocaleParams,
+> extends Widget<WidgetLangProp<Params>> {
 	#initialized = false;
-	#locale = new LocaleProvider<Options>();
+	#locale = new LocaleProvider<Params>();
 	connectedCallback(): void {
 		super.connectedCallback();
 
@@ -48,16 +49,16 @@ export class WidgetLang<
 		this.#locale.key = value;
 	}
 	/** 本地化参数 */
-	get options() {
-		return this.#locale.options;
+	get params() {
+		return this.#locale.params;
 	}
-	set options(value) {
+	set params(value) {
 		this.#initialized = true;
-		this.#locale.options = value;
+		this.#locale.params = value;
 	}
-	cloneNode(deep?: boolean): WidgetLang<Options> {
-		const node = super.cloneNode(deep) as WidgetLang<Options>;
-		node.options = this.options;
+	cloneNode(deep?: boolean): WidgetLang<Params> {
+		const node = super.cloneNode(deep) as WidgetLang<Params>;
+		node.params = this.params;
 		node.namespace = this.namespace;
 		node.key = this.key;
 		return node;

@@ -1,16 +1,20 @@
-import { DEFAULT_LOCALES, UIDefaultDict, configs, locale } from 'abm-ui';
-import { $$, $ready, createLocaleDict } from 'abm-utils';
+import { DEFAULT_LOCALES_FLAT, configs } from 'abm-ui';
+import {
+	$$,
+	$ready,
+	FlatLocaleSource,
+	createSimpleLocaleDriver,
+} from 'abm-utils';
 import { initAPI } from './api';
 import { initDetail } from './detail';
 import { initPicker } from './picker';
 import { initProject } from './project';
 
 //#region Configs
-const LOCALES: Record<string, UIDefaultDict> &
-	Record<string, Record<string, string>> = {
+const LOCALES: Record<string, FlatLocaleSource<string>> = {
 	zh: {
 		// Basic
-		...DEFAULT_LOCALES.zh,
+		...DEFAULT_LOCALES_FLAT.zh,
 		// Other
 		error: '错误',
 		'project-list': '项目列表',
@@ -36,7 +40,7 @@ const LOCALES: Record<string, UIDefaultDict> &
 	},
 	en: {
 		// Basic
-		...DEFAULT_LOCALES.en,
+		...DEFAULT_LOCALES_FLAT.en,
 		// Other
 		error: 'Error',
 		'project-list': 'Project List',
@@ -61,11 +65,10 @@ const LOCALES: Record<string, UIDefaultDict> &
 };
 
 configs.init({
-	locale: {
-		'': createLocaleDict(
-			locale.prefers[0].split('-')[0] === 'zh' ? LOCALES.zh : LOCALES.en,
-		),
-	},
+	locale: createSimpleLocaleDriver((_namespace, locale) => {
+		if (locale in LOCALES) return LOCALES[locale];
+		return null;
+	}),
 	icon: $$<HTMLLinkElement>('#link-icon')
 		.map((e) => [...e.sheet!.cssRules].map((rule) => rule.cssText).join(''))
 		.map((css) => {
