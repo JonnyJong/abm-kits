@@ -11,7 +11,7 @@
 		"icon:build": "pnpm --filter scc run build && pnpm --filter icons run build",
 		"icon:watch": "pnpm --filter scc run build && pnpm --filter icons run watch",
 		"build:utils": "tsc -p ./packages/abm-utils/tsconfig.json && tsc -p ./packages/abm-utils/tsconfig.browser.json",
-		"build:ui": "tsc -p ./packages/abm-ui/tsconfig.json",
+		"build:ui": "tsc -p ./packages/abm-ui/tsconfig.json && node scripts/build.js",
 		"build": "npm run build:utils && npm run build:ui",
 		"clean": "node scripts/clean.js",
 		"watch:utils": "tsc -p ./packages/abm-utils/tsconfig.json -w",
@@ -19,13 +19,17 @@
 		"watch": "concurrently \"npm run watch:utils\" \"npm run watch:ui\" \"tsc -p ./packages/abm-utils/tsconfig.browser.json -w\"",
 		"dev": "pnpm --filter example run dev",
 		"prepack": "npm run clean && npm run build",
-		"publish": "pnpm publish -r --filter abm-utils --access public && pnpm publish -r --filter abm-ui --access public"
+		"publish": "pnpm clean && pnpm build && pnpm publish -r --filter abm-utils --access public && pnpm publish -r --filter abm-ui --access public"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
 		"@types/node": "^22.10.10",
+		"@types/stylus": "^0.48.43",
+		"@types/uglifycss": "^0.0.11",
 		"concurrently": "^9.1.2",
-		"typescript": "^5.7.3"
+		"stylus": "^0.64.0",
+		"typescript": "^5.7.3",
+		"uglifycss": "^0.0.29"
 	},
 	"engines": {
 		"node": ">=22",

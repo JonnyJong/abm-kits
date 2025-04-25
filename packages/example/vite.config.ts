@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite';
-import { compilePlugins } from '../../scripts/compiler.ts';
+import pugVite from 'vite-plugin-pug';
 
 const HOST = '127.0.0.1';
 const PORT = 5500;
@@ -13,12 +13,12 @@ export default defineConfig({
 		host: HOST,
 		hmr: {
 			protocol: 'ws',
-			HOST,
+			host: HOST,
 			port: PORT + 1,
 		},
 	},
 	optimizeDeps: {
 		force: true,
 	},
-	plugins: [...compilePlugins],
+	plugins: [pugVite()],
 });

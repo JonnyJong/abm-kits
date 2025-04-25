@@ -12,10 +12,8 @@
 		"@types/cli-progress": "^3.11.6",
 		"@types/font-carrier": "^0.3.3",
 		"@types/node": "~22.14.1",
-		"@types/stylus": "^0.48.43",
 		"@types/svg2ttf": "^5.0.3",
 		"@types/ttf2woff": "^2.0.4",
-		"@types/uglifycss": "^0.0.11",
 		"abm-ui": "workspace:*",
 		"abm-utils": "workspace:*",
 		"cli-progress": "^3.12.0",
@@ -32,7 +30,6 @@
 		"ttf2woff2": "^6.0.1",
 		"typeorm": "^0.3.21",
 		"typescript": "^5.7.3",
-		"uglifycss": "^0.0.29",
 		"vite": "^6.0.11",
 		"vite-plugin-pug": "^0.4.1"
 	}

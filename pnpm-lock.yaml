@@ -13,13 +13,25 @@ importers:
         version: 1.9.4
       '@types/node':
         specifier: ^22.10.10
-        version: 22.10.10
+        version: 22.14.1
+      '@types/stylus':
+        specifier: ^0.48.43
+        version: 0.48.43
+      '@types/uglifycss':
+        specifier: ^0.0.11
+        version: 0.0.11
       concurrently:
         specifier: ^9.1.2
         version: 9.1.2
+      stylus:
+        specifier: ^0.64.0
+        version: 0.64.0
       typescript:
         specifier: ^5.7.3
-        version: 5.7.3
+        version: 5.8.2
+      uglifycss:
+        specifier: ^0.0.29
+        version: 0.0.29
 
   packages/abm-ui:
     dependencies:
@@ -44,12 +56,6 @@ importers:
         specifier: ~0.1.1
         version: 0.1.1
     devDependencies:
-      '@types/stylus':
-        specifier: ^0.48.43
-        version: 0.48.43
-      '@types/uglifycss':
-        specifier: ^0.0.11
-        version: 0.0.11
       abm-ui:
         specifier: workspace:*
         version: link:../abm-ui
@@ -59,15 +65,9 @@ importers:
       lit:
         specifier: ~3.3.0
         version: 3.3.0
-      stylus:
-        specifier: ^0.64.0
-        version: 0.64.0
       typescript:
         specifier: ^5.7.3
-        version: 5.7.3
-      uglifycss:
-        specifier: ^0.0.29
-        version: 0.0.29
+        version: 5.8.2
       vite:
         specifier: ^6.0.11
         version: 6.0.11(@types/node@22.14.1)(stylus@0.64.0)(yaml@2.7.0)
@@ -89,18 +89,12 @@ importers:
       '@types/node':
         specifier: ~22.14.1
         version: 22.14.1
-      '@types/stylus':
-        specifier: ^0.48.43
-        version: 0.48.43
       '@types/svg2ttf':
         specifier: ^5.0.3
         version: 5.0.3
       '@types/ttf2woff':
         specifier: ^2.0.4
         version: 2.0.4
-      '@types/uglifycss':
-        specifier: ^0.0.11
-        version: 0.0.11
       abm-ui:
         specifier: workspace:*
         version: link:../abm-ui
@@ -148,10 +142,7 @@ importers:
         version: 0.3.21(reflect-metadata@0.2.2)(sqlite3@5.1.7)
       typescript:
         specifier: ^5.7.3
-        version: 5.7.3
-      uglifycss:
-        specifier: ^0.0.29
-        version: 0.0.29
+        version: 5.8.2
       vite:
         specifier: ^6.0.11
         version: 6.0.11(@types/node@22.14.1)(stylus@0.64.0)(yaml@2.7.0)
@@ -167,7 +158,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ^22.13.11
-        version: 22.13.11
+        version: 22.14.1
       typescript:
         specifier: ^5.8.2
         version: 5.8.2
@@ -559,12 +550,6 @@ packages:
 
   '@types/font-carrier@0.3.3':
     resolution: {integrity: sha512-pApTsPo/EKzggFdOxp/e2EFoPzXtqqWrOqDsJTlfCk4Kh3be+QjkKBiMb8WqsC/WIt0Qrml+UGcdEC4zb/8bZw==}
-
-  '@types/node@22.10.10':
-    resolution: {integrity: sha512-X47y/mPNzxviAGY5TcYPtYL8JsY3kAq2n8fMmKoRCxq/c4v4pyGNCzM2R6+M5/umG4ZfHuT+sgqDYqWc9rJ6ww==}
-
-  '@types/node@22.13.11':
-    resolution: {integrity: sha512-iEUCUJoU0i3VnrCmgoWCXttklWcvoCIx4jzcP22fioIVSdTmjgoEvmAO/QPw6TcS9k5FrNgn4w7q5lGOd1CT5g==}
 
   '@types/node@22.14.1':
     resolution: {integrity: sha512-u0HuPQwe/dHrItgHHpmw3N2fYCR6x4ivMNbPHRkBVP4CvN+kiRrKHWk3i8tXiO/joPwXLMYvF9TTF0eqgHIuOw==}
@@ -1711,11 +1696,6 @@ packages:
       typeorm-aurora-data-api-driver:
         optional: true
 
-  typescript@5.7.3:
-    resolution: {integrity: sha512-84MVSjMEHP+FQRPy3pX9sTVV/INIex71s9TL2Gm5FG/WG1SqXeKyZ0k7/blY/4FdOzI12CBy1vGc4og/eus0fw==}
-    engines: {node: '>=14.17'}
-    hasBin: true
-
   typescript@5.8.2:
     resolution: {integrity: sha512-aJn6wq13/afZp/jT9QZmwEjDqqvSGp1VT5GVg+f/t6/oVyrgXM6BY1h9BRh/O5p3PlUPAe+WuiEZOmb/49RqoQ==}
     engines: {node: '>=14.17'}
@@ -1725,9 +1705,6 @@ packages:
     resolution: {integrity: sha512-J2SQ2QLjiknNGbNdScaNZsXgmMGI0kYNrXaDlr4obnPW9ni1jljb1NeEVWAiTgZ8z+EBWP2ozfT9vpy03rjlMQ==}
     engines: {node: '>=6.4.0'}
     hasBin: true
-
-  undici-types@6.20.0:
-    resolution: {integrity: sha512-Ny6QZ2Nju20vw1SRHe3d9jVu6gJ+4e3+MMpqu7pqE5HT6WsTSlce++GQmK5UXS8mzV8DSYHrQH+Xrf2jVcuKNg==}
 
   undici-types@6.21.0:
     resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
@@ -2133,14 +2110,6 @@ snapshots:
     dependencies:
       '@types/node': 22.14.1
 
-  '@types/node@22.10.10':
-    dependencies:
-      undici-types: 6.20.0
-
-  '@types/node@22.13.11':
-    dependencies:
-      undici-types: 6.20.0
-
   '@types/node@22.14.1':
     dependencies:
       undici-types: 6.21.0
@@ -2151,7 +2120,7 @@ snapshots:
 
   '@types/stylus@0.48.43':
     dependencies:
-      '@types/node': 22.13.11
+      '@types/node': 22.14.1
 
   '@types/svg2ttf@5.0.3': {}
 
@@ -3503,13 +3472,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  typescript@5.7.3: {}
-
   typescript@5.8.2: {}
 
   uglifycss@0.0.29: {}
-
-  undici-types@6.20.0: {}
 
   undici-types@6.21.0: {}
 
