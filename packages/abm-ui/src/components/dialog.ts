@@ -54,18 +54,12 @@ export interface DialogInit<ID extends string = string> extends DialogInitBase {
 
 export interface DialogConfirmInit extends DialogInitBase {
 	/** 对话框按钮 */
-	actions?:
-		| [
-				DialogActionInit<'confirm'> | undefined | null,
-				DialogActionInit<'cancel'> | undefined | null,
-		  ]
-		| [DialogActionInit<'confirm'> | undefined | null]
-		| [];
+	actions?: (Partial<DialogActionInit> | undefined | null)[];
 }
 
 export interface DialogOKInit extends DialogInitBase {
 	/** 对话框按钮 */
-	actions?: [DialogActionInit<'ok'> | undefined | null] | [];
+	actions?: (Partial<DialogActionInit> | undefined | null)[];
 }
 
 export interface DialogEvents<ID extends string = string> {
