@@ -29,13 +29,10 @@ function getCSS(mod) {
 	return css;
 }
 
-for (const dirent of fs.readdirSync(DIST, {
-	withFileTypes: true,
-	recursive: true,
-})) {
-	if (!dirent.isFile()) continue;
-	if (path.extname(dirent.name) !== '.js') continue;
-	const file = path.join(dirent.parentPath, dirent.name);
+/**
+ * @param {string} file
+ */
+function compile(file) {
 	let js = fs.readFileSync(file, 'utf8');
 	let changed = false;
 	js = js.replace(PATTERN_IMPORT, (origin, label, mod) => {
@@ -43,6 +40,24 @@ for (const dirent of fs.readdirSync(DIST, {
 		changed = true;
 		return `const ${label} = ${JSON.stringify(getCSS(mod))};`;
 	});
-	if (!changed) continue;
+	if (!changed) return;
 	fs.writeFileSync(file, js, 'utf8');
+}
+
+module.exports = {
+	PACKAGE_ROOT,
+	DIST,
+	compile,
+};
+
+if (require.main === module) {
+	for (const dirent of fs.readdirSync(DIST, {
+		withFileTypes: true,
+		recursive: true,
+	})) {
+		if (!dirent.isFile()) continue;
+		if (path.extname(dirent.name) !== '.js') continue;
+		const file = path.join(dirent.parentPath, dirent.name);
+		compile(file);
+	}
 }
