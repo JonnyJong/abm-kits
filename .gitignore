@@ -1,5 +1,6 @@
 node_modules
 dist
+cache
 packages/icons/node
 packages/icons/icons.sqlite
 packages/icons/projects.json

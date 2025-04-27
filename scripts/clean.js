@@ -2,6 +2,7 @@ const { rm } = require('node:fs/promises');
 const path = require('node:path');
 
 const PATHS = [
+	'cache',
 	'packages/abm-utils/browser',
 	'packages/abm-utils/dist',
 	'packages/abm-ui/dist',

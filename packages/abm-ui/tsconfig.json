@@ -6,6 +6,8 @@
 		"module": "ES2020",
 		"moduleResolution": "node",
 		"lib": ["ES2022", "DOM", "DOM.Iterable"],
-    "outDir": "./dist"
+    "outDir": "./dist",
+		"incremental": true,
+		"tsBuildInfoFile": "../../cache/abm-ui.tsbuildinfo",
 	},
 }

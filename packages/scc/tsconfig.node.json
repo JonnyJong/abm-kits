@@ -5,6 +5,7 @@
 		"target": "ESNext",
 		"module": "NodeNext",
 		"moduleResolution": "nodenext",
+		"tsBuildInfoFile": "../../cache/scc-node.tsbuildinfo",
 	},
 	"include": ["src/node.ts"],
 }

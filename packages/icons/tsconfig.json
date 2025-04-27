@@ -9,6 +9,8 @@
 		"emitDecoratorMetadata": true,
 		"sourceMap": true,
 		"skipLibCheck": true,
+		"incremental": true,
+		"tsBuildInfoFile": "../../cache/icons-node.tsbuildinfo",
 	},
 	"include": ["src/**/*.ts"],
 	"exclude": ["node/**/*"]

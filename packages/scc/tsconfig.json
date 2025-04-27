@@ -29,6 +29,8 @@
 		"removeComments": false,
 		"newLine": "lf",
 		"declaration": true,
-		"outDir": "dist"
+		"outDir": "dist",
+		"incremental": true,
+		"tsBuildInfoFile": "../../cache/scc-web.tsbuildinfo",
 	}
 }
