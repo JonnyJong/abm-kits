@@ -1,9 +1,9 @@
 import { Signal } from '@lit-labs/signals';
 import { css } from 'abm-utils';
-import CSS from 'hint-pen.style';
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { Widget } from '../base';
+import CSS from './pen.styl';
 
 export type WidgetHintPenKey =
 	| 'Tap'

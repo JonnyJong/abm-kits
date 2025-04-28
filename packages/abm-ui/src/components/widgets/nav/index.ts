@@ -10,11 +10,11 @@ import {
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
-import CSS from 'nav.style';
-import { events } from '../../events';
-import { Navigable } from '../../navigate';
-import { UIContentAll, UIContentAllInit } from '../content';
-import { Widget } from './base';
+import { events } from '../../../events';
+import { Navigable } from '../../../navigate';
+import { UIContentAll, UIContentAllInit } from '../../content';
+import { Widget } from '../base';
+import CSS from './index.styl';
 
 interface WidgetNavEventsInit<ID extends string = string> {
 	/** 更改事件 */

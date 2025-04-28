@@ -1,8 +1,8 @@
 import { Signal } from '@lit-labs/signals';
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { configs } from '../../configs';
-import { Widget } from './base';
+import { configs } from '../../../configs';
+import { Widget } from '../base';
 
 export interface WidgetIconProp {
 	/** 命名空间 */

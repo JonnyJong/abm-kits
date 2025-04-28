@@ -1,93 +1,92 @@
-const fs = require('node:fs');
-const path = require('node:path');
-const stylus = require('stylus');
-const uglifyCSS = require('uglifycss');
-
-const PACKAGE_ROOT = path.join(__dirname, '../packages/abm-ui');
-const DIST = path.join(PACKAGE_ROOT, 'dist');
-const STYLE_ROOT = path.join(PACKAGE_ROOT, 'styles/widgets');
-
-const PATTERN_IMPORT = /import ([A-Z0-9_]+) from '([a-z0-9-]+)\.style';/g;
-const PATTERN_CONST = /const (.+) = .+; \/\/ style:(.+)/g;
-const PATTERN_CSS_SELECTOR = /(?<=^|\}|,):host([^{,>]+?)(?=\{| |,|>)/g;
-
-/**
- * @param {string} mod
- * @returns {string}
- */
-function getCSS(mod) {
-	const file = path.join(STYLE_ROOT, `${mod}.styl`);
-	const str = fs.readFileSync(file, 'utf8');
-	let css = stylus.render(str);
-	css = uglifyCSS.processString(css);
-
-	css = css.replace(PATTERN_CSS_SELECTOR, (raw, selector) => {
-		if (typeof selector !== 'string') return raw;
-		if (selector.startsWith('(') && selector.endsWith(')')) return raw;
-		return `:host(${selector})`;
-	});
-
-	return `*{box-sizing:border-box;}${css}`;
-}
-
-/**
- * @param {string} file
- * @returns {string[]}
- */
-function compile(file) {
-	let js = fs.readFileSync(file, 'utf8');
-	const mods = [];
-	js = js
-		.replace(PATTERN_IMPORT, (origin, label, mod) => {
-			if (!(label && mod)) return origin;
-			mods.push(mod);
-			return `const ${label} = ${JSON.stringify(getCSS(mod))}; // style:${mod}`;
-		})
-		.replace(PATTERN_CONST, (origin, label, mod) => {
-			if (!(label && mod)) return origin;
-			mods.push(mod);
-			return `const ${label} = ${JSON.stringify(getCSS(mod))}; // style:${mod}`;
-		});
-	if (mods.length === 0) return mods;
-	fs.writeFileSync(file, js, 'utf8');
-	return mods;
-}
-
-/**
- * @param {string} file
- * @returns {string[]}
- */
-function getMods(file) {
-	const js = fs.readFileSync(file, 'utf8');
-	const mods = [];
-	js
-		.replace(PATTERN_IMPORT, (origin, label, mod) => {
-			if (!(label && mod)) return origin;
-			mods.push(mod);
-		})
-		.replace(PATTERN_CONST, (origin, label, mod) => {
-			if (!(label && mod)) return origin;
-			mods.push(mod);
-		});
-	return mods;
-}
-
-module.exports = {
-	PACKAGE_ROOT,
-	DIST,
-	STYLE_ROOT,
-	compile,
-	getMods,
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-
-if (require.main === module) {
-	for (const dirent of fs.readdirSync(DIST, {
-		withFileTypes: true,
-		recursive: true,
-	})) {
-		if (!dirent.isFile()) continue;
-		if (path.extname(dirent.name) !== '.js') continue;
-		const file = path.join(dirent.parentPath, dirent.name);
-		compile(file);
-	}
+Object.defineProperty(exports, "__esModule", { value: true });
+const node_path_1 = __importDefault(require("node:path"));
+const build_style_1 = require("./build-style");
+const build_ts_1 = require("./build-ts");
+const PKGS_ROOT = node_path_1.default.join(__dirname, '../packages');
+const BUILD_ORDER = ['utils', 'ui', 'scc', 'icons'];
+const TASKS = {
+    utils: {
+        ts: [
+            node_path_1.default.join(PKGS_ROOT, 'abm-utils/tsconfig.json'),
+            node_path_1.default.join(PKGS_ROOT, 'abm-utils/tsconfig.browser.json'),
+        ],
+    },
+    ui: {
+        ts: [node_path_1.default.join(PKGS_ROOT, 'abm-ui/tsconfig.json')],
+        style: [
+            {
+                root: node_path_1.default.join(PKGS_ROOT, 'abm-ui/src/styles'),
+                dist: node_path_1.default.join(PKGS_ROOT, 'abm-ui/dist/styles'),
+                redirect(file) {
+                    if (file === 'var.styl')
+                        return file;
+                    return 'main.styl';
+                },
+            },
+        ],
+        styleModule: [
+            [
+                node_path_1.default.join(PKGS_ROOT, 'abm-ui/src/components/widgets'),
+                node_path_1.default.join(PKGS_ROOT, 'abm-ui/dist/components/widgets'),
+            ],
+        ],
+    },
+    scc: {
+        ts: [
+            node_path_1.default.join(PKGS_ROOT, 'scc/tsconfig.json'),
+            node_path_1.default.join(PKGS_ROOT, 'scc/tsconfig.browser.json'),
+            node_path_1.default.join(PKGS_ROOT, 'scc/tsconfig.node.json'),
+        ],
+    },
+    icons: {
+        ts: [node_path_1.default.join(PKGS_ROOT, 'icons/tsconfig.json')],
+    },
+};
+function checkArg(argv, inputs) {
+    for (const arg of argv) {
+        if (inputs.includes(arg))
+            return true;
+    }
+    return false;
 }
+function resolveArgv() {
+    const i = process.argv.indexOf(__filename.slice(0, -3)) + 1;
+    if (i === process.argv.length)
+        return { targets: ['utils', 'ui'], watch: false };
+    const inputs = process.argv.slice(i).map((v) => v.toLowerCase());
+    const targets = [];
+    for (const target of BUILD_ORDER) {
+        if (inputs.includes(target))
+            targets.push(target);
+    }
+    if (targets.length === 0)
+        targets.push('utils', 'ui');
+    const watch = checkArg(['-w', '--watch'], inputs);
+    return { targets, watch };
+}
+function main() {
+    const { targets, watch } = resolveArgv();
+    const type = watch ? 'Start watching' : 'Compiling';
+    for (const target of targets) {
+        console.log(`Start ${watch ? 'watching' : 'compiling'} ${target}`);
+        const pkg = TASKS[target];
+        for (const tsconfigPath of pkg.ts ?? []) {
+            console.log(`${type} ts project: ${tsconfigPath}`);
+            (0, build_ts_1.compileTypeScript)(tsconfigPath, watch);
+        }
+        for (const styleTask of pkg.style ?? []) {
+            console.log(`${type} styles: ${styleTask.root}`);
+            (0, build_style_1.compileStyle)(styleTask, watch);
+        }
+        for (const [root, dist] of pkg.styleModule ?? []) {
+            console.log(`${type} styles : ${root}`);
+            (0, build_style_1.compileStyleModule)(root, dist, watch);
+        }
+    }
+    console.log('Ready!');
+}
+main();

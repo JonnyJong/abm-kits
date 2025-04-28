@@ -1,11 +1,11 @@
 import { EventValue, EventValueInit, EventsList, css } from 'abm-utils';
-import CSS from 'checkbox.style';
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { events, UIEventActive } from '../../events';
-import { Navigable } from '../../navigate';
-import { Widget } from './base';
-import { WidgetSelectProp } from './select';
+import { events, UIEventActive } from '../../../events';
+import { Navigable } from '../../../navigate';
+import { Widget } from '../base';
+import { WidgetSelectProp } from '../select';
+import CSS from './index.styl';
 
 interface WidgetCheckboxEventsInit {
 	/** 更改事件 */

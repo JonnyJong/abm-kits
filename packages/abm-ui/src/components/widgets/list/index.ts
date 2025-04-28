@@ -13,13 +13,17 @@ import {
 	shift,
 	sleep,
 } from 'abm-utils';
-import CSS from 'list.style';
 import { customElement, property } from 'lit/decorators.js';
-import { events, UIEventActive, UIEventSlide } from '../../events';
-import { Slidable, SlideBorder } from '../../events/slide';
-import { keyboard } from '../../keyboard';
-import { Navigable, NavigateCallbackOptions, navigate } from '../../navigate';
-import { Widget } from './base';
+import { events, UIEventActive, UIEventSlide } from '../../../events';
+import { Slidable, SlideBorder } from '../../../events/slide';
+import { keyboard } from '../../../keyboard';
+import {
+	Navigable,
+	NavigateCallbackOptions,
+	navigate,
+} from '../../../navigate';
+import { Widget } from '../base';
+import CSS from './index.styl';
 
 interface WidgetListEventsInit<
 	Data = unknown,

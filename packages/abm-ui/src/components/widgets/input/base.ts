@@ -6,7 +6,6 @@ import {
 	LocaleParams,
 	css,
 } from 'abm-utils';
-import CSS from 'input.style';
 import { html } from 'lit';
 import { property } from 'lit/decorators.js';
 import { events } from '../../../events';
@@ -19,6 +18,7 @@ import {
 import { Widget } from '../base';
 import { WidgetLang } from '../lang';
 import { IWidgetInputAutoFillItem } from './autofill';
+import CSS from './index.styl';
 
 export type WidgetInputValue = string | number;
 

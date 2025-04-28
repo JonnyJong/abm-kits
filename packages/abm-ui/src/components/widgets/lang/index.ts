@@ -1,7 +1,7 @@
 import { LocaleParams } from 'abm-utils';
 import { customElement, property } from 'lit/decorators.js';
-import { LocaleProvider } from '../../locale';
-import { Widget } from './base';
+import { LocaleProvider } from '../../../locale';
+import { Widget } from '../base';
 
 export interface WidgetLangProp<Params extends LocaleParams = LocaleParams> {
 	/** 命名空间 */

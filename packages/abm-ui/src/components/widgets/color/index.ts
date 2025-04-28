@@ -6,15 +6,15 @@ import {
 	EventsList,
 	css,
 } from 'abm-utils';
-import CSS from 'color.style';
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { configs } from '../../configs';
-import { events, UIEventActive } from '../../events';
-import { Navigable } from '../../navigate';
-import { Dialog } from '../dialog';
-import { Widget } from './base';
-import { WidgetColorPicker } from './color-picker';
+import { configs } from '../../../configs';
+import { events, UIEventActive } from '../../../events';
+import { Navigable } from '../../../navigate';
+import { Dialog } from '../../dialog';
+import { Widget } from '../base';
+import { WidgetColorPicker } from '../color-picker';
+import CSS from './index.styl';
 
 interface WidgetColorEventsInit {
 	/** 更改事件 */

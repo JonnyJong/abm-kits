@@ -1,9 +1,9 @@
 import { $div, $new, css } from 'abm-utils';
-import CSS from 'hint-gamepad.style';
 import { customElement, property } from 'lit/decorators.js';
 import { UIDefaultsIcons, configs } from '../../../configs';
 import { Widget } from '../base';
 import { WidgetIcon } from '../icon';
+import CSS from './gamepad.styl';
 
 export type WidgetHintGamepadKey =
 	| 'Home'

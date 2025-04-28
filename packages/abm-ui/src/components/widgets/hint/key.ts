@@ -1,10 +1,10 @@
 import { $new, css } from 'abm-utils';
-import CSS from 'hint-key.style';
 import { customElement, property } from 'lit/decorators.js';
 import { UIDefaultsIcons, configs } from '../../../configs';
 import { KEYS_ALLOW, KeysAllow } from '../../../keyboard';
 import { Widget } from '../base';
 import { WidgetIcon } from '../icon';
+import CSS from './key.styl';
 
 export interface WidgetHintKeyProp {
 	key?: KeysAllow;

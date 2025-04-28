@@ -11,13 +11,13 @@ import {
 	css,
 	runSync,
 } from 'abm-utils';
-import CSS from 'btn.style';
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
-import { events, UIEventActive } from '../../events/index.js';
-import { UIContent, UIContentInit } from '../content.js';
-import { Widget } from './base.js';
+import { events, UIEventActive } from '../../../events/index';
+import { UIContent, UIContentInit } from '../../content';
+import { Widget } from '../base';
+import CSS from './index.styl';
 
 /**
  * 按钮状态

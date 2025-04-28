@@ -15,14 +15,18 @@ import {
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
-import CSS_ITEM from 'select-item.style';
-import CSS from 'select.style';
-import { configs } from '../../configs';
-import { events, UIEventActive } from '../../events';
-import { Navigable, NavigateCallbackOptions, navigate } from '../../navigate';
-import { UIContentText, UIContentTextInit } from '../content';
-import { Widget } from './base';
-import { WidgetList, WidgetListItem } from './list';
+import { configs } from '../../../configs';
+import { events, UIEventActive } from '../../../events';
+import {
+	Navigable,
+	NavigateCallbackOptions,
+	navigate,
+} from '../../../navigate';
+import { UIContentText, UIContentTextInit } from '../../content';
+import { Widget } from '../base';
+import { WidgetList, WidgetListItem } from '../list';
+import CSS from './index.styl';
+import CSS_ITEM from './item.styl';
 
 interface WidgetSelectEventsInit<
 	Value = unknown,

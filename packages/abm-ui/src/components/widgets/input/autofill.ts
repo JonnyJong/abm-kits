@@ -7,13 +7,13 @@ import {
 	css,
 	proxyObject,
 } from 'abm-utils';
-import CSS from 'input-autofill.style';
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { configs } from '../../../configs';
 import { events } from '../../../events';
 import { Navigable } from '../../../navigate';
 import { WidgetList, WidgetListItem } from '../list';
+import CSS from './autofill.styl';
 import {
 	InputElement,
 	WidgetInput,

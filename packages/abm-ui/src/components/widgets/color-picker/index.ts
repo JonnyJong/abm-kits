@@ -8,18 +8,18 @@ import {
 	EventsList,
 	css,
 } from 'abm-utils';
-import CSS from 'color-picker.style';
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
-import { configs } from '../../configs';
-import { Navigable } from '../../navigate';
-import { Widget } from './base';
-import { WidgetNumber } from './input/number';
-import { WidgetText } from './input/text';
-import { WidgetNav } from './nav';
-import { WidgetSlider } from './slider';
-import { WidgetSlider2D } from './slider-2d';
+import { configs } from '../../../configs';
+import { Navigable } from '../../../navigate';
+import { Widget } from '../base';
+import { WidgetNumber } from '../input/number';
+import { WidgetText } from '../input/text';
+import { WidgetNav } from '../nav';
+import { WidgetSlider } from '../slider';
+import { WidgetSlider2D } from '../slider-2d';
+import CSS from './index.styl';
 
 interface WidgetColorPickerEventsInit {
 	/** 输入事件 */

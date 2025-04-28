@@ -11,13 +11,17 @@ import {
 } from 'abm-utils';
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import CSS from 'slider.style';
-import { events, UIEventSlide } from '../../events';
-import { Slidable, SlideBorder } from '../../events/slide';
-import { KeyboardEvents, keyboard } from '../../keyboard';
-import { Navigable, NavigateCallbackOptions, navigate } from '../../navigate';
-import { tooltips } from '../tooltips';
-import { Widget } from './base';
+import { events, UIEventSlide } from '../../../events';
+import { Slidable, SlideBorder } from '../../../events/slide';
+import { KeyboardEvents, keyboard } from '../../../keyboard';
+import {
+	Navigable,
+	NavigateCallbackOptions,
+	navigate,
+} from '../../../navigate';
+import { tooltips } from '../../tooltips';
+import { Widget } from '../base';
+import CSS from './index.styl';
 
 interface WidgetSliderEventsInit {
 	/** 输入事件 */

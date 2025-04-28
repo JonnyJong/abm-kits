@@ -1,9 +1,9 @@
 import { Signal } from '@lit-labs/signals';
 import { css } from 'abm-utils';
-import CSS from 'hint-touch.style';
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { Widget } from '../base';
+import CSS from './touch.styl';
 
 export type WidgetHintTouchKey =
 	| 'Tap'

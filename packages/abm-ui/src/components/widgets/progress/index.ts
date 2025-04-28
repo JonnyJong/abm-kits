@@ -3,9 +3,9 @@ import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { styleMap } from 'lit/directives/style-map.js';
-import CSS_BAR from 'progress-bar.style';
-import CSS_RING from 'progress-ring.style';
-import { Widget } from './base';
+import { Widget } from '../base';
+import CSS_BAR from './bar.styl';
+import CSS_RING from './ring.styl';
 
 export interface WidgetProgressProp {
 	/**
