@@ -64,12 +64,8 @@ export class WidgetColorPicker
 	static styles = css(CSS);
 	#color = configs.theme.color;
 	#current = this.#color.clone();
-	connectedCallback(): void {
-		super.connectedCallback();
-		this.toggleAttribute('ui-nav-group', true);
-	}
 	constructor() {
-		super(['input', 'change']);
+		super(['input', 'change'], false, true);
 		this.#updateHEX();
 		this.#updateIndicator();
 		this.#updateRGB();

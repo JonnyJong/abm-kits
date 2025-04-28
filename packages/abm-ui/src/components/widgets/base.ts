@@ -20,15 +20,18 @@ export abstract class Widget<
 {
 	protected events: Events<E> = null as any;
 	#nav?: boolean;
+	#navGroup?: boolean;
 	/**
 	 * 初始化 UI 组件
 	 * @param eventTypes 事件类型列表，`undefined` 时禁用事件机制
 	 * @param nav 是否可导航
+	 * @param navGroup 是否为导航组
 	 */
-	constructor(eventTypes?: EventTypes[], nav?: boolean) {
+	constructor(eventTypes?: EventTypes[], nav?: boolean, navGroup?: boolean) {
 		super();
 
 		this.#nav = nav;
+		this.#navGroup = navGroup;
 
 		if (!eventTypes) return;
 		this.events = new Events<E>(eventTypes);
@@ -36,6 +39,7 @@ export abstract class Widget<
 	connectedCallback(): void {
 		super.connectedCallback();
 		if (this.#nav) this.toggleAttribute('ui-nav', true);
+		if (this.#navGroup) this.toggleAttribute('ui-nav-group', true);
 	}
 	/** 添加事件处理器 */
 	on<Type extends keyof E & string>(

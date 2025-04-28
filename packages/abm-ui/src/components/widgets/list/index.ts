@@ -293,12 +293,11 @@ export class WidgetList<
 	#root = this.createRenderRoot();
 	#resizeObserver = new ResizeObserver(() => this.#updateLayout());
 	constructor() {
-		super(['active', 'sort', 'select']);
+		super(['active', 'sort', 'select'], false, true);
 		this.#resizeObserver.observe(this);
 	}
 	connectedCallback(): void {
 		super.connectedCallback();
-		this.toggleAttribute('ui-nav-group', true);
 		this.#updateLayout();
 	}
 	#items = new SyncList<Data, Item>({

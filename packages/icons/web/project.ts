@@ -63,7 +63,7 @@ class ProjectListItem extends WidgetListItem<ProjectInfo> implements Navigable {
 	});
 	#info!: ProjectInfo;
 	constructor() {
-		super();
+		super(undefined, false, true);
 		this.activeTrigger = this.#main;
 		events.hover.add(this.#main);
 		this.#main.navParent = this;
@@ -71,10 +71,6 @@ class ProjectListItem extends WidgetListItem<ProjectInfo> implements Navigable {
 		this.#rename.navParent = this;
 		this.#rename.on('active', () => askRenameProject(this.#info));
 		this.#delete.on('active', () => deleteProject(this.#info.path));
-	}
-	connectedCallback(): void {
-		super.connectedCallback();
-		this.toggleAttribute('ui-nav-group', true);
 	}
 	get data() {
 		return this.#info;

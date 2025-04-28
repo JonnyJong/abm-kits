@@ -167,13 +167,9 @@ export class WidgetNav<ID extends string = string>
 {
 	static styles = css(CSS);
 	constructor() {
-		super(['change']);
+		super(['change'], false, true);
 
 		this.#resizeObserver.observe(this);
-	}
-	connectedCallback(): void {
-		super.connectedCallback();
-		this.toggleAttribute('ui-nav-group', true);
 	}
 	protected render() {
 		return html`

@@ -114,14 +114,10 @@ export class WidgetGamepad
 		`;
 	}
 	constructor() {
-		super();
+		super(undefined, false, true);
 
 		this.#vibrate.on('active', this.#vibrateHandler);
 		this.#vibrate.navParent = this;
-	}
-	connectedCallback(): void {
-		super.connectedCallback();
-		this.toggleAttribute('ui-nav-group', true);
 	}
 	#gamepad: GameController | null = null;
 	#target = -1;
