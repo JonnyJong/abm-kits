@@ -458,3 +458,17 @@ export function* zip<Arrays extends any[][] = any[][]>(
 		i++;
 	}
 }
+
+/**
+ * 反转给定数组的副本并返回，不改变原数组
+ * @param {T} array 需要反转的原始数组
+ * @returns {T[number][]} 反转后的新数组（元素类型与原数组保持一致）
+ * @example
+ * const arr = [1, 2, 3];
+ * const reversed = toReversed(arr);
+ * console.log(reversed); // [3, 2, 1]
+ * console.log(arr);      // 仍保持 [1, 2, 3]
+ */
+export function toReversed<T extends any[] = any[]>(array: T): T[number][] {
+	return [...array].reverse();
+}
