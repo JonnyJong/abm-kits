@@ -425,3 +425,36 @@ export function applyConditionalOperation<T, D = T>(
 		operate(item, !!condition);
 	}
 }
+
+/**
+ * 同时遍历多个数组，生成按索引对应的元素元组
+ * @description
+ * 该函数接收多个数组作为参数，返回一个生成器。每次迭代会生成一个元组，
+ * 元组的每个元素对应输入数组的当前索引值。遍历长度以最短的输入数组为准。
+ *
+ * @template {any[][]} Arrays 输入数组类型，应为二维数组类型
+ * @param {...Arrays} arrays 需要同时遍历的多个数组（至少一个）
+ * @returns {Generator<{ [K in keyof Arrays]: Arrays[K] extends (infer T)[] ? T : never }, void, unknown>}
+ * 返回生成器，每次产生对应索引的元素元组
+ *
+ * @example
+ * const numbers = [1, 2, 3];
+ * const letters = ['a', 'b', 'c'];
+ * for (const [num, char] of zip(numbers, letters)) {
+ *   console.log(num, char); // 依次输出 [1, 'a'], [2, 'b'], [3, 'c']
+ * }
+ */
+export function* zip<Arrays extends any[][] = any[][]>(
+	...arrays: Arrays
+): Generator<
+	{ [K in keyof Arrays]: Arrays[K] extends (infer T)[] ? T : never },
+	void,
+	unknown
+> {
+	let i = 0;
+	const length = Math.min(...arrays.map((array) => array.length));
+	while (i < length) {
+		yield arrays.map((array) => array[i]) as any;
+		i++;
+	}
+}
