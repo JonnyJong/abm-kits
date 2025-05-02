@@ -284,6 +284,17 @@ export interface WidgetGridVirtualItemConstructor<
 	Item extends WidgetGridVirtualItem<Data> = WidgetGridVirtualItem<Data>,
 > {
 	new (...args: any): Item;
+	/**
+	 * 由表格组件调用，创建表格元素
+	 * @param data - 数据
+	 * @example
+	 * ```ts
+	 * create(data: Data): Item {
+	 * 	 const element = $new('grid-item-tag-name');
+	 *   element.data = data;
+	 *   return element;
+	 * }
+	 */
 	create(data: Data): Item;
 }
 
