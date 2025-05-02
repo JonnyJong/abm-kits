@@ -105,8 +105,7 @@ export abstract class WidgetListItem<
 		this.#host = value;
 	}
 	/** 数据 */
-	abstract get data(): Data;
-	abstract set data(value: Data);
+	abstract data: Data;
 	/**
 	 * 元素顶部坐标
 	 * @description
