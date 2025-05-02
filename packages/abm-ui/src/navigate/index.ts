@@ -52,84 +52,6 @@ class Navigate implements INavigate {
 		layer[1] = null;
 		layer[2] = null;
 	};
-	//#region Nav
-	nav(direction: NavDirection) {
-		let { root, current, lock } = this.#getCurrentLayer();
-		if (lock) {
-			this.#callback({ direction });
-			return;
-		}
-		if (!isAvailable(current, root)) current = null;
-
-		let next: Navigable | null = null;
-		if (direction === 'prev' || direction === 'next') {
-			next = searchByOrder(root, direction, current);
-		} else {
-			next = searchInwards(
-				current?.navParent ?? (current?.parentNode as Navigable) ?? root,
-				direction,
-				current ?? this.#ui.getRect(),
-			);
-			if (!next && current) {
-				next = searchOutwards(
-					root,
-					direction,
-					current.getBoundingClientRect(),
-					current,
-				);
-			}
-		}
-		if (!next) return;
-
-		this.#current = next;
-		this.#events.emit(new EventBase('nav', { target: this }));
-	}
-	//#region Other
-	#callback = (options: NavigateCallbackOptions, target = this.#current) => {
-		if (!target) return;
-		callTask<[NavigateCallbackOptions], Navigable>(
-			target.navCallback!,
-			target,
-			options,
-		);
-	};
-	#events = new Events<NavigateEventsInit>(['nav', 'active', 'cancel']);
-	#ui = new NavigateUI({
-		navigate: this,
-		events: this.#events,
-		getCurrentLayer: this.#getCurrentLayer,
-		clearCurrent: this.#clearCurrent,
-	});
-	constructor() {
-		initInput({
-			navigate: this,
-			events: this.#events,
-			ui: this.#ui,
-			getCurrentLayer: this.#getCurrentLayer,
-			clearCurrent: this.#clearCurrent,
-			callback: this.#callback,
-		});
-	}
-	//#region API
-	on<Type extends keyof NavigateEvents>(
-		type: Type,
-		handler: EventHandler<Type, NavigateEventsInit[Type], any>,
-	): void {
-		this.#events.on(type, handler);
-	}
-	once<Type extends keyof NavigateEvents>(
-		type: Type,
-		handler: EventHandler<Type, NavigateEventsInit[Type], any>,
-	): void {
-		this.#events.once(type, handler);
-	}
-	off<Type extends keyof NavigateEvents>(
-		type: Type,
-		handler: EventHandler<Type, NavigateEventsInit[Type], any>,
-	): void {
-		this.#events.on(type, handler);
-	}
-	blockKeyboard = false;
 	get current(): HTMLElement | null {
 		return this.#current;
 	}
@@ -175,6 +97,84 @@ class Navigate implements INavigate {
 		this.#events.emit(new EventBase('nav', { target: this }));
 		return true;
 	}
+	//#region Nav
+	nav(direction: NavDirection) {
+		let { root, current, lock } = this.#getCurrentLayer();
+		if (lock) {
+			this.#callback({ direction });
+			return;
+		}
+		if (!isAvailable(current, root)) current = null;
+
+		let next: Navigable | null = null;
+		if (direction === 'prev' || direction === 'next') {
+			next = searchByOrder(root, direction, current);
+		} else {
+			next = searchInwards(
+				current?.navParent ?? (current?.parentNode as Navigable) ?? root,
+				direction,
+				current ?? this.#ui.getRect(),
+			);
+			if (!next && current) {
+				next = searchOutwards(
+					root,
+					direction,
+					current.getBoundingClientRect(),
+					current,
+				);
+			}
+		}
+		if (!next) return;
+
+		this.#current = next;
+		this.#events.emit(new EventBase('nav', { target: this }));
+	}
+	//#region Events
+	#callback = (options: NavigateCallbackOptions, target = this.#current) => {
+		if (!target) return;
+		callTask<[NavigateCallbackOptions], Navigable>(
+			target.navCallback!,
+			target,
+			options,
+		);
+	};
+	#events = new Events<NavigateEventsInit>(['nav', 'active', 'cancel']);
+	on<Type extends keyof NavigateEvents>(
+		type: Type,
+		handler: EventHandler<Type, NavigateEventsInit[Type], any>,
+	): void {
+		this.#events.on(type, handler);
+	}
+	once<Type extends keyof NavigateEvents>(
+		type: Type,
+		handler: EventHandler<Type, NavigateEventsInit[Type], any>,
+	): void {
+		this.#events.once(type, handler);
+	}
+	off<Type extends keyof NavigateEvents>(
+		type: Type,
+		handler: EventHandler<Type, NavigateEventsInit[Type], any>,
+	): void {
+		this.#events.on(type, handler);
+	}
+	//#region Other
+	#ui = new NavigateUI({
+		navigate: this,
+		events: this.#events,
+		getCurrentLayer: this.#getCurrentLayer,
+		clearCurrent: this.#clearCurrent,
+	});
+	constructor() {
+		initInput({
+			navigate: this,
+			events: this.#events,
+			ui: this.#ui,
+			getCurrentLayer: this.#getCurrentLayer,
+			clearCurrent: this.#clearCurrent,
+			callback: this.#callback,
+		});
+	}
+	blockKeyboard = false;
 }
 
 export const navigate = new Navigate();

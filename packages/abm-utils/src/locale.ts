@@ -358,6 +358,7 @@ export class BaseLocalization<
 				if (value === null) return 'null';
 				try {
 					if ('toString' in value) return value.toString();
+					// biome-ignore lint/suspicious/noEmptyBlockStatements: Just avoid throw error
 				} catch {}
 				return String(value);
 		}

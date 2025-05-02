@@ -8,11 +8,13 @@
 	"files": {
 		"ignoreUnknown": false,
 		"ignore": [
+			".vscode",
 			"node_modules",
 			"dist",
-			"packages/abm-utils/src/expression.dev.ts",
 			"tsconfig.*",
-			".vscode"
+			"scripts/**/*.js",
+			"packages/icons/projects.json",
+			"packages/**/icons.json"
 		],
 		"include": ["*.ts", "*.json", "packages/icons/src/*.js", "scripts/**/*"]
 	},
