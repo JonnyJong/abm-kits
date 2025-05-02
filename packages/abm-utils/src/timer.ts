@@ -55,7 +55,11 @@ export class RepeatingTriggerController<
 		this.#timer = null;
 		this.#repeating = false;
 	}
-
+	/** 重启 */
+	restart() {
+		this.stop();
+		this.start();
+	}
 	/**
 	 * 是否正在运行
 	 * @readonly
