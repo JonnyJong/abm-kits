@@ -430,14 +430,14 @@ class KeyboardManager implements IEventSource<KeyboardEventsInit> {
 			for (const item of group) {
 				if (!areSetEqual(item, this.#activated)) continue;
 				this.#events.emit(
-					new EventKey('shortcutTrigger', {
+					new EventKey('shortcut', {
 						target: this,
 						key: id,
 					}),
 				);
 				if (!trigger) continue FIND_ID;
 				this.#events.emit(
-					new EventKey('shortcut', {
+					new EventKey('shortcutTrigger', {
 						target: this,
 						key: id,
 					}),
