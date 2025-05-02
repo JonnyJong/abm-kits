@@ -14,6 +14,7 @@ import { initIcon } from './components/widgets/icon';
 import { initInput } from './components/widgets/input';
 import { initLang } from './components/widgets/lang';
 import { initList } from './components/widgets/list';
+import { initListInfinite } from './components/widgets/list-infinite';
 import { initNav } from './components/widgets/nav';
 import { initProg } from './components/widgets/progress';
 import { initSelect } from './components/widgets/select';
@@ -84,4 +85,5 @@ document.addEventListener('DOMContentLoaded', () => {
 	initColor();
 	initHintKey();
 	initGridVirtual();
+	initListInfinite();
 });

@@ -1,0 +1,26 @@
+:host
+	display block
+	overflow hidden scroll
+	scrollbar-width none
+
+.container
+	position relative
+	width 100%
+	&>*
+		display block
+
+.boundary-container
+	display flex
+	justify-content center
+	padding 8px 0
+	--w-progress-ring-size 24px
+
+.boundary-content
+	display none
+	width 100%
+
+.reached
+	&>w-progress-ring
+		display none
+	&>.boundary-content
+		display block

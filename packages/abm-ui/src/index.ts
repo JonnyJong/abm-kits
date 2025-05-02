@@ -18,6 +18,7 @@ import { WidgetText } from './components/widgets/input/text';
 import { WidgetTextField } from './components/widgets/input/text-field';
 import { WidgetLang } from './components/widgets/lang';
 import { WidgetList } from './components/widgets/list';
+import { WidgetListInfinite } from './components/widgets/list-infinite';
 import { WidgetNav } from './components/widgets/nav';
 import {
 	WidgetProgressBar,
@@ -82,6 +83,7 @@ export * from './components/widgets/hint/touch';
 export * from './components/widgets/hint/pen';
 export * from './components/widgets/hint/index';
 export * from './components/widgets/grid-virtual';
+export * from './components/widgets/list-infinite';
 
 // Utils
 export interface WidgetsTagNameMap {
@@ -111,6 +113,7 @@ export interface WidgetsTagNameMap {
 	'w-hint-pen': WidgetHintPen;
 	'w-hint': WidgetHint;
 	'w-grid-virtual': WidgetGridVirtual;
+	'w-list-infinite': WidgetListInfinite;
 }
 declare module 'abm-utils' {
 	export function $new<K extends keyof WidgetsTagNameMap>(
