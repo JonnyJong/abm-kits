@@ -232,28 +232,26 @@ export function searchByOrder(
 ): Navigable | null {
 	const children = [...(root.navChildren ?? root.children)].filter(
 		NavItemFilter(),
-	);
+	) as Navigable[];
 	if (children.length === 0) return null;
 
-	if (direction === 'next') children.reverse();
-	while (from && children.length !== 0) {
-		const last = children.pop() as Navigable;
-		if (!isContains(last, from)) continue;
-		if (last === from) break;
-		children.push(last);
-		break;
-	}
-	if (children.length === 0) return null;
-	children.reverse();
-
-	for (const target of children) {
-		if (target.hasAttribute('ui-nav')) return target as Navigable;
-		const result = searchByOrder(
-			target as Navigable,
-			direction,
-			from && isContains(target as Navigable, from) ? from : null,
-		);
+	const increment = direction === 'next' ? 1 : -1;
+	let i = direction === 'next' ? 0 : children.length - 1;
+	let blocked = !!from;
+	for (; i < children.length && i >= 0; i += increment) {
+		const target = children[i];
+		const contains = from && isContains(target, from);
+		// Filter
+		if (blocked) {
+			if (!contains) continue;
+			blocked = false;
+			if (target === from) continue;
+		}
+		// Search
+		if (target.hasAttribute('ui-nav')) return target;
+		const result = searchByOrder(target, direction, contains ? from : null);
 		if (result) return result;
 	}
+
 	return null;
 }
