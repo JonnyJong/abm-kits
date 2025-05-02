@@ -58,7 +58,7 @@ export class NavigateUI {
 				left,
 				width,
 				height,
-				'--borderRadius': getComputedStyle(current).borderRadius,
+				$borderRadius: getComputedStyle(current).borderRadius,
 			},
 		});
 		this.#indicator.classList.add(CLASS_VISIBLE);

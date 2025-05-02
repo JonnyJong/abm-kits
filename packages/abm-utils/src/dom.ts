@@ -2,7 +2,7 @@ import { ArrayOr, asArray, range } from './collection';
 import { Color } from './color';
 
 //#region #Define
-class Widget extends HTMLElement {
+declare class Widget extends HTMLElement {
 	_prop?: Record<string, any>;
 }
 
@@ -10,7 +10,7 @@ export type CSSProperty = {
 	[Key in keyof CSSStyleDeclaration]?: any;
 };
 export type CSSVariable = {
-	[key: `--${string}`]: any;
+	[key: `--${string}` | `$${string}`]: any;
 };
 export type DOMContents = ArrayOr<HTMLElement | string>;
 export type DOMEventMap<E extends HTMLElement = HTMLElement> = {
@@ -57,6 +57,9 @@ export interface DOMApplyOptions<E extends Widget = Widget> {
 	color?: Color | null;
 }
 
+const PATTERN_CSS_VAR = /^\$/;
+const PATTERN_CSS_UPPER = /[A-Z]/g;
+
 //#region #Apply
 function applyBasic<E extends HTMLElement = HTMLElement>(
 	target: E,
@@ -94,7 +97,9 @@ function applyStyle<E extends HTMLElement = HTMLElement>(
 ) {
 	if (options.style !== undefined) {
 		for (let [key, value] of Object.entries(options.style)) {
-			key = key.replaceAll(/[A-Z]/g, (ch) => `-${ch.toLowerCase()}`);
+			key = key
+				.replace(PATTERN_CSS_VAR, '--')
+				.replace(PATTERN_CSS_UPPER, (ch) => `-${ch.toLowerCase()}`);
 			if (typeof value === 'number') {
 				target.style.setProperty(key, `${value}px`);
 				continue;
