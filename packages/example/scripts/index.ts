@@ -8,6 +8,7 @@ import { initBtn } from './components/widgets/btn';
 import { initCheckbox } from './components/widgets/checkbox';
 import { initColor } from './components/widgets/color';
 import { initColorPicker } from './components/widgets/color-picker';
+import { initGridVirtual } from './components/widgets/grid-virtual';
 import { initHintKey } from './components/widgets/hint-key';
 import { initIcon } from './components/widgets/icon';
 import { initInput } from './components/widgets/input';
@@ -82,4 +83,5 @@ document.addEventListener('DOMContentLoaded', () => {
 	initColorPicker();
 	initColor();
 	initHintKey();
+	initGridVirtual();
 });

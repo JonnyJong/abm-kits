@@ -4,6 +4,7 @@ import { WidgetCheckbox } from './components/widgets/checkbox';
 import { WidgetColor } from './components/widgets/color';
 import { WidgetColorPicker } from './components/widgets/color-picker';
 import { WidgetGamepad } from './components/widgets/gamepad';
+import { WidgetGridVirtual } from './components/widgets/grid-virtual';
 import { WidgetHintGamepad } from './components/widgets/hint/gamepad';
 import { WidgetHint } from './components/widgets/hint/index';
 import { WidgetHintKey } from './components/widgets/hint/key';
@@ -80,6 +81,7 @@ export * from './components/widgets/hint/gamepad';
 export * from './components/widgets/hint/touch';
 export * from './components/widgets/hint/pen';
 export * from './components/widgets/hint/index';
+export * from './components/widgets/grid-virtual';
 
 // Utils
 export interface WidgetsTagNameMap {
@@ -108,6 +110,7 @@ export interface WidgetsTagNameMap {
 	'w-hint-touch': WidgetHintTouch;
 	'w-hint-pen': WidgetHintPen;
 	'w-hint': WidgetHint;
+	'w-grid-virtual': WidgetGridVirtual;
 }
 declare module 'abm-utils' {
 	export function $new<K extends keyof WidgetsTagNameMap>(
