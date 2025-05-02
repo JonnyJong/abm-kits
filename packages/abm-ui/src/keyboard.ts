@@ -581,7 +581,7 @@ class KeyboardManager implements IEventSource<KeyboardEventsInit> {
 		const trigger = this.#activated.has(event.code as KeysAllow);
 		this.#activated.add(event.code as KeysAllow);
 		// Trigger & AliasTrigger & ShortcutTrigger
-		this.#triggerController.start();
+		this.#triggerController.restart();
 		// Down Check
 		if (trigger) return;
 		// Down
