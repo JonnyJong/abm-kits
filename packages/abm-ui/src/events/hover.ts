@@ -26,6 +26,7 @@ export type UIEventHoverHandler = IUIEventHandler<
 export class UIEventHoverManager implements IUIEventBaseManage<'hover'> {
 	constructor() {
 		navigate.on('nav', this.#navHandler);
+		navigate.on('layer', this.#navHandler);
 	}
 	#subscriptions: WeakMap<HTMLElement, Set<UIEventHoverHandler>> = new WeakMap();
 	#activated: Set<HTMLElement> = new Set();
