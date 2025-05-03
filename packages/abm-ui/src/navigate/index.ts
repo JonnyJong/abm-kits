@@ -85,7 +85,7 @@ class Navigate implements INavigate {
 			this.#stack.push(layer);
 			if (currentAvailable) layer[1] = new WeakRef(current);
 		}
-		this.#events.emit(new EventBase('nav', { target: this }));
+		this.#events.emit(new EventBase('layer', { target: this }));
 	}
 	rmLayer(root: Navigable): boolean {
 		if (!(root instanceof HTMLElement || (root as any) instanceof ShadowRoot))
@@ -94,7 +94,7 @@ class Navigate implements INavigate {
 		if (index === -1) return false;
 		this.#stack.splice(index, 1);
 		if (this.#current) this.#ui.focus(this.#current);
-		this.#events.emit(new EventBase('nav', { target: this }));
+		this.#events.emit(new EventBase('layer', { target: this }));
 		return true;
 	}
 	//#region Nav
@@ -138,7 +138,7 @@ class Navigate implements INavigate {
 			options,
 		);
 	};
-	#events = new Events<NavigateEventsInit>(['nav', 'active', 'cancel']);
+	#events = new Events<NavigateEventsInit>(['nav', 'active', 'cancel', 'layer']);
 	on<Type extends keyof NavigateEvents>(
 		type: Type,
 		handler: EventHandler<Type, NavigateEventsInit[Type], any>,

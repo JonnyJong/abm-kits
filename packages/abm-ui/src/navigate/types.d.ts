@@ -52,6 +52,7 @@ interface NavigateEventsInit {
 	nav: EventBaseInit<INavigate>;
 	active: EventValueInit<INavigate, boolean>;
 	cancel: EventValueInit<INavigate, boolean>;
+	layer: EventBaseInit<INavigate>;
 }
 
 export type NavigateEvents = EventsList<NavigateEventsInit>;
