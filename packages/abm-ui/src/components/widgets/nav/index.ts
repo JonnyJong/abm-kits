@@ -21,9 +21,8 @@ interface WidgetNavEventsInit<ID extends string = string> {
 	change: EventValueInit<WidgetNav<ID>, ID>;
 }
 
-export type WidgetNavEvents<ID extends string = string> = EventsList<
-	WidgetNavEventsInit<ID>
->;
+export interface WidgetNavEvents<ID extends string = string>
+	extends EventsList<WidgetNavEventsInit<ID>> {}
 
 export type WidgetNavItemType = 'flex' | 'item';
 
@@ -162,7 +161,7 @@ class NavItem<ID extends string = string> {
 /** 导航 */
 @customElement('w-nav')
 export class WidgetNav<ID extends string = string>
-	extends Widget<WidgetNavProp<ID>, WidgetNavEventsInit<ID>>
+	extends Widget<WidgetNavEventsInit<ID>>
 	implements Navigable
 {
 	static styles = css(CSS);

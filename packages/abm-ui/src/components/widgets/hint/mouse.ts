@@ -33,7 +33,7 @@ const KEYS: WidgetHintMouseKey[] = [
 ];
 
 @customElement('w-hint-mouse')
-export class WidgetHintMouse extends Widget<WidgetHintMouseProp> {
+export class WidgetHintMouse extends Widget {
 	static styles = css(CSS);
 	#initialized = false;
 	protected render() {

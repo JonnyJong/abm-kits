@@ -1,33 +1,105 @@
 import { DOMApplyOptions } from 'abm-utils';
-import { WidgetBtn } from './components/widgets/btn';
-import { WidgetCheckbox } from './components/widgets/checkbox';
-import { WidgetColor } from './components/widgets/color';
-import { WidgetColorPicker } from './components/widgets/color-picker';
-import { WidgetGamepad } from './components/widgets/gamepad';
-import { WidgetGridVirtual } from './components/widgets/grid-virtual';
-import { WidgetHintGamepad } from './components/widgets/hint/gamepad';
-import { WidgetHint } from './components/widgets/hint/index';
-import { WidgetHintKey } from './components/widgets/hint/key';
-import { WidgetHintMouse } from './components/widgets/hint/mouse';
-import { WidgetHintPen } from './components/widgets/hint/pen';
-import { WidgetHintTouch } from './components/widgets/hint/touch';
-import { WidgetIcon } from './components/widgets/icon';
-import { WidgetNumber } from './components/widgets/input/number';
-import { WidgetPassword } from './components/widgets/input/password';
-import { WidgetText } from './components/widgets/input/text';
+import {
+	WidgetBtn,
+	WidgetBtnEvents,
+	WidgetBtnProp,
+} from './components/widgets/btn';
+import {
+	WidgetCheckbox,
+	WidgetCheckboxEvents,
+	WidgetCheckboxProp,
+} from './components/widgets/checkbox';
+import {
+	WidgetColor,
+	WidgetColorEvents,
+	WidgetColorProp,
+} from './components/widgets/color';
+import {
+	WidgetColorPicker,
+	WidgetColorPickerEvents,
+	WidgetColorPickerProp,
+} from './components/widgets/color-picker';
+import { WidgetGamepad, WidgetGamepadProp } from './components/widgets/gamepad';
+import {
+	WidgetGridVirtual,
+	WidgetGridVirtualProp,
+} from './components/widgets/grid-virtual';
+import {
+	WidgetHintGamepad,
+	WidgetHintGamepadProp,
+} from './components/widgets/hint/gamepad';
+import { WidgetHint, WidgetHintProp } from './components/widgets/hint/index';
+import {
+	WidgetHintKey,
+	WidgetHintKeyProp,
+} from './components/widgets/hint/key';
+import {
+	WidgetHintMouse,
+	WidgetHintMouseProp,
+} from './components/widgets/hint/mouse';
+import {
+	WidgetHintPen,
+	WidgetHintPenProp,
+} from './components/widgets/hint/pen';
+import {
+	WidgetHintTouch,
+	WidgetHintTouchProp,
+} from './components/widgets/hint/touch';
+import { WidgetIcon, WidgetIconProp } from './components/widgets/icon';
+import {
+	WidgetInputEvents,
+	WidgetInputProp,
+} from './components/widgets/input/base';
+import {
+	WidgetNumber,
+	WidgetNumberProp,
+} from './components/widgets/input/number';
+import {
+	WidgetPassword,
+	WidgetPasswordProp,
+} from './components/widgets/input/password';
+import { WidgetText, WidgetTextProp } from './components/widgets/input/text';
 import { WidgetTextField } from './components/widgets/input/text-field';
-import { WidgetLang } from './components/widgets/lang';
-import { WidgetList } from './components/widgets/list';
-import { WidgetListInfinite } from './components/widgets/list-infinite';
-import { WidgetNav } from './components/widgets/nav';
+import { WidgetLang, WidgetLangProp } from './components/widgets/lang';
+import {
+	WidgetList,
+	WidgetListEvents,
+	WidgetListProp,
+} from './components/widgets/list';
+import {
+	WidgetListInfinite,
+	WidgetListInfiniteProp,
+} from './components/widgets/list-infinite';
+import {
+	WidgetNav,
+	WidgetNavEvents,
+	WidgetNavProp,
+} from './components/widgets/nav';
 import {
 	WidgetProgressBar,
+	WidgetProgressProp,
 	WidgetProgressRing,
 } from './components/widgets/progress';
-import { WidgetSelect } from './components/widgets/select';
-import { WidgetSlider } from './components/widgets/slider';
-import { WidgetSlider2D } from './components/widgets/slider-2d';
-import { WidgetSwitch } from './components/widgets/switch';
+import {
+	WidgetSelect,
+	WidgetSelectEvents,
+	WidgetSelectProp,
+} from './components/widgets/select';
+import {
+	WidgetSlider,
+	WidgetSliderEvents,
+	WidgetSliderProp,
+} from './components/widgets/slider';
+import {
+	WidgetSlider2D,
+	WidgetSlider2DEvents,
+	WidgetSlider2DProp,
+} from './components/widgets/slider-2d';
+import {
+	WidgetSwitch,
+	WidgetSwitchEvents,
+	WidgetSwitchProp,
+} from './components/widgets/switch';
 
 // Global
 export * from './defaults';
@@ -115,13 +187,70 @@ export interface WidgetsTagNameMap {
 	'w-grid-virtual': WidgetGridVirtual;
 	'w-list-infinite': WidgetListInfinite;
 }
+export interface WidgetsPropMap {
+	'w-lang': WidgetLangProp;
+	'w-icon': WidgetIconProp;
+	'w-progress-bar': WidgetProgressProp;
+	'w-progress-ring': WidgetProgressProp;
+	'w-btn': WidgetBtnProp;
+	'w-list': WidgetListProp;
+	'w-text': WidgetInputProp<string> & WidgetTextProp;
+	'w-password': WidgetInputProp<string> & WidgetPasswordProp;
+	'w-text-field': WidgetInputProp<string>;
+	'w-number': WidgetInputProp<number> & WidgetNumberProp;
+	'w-select': WidgetSelectProp;
+	'w-nav': WidgetNavProp;
+	'w-slider': WidgetSliderProp;
+	'w-slider-2d': WidgetSlider2DProp;
+	'w-switch': WidgetSwitchProp;
+	'w-checkbox': WidgetCheckboxProp;
+	'w-color-picker': WidgetColorPickerProp;
+	'w-color': WidgetColorProp;
+	'w-gamepad': WidgetGamepadProp;
+	'w-hint-key': WidgetHintKeyProp;
+	'w-hint-mouse': WidgetHintMouseProp;
+	'w-hint-gamepad': WidgetHintGamepadProp;
+	'w-hint-touch': WidgetHintTouchProp;
+	'w-hint-pen': WidgetHintPenProp;
+	'w-hint': WidgetHintProp;
+	'w-grid-virtual': WidgetGridVirtualProp;
+	'w-list-infinite': WidgetListInfiniteProp;
+}
+export interface WidgetsEventsMap {
+	'w-btn': WidgetBtnEvents;
+	'w-list': WidgetListEvents;
+	'w-text': WidgetInputEvents<string, WidgetText>;
+	'w-password': WidgetInputEvents<string, WidgetPassword>;
+	'w-text-field': WidgetInputEvents<string, WidgetTextField>;
+	'w-number': WidgetInputEvents<number, WidgetNumber>;
+	'w-select': WidgetSelectEvents;
+	'w-nav': WidgetNavEvents;
+	'w-slider': WidgetSliderEvents;
+	'w-slider-2d': WidgetSlider2DEvents;
+	'w-switch': WidgetSwitchEvents;
+	'w-checkbox': WidgetCheckboxEvents;
+	'w-color-picker': WidgetColorPickerEvents;
+	'w-color': WidgetColorEvents;
+}
 declare module 'abm-utils' {
+	export function $apply<K extends keyof WidgetsTagNameMap>(
+		target: WidgetsTagNameMap[K],
+		options: DOMApplyOptions<
+			WidgetsTagNameMap[K],
+			K extends keyof WidgetsPropMap ? WidgetsPropMap[K] : {},
+			K extends keyof WidgetsEventsMap ? WidgetsEventsMap[K] : {}
+		>,
+	): void;
 	export function $new<K extends keyof WidgetsTagNameMap>(
 		tag: K,
 	): WidgetsTagNameMap[K];
 	export function $new<K extends keyof WidgetsTagNameMap>(
 		tag: K,
-		options: DOMApplyOptions<WidgetsTagNameMap[K]>,
+		options: DOMApplyOptions<
+			WidgetsTagNameMap[K],
+			K extends keyof WidgetsPropMap ? WidgetsPropMap[K] : {},
+			K extends keyof WidgetsEventsMap ? WidgetsEventsMap[K] : {}
+		>,
 	): WidgetsTagNameMap[K];
 	export function $new<K extends keyof WidgetsTagNameMap>(
 		tag: K,
@@ -129,7 +258,11 @@ declare module 'abm-utils' {
 	): WidgetsTagNameMap[K];
 	export function $new<K extends keyof WidgetsTagNameMap>(
 		tag: K,
-		options: DOMApplyOptions<WidgetsTagNameMap[K]>,
+		options: DOMApplyOptions<
+			WidgetsTagNameMap[K],
+			K extends keyof WidgetsPropMap ? WidgetsPropMap[K] : {},
+			K extends keyof WidgetsEventsMap ? WidgetsEventsMap[K] : {}
+		>,
 		...content: (string | HTMLElement)[]
 	): WidgetsTagNameMap[K];
 }

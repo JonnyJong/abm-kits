@@ -56,7 +56,7 @@ const ABXY = ['A', 'B', 'X', 'Y'];
 const ARROW = ['Up', 'Right', 'Down', 'Left'];
 
 @customElement('w-hint-gamepad')
-export class WidgetHintGamepad extends Widget<WidgetHintGamepadProp> {
+export class WidgetHintGamepad extends Widget {
 	static styles = css(CSS);
 	#initialized = false;
 	#root = this.createRenderRoot();

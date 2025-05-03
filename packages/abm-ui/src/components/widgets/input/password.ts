@@ -11,7 +11,7 @@ export interface WidgetPasswordProp {
 @customElement('w-password')
 export class WidgetPassword<
 	Params extends LocaleParams = LocaleParams,
-> extends WidgetText<Params, WidgetPasswordProp> {
+> extends WidgetText<Params> {
 	constructor() {
 		super();
 		this.input.type = 'password';

@@ -33,7 +33,7 @@ const KEYS: WidgetHintPenKey[] = [
 ];
 
 @customElement('w-hint-pen')
-export class WidgetHintPen extends Widget<WidgetHintPenProp> {
+export class WidgetHintPen extends Widget {
 	static styles = css(CSS);
 	#initialized = false;
 	protected render() {

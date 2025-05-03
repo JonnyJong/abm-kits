@@ -55,8 +55,8 @@ interface WidgetBtnEventsInit<Params extends LocaleParams = LocaleParams> {
 	active: EventBaseInit<WidgetBtn<Params>>;
 }
 
-export type WidgetBtnEvents<Params extends LocaleParams = LocaleParams> =
-	EventsList<WidgetBtnEventsInit<Params>>;
+export interface WidgetBtnEvents<Params extends LocaleParams = LocaleParams>
+	extends EventsList<WidgetBtnEventsInit<Params>> {}
 
 const STATES: WidgetBtnState[] = ['', 'primary', 'danger', 'toggle'];
 
@@ -64,7 +64,7 @@ const STATES: WidgetBtnState[] = ['', 'primary', 'danger', 'toggle'];
 @customElement('w-btn')
 export class WidgetBtn<
 	Params extends LocaleParams = LocaleParams,
-> extends Widget<WidgetBtnProp, WidgetBtnEventsInit<Params>> {
+> extends Widget<WidgetBtnEventsInit<Params>> {
 	//#region Styles
 	static styles = css(CSS);
 	//#region Main

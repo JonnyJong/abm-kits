@@ -12,7 +12,8 @@ interface WidgetSwitchEventsInit {
 	change: EventValueInit<WidgetSwitch, boolean>;
 }
 
-export type WidgetSwitchEvents = EventsList<WidgetSwitchEventsInit>;
+export interface WidgetSwitchEvents
+	extends EventsList<WidgetSwitchEventsInit> {}
 
 export interface WidgetSwitchProp {
 	/** 选中 */
@@ -27,7 +28,7 @@ const SWITCH_DISTANCE = SWITCH_SIZE / 2;
 
 @customElement('w-switch')
 export class WidgetSwitch
-	extends Widget<WidgetSwitchProp, WidgetSwitchEventsInit>
+	extends Widget<WidgetSwitchEventsInit>
 	implements Navigable
 {
 	static styles = css(CSS);

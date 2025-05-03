@@ -28,7 +28,8 @@ interface WidgetColorPickerEventsInit {
 	change: EventValueInit<WidgetColorPicker, Color>;
 }
 
-export type WidgetColorPickerEvents = EventsList<WidgetColorPickerEventsInit>;
+export interface WidgetColorPickerEvents
+	extends EventsList<WidgetColorPickerEventsInit> {}
 
 export interface WidgetColorPickerProp {
 	/** 颜色 */
@@ -58,7 +59,7 @@ const SLIDER_TRACK = '--w-slider-track';
 
 @customElement('w-color-picker')
 export class WidgetColorPicker
-	extends Widget<WidgetColorPickerProp, WidgetColorPickerEventsInit>
+	extends Widget<WidgetColorPickerEventsInit>
 	implements Navigable
 {
 	static styles = css(CSS);

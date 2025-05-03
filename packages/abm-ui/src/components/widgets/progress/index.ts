@@ -20,9 +20,7 @@ export interface WidgetProgressProp {
 }
 
 /** 进度条 */
-export abstract class WidgetProgress<
-	Prop extends Record<string, unknown> = {},
-> extends Widget<WidgetProgressProp & Prop> {
+export abstract class WidgetProgress extends Widget {
 	protected _value = NaN;
 	/**
 	 * 进度值
@@ -92,10 +90,7 @@ const RING_OFFSET_SLOPE = -3.2;
 
 /** 圆形进度条 */
 @customElement('w-progress-ring')
-export class WidgetProgressRing extends WidgetProgress<{
-	/** 粗细 */
-	thickness?: number;
-}> {
+export class WidgetProgressRing extends WidgetProgress {
 	static styles = css(CSS_RING);
 	#thickness = 5;
 	/** 粗细 */

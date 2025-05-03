@@ -21,7 +21,7 @@ interface WidgetColorEventsInit {
 	change: EventValueInit<WidgetColor, Color>;
 }
 
-export type WidgetColorEvents = EventsList<WidgetColorEventsInit>;
+export interface WidgetColorEvents extends EventsList<WidgetColorEventsInit> {}
 
 export interface WidgetColorProp {
 	/** 颜色 */
@@ -34,7 +34,7 @@ export interface WidgetColorProp {
 
 @customElement('w-color')
 export class WidgetColor
-	extends Widget<WidgetColorProp, WidgetColorEventsInit>
+	extends Widget<WidgetColorEventsInit>
 	implements Navigable
 {
 	static styles = css(CSS);

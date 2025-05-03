@@ -30,7 +30,8 @@ interface WidgetSlider2DEventsInit {
 	change: EventValueInit<WidgetSlider2D, Vec2>;
 }
 
-export type WidgetSlider2DEvents = EventsList<WidgetSlider2DEventsInit>;
+export interface WidgetSlider2DEvents
+	extends EventsList<WidgetSlider2DEventsInit> {}
 
 export interface WidgetSlider2DProp {
 	x?: number;
@@ -47,7 +48,7 @@ export interface WidgetSlider2DProp {
 
 @customElement('w-slider-2d')
 export class WidgetSlider2D
-	extends Widget<WidgetSlider2DProp, WidgetSlider2DEventsInit>
+	extends Widget<WidgetSlider2DEventsInit>
 	implements Navigable, Slidable
 {
 	static styles = css(CSS);

@@ -69,7 +69,7 @@ const KEY_MAP: Record<string, string> = {
 };
 
 @customElement('w-hint-key')
-export class WidgetHintKey extends Widget<WidgetHintKeyProp> {
+export class WidgetHintKey extends Widget {
 	static styles = css(CSS);
 	#initialized = false;
 	#root = this.createRenderRoot();

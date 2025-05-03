@@ -18,11 +18,8 @@ export interface WidgetTextProp {
 
 /** 单行文本输入框 */
 @customElement('w-text')
-export class WidgetText<
-		Params extends LocaleParams = LocaleParams,
-		Prop extends Record<string, any> = {},
-	>
-	extends WidgetInput<string, Params, HTMLInputElement, Prop & WidgetTextProp>
+export class WidgetText<Params extends LocaleParams = LocaleParams>
+	extends WidgetInput<string, Params, HTMLInputElement>
 	implements Navigable
 {
 	static properties = { value: { type: String } };

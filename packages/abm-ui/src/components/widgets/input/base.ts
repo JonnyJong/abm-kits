@@ -63,22 +63,18 @@ export interface WidgetInputEventsInit<
 	action: EventValueInit<Target, string>;
 }
 
-export type WidgetInputEvents<
+export interface WidgetInputEvents<
 	Value extends WidgetInputValue = WidgetInputValue,
 	Target extends WidgetInput<Value> = WidgetInput<Value>,
-> = EventsList<WidgetInputEventsInit<Value, Target>>;
+> extends EventsList<WidgetInputEventsInit<Value, Target>> {}
 
 /** 输入框基类 */
 export abstract class WidgetInput<
 		Value extends WidgetInputValue = WidgetInputValue,
 		Params extends LocaleParams = LocaleParams,
 		Input extends InputElement = InputElement,
-		Prop extends Record<string, any> = {},
 	>
-	extends Widget<
-		WidgetInputProp<Value, Params> & Prop,
-		WidgetInputEventsInit<Value>
-	>
+	extends Widget<WidgetInputEventsInit<Value>>
 	implements Navigable
 {
 	static styles = css(CSS);
@@ -181,7 +177,7 @@ export abstract class WidgetInput<
 	};
 	//#region Others
 	cloneNode(deep?: boolean): Node {
-		const node = super.cloneNode(deep) as WidgetInput<Value, Params, Input, Prop>;
+		const node = super.cloneNode(deep) as WidgetInput<Value, Params, Input>;
 
 		node.placeholderParams = this.placeholderParams;
 		node.placeholderNamespace = this.placeholderNamespace;

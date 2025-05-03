@@ -20,7 +20,7 @@ styles.insertRule(`
 
 /** 图标组件 */
 @customElement('w-icon')
-export class WidgetIcon extends Widget<WidgetIconProp> {
+export class WidgetIcon extends Widget {
 	#initialized = false;
 	#namespace = configs.icon.defaultNamespace;
 	#key = '';

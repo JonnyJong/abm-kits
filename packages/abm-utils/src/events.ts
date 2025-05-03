@@ -126,7 +126,6 @@ export interface IEventSource<List extends EventsInitList<List>> {
 	 * @param type - 要监听的事件类型
 	 * @param handler - 事件处理函数
 	 */
-
 	once<Type extends Keys<List>>(
 		type: Type,
 		handler: EventHandler<Type, List[Type]>,

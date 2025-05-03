@@ -256,10 +256,9 @@ const VERTICAL_ALIGN: Record<
 /** 虚拟网格子元素类基类 */
 export abstract class WidgetGridVirtualItem<
 		Data = unknown,
-		Prop extends Record<string, any> = {},
 		EventList extends EventsInitList<EventList> = {},
 	>
-	extends Widget<Prop, EventList>
+	extends Widget<EventList>
 	implements Navigable
 {
 	/** 数据 */
@@ -311,7 +310,7 @@ export class WidgetGridVirtual<
 		Data = unknown,
 		Item extends WidgetGridVirtualItem<Data> = WidgetGridVirtualItem<Data>,
 	>
-	extends Widget<WidgetGridVirtualProp>
+	extends Widget
 	implements Navigable
 {
 	static styles = css(CSS);

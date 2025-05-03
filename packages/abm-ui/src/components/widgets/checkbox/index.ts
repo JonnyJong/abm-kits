@@ -4,7 +4,6 @@ import { customElement, property } from 'lit/decorators.js';
 import { events, UIEventActive } from '../../../events';
 import { Navigable } from '../../../navigate';
 import { Widget } from '../base';
-import { WidgetSelectProp } from '../select';
 import CSS from './index.styl';
 
 interface WidgetCheckboxEventsInit {
@@ -12,7 +11,8 @@ interface WidgetCheckboxEventsInit {
 	change: EventValueInit<WidgetCheckbox, boolean>;
 }
 
-export type WidgetCheckboxEvents = EventsList<WidgetCheckboxEventsInit>;
+export interface WidgetCheckboxEvents
+	extends EventsList<WidgetCheckboxEventsInit> {}
 
 export interface WidgetCheckboxProp {
 	/** 选中 */
@@ -24,7 +24,7 @@ export interface WidgetCheckboxProp {
 /** 单选 */
 @customElement('w-checkbox')
 export class WidgetCheckbox
-	extends Widget<WidgetSelectProp, WidgetCheckboxEventsInit>
+	extends Widget<WidgetCheckboxEventsInit>
 	implements Navigable
 {
 	static styles = css(CSS);

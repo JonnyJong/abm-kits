@@ -41,7 +41,7 @@ export interface WidgetNumberProp {
 /** 数字输入框 */
 @customElement('w-number')
 export class WidgetNumber<Params extends LocaleParams = LocaleParams>
-	extends WidgetInput<number, Params, HTMLInputElement, WidgetNumberProp>
+	extends WidgetInput<number, Params, HTMLInputElement>
 	implements Navigable
 {
 	static properties = { value: { type: Number } };

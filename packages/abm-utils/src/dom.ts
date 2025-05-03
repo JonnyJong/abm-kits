@@ -2,10 +2,6 @@ import { ArrayOr, asArray, range } from './collection';
 import { Color } from './color';
 
 //#region #Define
-declare class Widget extends HTMLElement {
-	_prop?: Record<string, any>;
-}
-
 export type CSSProperty = {
 	[Key in keyof CSSStyleDeclaration]?: any;
 };
@@ -20,7 +16,11 @@ export type DOMEventMap<E extends HTMLElement = HTMLElement> = {
 	) => any;
 };
 
-export interface DOMApplyOptions<E extends Widget = Widget> {
+export interface DOMApplyOptions<
+	E extends HTMLElement = HTMLElement,
+	Prop extends Record<string, any> = {},
+	Events extends Record<string, any> = {},
+> {
 	/** 类名 */
 	class?: ArrayOr<string>;
 	/** ID */
@@ -43,18 +43,20 @@ export interface DOMApplyOptions<E extends Widget = Widget> {
 	 * 若 html 存在，则忽略 content
 	 */
 	html?: string;
-	/**
-	 * 事件
-	 */
+	/** 事件 */
 	event?: DOMEventMap<E>;
-	/**
-	 * 元素属性
-	 */
-	prop?: E['_prop'];
-	/**
-	 * 颜色
-	 */
+	/** 颜色 */
 	color?: Color | null;
+	/** 元素属性 */
+	prop?: Prop;
+	/** 事件 */
+	on?: {
+		[T in keyof Events]?: (event: Events[T]) => void;
+	};
+	/** 一次性事件 */
+	once?: {
+		[T in keyof Events]?: (event: Events[T]) => void;
+	};
 }
 
 const PATTERN_CSS_VAR = /^\$/;
@@ -122,16 +124,16 @@ function applyContent<E extends HTMLElement = HTMLElement>(
 		target.replaceChildren(...asArray(options.content));
 	}
 }
-function applyProp<E extends Widget = Widget>(
-	target: E,
-	options: DOMApplyOptions<E>,
-) {
+function applyProp<
+	E extends HTMLElement = HTMLElement,
+	Prop extends Record<string, any> = {},
+>(target: E, options: DOMApplyOptions<E, Prop>) {
 	if (!options.prop) return;
 	for (const [key, value] of Object.entries(options.prop)) {
 		(target as any)[key] = value;
 	}
 }
-function applyEvent<E extends Widget = Widget>(
+function applyEvent<E extends HTMLElement = HTMLElement>(
 	target: E,
 	options: DOMApplyOptions<E>,
 ) {
@@ -141,6 +143,16 @@ function applyEvent<E extends Widget = Widget>(
 				key as keyof HTMLElementEventMap,
 				value as EventListenerOrEventListenerObject,
 			);
+		}
+	}
+	if (options.on && typeof (target as any).on === 'function') {
+		for (const [type, handler] of Object.entries(options.on)) {
+			(target as any).on(type, handler);
+		}
+	}
+	if (options.once && typeof (target as any).once === 'function') {
+		for (const [type, handler] of Object.entries(options.once)) {
+			(target as any).once(type, handler);
 		}
 	}
 }
@@ -169,10 +181,10 @@ export function $applyColor(target: HTMLElement, color?: Color) {
  * @param target - 目标 DOM 元素
  * @param options - 配置
  */
-export function $apply<E extends HTMLElement = HTMLElement>(
-	target: E,
-	options: DOMApplyOptions<E>,
-) {
+export function $apply<
+	E extends HTMLElement = HTMLElement,
+	Prop extends Record<string, any> = {},
+>(target: E, options: DOMApplyOptions<E, Prop>) {
 	applyBasic(target, options);
 	applyStyle(target, options);
 	applyContent(target, options);
@@ -216,36 +228,53 @@ export function $$<E extends HTMLElement = HTMLElement>(
 export function $new<K extends keyof HTMLElementTagNameMap>(
 	tag: K,
 ): HTMLElementTagNameMap[K];
-export function $new<K extends keyof HTMLElementTagNameMap>(
+export function $new<
+	K extends keyof HTMLElementTagNameMap,
+	Prop extends Record<string, any> = {},
+	Events extends Record<string, any> = {},
+>(
 	tag: K,
-	options: DOMApplyOptions<HTMLElementTagNameMap[K]>,
+	options: DOMApplyOptions<HTMLElementTagNameMap[K], Prop, Events>,
 ): HTMLElementTagNameMap[K];
 export function $new<K extends keyof HTMLElementTagNameMap>(
 	tag: K,
 	...content: (string | HTMLElement)[]
 ): HTMLElementTagNameMap[K];
-export function $new<K extends keyof HTMLElementTagNameMap>(
+export function $new<
+	K extends keyof HTMLElementTagNameMap,
+	Prop extends Record<string, any> = {},
+	Events extends Record<string, any> = {},
+>(
 	tag: K,
-	options: DOMApplyOptions<HTMLElementTagNameMap[K]>,
+	options: DOMApplyOptions<HTMLElementTagNameMap[K], Prop, Events>,
 	...content: (string | HTMLElement)[]
 ): HTMLElementTagNameMap[K];
 export function $new<E extends HTMLElement = HTMLElement>(tag: string): E;
-export function $new<E extends HTMLElement = HTMLElement>(
-	tag: string,
-	options: DOMApplyOptions<E>,
-): E;
+export function $new<
+	E extends HTMLElement = HTMLElement,
+	Prop extends Record<string, any> = {},
+	Events extends Record<string, any> = {},
+>(tag: string, options: DOMApplyOptions<E, Prop, Events>): E;
 export function $new<E extends HTMLElement = HTMLElement>(
 	tag: string,
 	...content: (string | HTMLElement)[]
 ): E;
-export function $new<E extends HTMLElement = HTMLElement>(
+export function $new<
+	E extends HTMLElement = HTMLElement,
+	Prop extends Record<string, any> = {},
+	Events extends Record<string, any> = {},
+>(
 	tag: string,
-	options: DOMApplyOptions<E>,
+	options: DOMApplyOptions<E, Prop, Events>,
 	...content: (string | HTMLElement)[]
 ): E;
-export function $new<E extends HTMLElement = HTMLElement>(
+export function $new<
+	E extends HTMLElement = HTMLElement,
+	Prop extends Record<string, any> = {},
+	Events extends Record<string, any> = {},
+>(
 	tag: string,
-	options?: DOMApplyOptions<E> | string | HTMLElement,
+	options?: DOMApplyOptions<E, Prop, Events> | string | HTMLElement,
 	...content: (string | HTMLElement)[]
 ): E {
 	const element = document.createElement(tag) as E;

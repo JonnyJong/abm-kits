@@ -37,11 +37,11 @@ interface WidgetSelectEventsInit<
 	change: EventValueInit<WidgetSelect<Value, Params, Data>, Value>;
 }
 
-export type WidgetSelectEvents<
+export interface WidgetSelectEvents<
 	Value = unknown,
 	Params extends LocaleParams = LocaleParams,
 	Data extends IWidgetSelectItem<Value> = IWidgetSelectItem<Value>,
-> = EventsList<WidgetSelectEventsInit<Value, Params, Data>>;
+> extends EventsList<WidgetSelectEventsInit<Value, Params, Data>> {}
 
 export interface IWidgetSelectItem<Value = unknown> {
 	value: Value;
@@ -116,10 +116,7 @@ export class WidgetSelect<
 	Value = unknown,
 	Params extends LocaleParams = LocaleParams,
 	Data extends IWidgetSelectItem<Value> = IWidgetSelectItem<Value>,
-> extends Widget<
-	WidgetSelectProp<Value, Data>,
-	WidgetSelectEventsInit<Value, Params, Data>
-> {
+> extends Widget<WidgetSelectEventsInit<Value, Params, Data>> {
 	static styles = css(CSS);
 	constructor() {
 		super(['change'], true);
@@ -141,8 +138,8 @@ export class WidgetSelect<
 		class: 'w-select-list',
 		prop: {
 			itemClass: WidgetSelectItem,
-			initItem: (item) => {
-				(item as any).updateLabel = this.#updateLabel;
+			initItem: (item: WidgetSelectItem) => {
+				item.updateLabel = this.#updateLabel;
 			},
 		},
 	});

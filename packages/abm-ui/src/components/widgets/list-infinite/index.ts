@@ -34,10 +34,9 @@ export interface WidgetListInfiniteProp<
 /** 无限列表元素类基类 */
 export abstract class WidgetListInfiniteItem<
 		ID extends Exclude<any, null> = unknown,
-		Prop extends Record<string, any> = {},
 		EventList extends EventsInitList<EventList> = {},
 	>
-	extends Widget<Prop, EventList>
+	extends Widget<EventList>
 	implements Navigable
 {
 	abstract identifier: ID;
@@ -83,7 +82,7 @@ export class WidgetListInfinite<
 		ID extends Exclude<any, null> = unknown,
 		Item extends WidgetListInfiniteItem<ID> = WidgetListInfiniteItem<ID>,
 	>
-	extends Widget<WidgetListInfiniteProp>
+	extends Widget
 	implements Navigable
 {
 	static styles = css(CSS);

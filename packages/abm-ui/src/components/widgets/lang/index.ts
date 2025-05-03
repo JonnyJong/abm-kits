@@ -16,7 +16,7 @@ export interface WidgetLangProp<Params extends LocaleParams = LocaleParams> {
 @customElement('w-lang')
 export class WidgetLang<
 	Params extends LocaleParams = LocaleParams,
-> extends Widget<WidgetLangProp<Params>> {
+> extends Widget {
 	#initialized = false;
 	#locale = new LocaleProvider<Params>();
 	connectedCallback(): void {

@@ -30,7 +30,8 @@ interface WidgetSliderEventsInit {
 	change: EventValueInit<WidgetSlider, number>;
 }
 
-export type WidgetSliderEvents = EventsList<WidgetSliderEventsInit>;
+export interface WidgetSliderEvents
+	extends EventsList<WidgetSliderEventsInit> {}
 
 export interface WidgetSliderProp {
 	/** 当前值 */
@@ -52,7 +53,7 @@ const THUMB_SIZE = THUMB_R * 2;
 /** 滑动条 */
 @customElement('w-slider')
 export class WidgetSlider
-	extends Widget<WidgetSliderProp, WidgetSliderEventsInit>
+	extends Widget<WidgetSliderEventsInit>
 	implements Navigable, Slidable
 {
 	static styles = css(CSS);

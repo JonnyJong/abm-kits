@@ -11,7 +11,6 @@ type Keys<List extends Record<string, any>> = keyof List & string;
  * 基础组件，提供事件机制、`nonNavigable` 接口
  */
 export abstract class Widget<
-		Prop extends Record<string, any> = {},
 		E extends EventsInitList<E> = {},
 		EventTypes extends Keys<E> = Keys<E>,
 	>
@@ -66,5 +65,4 @@ export abstract class Widget<
 	get nonNavigable(): boolean {
 		return this.hasAttribute('disabled');
 	}
-	_prop?: Prop;
 }

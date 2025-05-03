@@ -37,10 +37,10 @@ interface WidgetListEventsInit<
 	select: EventBaseInit<WidgetList<Data, Item>>;
 }
 
-export type WidgetListEvents<
+export interface WidgetListEvents<
 	Data = unknown,
 	Item extends WidgetListItem<Data> = WidgetListItem<Data>,
-> = EventsList<WidgetListEventsInit<Data, Item>>;
+> extends EventsList<WidgetListEventsInit<Data, Item>> {}
 
 /**
  * 列表选择类型
@@ -89,13 +89,12 @@ const SORT_START_TIME = 1000;
 /** 列表元素类基类 */
 export abstract class WidgetListItem<
 		Data = unknown,
-		Prop extends Record<string, any> = {},
 		EventList extends EventsInitList<EventList> = {},
 	>
-	extends Widget<Prop, EventList>
+	extends Widget<EventList>
 	implements Navigable
 {
-	#host: WidgetList<Data, WidgetListItem<Data, Prop, EventList>> = null as any;
+	#host: WidgetList<Data, WidgetListItem<Data, EventList>> = null as any;
 	/** 列表，只允许一次赋值 */
 	get host() {
 		return this.#host;
@@ -283,9 +282,9 @@ export interface WidgetListItemConstructor<
 @customElement('w-list')
 export class WidgetList<
 		Data = unknown,
-		Item extends WidgetListItem<Data, any, any> = WidgetListItem<Data, any, any>,
+		Item extends WidgetListItem<Data, any> = WidgetListItem<Data, any>,
 	>
-	extends Widget<WidgetListProp<Data, Item>, WidgetListEventsInit<Data, Item>>
+	extends Widget<WidgetListEventsInit<Data, Item>>
 	implements Navigable, Slidable
 {
 	static styles = css(CSS);

@@ -17,10 +17,7 @@ export interface WidgetGamepadProp {
 }
 
 @customElement('w-gamepad')
-export class WidgetGamepad
-	extends Widget<WidgetGamepadProp>
-	implements Navigable
-{
+export class WidgetGamepad extends Widget implements Navigable {
 	static styles = css(CSS);
 	#vibrate = $new<WidgetBtn & Navigable>('w-btn', {
 		class: 'vibrate',

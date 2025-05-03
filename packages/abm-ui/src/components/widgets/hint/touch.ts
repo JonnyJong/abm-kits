@@ -31,7 +31,7 @@ const KEYS: WidgetHintTouchKey[] = [
 ];
 
 @customElement('w-hint-touch')
-export class WidgetHintTouch extends Widget<WidgetHintTouchProp> {
+export class WidgetHintTouch extends Widget {
 	static styles = css(CSS);
 	#initialized = false;
 	protected render() {
