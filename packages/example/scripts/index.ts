@@ -52,7 +52,7 @@ configs.init({
 		if (locale in LOCALES) return LOCALES[locale];
 		return null;
 	}),
-	icon: $$<HTMLLinkElement>('#link-icon')
+	icon: $$<HTMLLinkElement>('link[rel="stylesheet"]')
 		.map((e) => [...e.sheet!.cssRules].map((rule) => rule.cssText).join(''))
 		.map((css) => {
 			const sheet = new CSSStyleSheet();

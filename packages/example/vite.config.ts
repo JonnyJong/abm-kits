@@ -21,4 +21,7 @@ export default defineConfig({
 		force: true,
 	},
 	plugins: [pugVite()],
+	build: {
+		outDir: '../../demo',
+	},
 });

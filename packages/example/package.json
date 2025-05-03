@@ -10,7 +10,8 @@
 		"vite-plugin-pug": "^0.4.1"
 	},
 	"scripts": {
-		"dev": "vite"
+		"dev": "vite",
+		"build": "vite build --mode production"
 	},
 	"dependencies": {
 		"@lit-labs/signals": "~0.1.1"
