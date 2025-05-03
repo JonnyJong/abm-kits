@@ -18,7 +18,7 @@ class TestGridVirtualItem extends WidgetGridVirtualItem<string> {
 	constructor() {
 		super(undefined, false, false);
 		this.viewHeight = Math.random() * 24 + 24;
-		this.viewWidth = 150;
+		this.viewWidth = Math.min(innerWidth / 2 - 36, 150);
 	}
 	get data(): string {
 		return this.#data.get();
@@ -38,9 +38,7 @@ class TestGridVirtualItem extends WidgetGridVirtualItem<string> {
 	}
 }
 
-const grid = $new<WidgetGridVirtual<string>>('w-grid-virtual', {
-	style: { width: 'calc(100vh - 300px)' },
-});
+const grid = $new<WidgetGridVirtual<string>>('w-grid-virtual');
 
 export function initGridVirtual() {
 	grid.itemClass = TestGridVirtualItem;
