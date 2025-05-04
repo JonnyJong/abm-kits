@@ -4,6 +4,7 @@ import {
 	DOMContents,
 	Debounce,
 	EventsInitList,
+	PromiseOr,
 	asArray,
 	css,
 	sleep,
@@ -66,14 +67,14 @@ export interface WidgetListInfiniteItemConstructor<
 	 * @returns 返回一个 ID 数组；
 	 * 若返回空数组或其他值，则表示达到尽头
 	 */
-	prev(from: ID): ID[] | null | undefined;
+	prev(from: ID): PromiseOr<ID[] | null | undefined>;
 	/**
 	 * 由列表组件调用，获取位于起始 `ID` 后的一系列 `ID`
 	 * @param from - 起始 ID
 	 * @returns 返回一个 ID 数组；
 	 * 若返回空数组或其他值，则表示达到尽头
 	 */
-	next(from: ID): ID[] | null | undefined;
+	next(from: ID): PromiseOr<ID[] | null | undefined>;
 }
 
 //#region #List
@@ -187,23 +188,30 @@ export class WidgetListInfinite<
 	 * 初始化列表
 	 * @param startId - 起始项 ID
 	 * @param itemClass - 项目构造器
-	 * @returns 是否初始化成功
+	 * @returns
+	 * - `true`：初始化成功；
+	 * - `false`：初始化失败，没有设定 itemClass；
+	 * - `null`：待元素可见后初始化
 	 */
-	init(
+	async init(
 		startId: ID,
 		itemClass?: WidgetListInfiniteItemConstructor<ID, Item>,
-	): boolean {
+	): Promise<boolean | null> {
 		if (itemClass) this.itemClass = itemClass;
 		if (!this.#itemClass) return false;
 		if (!this.#isIntersecting) {
 			this.#initId = startId;
-			return false;
+			return null;
 		}
 
 		const prevItems =
-			this.#itemClass.prev(startId)?.slice(-this.#scrollBufferThreshold) ?? [];
+			(await this.#itemClass.prev(startId))?.slice(-this.#scrollBufferThreshold) ??
+			[];
 		const nextItems =
-			this.#itemClass.next(startId)?.slice(0, this.#scrollBufferThreshold) ?? [];
+			(await this.#itemClass.next(startId))?.slice(
+				0,
+				this.#scrollBufferThreshold,
+			) ?? [];
 		this.#updateBoundaryState(prevItems.length === 0, 'top');
 		this.#updateBoundaryState(nextItems.length === 0, 'bottom');
 
@@ -265,9 +273,9 @@ export class WidgetListInfinite<
 			}
 		} else if (nextSurplus < 0 && !this.#hasReachedBottom) {
 			const nextBatch =
-				this.#itemClass
-					.next((this.#container.lastChild as Item).identifier)
-					?.slice(0, -nextSurplus) ?? [];
+				(
+					await this.#itemClass.next((this.#container.lastChild as Item).identifier)
+				)?.slice(0, -nextSurplus) ?? [];
 			this.#container.append(
 				...nextBatch.map((id) => this.#itemClass!.create(id)),
 			);
@@ -283,9 +291,9 @@ export class WidgetListInfinite<
 			}
 		} else if (prevSurplus < 0 && !this.#hasReachedTop) {
 			const prevBatch =
-				this.#itemClass
-					.prev((this.#container.firstChild as Item).identifier)
-					?.slice(prevSurplus) ?? [];
+				(
+					await this.#itemClass.prev((this.#container.firstChild as Item).identifier)
+				)?.slice(prevSurplus) ?? [];
 			this.#container.prepend(
 				...prevBatch.map((id) => this.#itemClass!.create(id)),
 			);
