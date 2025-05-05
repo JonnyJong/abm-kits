@@ -312,6 +312,7 @@ class KeyBinder implements IEventSource<KeyBinderEventsInit> {
 	constructor() {
 		window.addEventListener('keydown', this.#keyDownHandler);
 		window.addEventListener('keyup', this.#keyUpHandler);
+		window.addEventListener('blur', this.#blurHandler);
 	}
 	#keyDownHandler = (event: KeyboardEvent) => {
 		if (event.isComposing) return;
@@ -362,10 +363,19 @@ class KeyBinder implements IEventSource<KeyBinderEventsInit> {
 			this.#events.emit(new EventBase('update', { target: this }));
 		}, DEACTIVATION_DELAY);
 	};
+	#blurHandler = () => {
+		if (this.#timer !== null) {
+			clearTimeout(this.#timer);
+			this.#timer = null;
+		}
+		this.#activated.clear();
+		this.#events.emit(new EventBase('update', { target: this }));
+	};
 	/** 取消当前按键绑定 */
 	cancel() {
 		window.removeEventListener('keydown', this.#keyDownHandler);
 		window.removeEventListener('keyup', this.#keyUpHandler);
+		window.removeEventListener('blur', this.#blurHandler);
 		keyboard[BINDING] = false;
 	}
 	/** 是否正在绑定 */
@@ -441,6 +451,7 @@ class KeyboardManager implements IEventSource<KeyboardEventsInit> {
 	constructor() {
 		window.addEventListener('keydown', this.#keyDownHandler);
 		window.addEventListener('keyup', this.#keyUpHandler);
+		window.addEventListener('blur', this.#blurHandler);
 	}
 	#trigger = () => {
 		for (const key of this.#activated) {
@@ -714,6 +725,23 @@ class KeyboardManager implements IEventSource<KeyboardEventsInit> {
 		);
 		for (const id of alias) {
 			this.#events.emit(new EventKey('aliasPress', { target: this, key: id }));
+		}
+	};
+	#blurHandler = () => {
+		this.#triggerController.stop();
+		const pressed = [...this.#activated];
+		this.#activated.clear();
+		for (const key of pressed) {
+			const alias = this.#findAlias(key);
+			this.#events.emit(
+				new EventKey('up', {
+					target: this,
+					key,
+				}),
+			);
+			for (const id of alias) {
+				this.#events.emit(new EventKey('aliasUp', { target: this, key: id }));
+			}
 		}
 	};
 	/**
