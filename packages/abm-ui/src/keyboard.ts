@@ -486,6 +486,13 @@ class KeyboardManager implements IEventSource<KeyboardEventsInit> {
 			throw new Error('Invalid key bind item.');
 		}
 	}
+	/**
+	 * 当前正按下的按键
+	 * @readonly
+	 */
+	get pressing() {
+		return [...this.#activated];
+	}
 	//#region ShortCut
 	/** 组合键绑定 */
 	get bindMap() {
