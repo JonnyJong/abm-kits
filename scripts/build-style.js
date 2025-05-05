@@ -99,7 +99,7 @@ function compileStyle(task, watch) {
         if (!file.endsWith('.styl'))
             return;
         const target = redirect(task, [node_path_1.default.relative(task.root, file)])[0];
-        if (waitQueue.includes(target))
+        if (!waitQueue.includes(target))
             waitQueue.push(target);
         if (!processing)
             process();

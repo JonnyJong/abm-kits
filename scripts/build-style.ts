@@ -119,7 +119,7 @@ export function compileStyle(task: StyleTask, watch?: boolean) {
 		if (stat && !stat?.isFile()) return;
 		if (!file.endsWith('.styl')) return;
 		const target = redirect(task, [path.relative(task.root, file)])[0];
-		if (waitQueue.includes(target)) waitQueue.push(target);
+		if (!waitQueue.includes(target)) waitQueue.push(target);
 		if (!processing) process();
 	};
 	watcher.on('ready', () => {
