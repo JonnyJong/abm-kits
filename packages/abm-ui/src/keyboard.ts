@@ -285,7 +285,22 @@ interface KeyBinderEventsInit {
 	done: EventBaseInit<KeyBinder>;
 }
 
-export type KeyBinderEvents = EventsList<KeyBinderEventsInit>;
+export interface KeyBinderEvents extends EventsList<KeyBinderEventsInit> {}
+
+interface KeyboardEventsInit {
+	down: EventKeyInit<KeyboardManager, KeysAllow>;
+	up: EventKeyInit<KeyboardManager, KeysAllow>;
+	press: EventKeyInit<KeyboardManager, KeysAllow>;
+	trigger: EventKeyInit<KeyboardManager, KeysAllow>;
+	shortcut: EventKeyInit<KeyboardManager, string>;
+	shortcutTrigger: EventKeyInit<KeyboardManager, string>;
+	aliasDown: EventKeyInit<KeyboardManager, string>;
+	aliasUp: EventKeyInit<KeyboardManager, string>;
+	aliasPress: EventKeyInit<KeyboardManager, string>;
+	aliasTrigger: EventKeyInit<KeyboardManager, string>;
+}
+
+export interface KeyboardEvents extends EventsList<KeyboardEventsInit> {}
 
 //#region Binder
 class KeyBinder implements IEventSource<KeyBinderEventsInit> {
@@ -347,29 +362,56 @@ class KeyBinder implements IEventSource<KeyBinderEventsInit> {
 			this.#events.emit(new EventBase('update', { target: this }));
 		}, DEACTIVATION_DELAY);
 	};
+	/** 取消当前按键绑定 */
 	cancel() {
 		window.removeEventListener('keydown', this.#keyDownHandler);
 		window.removeEventListener('keyup', this.#keyUpHandler);
 		keyboard[BINDING] = false;
 	}
+	/** 是否正在绑定 */
 	get binding() {
 		return this.#binding;
 	}
+	/** 获取按下的按键 */
 	get keys(): Set<KeysAllow> {
 		return new Set(this.#activated) as any;
 	}
+	/**
+	 * 注册事件监听器
+	 * @param type - 要监听的事件类型
+	 * @param handler - 事件处理函数
+	 * @description
+	 * - `update`：按下按键发生变化
+	 * - `done`：用户完成组合键
+	 */
 	on<Type extends keyof KeyBinderEventsInit>(
 		type: Type,
 		handler: EventHandler<Type, KeyBinderEventsInit[Type], KeyBinder>,
 	): void {
 		this.#events.on(type, handler);
 	}
+	/**
+	 * 注册一次性事件监听器
+	 * @param type - 要监听的事件类型
+	 * @param handler - 事件处理函数
+	 * @description
+	 * - `update`：按下按键发生变化
+	 * - `done`：用户完成组合键
+	 */
 	once<Type extends keyof KeyBinderEventsInit>(
 		type: Type,
 		handler: EventHandler<Type, KeyBinderEventsInit[Type], KeyBinder>,
 	): void {
 		this.#events.once(type, handler);
 	}
+	/**
+	 * 移除事件监听器
+	 * @param type - 要移除的事件类型
+	 * @param handler - 要移除的事件处理函数
+	 * @description
+	 * - `update`：按下按键发生变化
+	 * - `done`：用户完成组合键
+	 */
 	off<Type extends keyof KeyBinderEventsInit>(
 		type: Type,
 		handler: EventHandler<Type, KeyBinderEventsInit[Type], KeyBinder>,
@@ -377,21 +419,6 @@ class KeyBinder implements IEventSource<KeyBinderEventsInit> {
 		this.#events.off(type, handler);
 	}
 }
-
-interface KeyboardEventsInit {
-	down: EventKeyInit<KeyboardManager, KeysAllow>;
-	up: EventKeyInit<KeyboardManager, KeysAllow>;
-	press: EventKeyInit<KeyboardManager, KeysAllow>;
-	trigger: EventKeyInit<KeyboardManager, KeysAllow>;
-	shortcut: EventKeyInit<KeyboardManager, string>;
-	shortcutTrigger: EventKeyInit<KeyboardManager, string>;
-	aliasDown: EventKeyInit<KeyboardManager, string>;
-	aliasUp: EventKeyInit<KeyboardManager, string>;
-	aliasPress: EventKeyInit<KeyboardManager, string>;
-	aliasTrigger: EventKeyInit<KeyboardManager, string>;
-}
-
-export type KeyboardEvents = EventsList<KeyboardEventsInit>;
 
 //#region Manager
 class KeyboardManager implements IEventSource<KeyboardEventsInit> {
@@ -460,6 +487,7 @@ class KeyboardManager implements IEventSource<KeyboardEventsInit> {
 		}
 	}
 	//#region ShortCut
+	/** 组合键绑定 */
 	get bindMap() {
 		const result: KeyBindMap = {};
 		for (const [id, group] of Object.entries(this.#map)) {
@@ -481,6 +509,12 @@ class KeyboardManager implements IEventSource<KeyboardEventsInit> {
 		}
 		this.#map = map;
 	}
+	/**
+	 * 设置组合键
+	 * @description 为同一 id 设置多组组合键
+	 * @param id - 组合键 id
+	 * @param group - 组合键组
+	 */
 	set(id: string, group: KeyBindGroup): void {
 		if (typeof id !== 'string') return;
 		if (!Array.isArray(group)) throw new Error('Invalid key bind group.');
@@ -492,6 +526,12 @@ class KeyboardManager implements IEventSource<KeyboardEventsInit> {
 		}
 		this.#map[id] = newGroup;
 	}
+	/**
+	 * 添加组合键
+	 * @description 为一 id 添加一个组合键
+	 * @param id - 组合键 id
+	 * @param group - 组合键
+	 */
 	add(id: string, item: KeyBindItem): boolean {
 		if (typeof id !== 'string') return false;
 		this.#checkItem(item);
@@ -500,6 +540,12 @@ class KeyboardManager implements IEventSource<KeyboardEventsInit> {
 		this.#map[id].push(new Set(item as any));
 		return true;
 	}
+	/**
+	 * 移除组合键
+	 * @description 为一 id 移除一个组合键
+	 * @param id - 组合键 id
+	 * @param group - 组合键
+	 */
 	rm(id: string, item: KeyBindItem): boolean {
 		if (typeof id !== 'string' || !this.#map[id]) return false;
 		const index = this.#map[id].findIndex((v) => areSetEqual(v, item));
@@ -507,6 +553,11 @@ class KeyboardManager implements IEventSource<KeyboardEventsInit> {
 		this.#map[id].splice(index, 1);
 		return true;
 	}
+	/**
+	 * 删除组合键
+	 * @description 移除一 id 的所有组合键
+	 * @param id - 组合键 id
+	 */
 	delete(id: string): boolean {
 		if (typeof id !== 'string') return false;
 		if (!this.#map[id]) return false;
@@ -514,6 +565,7 @@ class KeyboardManager implements IEventSource<KeyboardEventsInit> {
 		return true;
 	}
 	//#region Alias
+	/** 按键别名 */
 	get aliasMap() {
 		const result: AliasMap = {};
 		for (const [id, item] of Object.entries(this.#aliasMap)) {
@@ -530,11 +582,23 @@ class KeyboardManager implements IEventSource<KeyboardEventsInit> {
 		}
 		this.#aliasMap = map;
 	}
+	/**
+	 * 设置按键别名
+	 * @description 为多个按键设置同一别名
+	 * @param id - 别名
+	 * @param item - 按键
+	 */
 	setAlias(id: string, item: AliasItem): void {
 		if (typeof id !== 'string') return;
 		this.#checkItem(item);
 		this.#aliasMap[id] = new Set(item);
 	}
+	/**
+	 * 设置按键别名
+	 * @description 将一个按键设置到一个别名
+	 * @param id - 别名
+	 * @param key - 按键
+	 */
 	addAlias(id: string, key: KeysAllow): boolean {
 		if (typeof id !== 'string') return false;
 		if (!KEYS_ALLOW.includes(key)) return false;
@@ -542,16 +606,31 @@ class KeyboardManager implements IEventSource<KeyboardEventsInit> {
 		else this.#aliasMap[id] = new Set([key]);
 		return true;
 	}
+	/**
+	 * 移除按键别名
+	 * @description 移除一个别名下的一个按键
+	 * @param id - 别名
+	 * @param key - 按键
+	 */
 	rmAlias(id: string, key: KeysAllow): boolean {
 		if (typeof id !== 'string' || !this.#map[id]) return false;
 		return this.#aliasMap[id].delete(key);
 	}
+	/**
+	 * 删除别名
+	 * @description 删除一个别名
+	 * @param id - 别名
+	 */
 	deleteAlias(id: string): boolean {
 		if (typeof id !== 'string') return false;
 		if (!this.#aliasMap[id]) return false;
 		delete this.#aliasMap[id];
 		return true;
 	}
+	/**
+	 * 检查别名按键是否激活中
+	 * @param id - 别名
+	 */
 	isAliasActivated(id: string): boolean {
 		const keys = this.#aliasMap[id];
 		if (!keys) return false;
@@ -561,6 +640,10 @@ class KeyboardManager implements IEventSource<KeyboardEventsInit> {
 		return false;
 	}
 	//#region Bind
+	/**
+	 * 获取按键绑定器
+	 * @description 当需要从用户输入获取组合键时，使用该按键绑定器
+	 */
 	bind(): KeyBinder | null {
 		if (this[BINDING]) return null;
 		this[BINDING] = true;
@@ -626,18 +709,66 @@ class KeyboardManager implements IEventSource<KeyboardEventsInit> {
 			this.#events.emit(new EventKey('aliasPress', { target: this, key: id }));
 		}
 	};
+	/**
+	 * 注册事件监听器
+	 * @param type - 要监听的事件类型
+	 * @param handler - 事件处理函数
+	 * @description
+	 * - `down`：按键被按下
+	 * - `up`：按键被松开
+	 * - `press`：按键被按下后松开
+	 * - `trigger`：按键被按下（按住重复触发）
+	 * - `shortcut`：组合键按下
+	 * - `shortcutTrigger`：组合键按下（按住重复触发）
+	 * - `aliasDown`：别名按键被按下
+	 * - `aliasUp`：别名按键被松开
+	 * - `aliasPress`：别名按键被按下后松开
+	 * - `aliasTrigger`：别名按键被按下（按住重复触发）
+	 */
 	on<Type extends keyof KeyboardEventsInit>(
 		type: Type,
 		handler: EventHandler<Type, KeyboardEventsInit[Type], KeyboardManager>,
 	): void {
 		this.#events.on(type, handler);
 	}
+	/**
+	 * 注册一次性事件监听器
+	 * @param type - 要监听的事件类型
+	 * @param handler - 事件处理函数
+	 * @description
+	 * - `down`：按键被按下
+	 * - `up`：按键被松开
+	 * - `press`：按键被按下后松开
+	 * - `trigger`：按键被按下（按住重复触发）
+	 * - `shortcut`：组合键按下
+	 * - `shortcutTrigger`：组合键按下（按住重复触发）
+	 * - `aliasDown`：别名按键被按下
+	 * - `aliasUp`：别名按键被松开
+	 * - `aliasPress`：别名按键被按下后松开
+	 * - `aliasTrigger`：别名按键被按下（按住重复触发）
+	 */
 	once<Type extends keyof KeyboardEventsInit>(
 		type: Type,
 		handler: EventHandler<Type, KeyboardEventsInit[Type], KeyboardManager>,
 	): void {
 		this.#events.once(type, handler);
 	}
+	/**
+	 * 移除事件监听器
+	 * @param type - 要移除的事件类型
+	 * @param handler - 要移除的事件处理函数
+	 * @description
+	 * - `down`：按键被按下
+	 * - `up`：按键被松开
+	 * - `press`：按键被按下后松开
+	 * - `trigger`：按键被按下（按住重复触发）
+	 * - `shortcut`：组合键按下
+	 * - `shortcutTrigger`：组合键按下（按住重复触发）
+	 * - `aliasDown`：别名按键被按下
+	 * - `aliasUp`：别名按键被松开
+	 * - `aliasPress`：别名按键被按下后松开
+	 * - `aliasTrigger`：别名按键被按下（按住重复触发）
+	 */
 	off<Type extends keyof KeyboardEventsInit>(
 		type: Type,
 		handler: EventHandler<Type, KeyboardEventsInit[Type], KeyboardManager>,
