@@ -6,7 +6,15 @@ div(ui-panel="large" ui-layout="flow-column")
 	div Color Scheme
 	w-select#settings-schema
 h2 Event
+div(ui-panel="large" ui-layout="flow-column")
 h2 Keyboard
+div(ui-panel="large" ui-layout="flow-column")
+	h3 Pressing
+	div#keyboard-pressing(ui-panel="middle" ui-layout="flow" style="min-height:52px;" ui-nav)
+	h3 Shortcuts
+	div#keyboard-shortcuts(ui-panel="middle" ui-layout="flow-column" ui-nav)
+	h3 Alias
+	div#keyboard-alias(ui-panel="middle" ui-layout="flow-column" ui-nav)
 h2 GameController
 div#dev-gamepad(ui-panel="large" style="display: flex;")
 	w-gamepad(target="0")
