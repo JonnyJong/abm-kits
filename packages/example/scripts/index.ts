@@ -21,6 +21,7 @@ import { initSelect } from './components/widgets/select';
 import { initSlider } from './components/widgets/slider';
 import { initSlider2D } from './components/widgets/slider-2d';
 import { initSwitch } from './components/widgets/switch';
+import { initEvents } from './events';
 import { initKeyboard } from './keyboard';
 import { initSettings } from './settings';
 
@@ -67,6 +68,7 @@ configs.init({
 //#region Widgets
 document.addEventListener('DOMContentLoaded', () => {
 	initSettings();
+	initEvents();
 	initKeyboard();
 	initTooltips();
 	initDialog();

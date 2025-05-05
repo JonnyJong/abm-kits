@@ -5,6 +5,30 @@ body:not(:has(.ui-preset-fullscreen))
 	display flex
 	gap 8px
 
+[id^='events-']
+	width 64px
+	height 64px
+	background var(--text)
+
+#events-hover[ui-hover]
+	background var(--theme)
+
+[id^='events-active-'][ui-active]
+	background var(--theme)
+
+#event-slide-panel
+	position relative
+	overflow hidden
+	height 256px
+
+[id^='events-slide-']
+	position absolute
+	border-radius 50%
+	opacity .75
+	translate -50% -50%
+	&[ui-slide]
+		background var(--theme)
+
 @media screen and (max-width 700px)
 	.dev-panel
 		flex-direction column-reverse

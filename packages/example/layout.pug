@@ -7,6 +7,19 @@ div(ui-panel="large" ui-layout="flow-column")
 	w-select#settings-schema
 h2 Event
 div(ui-panel="large" ui-layout="flow-column")
+	h3 Hover
+		div(ui-panel="middle")
+			#events-hover
+	h3 Active
+		div(ui-panel="middle" ui-layout="flow")
+			- var i = 0
+			while i < 10
+				div(id=`events-active-${i++}`)
+	h3 Slide
+		#event-slide-panel(ui-panel="middle")
+			- var i = 0
+			while i < 10
+				div(id=`events-slide-${i++}`)
 h2 Keyboard
 div(ui-panel="large" ui-layout="flow-column")
 	h3 Pressing
