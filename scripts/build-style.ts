@@ -112,7 +112,7 @@ export function compileStyle(task: StyleTask, watch?: boolean) {
 			);
 		}
 		processing = false;
-	});
+	}, 10);
 
 	const watcher = chokidar.watch(task.root, { awaitWriteFinish: true });
 	const handler = (file: string, stat?: Stats) => {

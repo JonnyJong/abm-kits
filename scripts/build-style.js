@@ -91,7 +91,7 @@ function compileStyle(task, watch) {
             compileStylusFile(node_path_1.default.join(task.root, file), toExt(node_path_1.default.join(task.dist, file), 'css'));
         }
         processing = false;
-    });
+    }, 10);
     const watcher = chokidar_1.default.watch(task.root, { awaitWriteFinish: true });
     const handler = (file, stat) => {
         if (stat && !stat?.isFile())
