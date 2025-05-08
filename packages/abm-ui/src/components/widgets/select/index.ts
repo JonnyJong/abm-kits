@@ -305,7 +305,8 @@ export class WidgetSelect<
 	}
 	set index(value: number) {
 		value = Math.floor(value);
-		if (!Number.isFinite(value) || value >= this.#list.items.length) value = -1;
+		if (!Number.isFinite(value) || value >= this.#list.items.length || value < -1)
+			value = -1;
 		this.#selected.set(value);
 		this.#setLabel();
 	}

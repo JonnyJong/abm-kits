@@ -5,7 +5,15 @@ const select = $new('w-select', {
 	prop: {
 		placeholder: 'Pick one',
 		options: range(10).map((i) => {
-			return { value: i * i, label: `Option ${i}` };
+			return {
+				value: i * i,
+				label: $new<'w-lang'>('w-lang', {
+					prop: {
+						key: 'dev.widget.select',
+						params: { i },
+					},
+				}),
+			};
 		}),
 	},
 });
