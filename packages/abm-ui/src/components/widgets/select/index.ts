@@ -127,7 +127,10 @@ export class WidgetSelect<
 
 		events.hover.add(this);
 		events.active.on(this, this.#activeHandler);
-		events.active.on(this.#filter, this.#hidePicker);
+		events.active.on(this.#filter, ({ active, cancel }) => {
+			if (!active || cancel) return;
+			this.#hidePicker();
+		});
 		this.#list.on('active', this.#listActiveHandler);
 		this.#list.navCallback = this.#navCallback;
 	}
@@ -212,7 +215,7 @@ export class WidgetSelect<
 		this.#picker.classList.add('w-select-picker-show');
 		navigate.addLayer(this.#list, elements[target]);
 	}
-	#hidePicker = async () => {
+	async #hidePicker() {
 		navigate.rmLayer(this.#list);
 		this.#picker.style.opacity = '0';
 		await sleep(100);
@@ -220,7 +223,7 @@ export class WidgetSelect<
 		this.#picker.remove();
 		this.#picker.style.opacity = '';
 		this.#picker.classList.remove('w-select-picker-show');
-	};
+	}
 	//#region View
 	#content = new Signal.State<(string | Node)[]>([]);
 	#placeholder = new UIContentText<Params>();
