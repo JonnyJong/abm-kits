@@ -308,6 +308,7 @@ export class WidgetSelect<
 	}
 	//#region Events
 	#activeHandler(event: UIEventActive) {
+		if (this.disabled) return;
 		if (event.cancel || event.active) return;
 		this.#showPicker();
 	}
