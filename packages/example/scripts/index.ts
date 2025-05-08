@@ -39,6 +39,7 @@ const LOCALES: Record<string, FlatLocaleSource<string>> = {
 		'dev.events': '事件',
 		'dev.ops': '操作',
 		'dev.widget.select': '选项 ${i}',
+		'dev.empty': '',
 	},
 	en: {
 		// Basic
@@ -48,6 +49,7 @@ const LOCALES: Record<string, FlatLocaleSource<string>> = {
 		'dev.events': 'Events',
 		'dev.ops': 'Operations',
 		'dev.widget.select': 'Option ${i}',
+		'dev.empty': '',
 	},
 };
 

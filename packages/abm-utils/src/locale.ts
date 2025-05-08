@@ -259,7 +259,7 @@ export class BaseLocalization<
 	 */
 	getStringOrNull(key: Key, params?: LocaleParams): string | null {
 		const template = this.lookup(key);
-		if (!template) return null;
+		if (template === null) return null;
 		return this.#postProcess(template, params);
 	}
 	/**
