@@ -258,6 +258,7 @@ export class IntervalController<T = unknown> {
 		return this.#interval;
 	}
 	set interval(value) {
+		if (this.#interval === value) return;
 		this.#interval = value;
 		if (!this.isRunning) return;
 		this.stop();
