@@ -417,6 +417,19 @@ class UITouchConfigs {
 		if (value < 0) return;
 		this.#swipeThreshold = value;
 	}
+	#holdDurationThreshold = 200;
+	/**
+	 * 触摸开始到首次移动的最大允许时间（毫秒）
+	 * @default 200
+	 */
+	get holdDurationThreshold() {
+		return this.#holdDurationThreshold;
+	}
+	set holdDurationThreshold(value) {
+		if (!Number.isFinite(value)) return;
+		if (value < 0) return;
+		this.#holdDurationThreshold = value;
+	}
 }
 
 //#region #ALL
@@ -436,6 +449,8 @@ export interface UIConfigsInit {
 	safeArea?: PromiseOr<UIScreenSafeAreaInset>;
 	/** 滑动判定阈值 */
 	swipeThreshold?: number;
+	/** 触摸开始到首次移动的最大允许时间 */
+	holdDurationThreshold?: number;
 }
 
 class UIConfigs {
@@ -453,6 +468,8 @@ class UIConfigs {
 		if (options.locale) setLocaleDriver(await options.locale);
 		if (options.swipeThreshold)
 			this.#touch.swipeThreshold = options.swipeThreshold;
+		if (options.holdDurationThreshold)
+			this.#touch.holdDurationThreshold = options.holdDurationThreshold;
 	}
 	/** 图标配置 */
 	get icon(): UIIconConfigs {
