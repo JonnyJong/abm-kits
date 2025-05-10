@@ -21,6 +21,7 @@ import {
 	runTask,
 } from 'abm-utils';
 import { CSSResult } from 'lit';
+import { DEFAULTS_ICONS } from './defaults';
 import { setLocaleDriver } from './locale';
 
 //#region #Icon
@@ -53,7 +54,7 @@ export type UIDefaultsIcons =
 	| 'gamepadStart'
 	| 'gamepadBack';
 
-const DEFAULTS_ICONS: UIDefaultsIcons[] = [
+const DEFAULTS_ICONS_NAMES: UIDefaultsIcons[] = [
 	'increase',
 	'decrease',
 	'calculate',
@@ -154,7 +155,7 @@ class UIIconConfigs {
 		Record<UIDefaultsIcons, string>
 	>['update'] = (_, p, value) => {
 		if (!value) return;
-		if (!DEFAULTS_ICONS.includes(p as any)) return;
+		if (!DEFAULTS_ICONS_NAMES.includes(p as any)) return;
 
 		for (const handler of this.#subscriptions[p as UIDefaultsIcons]) {
 			runTask(handler);
@@ -169,18 +170,12 @@ class UIIconConfigs {
 				},
 				set(target, p, newValue, receiver) {
 					if (typeof newValue !== 'string') return false;
-					if (!DEFAULTS_ICONS.includes(p as any)) return false;
+					if (!DEFAULTS_ICONS_NAMES.includes(p as any)) return false;
 					return Reflect.set(target, p, newValue, receiver);
 				},
 			},
 		},
-		(() => {
-			const defaults = {} as Record<UIDefaultsIcons, string>;
-			for (const key of DEFAULTS_ICONS) {
-				defaults[key] = '';
-			}
-			return defaults;
-		})(),
+		{ ...DEFAULTS_ICONS },
 	);
 	get defaults(): Record<UIDefaultsIcons, string> {
 		return this.#defaults;
@@ -190,14 +185,14 @@ class UIIconConfigs {
 	}) {
 		if (typeof value !== 'object') return;
 
-		for (const key of DEFAULTS_ICONS) {
+		for (const key of DEFAULTS_ICONS_NAMES) {
 			if (typeof value[key] !== 'string') continue;
 			this.#defaults[key] = value[key];
 		}
 	}
 	#subscriptions: Record<UIDefaultsIcons, IterableWeakSet<Function>> = (() => {
 		const defaults = {} as Record<UIDefaultsIcons, IterableWeakSet<Function>>;
-		for (const key of DEFAULTS_ICONS) {
+		for (const key of DEFAULTS_ICONS_NAMES) {
 			defaults[key] = new IterableWeakSet();
 		}
 		return defaults;
