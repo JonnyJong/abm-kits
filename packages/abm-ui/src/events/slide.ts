@@ -433,6 +433,9 @@ export class UIEventSlideManager implements IUIEventBaseManage<'slide'> {
 			);
 			if (!touch) continue;
 
+			// 避免页面滚动
+			event.preventDefault();
+
 			this.#emit(target, 'move', { x: touch.clientX, y: touch.clientY });
 		}
 	};
