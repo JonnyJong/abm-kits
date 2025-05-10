@@ -9,5 +9,6 @@
     "outDir": "./dist",
 		"incremental": true,
 		"tsBuildInfoFile": "../../cache/abm-ui.tsbuildinfo",
+		"rootDir": "./src"
 	},
 }
