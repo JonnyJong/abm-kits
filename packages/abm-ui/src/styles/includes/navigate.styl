@@ -21,3 +21,7 @@
 
 body:has(.ui-nav-visible)
 	cursor none
+
+@media (prefers-reduced-motion reduce)
+	.ui-nav
+		transition .1s opacity

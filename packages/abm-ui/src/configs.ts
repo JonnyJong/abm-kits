@@ -432,6 +432,21 @@ class UITouchConfigs {
 	}
 }
 
+class UIMediaRules {
+	#reduceMotion: boolean;
+	constructor() {
+		const reduceMotionMatch = matchMedia('(prefers-reduced-motion: reduce)');
+		this.#reduceMotion = reduceMotionMatch.matches;
+		reduceMotionMatch.onchange = ({ matches }) => {
+			this.#reduceMotion = matches;
+		};
+	}
+	/** 动画减弱 */
+	get reduceMotion() {
+		return this.#reduceMotion;
+	}
+}
+
 //#region #ALL
 
 export interface UIConfigsInit {
@@ -458,6 +473,7 @@ class UIConfigs {
 	#theme = new UIThemeConfigs();
 	#screen = new UIScreenConfigs();
 	#touch = new UITouchConfigs();
+	#mediaRules = new UIMediaRules();
 	/** 初始化配置 */
 	async init(options: UIConfigsInit) {
 		if (options.icon) this.#icon.add(...asArray(await options.icon));
@@ -496,6 +512,10 @@ class UIConfigs {
 	/** 触摸设置 */
 	get touch() {
 		return this.#touch;
+	}
+	/** 媒体特性 */
+	get mediaRules() {
+		return this.#mediaRules;
 	}
 }
 

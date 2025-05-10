@@ -12,6 +12,7 @@ import {
 	asArray,
 	sleep,
 } from 'abm-utils';
+import { configs } from '../configs';
 import { navigate } from '../navigate';
 import { UIContent, UIContentInit } from './content';
 import { WidgetBtn, WidgetBtnState } from './widgets/btn';
@@ -66,6 +67,12 @@ export interface DialogEvents<ID extends string = string> {
 	/** 对话框按钮 */
 	action: EventValueInit<Dialog<ID>, ID>;
 }
+
+const DIALOG_HIDE_ANIMATION = { scale: [1, 0] };
+const DIALOG_HIDE_ANIMATION_REDUCED = {
+	scale: [1, 0.9, 0.9],
+	opacity: [1, 0, 0],
+};
 
 //#region #Action
 class DialogAction<ID extends string = string> {
@@ -271,7 +278,9 @@ export class Dialog<ID extends string = string>
 			{ duration: 100, easing: 'ease-in' },
 		).onfinish = () => this.#filter.remove();
 		this.#dialog.animate(
-			{ scale: [1, 0] },
+			configs.mediaRules.reduceMotion
+				? DIALOG_HIDE_ANIMATION_REDUCED
+				: DIALOG_HIDE_ANIMATION,
 			{ duration: 200, easing: 'cubic-bezier(0, 0, 1, 0)' },
 		).onfinish = () => this.#dialog.remove();
 		navigate.rmLayer(this.#dialog);

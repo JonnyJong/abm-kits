@@ -32,3 +32,13 @@
 	.w-select-list
 		top 0px
 		transition .3s top var(--ease-out)
+
+@media (prefers-reduced-motion reduce)
+	.w-select-picker
+		top var(--w-select-top-end)
+		height var(--w-select-height)
+		opacity 0
+	.w-select-picker-show
+		opacity 1
+	.w-select-list
+		top 0px

@@ -10,6 +10,11 @@
 	0%
 		scale 0
 
+@keyframes ui-dialog-motion-less
+	0%
+		opacity 0
+		scale .9
+
 .ui-dialog
 	position fixed
 	z-index 50
@@ -58,3 +63,7 @@
 
 .ui-dialog-action
 	flex 1 0 auto
+
+@media (prefers-reduced-motion reduce)
+	.ui-dialog
+		animation-name ui-dialog-motion-less
