@@ -85,6 +85,7 @@ const DEFAULTS_ICONS_NAMES: UIDefaultsIcons[] = [
 class UIIconConfigs {
 	//#region Default Namespace
 	#defaultNamespace = 'icon';
+	/** 默认命名空间 */
 	get defaultNamespace() {
 		return this.#defaultNamespace;
 	}
@@ -123,6 +124,7 @@ class UIIconConfigs {
 		this.#styles.add(style);
 		return;
 	}
+	/** 添加图标样式表 */
 	add(...styles: UIIconCSS[]) {
 		for (const style of styles) {
 			if (typeof style === 'string') {
@@ -137,16 +139,20 @@ class UIIconConfigs {
 		}
 		this.#update();
 	}
+	/** 删除图标样式表 */
 	delete(style: CSSStyleSheet) {
 		this.#styles.delete(style);
 		this.#update();
 	}
+	/** 遍历图标样式表 */
 	entries() {
 		return this.#styles.values();
 	}
+	/** 获取图标样式表 */
 	get() {
 		return this.#computed.get();
 	}
+	/** 获取图标样式表信号 */
 	get signal() {
 		return this.#computed;
 	}
@@ -177,6 +183,7 @@ class UIIconConfigs {
 		},
 		{ ...DEFAULTS_ICONS },
 	);
+	/** 默认图标 */
 	get defaults(): Record<UIDefaultsIcons, string> {
 		return this.#defaults;
 	}
@@ -197,11 +204,13 @@ class UIIconConfigs {
 		}
 		return defaults;
 	})();
+	/** 监听命名空间更新 */
 	on(name: UIDefaultsIcons, handler: Function) {
 		if (!this.#subscriptions[name]) return;
 		if (typeof handler !== 'function') return;
 		this.#subscriptions[name].add(handler);
 	}
+	/** 移除命名空间更新监听器 */
 	off(name: UIDefaultsIcons, handler: Function) {
 		if (!this.#subscriptions[name]) return;
 		if (typeof handler !== 'function') return;
@@ -211,6 +220,13 @@ class UIIconConfigs {
 
 //#region #Theme
 
+/**
+ * 颜色方案
+ * @description
+ * - `system`：系统默认
+ * - `light`：亮色
+ * - `dark`：暗色
+ */
 export type ColorScheme = 'system' | 'light' | 'dark';
 
 const SCHEME_LIST: ColorScheme[] = ['system', 'light', 'dark'];
@@ -225,6 +241,13 @@ class UIThemeConfigs {
 			style: this.#color.getTokens(),
 		});
 	}
+	/**
+	 * 颜色方案
+	 * @description
+	 * - `system`：系统默认
+	 * - `light`：亮色
+	 * - `dark`：暗色
+	 */
 	get colorScheme() {
 		let scheme = document.body.getAttribute('ui-scheme') as any;
 		if (!SCHEME_LIST.includes(scheme as any)) {
@@ -238,6 +261,7 @@ class UIThemeConfigs {
 		}
 		document.body.setAttribute('ui-scheme', value);
 	}
+	/** 主题色 */
 	get color(): Color {
 		return this.#color.clone();
 	}
@@ -332,6 +356,10 @@ class UIScreenConfigs {
 			left: this.safeLeft,
 		};
 	}
+	/**
+	 * 安全区域
+	 * @param value - 安全区域值，设置为null时启用自动检测
+	 */
 	get safeArea() {
 		if (this.#enableAutoSafeArea) return null;
 		return this.#safeArea;
@@ -377,6 +405,10 @@ class UIScreenConfigs {
 
 class UITouchConfigs {
 	#swipeThreshold = 0.1;
+	/**
+	 * 滑动判定阈值（像素/毫秒）
+	 * @default 0.5
+	 */
 	get swipeThreshold() {
 		return this.#swipeThreshold;
 	}
@@ -390,12 +422,19 @@ class UITouchConfigs {
 //#region #ALL
 
 export interface UIConfigsInit {
+	/** 本地化 */
 	locale?: PromiseOr<LocaleDriver>;
+	/** 图标 */
 	icon?: PromiseOr<ArrayOr<UIIconCSS>>;
+	/** 主题色 */
 	theme?: PromiseOr<Color | RGB | RGBA | string>;
+	/** 颜色方案 */
 	scheme?: PromiseOr<ColorScheme>;
+	/** 默认图标 */
 	defaultIcons?: PromiseOr<Partial<Record<UIDefaultsIcons, string>>>;
+	/** 屏幕安全区 */
 	safeArea?: PromiseOr<UIScreenSafeAreaInset>;
+	/** 滑动判定阈值 */
 	swipeThreshold?: number;
 }
 
@@ -404,6 +443,7 @@ class UIConfigs {
 	#theme = new UIThemeConfigs();
 	#screen = new UIScreenConfigs();
 	#touch = new UITouchConfigs();
+	/** 初始化配置 */
 	async init(options: UIConfigsInit) {
 		if (options.icon) this.#icon.add(...asArray(await options.icon));
 		if (options.theme) this.#theme.color = await options.theme;
@@ -414,12 +454,14 @@ class UIConfigs {
 		if (options.swipeThreshold)
 			this.#touch.swipeThreshold = options.swipeThreshold;
 	}
+	/** 图标配置 */
 	get icon(): UIIconConfigs {
 		return this.#icon;
 	}
 	set icon(value: ArrayOr<UIIconCSS>) {
 		this.#icon.add(...asArray(value));
 	}
+	/** 主题配置 */
 	get theme(): UIThemeConfigs {
 		return this.#theme;
 	}
@@ -427,12 +469,18 @@ class UIConfigs {
 		if (typeof value === 'string') this.#theme.colorScheme = value;
 		else if (value instanceof Color) this.#theme.color = value;
 	}
+	/** 屏幕配置 */
 	get screen(): UIScreenConfigs {
 		return this.#screen;
 	}
 	set screen(value: UIScreenSafeAreaInset | null | number | number[]) {
 		this.#screen.safeArea = value;
 	}
+	/** 触摸设置 */
+	get touch() {
+		return this.#touch;
+	}
 }
 
+/** 全局配置 */
 export const configs = new UIConfigs();
