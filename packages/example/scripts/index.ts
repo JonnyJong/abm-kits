@@ -1,4 +1,4 @@
-import { DEFAULTS_ICONS, DEFAULT_LOCALES_FLAT, configs } from 'abm-ui';
+import { DEFAULT_LOCALES_FLAT, configs } from 'abm-ui';
 import * as UI from 'abm-ui';
 import * as Utils from 'abm-utils';
 import { $$, FlatLocaleSource, createSimpleLocaleDriver } from 'abm-utils';
@@ -65,7 +65,6 @@ configs.init({
 			sheet.replaceSync(css);
 			return sheet;
 		}),
-	defaults: DEFAULTS_ICONS,
 });
 
 //#region Components

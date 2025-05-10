@@ -76,9 +76,6 @@ configs.init({
 			sheet.replaceSync(css);
 			return sheet;
 		}),
-	defaults: {
-		selectExpand: 'ChevronUpDown',
-	},
 });
 
 $ready(() => {

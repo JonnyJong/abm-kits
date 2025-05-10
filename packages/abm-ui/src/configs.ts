@@ -387,7 +387,7 @@ export interface UIConfigsInit {
 	icon?: PromiseOr<ArrayOr<UIIconCSS>>;
 	theme?: PromiseOr<Color | RGB | RGBA | string>;
 	scheme?: PromiseOr<ColorScheme>;
-	defaults?: PromiseOr<Partial<Record<UIDefaultsIcons, string>>>;
+	defaultIcons?: PromiseOr<Partial<Record<UIDefaultsIcons, string>>>;
 	safeArea?: PromiseOr<UIScreenSafeAreaInset>;
 }
 
@@ -399,7 +399,7 @@ class UIConfigs {
 		if (options.icon) this.#icon.add(...asArray(await options.icon));
 		if (options.theme) this.#theme.color = await options.theme;
 		if (options.scheme) this.#theme.colorScheme = await options.scheme;
-		if (options.defaults) this.#icon.defaults = await options.defaults;
+		if (options.defaultIcons) this.#icon.defaults = await options.defaultIcons;
 		if (options.safeArea) this.#screen.safeArea = await options.safeArea;
 		if (options.locale) setLocaleDriver(await options.locale);
 	}
