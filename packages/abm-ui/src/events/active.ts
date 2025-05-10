@@ -1,5 +1,6 @@
 import { Vec2, callTask } from 'abm-utils';
 import { EventBase } from 'abm-utils';
+import { configs } from '../configs';
 import { NavigateEvents, navigate } from '../navigate';
 import { IUIEventBase, IUIEventBaseManage, IUIEventHandler } from './base';
 
@@ -168,6 +169,9 @@ export class UIEventActiveManager implements IUIEventBaseManage<'active'> {
 		this.#emit(target, false, true, -1, [event.x, event.y]);
 	};
 	//#region Touch
+	#touchStartTime = 0;
+	#touchStartX = 0;
+	#touchStartY = 0;
 	#touchStart = (event: TouchEvent) => {
 		// 若页面正在滚动，则不处理
 		if (!event.cancelable) return;
@@ -176,10 +180,11 @@ export class UIEventActiveManager implements IUIEventBaseManage<'active'> {
 		if (target.hasAttribute('disabled')) return;
 		if (!target || this.#activated.has(target)) return;
 
-		// 避免页面滚动
-		event.preventDefault();
-
 		const { identifier, clientX, clientY } = event.changedTouches[0];
+
+		this.#touchStartTime = Date.now();
+		this.#touchStartX = clientX;
+		this.#touchStartY = clientY;
 
 		this.#activate(target, identifier);
 		this.#emit(target, true, false, identifier, [clientX, clientY]);
@@ -205,13 +210,28 @@ export class UIEventActiveManager implements IUIEventBaseManage<'active'> {
 		if (!touch) return;
 		const { left, right, top, bottom } = target.getBoundingClientRect();
 		const { clientX, clientY } = touch;
+		let isSwipe = false;
+		if (this.#touchStartTime !== 0) {
+			const duration = Date.now() - this.#touchStartTime;
+			const distance = Math.sqrt(
+				(clientX - this.#touchStartX) ** 2 + (clientY - this.#touchStartY) ** 2,
+			);
+			const speed = distance / duration;
+			isSwipe =
+				duration < configs.touch.holdDurationThreshold &&
+				speed >= configs.touch.swipeThreshold;
+			this.#touchStartTime = 0;
+		}
 		if (
+			!isSwipe &&
 			clientX >= left &&
 			clientX <= right &&
 			clientY >= top &&
 			clientY <= bottom
-		)
+		) {
+			event.preventDefault();
 			return;
+		}
 		this.#deactivate(target);
 		this.#emit(target, false, true, identifier, [clientX, clientY]);
 	};
