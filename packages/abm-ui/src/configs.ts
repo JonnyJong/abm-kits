@@ -375,6 +375,18 @@ class UIScreenConfigs {
 	}
 }
 
+class UITouchConfigs {
+	#swipeThreshold = 0.1;
+	get swipeThreshold() {
+		return this.#swipeThreshold;
+	}
+	set swipeThreshold(value) {
+		if (!Number.isFinite(value)) return;
+		if (value < 0) return;
+		this.#swipeThreshold = value;
+	}
+}
+
 //#region #ALL
 
 export interface UIConfigsInit {
@@ -384,12 +396,14 @@ export interface UIConfigsInit {
 	scheme?: PromiseOr<ColorScheme>;
 	defaultIcons?: PromiseOr<Partial<Record<UIDefaultsIcons, string>>>;
 	safeArea?: PromiseOr<UIScreenSafeAreaInset>;
+	swipeThreshold?: number;
 }
 
 class UIConfigs {
 	#icon = new UIIconConfigs();
 	#theme = new UIThemeConfigs();
 	#screen = new UIScreenConfigs();
+	#touch = new UITouchConfigs();
 	async init(options: UIConfigsInit) {
 		if (options.icon) this.#icon.add(...asArray(await options.icon));
 		if (options.theme) this.#theme.color = await options.theme;
@@ -397,6 +411,8 @@ class UIConfigs {
 		if (options.defaultIcons) this.#icon.defaults = await options.defaultIcons;
 		if (options.safeArea) this.#screen.safeArea = await options.safeArea;
 		if (options.locale) setLocaleDriver(await options.locale);
+		if (options.swipeThreshold)
+			this.#touch.swipeThreshold = options.swipeThreshold;
 	}
 	get icon(): UIIconConfigs {
 		return this.#icon;
