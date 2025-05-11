@@ -79,7 +79,7 @@ export abstract class WidgetInput<
 {
 	static styles = css(CSS);
 	protected input: Input;
-	protected _placeholder = $new<WidgetLang<Params>>('w-lang', {
+	protected _placeholder: WidgetLang<Params> = $new<WidgetLang<any>>('w-lang', {
 		class: 'placeholder',
 	});
 	constructor(input: Input) {

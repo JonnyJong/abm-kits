@@ -15,7 +15,6 @@ import { configs } from '../../../configs';
 import { Navigable } from '../../../navigate';
 import { Widget } from '../base';
 import { WidgetNumber } from '../input/number';
-import { WidgetText } from '../input/text';
 import { WidgetNav } from '../nav';
 import { WidgetSlider } from '../slider';
 import { WidgetSlider2D } from '../slider-2d';
@@ -508,7 +507,7 @@ export class WidgetColorPicker
 		this.events.emit(new EventValue('change', eventDetails));
 	}
 	//#region #View
-	#tab = $new<WidgetNav<'rgb' | 'hsl'>>('w-nav', {
+	#tab: WidgetNav<'rgb' | 'hsl'> = $new<WidgetNav<any>>('w-nav', {
 		class: 'tab',
 		prop: {
 			display: 'text',
@@ -526,7 +525,7 @@ export class WidgetColorPicker
 		this.#indicator.style.setProperty('--color', hex);
 	}
 	//#region Hex
-	#hexValue = $new<WidgetText>('w-text', { class: 'hex-value' });
+	#hexValue = $new('w-text', { class: 'hex-value' });
 	#updateHEX() {
 		this.#hexValue.value =
 			this.#current[this.enableAlpha ? 'hexa' : 'hex']().toUpperCase();
@@ -709,7 +708,7 @@ export class WidgetColorPicker
 		this.#updateHSL();
 		this.#updateAlpha();
 	}
-	get navChildren() {
+	get navChildren(): (Navigable & { disabled: boolean })[] {
 		return [
 			this.#hslMain,
 			this.#hslMainSlider,

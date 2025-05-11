@@ -2,6 +2,422 @@ import { ArrayOr, asArray, range } from './collection';
 import { Color } from './color';
 
 //#region #Define
+type HTMLElementTagForType<E> = {
+	[K in keyof HTMLElementTagNameMap]: HTMLElementTagNameMap[K] extends E
+		? K
+		: never;
+}[keyof HTMLElementTagNameMap];
+export interface HTMLElementProp {
+	a: {
+		download?: string;
+		href?: string;
+		hrefLang?: string;
+		ping?: string;
+		referrerPolicy?: string;
+		rel?: string;
+		target?: '_self' | '_blank' | '_parent' | '_top';
+		type?: string;
+	};
+	area: {
+		alt?: string;
+		coords?: string;
+		download?: string;
+		href?: string;
+		hrefLang?: string;
+		media?: string;
+		rel?: string;
+		shape?: 'rect' | 'circle' | 'polygon';
+		target?: '_self' | '_blank' | '_parent' | '_top';
+		type?: string;
+	};
+	audio: {
+		autoplay?: boolean;
+		controls?: boolean;
+		crossorigin?: 'anonymous' | 'use-credentials';
+		currentTime?: number;
+		loop?: boolean;
+		muted?: boolean;
+		preload?: 'none' | 'metadata' | 'auto' | '';
+		src?: string;
+	};
+	base: {
+		href?: string;
+		target?: '_self' | '_blank' | '_parent' | '_top';
+	};
+	bdo: {
+		dir?: 'ltr' | 'trl';
+	};
+	blockquote: {
+		cite?: string;
+	};
+	button: {
+		autofocus?: boolean;
+		disabled?: boolean;
+		form?: string;
+		formAction?: string;
+		formEnctype?:
+			| 'application/x-www-form-urlencoded'
+			| 'multipart/form-data'
+			| 'text/plain';
+		formMethod?: 'post' | 'get';
+		formNoValidate?: boolean;
+		formTarget?: '_self' | '_blank' | '_parent' | '_top';
+		name?: string;
+		type?: 'submit' | 'reset' | 'button';
+		value?: string;
+	};
+	canvas: {
+		height?: number;
+		width?: number;
+	};
+	col: {
+		span?: number;
+	};
+	colgroup: {
+		span?: number;
+	};
+	data: {
+		value?: string;
+	};
+	del: {
+		cite?: string;
+		datetime?: string;
+	};
+	details: {
+		open?: boolean;
+	};
+	dfn: {
+		title?: string;
+	};
+	dialog: {
+		open?: boolean;
+	};
+	embed: {
+		height?: number;
+		width?: number;
+		src?: string;
+		type?: string;
+	};
+	fieldset: {
+		disabled?: boolean;
+		form?: string;
+		name?: string;
+	};
+	form: {
+		acceptCharset?: string;
+		autocomplete?: 'on' | 'off';
+		name?: string;
+		rel?: string;
+		action?: string;
+		enctype?:
+			| 'application/x-www-form-urlencoded'
+			| 'multipart/form-data'
+			| 'text/plain';
+		method?: 'post' | 'get' | 'dialog';
+		noValidate?: boolean;
+		target?: '_self' | '_blank' | '_parent' | '_top';
+	};
+	html: {
+		xmlns?: string;
+	};
+	iframe: {
+		allow?: string;
+		allowFullscreen?: boolean;
+		height?: number;
+		width?: number;
+		loading?: 'eager' | 'lazy';
+		name?: string;
+		referrerPolicy?:
+			| ''
+			| 'no-referrer'
+			| 'no-referrer-when-downgrade'
+			| 'origin'
+			| 'origin-when-cross-origin'
+			| 'same-origin'
+			| 'strict-origin'
+			| 'strict-origin-when-cross-origin'
+			| 'unsafe-url';
+		sandbox?: string;
+		src?: string;
+		srcdoc?: string;
+	};
+	img: {
+		src?: string;
+		crossOrigin?: 'anonymous' | 'use-credentials';
+		decoding?: 'sync' | 'async' | 'auto';
+		height?: number;
+		width?: number;
+		isMap?: boolean;
+		loading?: 'eager' | 'lazy';
+		referrerPolicy?:
+			| ''
+			| 'no-referrer'
+			| 'no-referrer-when-downgrade'
+			| 'origin'
+			| 'origin-when-cross-origin'
+			| 'same-origin'
+			| 'strict-origin'
+			| 'strict-origin-when-cross-origin'
+			| 'unsafe-url';
+		size?: string;
+		srcset?: string;
+		usemap?: string;
+	};
+	input: {
+		type?:
+			| 'button'
+			| 'checkbox'
+			| 'color'
+			| 'date'
+			| 'datetime-local'
+			| 'email'
+			| 'file'
+			| 'hidden'
+			| 'image'
+			| 'month'
+			| 'number'
+			| 'password'
+			| 'radio'
+			| 'range'
+			| 'reset'
+			| 'search'
+			| 'submit'
+			| 'tel'
+			| 'text'
+			| 'time'
+			| 'url'
+			| 'week';
+		accept?: string;
+		alt?: string;
+		autocomplete?: boolean;
+		capture?: string;
+		checked?: boolean;
+		dirname?: string;
+		disabled?: boolean;
+		form?: string;
+		formAction?: string;
+		formEnctype?:
+			| 'application/x-www-form-urlencoded'
+			| 'multipart/form-data'
+			| 'text/plain';
+		formMethod?: 'post' | 'get';
+		formNoValidate?: boolean;
+		formTarget?: '_self' | '_blank' | '_parent' | '_top';
+		height?: number;
+		list?: string;
+		max?: string;
+		maxLength?: number;
+		min?: string;
+		minlength?: number;
+		multiple?: boolean;
+		name?: string;
+		pattern?: string;
+		placeholder?: string;
+		readOnly?: boolean;
+		required?: boolean;
+		size?: string;
+		src?: string;
+		step?: string;
+		value?: string;
+		width?: number;
+	};
+	ins: {
+		cite?: string;
+		datetime?: string;
+	};
+	label: {
+		for?: string;
+		form?: string;
+	};
+	li: {
+		value?: number;
+	};
+	link: {
+		as?:
+			| 'audio'
+			| 'document'
+			| 'embed'
+			| 'fetch'
+			| 'font'
+			| 'image'
+			| 'object'
+			| 'script'
+			| 'style'
+			| 'track'
+			| 'video'
+			| 'worker';
+		crossOrigin?: 'anonymous' | 'use-credentials';
+		disabled?: boolean;
+		fetchPriority?: 'high' | 'low' | 'auto';
+		href?: string;
+		hrefLang?: string;
+		imageSizes?: string;
+		imageSrcset?: string;
+		integrity?: string;
+		media?: string;
+		referrerPolicy?: string;
+		rel?: string;
+		sizes?: string;
+		title?: string;
+		type?: string;
+	};
+	map: {
+		name?: string;
+	};
+	meta: {
+		charset?: string;
+		content?: string;
+		httpEquiv?: string;
+		name?: string;
+	};
+	meter: {
+		value?: number;
+		min?: number;
+		max?: number;
+		low?: number;
+		high?: number;
+		optimum?: number;
+		form?: string;
+	};
+	object: {
+		data?: string;
+		form?: string;
+		height?: number;
+		width?: number;
+		name?: string;
+		type?: string;
+		useMap?: string;
+	};
+	ol: {
+		reversed?: boolean;
+		start?: number;
+		type?: 'a' | 'A' | 'i' | 'I' | '1';
+	};
+	optgroup: {
+		disabled?: boolean;
+		label?: string;
+	};
+	option: {
+		disabled?: boolean;
+		label?: string;
+		selected?: boolean;
+		value?: string;
+	};
+	output: {
+		for?: string;
+		form?: string;
+		name?: string;
+	};
+	progress: {
+		max?: number;
+		value?: number;
+	};
+	q: {
+		cite?: string;
+	};
+	script: {
+		async?: boolean;
+		crossOrigin?: 'anonymous' | 'use-credentials';
+		defer?: boolean;
+		integrity?: string;
+		noModule?: boolean;
+		nonce?: string;
+		referrerPolicy?:
+			| ''
+			| 'no-referrer'
+			| 'no-referrer-when-downgrade'
+			| 'origin'
+			| 'origin-when-cross-origin'
+			| 'same-origin'
+			| 'strict-origin'
+			| 'strict-origin-when-cross-origin'
+			| 'unsafe-url';
+		src?: string;
+		type?: '' | 'module' | 'importmap';
+	};
+	select: {
+		autoComplete?: boolean;
+		autoFocus?: boolean;
+		disabled?: boolean;
+		form?: string;
+		multiple?: boolean;
+		name?: string;
+		required?: boolean;
+		size?: number;
+	};
+	slot: {
+		name?: string;
+	};
+	source: {
+		type?: string;
+		src?: string;
+		srcset?: string;
+		sizes?: string;
+		media?: string;
+		height?: number;
+		width?: number;
+	};
+	style: {
+		blocking?: string;
+		media?: string;
+		nonce?: string;
+		title?: string;
+	};
+	td: {
+		colSpan?: number;
+		headers?: string;
+		rowSpan?: number;
+	};
+	textarea: {
+		autocapitalize?: boolean;
+		autocomplete?: 'on' | 'off';
+		autofocus?: boolean;
+		cols?: number;
+		dirname?: string;
+		disabled?: boolean;
+		form?: string;
+		maxLength?: number;
+		minLength?: number;
+		name?: string;
+		placeholder?: string;
+		readOnly?: boolean;
+		required?: boolean;
+		rows?: number;
+		spellcheck?: string;
+		wrap?: string;
+	};
+	th: {
+		abbr?: string;
+		colSpan?: number;
+		headers?: string;
+		rowSpan?: number;
+		scope?: 'row' | 'col' | 'rowgroup' | 'colgroup';
+	};
+	time: {
+		dateTime?: string;
+	};
+	track: {
+		default?: boolean;
+		kind?: 'subtitles' | 'captions' | 'chapters' | 'metadata';
+		label?: string;
+		src?: string;
+		srclang?: string;
+	};
+	video: {
+		autoplay?: boolean;
+		controls?: boolean;
+		crossOrigin?: 'anonymous' | 'use-credentials';
+		disablePictureInPicture?: boolean;
+		height?: number;
+		width?: number;
+		loop?: boolean;
+		muted?: boolean;
+		playsInline?: boolean;
+		poster?: string;
+		preload?: 'none' | 'metadata' | 'auto' | '';
+		src?: string;
+	};
+}
 export type CSSProperty = {
 	[Key in keyof CSSStyleDeclaration]?: any;
 };
@@ -225,59 +641,52 @@ export function $$<E extends HTMLElement = HTMLElement>(
 
 //#region #Create
 /** 创建 DOM 元素并应用配置 */
-export function $new<K extends keyof HTMLElementTagNameMap>(
-	tag: K,
-): HTMLElementTagNameMap[K];
 export function $new<
 	K extends keyof HTMLElementTagNameMap,
-	Prop extends Record<string, any> = {},
-	Events extends Record<string, any> = {},
+	E extends HTMLElementTagNameMap[K] = HTMLElementTagNameMap[K],
 >(
 	tag: K,
-	options: DOMApplyOptions<HTMLElementTagNameMap[K], Prop, Events>,
-): HTMLElementTagNameMap[K];
-export function $new<K extends keyof HTMLElementTagNameMap>(
+	options?: DOMApplyOptions<
+		E,
+		K extends keyof HTMLElementProp ? HTMLElementProp[K] : {},
+		{}
+	>,
+	...content: (HTMLElement | string)[]
+): E;
+export function $new<
+	E extends HTMLElementTagNameMap[keyof HTMLElementTagNameMap],
+	K extends HTMLElementTagForType<E> = HTMLElementTagForType<E>,
+>(
 	tag: K,
-	...content: (string | HTMLElement)[]
-): HTMLElementTagNameMap[K];
+	options?: DOMApplyOptions<
+		E,
+		K extends keyof HTMLElementProp ? HTMLElementProp[K] : {},
+		{}
+	>,
+	...content: (HTMLElement | string)[]
+): E;
 export function $new<
 	K extends keyof HTMLElementTagNameMap,
-	Prop extends Record<string, any> = {},
-	Events extends Record<string, any> = {},
+	E extends HTMLElementTagNameMap[K] = HTMLElementTagNameMap[K],
 >(
 	tag: K,
-	options: DOMApplyOptions<HTMLElementTagNameMap[K], Prop, Events>,
-	...content: (string | HTMLElement)[]
-): HTMLElementTagNameMap[K];
-export function $new<E extends HTMLElement = HTMLElement>(tag: string): E;
-export function $new<
-	E extends HTMLElement = HTMLElement,
-	Prop extends Record<string, any> = {},
-	Events extends Record<string, any> = {},
->(tag: string, options: DOMApplyOptions<E, Prop, Events>): E;
-export function $new<E extends HTMLElement = HTMLElement>(
-	tag: string,
-	...content: (string | HTMLElement)[]
+	options?: HTMLElement | string,
+	...content: (HTMLElement | string)[]
 ): E;
 export function $new<
-	E extends HTMLElement = HTMLElement,
-	Prop extends Record<string, any> = {},
-	Events extends Record<string, any> = {},
+	E extends HTMLElementTagNameMap[keyof HTMLElementTagNameMap],
+	K extends HTMLElementTagForType<E> = HTMLElementTagForType<E>,
 >(
-	tag: string,
-	options: DOMApplyOptions<E, Prop, Events>,
-	...content: (string | HTMLElement)[]
+	tag: K,
+	options?: HTMLElement | string,
+	...content: (HTMLElement | string)[]
 ): E;
-export function $new<
-	E extends HTMLElement = HTMLElement,
-	Prop extends Record<string, any> = {},
-	Events extends Record<string, any> = {},
->(
+export function $new(
 	tag: string,
-	options?: DOMApplyOptions<E, Prop, Events> | string | HTMLElement,
-	...content: (string | HTMLElement)[]
-): E {
-	const element = document.createElement(tag) as E;
+	options?: DOMApplyOptions<HTMLElement, {}, {}> | HTMLElement | string,
+	...content: (HTMLElement | string)[]
+): HTMLElement {
+	const element = document.createElement(tag) as HTMLElement;
 	if (typeof options === 'object' && !(options instanceof HTMLElement)) {
 		$apply(element, options);
 	} else if (options !== undefined) {

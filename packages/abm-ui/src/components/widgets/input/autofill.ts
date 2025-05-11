@@ -119,7 +119,9 @@ export class WidgetInputAutoFillItem<
 		Data extends
 			IWidgetInputAutoFillItem<Value> = IWidgetInputAutoFillItem<Value>,
 	>(data: Data): WidgetInputAutoFillItem<Value, Data> {
-		const item = $new<WidgetInputAutoFillItem<Value, Data>>('w-input-autofill');
+		const item = $new<WidgetInputAutoFillItem<Value, Data>>(
+			'w-input-autofill' as any,
+		);
 		item.data = data;
 		return item;
 	}
@@ -160,7 +162,7 @@ export class InputAutoFill<
 		this.#element.navParent = this.#container;
 	}
 	//#region Contents
-	#element: WidgetList<Item> & Navigable = $new<WidgetList<Item>>('w-list', {
+	#element: WidgetList<Item> & Navigable = $new<WidgetList<any>>('w-list', {
 		class: 'w-input-autofill',
 	});
 	get items() {

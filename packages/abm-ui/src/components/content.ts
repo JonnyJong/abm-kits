@@ -114,7 +114,7 @@ export class UIContent<Params extends LocaleParams = LocaleParams>
 
 		if (typeof this.#key === 'string') {
 			if (!(element instanceof WidgetLang)) {
-				element = $new<WidgetLang<Params>>('w-lang');
+				element = $new<WidgetLang<any>>('w-lang');
 				this.#labelState.set(element);
 				this.#events.emit(new EventBase('label', { target: this }));
 			}

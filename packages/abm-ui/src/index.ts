@@ -158,7 +158,7 @@ export * from './components/widgets/grid-virtual';
 export * from './components/widgets/list-infinite';
 
 // Utils
-export interface WidgetsTagNameMap {
+export interface WidgetTagNameMap {
 	'w-lang': WidgetLang;
 	'w-icon': WidgetIcon;
 	'w-progress-bar': WidgetProgressBar;
@@ -187,6 +187,9 @@ export interface WidgetsTagNameMap {
 	'w-grid-virtual': WidgetGridVirtual;
 	'w-list-infinite': WidgetListInfinite;
 }
+export type WidgetTagForType<E> = {
+	[K in keyof WidgetTagNameMap]: E extends WidgetTagNameMap[K] ? K : never;
+}[keyof WidgetTagNameMap];
 export interface WidgetsPropMap {
 	'w-lang': WidgetLangProp;
 	'w-icon': WidgetIconProp;
@@ -233,38 +236,60 @@ export interface WidgetsEventsMap {
 	'w-color': WidgetColorEvents;
 }
 declare module 'abm-utils' {
-	export function $apply<K extends keyof WidgetsTagNameMap>(
-		target: WidgetsTagNameMap[K],
+	export function $apply<
+		K extends keyof WidgetTagNameMap,
+		E extends WidgetTagNameMap[K] = WidgetTagNameMap[K],
+	>(
+		target: E,
 		options: DOMApplyOptions<
-			WidgetsTagNameMap[K],
+			E,
 			K extends keyof WidgetsPropMap ? WidgetsPropMap[K] : {},
 			K extends keyof WidgetsEventsMap ? WidgetsEventsMap[K] : {}
 		>,
 	): void;
-	export function $new<K extends keyof WidgetsTagNameMap>(
-		tag: K,
-	): WidgetsTagNameMap[K];
-	export function $new<K extends keyof WidgetsTagNameMap>(
-		tag: K,
+	export function $apply<
+		E extends WidgetTagNameMap[keyof WidgetTagNameMap],
+		K extends WidgetTagForType<E> = WidgetTagForType<E>,
+	>(
+		target: E,
 		options: DOMApplyOptions<
-			WidgetsTagNameMap[K],
+			WidgetTagNameMap[K],
 			K extends keyof WidgetsPropMap ? WidgetsPropMap[K] : {},
 			K extends keyof WidgetsEventsMap ? WidgetsEventsMap[K] : {}
 		>,
-	): WidgetsTagNameMap[K];
-	export function $new<K extends keyof WidgetsTagNameMap>(
+	): void;
+	export function $new<
+		K extends keyof WidgetTagNameMap,
+		E extends WidgetTagNameMap[K] = WidgetTagNameMap[K],
+	>(
 		tag: K,
-		...content: (string | HTMLElement)[]
-	): WidgetsTagNameMap[K];
-	export function $new<K extends keyof WidgetsTagNameMap>(
-		tag: K,
-		options: DOMApplyOptions<
-			WidgetsTagNameMap[K],
+		options?: DOMApplyOptions<
+			E,
 			K extends keyof WidgetsPropMap ? WidgetsPropMap[K] : {},
 			K extends keyof WidgetsEventsMap ? WidgetsEventsMap[K] : {}
 		>,
-		...content: (string | HTMLElement)[]
-	): WidgetsTagNameMap[K];
+		...content: (HTMLElement | string)[]
+	): E;
+	export function $new<
+		E extends WidgetTagNameMap[keyof WidgetTagNameMap],
+		K extends WidgetTagForType<E> = WidgetTagForType<E>,
+	>(
+		tag: K,
+		options?: DOMApplyOptions<
+			E,
+			K extends keyof WidgetsPropMap ? WidgetsPropMap[K] : {},
+			K extends keyof WidgetsEventsMap ? WidgetsEventsMap[K] : {}
+		>,
+		...content: (HTMLElement | string)[]
+	): E;
+	export function $new<
+		K extends keyof WidgetTagNameMap,
+		E extends WidgetTagNameMap[K] = WidgetTagNameMap[K],
+	>(tag: K, ...content: (HTMLElement | string)[]): E;
+	export function $new<
+		E extends WidgetTagNameMap[keyof WidgetTagNameMap],
+		K extends WidgetTagForType<E> = WidgetTagForType<E>,
+	>(tag: K, ...content: (HTMLElement | string)[]): E;
 }
 
 // TODO: （右键）菜单

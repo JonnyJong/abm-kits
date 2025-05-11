@@ -103,7 +103,7 @@ class WidgetSelectItem<
 		Value = unknown,
 		Data extends IWidgetSelectItem<Value> = IWidgetSelectItem<Value>,
 	>(data: Data): WidgetSelectItem<Value, Data> {
-		const item = $new<WidgetSelectItem<Value, Data>>('w-select-item');
+		const item = $new<WidgetSelectItem<Value, Data>>('w-select-item' as any);
 		item.data = data;
 		return item;
 	}
@@ -137,7 +137,7 @@ export class WidgetSelect<
 	#selected = new Signal.State(-1);
 	//#region Picker
 	#filter = $div({ class: 'ui-preset-fullscreen' });
-	#list = $new<WidgetList<Data> & Navigable>('w-list', {
+	#list: WidgetList<Data> & Navigable = $new<WidgetList<any>>('w-list', {
 		class: 'w-select-list',
 		prop: {
 			itemClass: WidgetSelectItem,
