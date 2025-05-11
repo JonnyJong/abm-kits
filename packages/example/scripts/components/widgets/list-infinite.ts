@@ -1,6 +1,6 @@
 import { Signal } from '@lit-labs/signals';
 import { WidgetListInfinite, WidgetListInfiniteItem } from 'abm-ui';
-import { $new, range } from 'abm-utils';
+import { $new, range, sleep } from 'abm-utils';
 import { css } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { $panel } from '../../utils';
@@ -25,15 +25,17 @@ class TestListInfiniteItem extends WidgetListInfiniteItem<number> {
 		return this.#identifier.get().toString();
 	}
 	static create(identifier: number): TestListInfiniteItem {
-		const node = $new<TestListInfiniteItem>('test-list-infinite-item');
+		const node = $new<TestListInfiniteItem>('test-list-infinite-item' as any);
 		node.identifier = identifier;
 		return node;
 	}
-	static prev(from: number): number[] | null {
+	static async prev(from: number): Promise<number[] | null> {
+		await sleep(Math.floor(Math.random() * 10));
 		if (from < -200) return null;
 		return range(-10, 0).map((diff) => from + diff);
 	}
-	static next(from: number): number[] | null {
+	static async next(from: number): Promise<number[] | null> {
+		await sleep(Math.floor(Math.random() * 10));
 		if (from > 200) return null;
 		return range(1, 11).map((diff) => from + diff);
 	}

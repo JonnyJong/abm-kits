@@ -254,10 +254,13 @@ export class WidgetListInfinite<
 			behavior: 'instant',
 		});
 	}
+	#updating = false;
 	async #performUpdate() {
+		if (this.#updating) return;
 		if (Date.now() - this.#lastUpdateTimestamp < 15) return;
 		if (!this.#itemClass) return;
 		if (this.#container.childElementCount === 0) return;
+		this.#updating = true;
 		// 定位当前滚动位置
 		const { targetItem, initialScrollPosition } = this.#locateCenterItem();
 		const targetIndex = Array.prototype.indexOf.call(
@@ -298,6 +301,7 @@ export class WidgetListInfinite<
 			this.#container.prepend(...prevBatch.map((id) => this.#create(id)));
 			this.#updateBoundaryState(prevBatch.length === 0, 'top');
 		}
+		this.#updating = false;
 		// 保持滚动位置
 		await sleep(0);
 		this.#maintainScrollPosition(targetItem, initialScrollPosition);
