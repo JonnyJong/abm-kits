@@ -1,3 +1,4 @@
+import { WidgetPassword } from 'abm-ui';
 import { $new } from 'abm-utils';
 import { $panel } from '../../utils';
 
@@ -77,7 +78,7 @@ export function initInput() {
 		['input', 'confirm', 'autofill', 'action'],
 	);
 	//#region Psw
-	const psw = $new('w-password', {
+	const psw = $new<WidgetPassword>('w-password', {
 		prop: {
 			autoFill: AUTO_FILL,
 			actionsLeft: [{ id: '', content: { icon: 'Password' } }],

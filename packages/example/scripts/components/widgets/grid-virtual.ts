@@ -30,7 +30,7 @@ class TestGridVirtualItem extends WidgetGridVirtualItem<string> {
 		return this.#data.get();
 	}
 	static create(data: string): TestGridVirtualItem {
-		const node = $new<TestGridVirtualItem>('test-grid-virtual-item' as any);
+		const node: TestGridVirtualItem = $new('test-grid-virtual-item' as any);
 		node.data = data;
 		return node;
 	}

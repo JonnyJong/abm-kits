@@ -30,7 +30,7 @@ class TestListItem extends WidgetListItem<string> implements Navigable {
 		this.#str.textContent = value;
 	}
 	static create(data: string): TestListItem {
-		const item = $new<TestListItem>('test-list-item');
+		const item: TestListItem = $new('test-list-item' as any);
 		item.data = data;
 		return item;
 	}
