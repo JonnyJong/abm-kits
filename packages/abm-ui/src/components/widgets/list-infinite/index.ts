@@ -100,7 +100,7 @@ export class WidgetListInfinite<
 		$new('w-progress-ring'),
 		this.#bottomBoundaryContainer,
 	);
-	#container = $div({ class: 'container' });
+	#container = $div({ class: 'container', attr: { part: 'container' } });
 	#isIntersecting = false;
 	#initId: ID | null = null;
 	#observer = new IntersectionObserver((entries) => {
