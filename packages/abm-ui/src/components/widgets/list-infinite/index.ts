@@ -153,6 +153,11 @@ export class WidgetListInfinite<
 		this.#itemClass = value;
 		this.#rerender();
 	}
+	#create = (id: ID) => {
+		const node: Item & Navigable = this.#itemClass!.create(id);
+		node.navParent = this;
+		return node;
+	};
 	/**
 	 * 滚动缓冲阈值
 	 * @default 20
@@ -180,7 +185,7 @@ export class WidgetListInfinite<
 		}
 		this.#container.replaceChildren(
 			...[...this.#container.children].map((item) =>
-				this.#itemClass!.create((item as Item).identifier),
+				this.#create((item as Item).identifier),
 			),
 		);
 	}
@@ -216,9 +221,7 @@ export class WidgetListInfinite<
 		this.#updateBoundaryState(nextItems.length === 0, 'bottom');
 
 		this.#container.replaceChildren(
-			...[...prevItems, startId, ...nextItems].map((id) =>
-				this.#itemClass!.create(id),
-			),
+			...[...prevItems, startId, ...nextItems].map((id) => this.#create(id)),
 		);
 
 		this.#container.children[prevItems.length].scrollIntoView({
@@ -276,9 +279,7 @@ export class WidgetListInfinite<
 				(
 					await this.#itemClass.next((this.#container.lastChild as Item).identifier)
 				)?.slice(0, -nextSurplus) ?? [];
-			this.#container.append(
-				...nextBatch.map((id) => this.#itemClass!.create(id)),
-			);
+			this.#container.append(...nextBatch.map((id) => this.#create(id)));
 			this.#updateBoundaryState(nextBatch.length === 0, 'bottom');
 		}
 		// 处理上方内容
@@ -294,9 +295,7 @@ export class WidgetListInfinite<
 				(
 					await this.#itemClass.prev((this.#container.firstChild as Item).identifier)
 				)?.slice(prevSurplus) ?? [];
-			this.#container.prepend(
-				...prevBatch.map((id) => this.#itemClass!.create(id)),
-			);
+			this.#container.prepend(...prevBatch.map((id) => this.#create(id)));
 			this.#updateBoundaryState(prevBatch.length === 0, 'top');
 		}
 		// 保持滚动位置
@@ -305,4 +304,7 @@ export class WidgetListInfinite<
 		this.#lastUpdateTimestamp = Date.now();
 	}
 	#debouncedUpdate = Debounce.new(() => this.#performUpdate(), 10);
+	get navChildren() {
+		return [...this.#container.children] as HTMLElement[];
+	}
 }
