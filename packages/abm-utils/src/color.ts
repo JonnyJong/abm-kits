@@ -213,7 +213,7 @@ export class Color {
 	getTokens(): Record<string, string> {
 		const hex = this.hex();
 		const alphasOfTheme: Record<string, string> = {};
-		for (const i of range(1, 15).map((v) => v.toString(16))) {
+		for (const i of range(1, 16).map((v) => v.toString(16))) {
 			alphasOfTheme[`--theme-a${i}`] = `${hex}${i}0`;
 		}
 		return {

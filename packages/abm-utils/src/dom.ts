@@ -574,7 +574,7 @@ function applyEvent<E extends HTMLElement = HTMLElement>(
 }
 
 const colorTokens = ['text'];
-for (const i of range(1, 15)) {
+for (const i of range(1, 16)) {
 	colorTokens.push(i.toString(16));
 }
 
