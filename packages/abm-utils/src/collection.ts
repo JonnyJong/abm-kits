@@ -472,3 +472,24 @@ export function* zip<Arrays extends any[][] = any[][]>(
 export function toReversed<T extends any[] = any[]>(array: T): T[number][] {
 	return [...array].reverse();
 }
+
+/**
+ * 创建一个指定长度的数组，并通过生成器函数初始化每个元素
+ *
+ * @param length  数组长度（必须为非负整数）
+ * @param generator 元素生成函数，接收三个参数：
+ *  - value: 当前元素的值（根据实现可能不同，通常可忽略）
+ *  - index: 当前元素的索引（从0开始）
+ *  - array: 正在被操作的数组（谨慎使用，避免副作用）
+ * @returns 由生成器函数初始化的新数组
+ *
+ * @example
+ * // 创建一个长度为5的数组，元素为索引平方
+ * createArray(5, (_, index) => index ** 2); // => [0, 1, 4, 9, 16]
+ */
+export function createArray<T>(
+	length: number,
+	generator: (value: unknown, index: number, array: unknown[]) => T,
+): T[] {
+	return new Array(length).fill(0).map(generator);
+}
