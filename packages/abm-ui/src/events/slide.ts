@@ -322,7 +322,7 @@ export class UIEventSlideManager implements IUIEventBaseManage<'slide'> {
 		y?: number,
 	): boolean {
 		if (!Number.isFinite(identifier)) return false;
-		identifier = Math.floor(identifier);
+		identifier = Math.trunc(identifier);
 		if (identifier < -2) return false;
 		if (!this.#subscriptions.has(target)) return false;
 		if (this.#activated.has(target)) return false;

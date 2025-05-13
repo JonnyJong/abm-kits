@@ -76,7 +76,7 @@ export function range(
  */
 export function shuffle<T>(array: T[]): T[] {
 	for (const i of range(array.length)) {
-		const j = Math.floor(Math.random() * array.length);
+		const j = Math.trunc(Math.random() * array.length);
 		if (i === j) continue;
 		[array[i], array[j]] = [array[j], array[i]];
 	}

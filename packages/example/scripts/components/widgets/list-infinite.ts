@@ -30,12 +30,12 @@ class TestListInfiniteItem extends WidgetListInfiniteItem<number> {
 		return node;
 	}
 	static async prev(from: number): Promise<number[] | null> {
-		await sleep(Math.floor(Math.random() * 10));
+		await sleep(Math.trunc(Math.random() * 10));
 		if (from < -200) return null;
 		return range(-10, 0).map((diff) => from + diff);
 	}
 	static async next(from: number): Promise<number[] | null> {
-		await sleep(Math.floor(Math.random() * 10));
+		await sleep(Math.trunc(Math.random() * 10));
 		if (from > 200) return null;
 		return range(1, 11).map((diff) => from + diff);
 	}

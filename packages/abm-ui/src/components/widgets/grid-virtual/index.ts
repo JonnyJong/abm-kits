@@ -523,7 +523,7 @@ export class WidgetGridVirtual<
 		let width: string;
 		if (this.#itemWidthType === 'fixed-count') {
 			// Fixed Count
-			let count = Math.max(Math.floor(this.#itemWidthRatio), 1);
+			let count = Math.max(Math.trunc(this.#itemWidthRatio), 1);
 			if (!Number.isFinite(count)) count = 1;
 			width = `${this.#width / count}px`;
 			widths.fill(this.#width / count);

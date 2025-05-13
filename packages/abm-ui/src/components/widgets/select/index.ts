@@ -103,7 +103,7 @@ class WidgetSelectItem<
 		Value = unknown,
 		Data extends IWidgetSelectItem<Value> = IWidgetSelectItem<Value>,
 	>(data: Data): WidgetSelectItem<Value, Data> {
-		const item = $new<WidgetSelectItem<Value, Data>>('w-select-item' as any);
+		const item: WidgetSelectItem<Value, Data> = $new('w-select-item' as any);
 		item.data = data;
 		return item;
 	}
@@ -137,7 +137,7 @@ export class WidgetSelect<
 	#selected = new Signal.State(-1);
 	//#region Picker
 	#filter = $div({ class: 'ui-preset-fullscreen' });
-	#list: WidgetList<Data> & Navigable = $new<WidgetList<any>>('w-list', {
+	#list: WidgetList<Data> & Navigable = $new('w-list' as any, {
 		class: 'w-select-list',
 		prop: {
 			itemClass: WidgetSelectItem,
@@ -155,7 +155,7 @@ export class WidgetSelect<
 	) {
 		let target = this.#selected.get();
 		if (target !== -1) return target;
-		target = Math.floor((elements.length - 1) / 2);
+		target = Math.trunc((elements.length - 1) / 2);
 		const middleTop = elements[target].viewTop;
 
 		if (middleTop > top) {
@@ -304,7 +304,7 @@ export class WidgetSelect<
 		return this.#selected.get();
 	}
 	set index(value: number) {
-		value = Math.floor(value);
+		value = Math.trunc(value);
 		if (!Number.isFinite(value) || value >= this.#list.items.length || value < -1)
 			value = -1;
 		this.#selected.set(value);
