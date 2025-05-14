@@ -189,4 +189,7 @@ export abstract class WidgetInput<
 
 		return node;
 	}
+	get contextMenuBehavior() {
+		return true;
+	}
 }

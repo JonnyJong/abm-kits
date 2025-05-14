@@ -101,6 +101,7 @@ import {
 	WidgetSwitchEvents,
 	WidgetSwitchProp,
 } from './components/widgets/switch';
+import { initContextMenu } from './context-menu';
 
 // Global
 export * from './defaults';
@@ -295,5 +296,4 @@ declare module 'abm-utils' {
 	>(tag: K, ...content: (HTMLElement | string)[]): E;
 }
 
-// TODO: （右键）菜单
-window.addEventListener('contextmenu', (ev) => ev.preventDefault());
+initContextMenu();

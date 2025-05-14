@@ -65,4 +65,13 @@ export abstract class Widget<
 	get nonNavigable(): boolean {
 		return this.hasAttribute('disabled');
 	}
+	/**
+	 * 菜单行为
+	 * @description
+	 * - `undefined` | `false`：忽略
+	 * - `true`：允许打开菜单
+	 */
+	get contextMenuBehavior(): boolean | undefined {
+		return undefined;
+	}
 }
