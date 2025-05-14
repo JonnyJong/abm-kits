@@ -293,7 +293,7 @@ export class SyncList<Data = unknown, Instance = unknown> {
 	};
 	#shift = (): Data | undefined => {
 		if (!this.#creatable) return this.data.shift();
-		const element = this.instances.pop();
+		const element = this.instances.shift();
 		if (!element) return;
 		const result = this.getData(element);
 		this.#update();
@@ -316,10 +316,15 @@ export class SyncList<Data = unknown, Instance = unknown> {
 		return result;
 	};
 	#sort = (compareFn?: (a: Data, b: Data) => number): Data[] => {
-		if (compareFn) this.#redirect().sort();
-		if (this.#creatable)
-			this.instances.sort((a, b) => compareFn!(this.getData(a), this.getData(b)));
-		else this.data.sort(compareFn);
+		if (this.#creatable) {
+			if (compareFn)
+				this.instances.sort((a, b) => compareFn!(this.getData(a), this.getData(b)));
+			else
+				this.instances.sort((a, b) =>
+					String(this.getData(a)).localeCompare(String(this.getData(b))),
+				);
+		} else if (compareFn) this.data.sort(compareFn);
+		else this.data.sort();
 		this.#update();
 		return this.items;
 	};
