@@ -1,0 +1,87 @@
+:host
+	display block
+	overflow auto
+
+.head
+.row
+	display flex
+	align-items center
+
+.head
+.body
+	width max-content
+
+.head
+	position sticky
+	top 0
+	z-index 1
+	background var(--w-grid-data-head-bg)
+	backdrop-filter blur(4px)
+
+.row
+	height var(--w-grid-data-row-height)
+	&:nth-child(odd)
+		background var(--w-grid-data-row-odd-bg)
+	&:nth-child(even)
+		background var(--w-grid-data-row-even-bg)
+	&:hover
+	&:has([ui-hover])
+		background var(--w-grid-data-row-hover-bg)
+
+.head-item
+.item
+	flex 0 0 auto
+	min-width 8px
+
+.head-item
+	position relative
+	display flex
+	align-items center
+	padding 4px
+	transition .1s background
+	&>:first-child
+		flex 1 1 auto
+		overflow hidden
+		width 0
+		text-overflow ellipsis
+	&[ui-hover]:not(:has(.resize:hover))
+		background var(--w-grid-data-head-hover-bg)
+	&[ui-active]:not(:has(.resize:active))
+		background var(--w-grid-data-head-active-bg)
+
+.sort
+	transition .1s scale, .1s rotate
+	scale 0
+
+.resize
+	position absolute
+	top 0
+	right -4px
+	z-index 1
+	width 8px
+	height 100%
+	&:hover
+	&[ui-slide]
+		&:before
+			position relative
+			top 0
+			left 4.5px
+			display block
+			width 1px
+			height 100%
+			background var(--text)
+			content ''
+
+.item
+	overflow hidden
+	&:first-child
+		padding-left 4px
+	&:last-child
+		padding-right 4px
+
+[order='desc'] .sort
+	scale 1
+
+[order='asc'] .sort
+	scale 1
+	rotate 180deg

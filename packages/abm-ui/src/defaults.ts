@@ -39,6 +39,7 @@ export const DEFAULTS_ICONS: Readonly<Record<UIDefaultsIcons, string>> =
 		left: 'ChevronLeft',
 		gamepadStart: 'Navigation',
 		gamepadBack: 'SquareMultiple',
+		orderDesc: 'ChevronDown',
 	});
 
 export const DEFAULT_LOCALES_NESTED: Readonly<

@@ -20,6 +20,7 @@ import {
 	WidgetColorPickerProp,
 } from './components/widgets/color-picker';
 import { WidgetGamepad, WidgetGamepadProp } from './components/widgets/gamepad';
+import { WidgetGridData } from './components/widgets/grid-data';
 import {
 	WidgetGridVirtual,
 	WidgetGridVirtualProp,
@@ -156,6 +157,7 @@ export * from './components/widgets/hint/pen';
 export * from './components/widgets/hint/index';
 export * from './components/widgets/grid-virtual';
 export * from './components/widgets/list-infinite';
+export * from './components/widgets/grid-data';
 
 // Utils
 export interface WidgetTagNameMap {
@@ -186,6 +188,7 @@ export interface WidgetTagNameMap {
 	'w-hint': WidgetHint;
 	'w-grid-virtual': WidgetGridVirtual;
 	'w-list-infinite': WidgetListInfinite;
+	'w-grid-data': WidgetGridData;
 }
 export type WidgetTagForType<E> = {
 	[K in keyof WidgetTagNameMap]: E extends WidgetTagNameMap[K] ? K : never;

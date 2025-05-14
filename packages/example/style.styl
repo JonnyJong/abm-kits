@@ -29,6 +29,12 @@ body:not(:has(.ui-preset-fullscreen))
 	&[ui-slide]
 		background var(--theme)
 
+w-grid-data
+	width calc(-358px + 100vw)
+	height s('max(50vh, 300px)')
+
 @media screen and (max-width 700px)
 	.dev-panel
 		flex-direction column-reverse
+	w-grid-data
+		width 100%

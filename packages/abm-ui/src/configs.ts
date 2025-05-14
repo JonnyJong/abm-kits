@@ -52,7 +52,8 @@ export type UIDefaultsIcons =
 	| 'down'
 	| 'left'
 	| 'gamepadStart'
-	| 'gamepadBack';
+	| 'gamepadBack'
+	| 'orderDesc';
 
 const DEFAULTS_ICONS_NAMES: UIDefaultsIcons[] = [
 	'increase',
@@ -80,6 +81,7 @@ const DEFAULTS_ICONS_NAMES: UIDefaultsIcons[] = [
 	'left',
 	'gamepadStart',
 	'gamepadBack',
+	'orderDesc',
 ];
 
 class UIIconConfigs {
