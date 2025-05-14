@@ -21,22 +21,31 @@ import CSS from './index.styl';
  */
 export type WidgetGridVirtualLayout = 'fill' | 'content-center';
 /**
+ * 元素行内横向间隔
+ * @description
+ * - `between`：均匀分布，第一项与起始点齐平，最后一项与终止点齐平
+ * - `around`：均匀分布，项目在两端有一半大小的空间
+ * - `evenly`：均匀分布，项目周围有相等的空间
+ * - `none`：紧密分布，项目之间无额外间隔
+ */
+export type WidgetGridVirtualItemSpacing =
+	| 'between'
+	| 'around'
+	| 'evenly'
+	| 'none';
+/**
  * 元素行内横向对齐
  * @description
- * - `space-between`：均匀分布，第一项与起始点齐平，最后一项与终止点齐平
- * - `space-around`：均匀分布，项目在两端有一半大小的空间
- * - `space-evenly`：均匀分布，项目周围有相等的空间
- * - `left`：居左
- * - `center`：居中
- * - `right`：居右
+ * - `left`：左对齐
+ * - `center`：居中对齐
+ * - `right`：右对齐
+ * - `justify`：两端对齐（spacing 为 none 时等同于 center）
  */
 export type WidgetGridVirtualItemAlign =
-	| 'space-between'
-	| 'space-around'
-	| 'space-evenly'
 	| 'left'
 	| 'center'
-	| 'right';
+	| 'right'
+	| 'justify';
 /**
  * 元素行内纵向对齐
  * @description
@@ -133,14 +142,20 @@ export interface WidgetGridVirtualProp<
 	itemHeightRatio?: number;
 }
 
+type Spacing = [left: number, gap: number, right: number];
+
 const ALIGN: WidgetGridVirtualLayout[] = ['fill', 'content-center'];
+const ITEM_SPACING: WidgetGridVirtualItemSpacing[] = [
+	'between',
+	'around',
+	'evenly',
+	'none',
+];
 const ITEM_ALIGN: WidgetGridVirtualItemAlign[] = [
-	'space-between',
-	'space-around',
-	'space-evenly',
 	'left',
 	'center',
 	'right',
+	'justify',
 ];
 const ITEM_VERTICAL_ALIGN: WidgetGridVirtualItemVerticalAlign[] = [
 	'top',
@@ -158,74 +173,123 @@ const ITEM_HEIGHT_TYPE: WidgetGridVirtualItemHeightType[] = [
 	'dynamic',
 ];
 
-const HORIZONTAL_ALIGN: Record<
-	WidgetGridVirtualItemAlign,
-	(items: HTMLElement[], width: number[], lineWidth: number) => void
+function sum(width: number[]): number {
+	return width.reduce((p, c) => p + c, 0);
+}
+
+const HORIZONTAL_SPACING: Record<
+	WidgetGridVirtualItemSpacing,
+	(width: number[], lineWidth: number) => Spacing
 > = {
-	'space-between': (items, width, lineWidth) => {
-		items[0].style.left = '0px';
-		if (items.length === 1) return;
-
-		const blankWidth = lineWidth - width.reduce((p, w) => p + w, 0);
-		const eachBlankWidth = blankWidth / (items.length - 1);
-
-		let left = width[0] + eachBlankWidth;
-		for (const [item, w] of zip(items.slice(1), width.slice(1))) {
-			item.style.left = `${left}px`;
-			left += w + eachBlankWidth;
-		}
+	between(width, lineWidth) {
+		const blank = lineWidth - sum(width);
+		if (width.length <= 2) return [0, blank, 0];
+		return [0, blank / (width.length - 1), 0];
 	},
-	'space-around': (items, width, lineWidth) => {
-		const blankWidth = lineWidth - width.reduce((p, w) => p + w, 0);
-		const eachBlankWidth = blankWidth / items.length;
-
-		items[0].style.left = `${eachBlankWidth / 2}px`;
-		if (items.length === 1) return;
-
-		let left = width[0] + eachBlankWidth * 1.5;
-		for (const [item, w] of zip(items.slice(1), width.slice(1))) {
-			item.style.left = `${left}px`;
-			left += w + eachBlankWidth;
-		}
+	around(width, lineWidth) {
+		const blank = lineWidth - sum(width);
+		const gap = blank / width.length;
+		const around = gap / 2;
+		return [around, gap, around];
 	},
-	'space-evenly': (items, width, lineWidth) => {
-		const blankWidth = lineWidth - width.reduce((p, w) => p + w, 0);
-		const eachBlankWidth = blankWidth / (items.length + 1);
-
-		items[0].style.left = `${eachBlankWidth}px`;
-		if (items.length === 1) return;
-
-		let left = width[0] + eachBlankWidth * 2;
-		for (const [item, w] of zip(items.slice(1), width.slice(1))) {
-			item.style.left = `${left}px`;
-			left += w + eachBlankWidth;
-		}
+	evenly(width, lineWidth) {
+		const blank = lineWidth - sum(width);
+		const gap = blank / (width.length + 1);
+		return [gap, gap, gap];
 	},
-	left: (items, width) => {
-		let left = 0;
-		for (const [item, w] of zip(items, width)) {
-			item.style.left = `${left}px`;
-			left += w;
-		}
-	},
-	center: (items, width, lineWidth) => {
-		const blankWidth = lineWidth - width.reduce((p, w) => p + w, 0);
-		let left = blankWidth / 2;
-		for (const [item, w] of zip(items, width)) {
-			item.style.left = `${left}px`;
-			left += w;
-		}
-	},
-	right: (items, width, lineWidth) => {
-		let right = lineWidth;
-		for (const [item, w] of zip(toReversed(items), toReversed(width))) {
-			right -= w;
-			item.style.left = `${right}px`;
-		}
+	none(width, lineWidth) {
+		const blank = lineWidth - sum(width);
+		return [blank, 0, blank];
 	},
 };
 
-const VERTICAL_ALIGN: Record<
+const HORIZONTAL_POSITIONING: Record<
+	WidgetGridVirtualItemAlign,
+	(
+		items: HTMLElement[],
+		width: number[],
+		lineWidth: number,
+		spacing: WidgetGridVirtualItemSpacing,
+		prevLine?: Spacing,
+	) => Spacing
+> = {
+	left(items, width, lineWidth, spacing, prevLine) {
+		let left: number;
+		let gap: number;
+		if (prevLine) {
+			[left, gap] = prevLine;
+		} else {
+			[left, gap] = HORIZONTAL_SPACING[spacing](width, lineWidth);
+			if (spacing === 'none') left = 0;
+		}
+		let l = left;
+		for (const [item, w] of zip(items, width)) {
+			item.style.left = `${l}px`;
+			l += gap + w;
+		}
+		return [left, gap, 0];
+	},
+	center(items, width, lineWidth, spacing, prevLine) {
+		let left: number;
+		let gap: number;
+		if (prevLine) {
+			gap = prevLine[1];
+			left = (lineWidth - sum(width) - gap * (items.length - 1)) / 2;
+		} else {
+			[left, gap] = HORIZONTAL_SPACING[spacing](width, lineWidth);
+			if (spacing === 'none') left /= 2;
+		}
+		let l = left;
+		for (const [item, w] of zip(items, width)) {
+			item.style.left = `${l}px`;
+			l += gap + w;
+		}
+		return [left, gap, 0];
+	},
+	right(items, width, lineWidth, spacing, prevLine) {
+		let left: number;
+		let gap: number;
+		let right: number;
+		if (prevLine) {
+			[left, gap, right] = prevLine;
+		} else {
+			[left, gap, right] = HORIZONTAL_SPACING[spacing](width, lineWidth);
+			if (spacing === 'none') right = 0;
+		}
+		let r = lineWidth - right;
+		for (const [item, w] of zip(toReversed(items), toReversed(width))) {
+			r -= w;
+			item.style.left = `${r}px`;
+			r -= gap;
+		}
+		return [left, gap, right];
+	},
+	justify(items, width, lineWidth, spacing, prevLine) {
+		let left: number;
+		let gap: number;
+		let right: number;
+		if (prevLine) {
+			[left, gap, right] = prevLine;
+			if (items.length > 1) {
+				gap = (lineWidth - sum(width) - left - right) / (items.length - 1);
+			}
+		} else {
+			[left, gap, right] = HORIZONTAL_SPACING[spacing](width, lineWidth);
+			if (spacing === 'none') {
+				left /= 2;
+				right /= 2;
+			}
+		}
+		let l = left;
+		for (const [item, w] of zip(items, width)) {
+			item.style.left = `${l}px`;
+			l += w + gap;
+		}
+		return [left, gap, right];
+	},
+};
+
+const VERTICAL_POSITIONING: Record<
 	WidgetGridVirtualItemVerticalAlign,
 	(
 		items: HTMLElement[],
@@ -372,7 +436,8 @@ export class WidgetGridVirtual<
 	}
 	//#region Layout
 	#layout: WidgetGridVirtualLayout = 'fill';
-	#itemAlign: WidgetGridVirtualItemAlign = 'space-between';
+	#itemScaping: WidgetGridVirtualItemSpacing = 'between';
+	#itemAlign: WidgetGridVirtualItemAlign = 'left';
 	#itemVerticalAlign: WidgetGridVirtualItemVerticalAlign = 'top';
 	#itemWidthType: WidgetGridVirtualItemWidthType = 'dynamic';
 	#itemWidthRatio = 0;
@@ -388,14 +453,23 @@ export class WidgetGridVirtual<
 		return this.#layout;
 	}
 	/**
+	 * 元素行内横向间隔
+	 * @description
+	 * - `between`：均匀分布，第一项与起始点齐平，最后一项与终止点齐平
+	 * - `around`：均匀分布，项目在两端有一半大小的空间
+	 * - `evenly`：均匀分布，项目周围有相等的空间
+	 * - `none`：紧密分布，项目之间无额外间隔
+	 */
+	get itemScaping() {
+		return this.#itemScaping;
+	}
+	/**
 	 * 元素行内横向对齐
 	 * @description
-	 * - `space-between`：均匀分布，第一项与起始点齐平，最后一项与终止点齐平
-	 * - `space-around`：均匀分布，项目在两端有一半大小的空间
-	 * - `space-evenly`：均匀分布，项目周围有相等的空间
-	 * - `left`：居左
-	 * - `center`：居中
-	 * - `right`：居右
+	 * - `left`：左对齐
+	 * - `center`：居中对齐
+	 * - `right`：右对齐
+	 * - `justify`：两端对齐
 	 */
 	get itemAlign() {
 		return this.#itemAlign;
@@ -442,6 +516,12 @@ export class WidgetGridVirtual<
 		if (!ALIGN.includes(value)) return;
 		if (this.#layout === value) return;
 		this.#layout = value;
+		this.#updateLayoutDebounce();
+	}
+	set itemScaping(value: WidgetGridVirtualItemSpacing) {
+		if (!ITEM_SPACING.includes(value)) return;
+		if (this.#itemScaping === value) return;
+		this.#itemScaping = value;
 		this.#updateLayoutDebounce();
 	}
 	set itemAlign(value: WidgetGridVirtualItemAlign) {
@@ -596,11 +676,22 @@ export class WidgetGridVirtual<
 		}
 		this.#content.style.paddingLeft = `${(this.#width - lineWidth) / 2}px`;
 		let top = 0;
-		const horizontalAlign = HORIZONTAL_ALIGN[this.#itemAlign];
-		const verticalAlign = VERTICAL_ALIGN[this.#itemVerticalAlign];
-		for (const { items, width, height, lineHeight } of this.#linesLayout) {
-			horizontalAlign(items, width, lineWidth);
-			verticalAlign(items, height, lineHeight, top);
+		let prevSpacing: Spacing | undefined = undefined;
+		const horizontalPositioning = HORIZONTAL_POSITIONING[this.#itemAlign];
+		const verticalPositioning = VERTICAL_POSITIONING[this.#itemVerticalAlign];
+		for (const [
+			i,
+			{ items, width, height, lineHeight },
+		] of this.#linesLayout.entries()) {
+			const spacing = horizontalPositioning(
+				items,
+				width,
+				lineWidth,
+				this.#itemScaping,
+				prevSpacing,
+			);
+			if (i === this.#linesLayout.length - 2) prevSpacing = spacing;
+			verticalPositioning(items, height, lineHeight, top);
 			top += lineHeight;
 		}
 	}

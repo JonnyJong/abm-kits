@@ -52,15 +52,13 @@ export function initGridVirtual() {
 			},
 			{
 				type: 'enum',
+				key: 'itemScaping',
+				options: ['between', 'around', 'evenly', 'none'],
+			},
+			{
+				type: 'enum',
 				key: 'itemAlign',
-				options: [
-					'space-between',
-					'space-around',
-					'space-evenly',
-					'left',
-					'center',
-					'right',
-				],
+				options: ['left', 'center', 'right', 'justify'],
 			},
 			{
 				type: 'enum',
