@@ -119,7 +119,7 @@ export class WidgetInputAutoFillItem<
 		Data extends
 			IWidgetInputAutoFillItem<Value> = IWidgetInputAutoFillItem<Value>,
 	>(data: Data): WidgetInputAutoFillItem<Value, Data> {
-		const item = $new<WidgetInputAutoFillItem<Value, Data>>(
+		const item: WidgetInputAutoFillItem<Value, Data> = $new(
 			'w-input-autofill' as any,
 		);
 		item.data = data;
