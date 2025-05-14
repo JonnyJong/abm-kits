@@ -9,7 +9,8 @@
 		position absolute
 		width 100%
 		transition .2s top, .2s opacity
-		animation append .2s ease
+		&.w-list-item-init
+			animation append .2s ease
 	&.w-list-dragging>*:not(.w-list-dragging)
 		opacity .5
 

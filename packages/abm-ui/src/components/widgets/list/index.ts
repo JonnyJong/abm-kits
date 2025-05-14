@@ -316,6 +316,12 @@ export class WidgetList<
 		const item = this.#itemClass!.create(data);
 		item.host = this as any;
 		item.part.add('w-list-item');
+		item.classList.add('w-list-item-init');
+		item.addEventListener(
+			'animationend',
+			() => item.classList.remove('w-list-item-init'),
+			{ once: true },
+		);
 		return item;
 	}
 	#validItems: Item[] = [];
