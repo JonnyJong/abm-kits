@@ -171,7 +171,7 @@ let includeDefaults: WidgetCheckbox;
 async function updateList() {
 	const result = await getProjects();
 	if (result instanceof Error) {
-		Dialog.ok({ title: 'error', content: result.message });
+		Dialog.alert({ title: 'error', content: result.message });
 		return;
 	}
 	list.items = result;
@@ -220,14 +220,14 @@ async function addProject() {
 		includeDefaults: includeDefaults.checked,
 	});
 	if (result instanceof Error) {
-		Dialog.ok({
+		Dialog.alert({
 			title: 'error',
 			content: result.message,
 		});
 		return;
 	}
 	if (typeof result === 'string') {
-		Dialog.ok({
+		Dialog.alert({
 			title: 'error',
 			content: result,
 		});
@@ -286,7 +286,7 @@ async function loadProject(path: string) {
 const saveProject = Debounce.new(async () => {
 	const err = await writeProject(projectPath, currentProject);
 	if (!err) return;
-	Dialog.ok({
+	Dialog.alert({
 		title: 'error',
 		content: err.message,
 		autoHide: true,
@@ -308,7 +308,7 @@ function removeIcon(icon: IconInfo) {
 }
 
 function compileStartMsg(error?: Error | any) {
-	Dialog.ok({
+	Dialog.alert({
 		title: error ? 'error' : 'compile-project',
 		content: error ? error.message : $new('w-lang', 'compile-started'),
 		autoHide: true,

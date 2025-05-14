@@ -67,7 +67,7 @@ export async function initPicker() {
 
 	const values = await getValues();
 	if (values instanceof Error) {
-		Dialog.ok({ title: 'error', content: values.message, autoHide: true });
+		Dialog.alert({ title: 'error', content: values.message, autoHide: true });
 		return;
 	}
 

@@ -31,9 +31,9 @@ export function initDialog() {
 			content: $div({ html: content.value }),
 		});
 	});
-	const ok = $new('w-btn', 'Create OK');
+	const ok = $new('w-btn', 'Create Alert');
 	ok.on('active', () => {
-		Dialog.ok({
+		Dialog.alert({
 			title: title.value,
 			content: $div({ html: content.value }),
 		});

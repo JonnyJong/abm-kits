@@ -341,7 +341,7 @@ export class Dialog<ID extends string = string>
 		return promise;
 	}
 	/** 提示对话框 */
-	static ok(options: DialogOKInit): Promise<void> & { dialog: Dialog<'ok'> } {
+	static alert(options: DialogOKInit): Promise<void> & { dialog: Dialog<'ok'> } {
 		const dialog = new Dialog({
 			autoHide: true,
 			...options,
