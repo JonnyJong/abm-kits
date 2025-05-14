@@ -1,4 +1,5 @@
 import {
+	$applyColor,
 	$div,
 	$new,
 	Color,
@@ -24,6 +25,8 @@ export interface DialogInitBase {
 	content: DOMContents;
 	/** 按钮激活时关闭对话框 */
 	autoHide?: boolean;
+	/** 对话框主题色 */
+	theme?: Color | string;
 }
 
 export interface DialogActionInit<ID extends string = string> {
@@ -155,6 +158,8 @@ export class Dialog<ID extends string = string>
 		// Actions
 		this.actions = options.actions;
 		this.autoHide = !!options.autoHide;
+		// Theme
+		this.theme = options.theme;
 	}
 	//#region Title
 	#titleElement = $div({ class: 'ui-dialog-title' });
@@ -207,6 +212,18 @@ export class Dialog<ID extends string = string>
 	}
 	set actions(value: DialogActionInit<ID>[]) {
 		this.#actions.replace(...value);
+	}
+	//#region Theme
+	#theme?: Color;
+	/** 主题色 */
+	get theme(): Color | undefined {
+		return this.#theme?.clone();
+	}
+	set theme(value: Color | string | undefined) {
+		if (value instanceof Color) this.#theme = value.clone();
+		else if (typeof value === 'string') this.#theme = Color.hex(value);
+		else this.#theme = undefined;
+		$applyColor(this.#dialog, this.#theme);
 	}
 	//#region Events
 	#actionPromise?: Promise<ID>;

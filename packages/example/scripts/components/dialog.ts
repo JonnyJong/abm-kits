@@ -9,6 +9,7 @@ export function initDialog() {
 		prop: { placeholder: 'Content (HTML)', autoSize: true },
 		style: { width: '100%', maxHeight: 'min(50vh, 300px)' },
 	});
+	const color = $new('w-color');
 
 	const normal = $new('w-btn', 'Create Normal');
 	normal.on('active', () => {
@@ -22,6 +23,7 @@ export function initDialog() {
 				Dialog.ACTION_CANCEL,
 			],
 			autoHide: true,
+			theme: color.value,
 		}).show();
 	});
 	const confirm = $new('w-btn', 'Create Confirm');
@@ -29,6 +31,7 @@ export function initDialog() {
 		Dialog.confirm({
 			title: title.value,
 			content: $div({ html: content.value }),
+			theme: color.value,
 		});
 	});
 	const ok = $new('w-btn', 'Create Alert');
@@ -36,12 +39,14 @@ export function initDialog() {
 		Dialog.alert({
 			title: title.value,
 			content: $div({ html: content.value }),
+			theme: color.value,
 		});
 	});
 
 	panel.append(
 		title,
 		content,
+		color,
 		$div({ attr: { 'ui-layout': 'flow' } }, normal, confirm, ok),
 	);
 }
