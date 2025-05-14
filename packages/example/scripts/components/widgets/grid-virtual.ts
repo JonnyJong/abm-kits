@@ -1,6 +1,6 @@
 import { Signal } from '@lit-labs/signals';
 import { WidgetGridVirtual, WidgetGridVirtualItem } from 'abm-ui';
-import { $new } from 'abm-utils';
+import { $new, createArray } from 'abm-utils';
 import { css } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { $panel } from '../../utils';
@@ -17,7 +17,7 @@ class TestGridVirtualItem extends WidgetGridVirtualItem<string> {
 	`;
 	constructor() {
 		super(undefined, false, false);
-		this.viewHeight = Math.random() * 24 + 24;
+		this.viewHeight = Math.random() * 48 + 24;
 		this.viewWidth = Math.min(innerWidth / 2 - 36, 150);
 	}
 	get data(): string {
@@ -40,11 +40,7 @@ const grid = $new<WidgetGridVirtual<string>>('w-grid-virtual');
 
 export function initGridVirtual() {
 	grid.itemClass = TestGridVirtualItem;
-	const items: string[] = [];
-	while (items.length < 500) {
-		items.push(String(Math.random()));
-	}
-	grid.items = items;
+	grid.items = createArray(50, () => String(Math.random()));
 	$panel(
 		'grid-virtual',
 		grid,
@@ -95,5 +91,15 @@ export function initGridVirtual() {
 			},
 		],
 		[],
+		[
+			$new('w-btn', {
+				content: 'Generate',
+				on: {
+					active: () => {
+						grid.items = createArray(50, () => String(Math.random()));
+					},
+				},
+			}),
+		],
 	);
 }

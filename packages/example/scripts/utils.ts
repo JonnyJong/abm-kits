@@ -305,17 +305,26 @@ export function $panel(
 	target: HTMLElement,
 	properties: PropertyItem[],
 	events: string[],
+	extra?: (HTMLElement[] | HTMLElement)[],
 ): HTMLElement {
 	const panel = $(`#dev-${id}`)!;
-	panel.append(
-		$div({ style: { flex: '1' } }, target),
+	const inside = $div(
+		{
+			attr: { 'ui-layout': 'flow-column' },
+			style: { maxWidth: 300, width: '100%' },
+		},
+		$eventsPanel(target, events),
+		$propertiesPanel(target, properties),
+	);
+	panel.append($div({ style: { flex: '1' } }, target), inside);
+	if (!extra) return panel;
+	inside.append(
 		$div(
-			{
-				attr: { 'ui-layout': 'flow-column' },
-				style: { maxWidth: 300, width: '100%' },
-			},
-			$eventsPanel(target, events),
-			$propertiesPanel(target, properties),
+			{ attr: { 'ui-layout': 'flow-column' } },
+			...extra.map((v) => {
+				if (v instanceof HTMLElement) return v;
+				return $div({ attr: { 'ui-layout': 'flow' } }, ...v);
+			}),
 		),
 	);
 	return panel;

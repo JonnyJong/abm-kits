@@ -1,5 +1,5 @@
 import { events, Navigable, WidgetList, WidgetListItem } from 'abm-ui';
-import { $div, $new } from 'abm-utils';
+import { $div, $new, shuffle } from 'abm-utils';
 import { css } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { $panel } from '../../utils';
@@ -57,5 +57,25 @@ export function initList() {
 			},
 		],
 		['active', 'sort'],
+		[
+			[
+				$new('w-btn', {
+					content: 'Sort',
+					on: { active: () => list.items.sort() },
+				}),
+				$new('w-btn', {
+					content: 'Shuffle',
+					on: { active: () => shuffle(list.items) },
+				}),
+				$new('w-btn', {
+					content: 'Add',
+					on: { active: () => list.items.push(String(Math.random())) },
+				}),
+				$new('w-btn', {
+					content: 'Reduce',
+					on: { active: () => list.items.pop() },
+				}),
+			],
+		],
 	);
 }
