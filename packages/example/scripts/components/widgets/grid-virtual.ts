@@ -87,6 +87,18 @@ export function initGridVirtual() {
 				default: 0,
 				min: 0,
 			},
+			{
+				type: 'number',
+				key: 'hGap',
+				default: 0,
+				min: 0,
+			},
+			{
+				type: 'number',
+				key: 'vGap',
+				default: 0,
+				min: 0,
+			},
 		],
 		[],
 		[

@@ -4,6 +4,7 @@ import {
 	Debounce,
 	EventsInitList,
 	SyncList,
+	clamp,
 	css,
 	toReversed,
 	zip,
@@ -179,27 +180,36 @@ function sum(width: number[]): number {
 
 const HORIZONTAL_SPACING: Record<
 	WidgetGridVirtualItemSpacing,
-	(width: number[], lineWidth: number) => Spacing
+	(width: number[], lineWidth: number, hGap: number) => Spacing
 > = {
 	between(width, lineWidth) {
 		const blank = lineWidth - sum(width);
 		if (width.length <= 2) return [0, blank, 0];
 		return [0, blank / (width.length - 1), 0];
 	},
-	around(width, lineWidth) {
+	around(width, lineWidth, hGap) {
 		const blank = lineWidth - sum(width);
-		const gap = blank / width.length;
-		const around = gap / 2;
+		const gap = clamp(
+			hGap,
+			blank / width.length,
+			blank / Math.max(width.length - 1, 1),
+		);
+		const around = (blank - gap * (width.length - 1)) / 2;
 		return [around, gap, around];
 	},
-	evenly(width, lineWidth) {
+	evenly(width, lineWidth, hGap) {
 		const blank = lineWidth - sum(width);
-		const gap = blank / (width.length + 1);
-		return [gap, gap, gap];
+		const gap = clamp(
+			hGap,
+			blank / (width.length + 1),
+			blank / Math.max(width.length - 1, 1),
+		);
+		const around = (blank - gap * (width.length - 1)) / 2;
+		return [around, gap, around];
 	},
-	none(width, lineWidth) {
-		const blank = lineWidth - sum(width);
-		return [blank, 0, blank];
+	none(width, lineWidth, hGap) {
+		const blank = lineWidth - sum(width) - hGap * (width.length - 1);
+		return [blank, hGap, blank];
 	},
 };
 
@@ -210,16 +220,17 @@ const HORIZONTAL_POSITIONING: Record<
 		width: number[],
 		lineWidth: number,
 		spacing: WidgetGridVirtualItemSpacing,
+		hGap: number,
 		prevLine?: Spacing,
 	) => Spacing
 > = {
-	left(items, width, lineWidth, spacing, prevLine) {
+	left(items, width, lineWidth, spacing, hGap, prevLine) {
 		let left: number;
 		let gap: number;
 		if (prevLine) {
 			[left, gap] = prevLine;
 		} else {
-			[left, gap] = HORIZONTAL_SPACING[spacing](width, lineWidth);
+			[left, gap] = HORIZONTAL_SPACING[spacing](width, lineWidth, hGap);
 			if (spacing === 'none') left = 0;
 		}
 		let l = left;
@@ -229,14 +240,14 @@ const HORIZONTAL_POSITIONING: Record<
 		}
 		return [left, gap, 0];
 	},
-	center(items, width, lineWidth, spacing, prevLine) {
+	center(items, width, lineWidth, spacing, hGap, prevLine) {
 		let left: number;
 		let gap: number;
 		if (prevLine) {
 			gap = prevLine[1];
 			left = (lineWidth - sum(width) - gap * (items.length - 1)) / 2;
 		} else {
-			[left, gap] = HORIZONTAL_SPACING[spacing](width, lineWidth);
+			[left, gap] = HORIZONTAL_SPACING[spacing](width, lineWidth, hGap);
 			if (spacing === 'none') left /= 2;
 		}
 		let l = left;
@@ -246,14 +257,14 @@ const HORIZONTAL_POSITIONING: Record<
 		}
 		return [left, gap, 0];
 	},
-	right(items, width, lineWidth, spacing, prevLine) {
+	right(items, width, lineWidth, spacing, hGap, prevLine) {
 		let left: number;
 		let gap: number;
 		let right: number;
 		if (prevLine) {
 			[left, gap, right] = prevLine;
 		} else {
-			[left, gap, right] = HORIZONTAL_SPACING[spacing](width, lineWidth);
+			[left, gap, right] = HORIZONTAL_SPACING[spacing](width, lineWidth, hGap);
 			if (spacing === 'none') right = 0;
 		}
 		let r = lineWidth - right;
@@ -264,7 +275,7 @@ const HORIZONTAL_POSITIONING: Record<
 		}
 		return [left, gap, right];
 	},
-	justify(items, width, lineWidth, spacing, prevLine) {
+	justify(items, width, lineWidth, spacing, hGap, prevLine) {
 		let left: number;
 		let gap: number;
 		let right: number;
@@ -274,7 +285,7 @@ const HORIZONTAL_POSITIONING: Record<
 				gap = (lineWidth - sum(width) - left - right) / (items.length - 1);
 			}
 		} else {
-			[left, gap, right] = HORIZONTAL_SPACING[spacing](width, lineWidth);
+			[left, gap, right] = HORIZONTAL_SPACING[spacing](width, lineWidth, hGap);
 			if (spacing === 'none') {
 				left /= 2;
 				right /= 2;
@@ -443,6 +454,8 @@ export class WidgetGridVirtual<
 	#itemWidthRatio = 0;
 	#itemHeightType: WidgetGridVirtualItemHeightType = 'dynamic';
 	#itemHeightRatio = 0;
+	#hGap = 0;
+	#vGap = 0;
 	/**
 	 * 网格整体布局
 	 * @description
@@ -512,6 +525,14 @@ export class WidgetGridVirtual<
 	get itemHeightRatio() {
 		return this.#itemHeightRatio;
 	}
+	/** 元素水平间距 */
+	get hGap() {
+		return this.#hGap;
+	}
+	/** 元素垂直间距 */
+	get vGap() {
+		return this.#vGap;
+	}
 	set layout(value: WidgetGridVirtualLayout) {
 		if (!ALIGN.includes(value)) return;
 		if (this.#layout === value) return;
@@ -566,6 +587,22 @@ export class WidgetGridVirtual<
 		if (this.#itemHeightType !== 'dynamic') {
 			this.#requireUpdateItemLayout = true;
 		}
+		this.#updateLayoutDebounce();
+	}
+	set hGap(value) {
+		if (!Number.isFinite(value)) return;
+		if (this.#hGap === value) return;
+		if (value < 0) value = 0;
+		this.#hGap = value;
+		this.#requireUpdateItemLayout = true;
+		this.#updateLayoutDebounce();
+	}
+	set vGap(value) {
+		if (!Number.isFinite(value)) return;
+		if (this.#vGap === value) return;
+		if (value < 0) value = 0;
+		this.#vGap = value;
+		this.#requireUpdateItemLayout = true;
 		this.#updateLayoutDebounce();
 	}
 	#width = 0;
@@ -647,12 +684,12 @@ export class WidgetGridVirtual<
 		for (const [item, width] of zip(this.#items.instances, widths)) {
 			const height = getHeight(item);
 			item.style.height = `${height}px`;
-			if (width + acc > this.#width) {
+			if (width + this.#hGap + acc > this.#width) {
 				line = { items: [], width: [], height: [], lineHeight: 0 };
 				acc = 0;
 				lines.push(line);
 			}
-			acc += width;
+			acc += width + this.#hGap;
 			line.items.push(item);
 			line.width.push(width);
 			line.height.push(height);
@@ -666,7 +703,7 @@ export class WidgetGridVirtual<
 		this.#linesLayout = this.#updateLayoutItemHeight(widths);
 	}
 	#updateLayout() {
-		this.#container.style.height = `${this.#linesLayout.reduce((p, { lineHeight }) => p + lineHeight, 0)}px`;
+		this.#container.style.height = `${this.#linesLayout.reduce((p, { lineHeight }) => p + lineHeight + this.#vGap, 0)}px`;
 
 		let lineWidth = this.#width;
 		if (this.#layout === 'content-center') {
@@ -688,11 +725,12 @@ export class WidgetGridVirtual<
 				width,
 				lineWidth,
 				this.#itemScaping,
+				this.#hGap,
 				prevSpacing,
 			);
 			if (i === this.#linesLayout.length - 2) prevSpacing = spacing;
 			verticalPositioning(items, height, lineHeight, top);
-			top += lineHeight;
+			top += lineHeight + this.#vGap;
 		}
 	}
 	#updateLayoutDebounce = Debounce.new(() => {
@@ -735,7 +773,7 @@ export class WidgetGridVirtual<
 			for (const item of items) {
 				item.style.display = visible ? '' : 'none';
 			}
-			offset += lineHeight;
+			offset += lineHeight + this.#vGap;
 			if (offset - 100 > bottom) return;
 		}
 	}
