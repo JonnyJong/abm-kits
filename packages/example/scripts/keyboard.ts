@@ -38,8 +38,8 @@ export function initKeyboard() {
 		if (!item) return;
 		$apply(item, {
 			style: {
-				color: 'var(--theme-text)',
-				background: 'var(--theme)',
+				color: '$themeText',
+				background: '$theme',
 			},
 		});
 		setTimeout(() => {
@@ -67,8 +67,8 @@ export function initKeyboard() {
 		if (!item) return;
 		$apply(item, {
 			style: {
-				color: 'var(--theme-text)',
-				background: 'var(--theme)',
+				color: '$themeText',
+				background: '$theme',
 			},
 		});
 		setTimeout(() => {

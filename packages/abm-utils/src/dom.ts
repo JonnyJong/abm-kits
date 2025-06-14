@@ -475,8 +475,9 @@ export interface DOMApplyOptions<
 	};
 }
 
-const PATTERN_CSS_VAR = /^\$/;
+const PATTERN_CSS_VAR_DECLARE = /^\$/;
 const PATTERN_CSS_UPPER = /[A-Z]/g;
+const PATTERN_CSS_VAR = /\$[A-Za-z][A-Za-z0-9]*/g;
 
 //#region #Apply
 function applyBasic<E extends HTMLElement = HTMLElement>(
@@ -516,15 +517,21 @@ function applyStyle<E extends HTMLElement = HTMLElement>(
 	if (options.style !== undefined) {
 		for (let [key, value] of Object.entries(options.style)) {
 			key = key
-				.replace(PATTERN_CSS_VAR, '--')
+				.replace(PATTERN_CSS_VAR_DECLARE, '--')
 				.replace(PATTERN_CSS_UPPER, (ch) => `-${ch.toLowerCase()}`);
-			if (typeof value === 'number') {
-				target.style.setProperty(key, `${value}px`);
-				continue;
-			}
 			if ([undefined, null].includes(value)) {
 				target.style.removeProperty(key);
-				return;
+				continue;
+			}
+			if (typeof value === 'number') value = `${value}px`;
+			if (typeof value === 'string') {
+				value = value.replace(
+					PATTERN_CSS_VAR,
+					(v) =>
+						`var(${v
+							.replace(PATTERN_CSS_VAR_DECLARE, '--')
+							.replace(PATTERN_CSS_UPPER, (ch) => `-${ch.toLowerCase()}`)})`,
+				);
 			}
 			target.style.setProperty(key, String(value));
 		}
