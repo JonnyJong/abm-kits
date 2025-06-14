@@ -36,7 +36,7 @@ class TestListItem extends WidgetListItem<string> implements Navigable {
 	}
 }
 
-const list = $new<WidgetList<string>>('w-list');
+const list = $new<WidgetList<string>, {}>('w-list');
 list.itemClass = TestListItem;
 list.items = ['Item 1', 'Item 2', 'Item 3'];
 list.sortable = true;

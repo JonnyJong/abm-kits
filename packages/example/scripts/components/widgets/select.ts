@@ -1,4 +1,3 @@
-import { WidgetLang } from 'abm-ui';
 import { $new, range } from 'abm-utils';
 import { $panel } from '../../utils';
 
@@ -8,7 +7,7 @@ const select = $new('w-select', {
 		options: range(10).map((i) => {
 			return {
 				value: i * i,
-				label: $new<WidgetLang>('w-lang', {
+				label: $new('w-lang', {
 					prop: {
 						key: 'dev.widget.select',
 						params: { i },

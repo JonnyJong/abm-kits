@@ -1,8 +1,7 @@
-import { WidgetBtn } from 'abm-ui';
 import { $new } from 'abm-utils';
 import { $panel } from '../../utils';
 
-const btn = $new<WidgetBtn>('w-btn', {
+const btn = $new('w-btn', {
 	prop: {
 		content: {
 			key: 'ui.confirm',

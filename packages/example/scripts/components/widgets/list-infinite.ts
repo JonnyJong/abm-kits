@@ -41,7 +41,7 @@ class TestListInfiniteItem extends WidgetListInfiniteItem<number> {
 	}
 }
 
-const list = $new<WidgetListInfinite<number>>('w-list-infinite', {
+const list = $new<WidgetListInfinite<number>, {}>('w-list-infinite', {
 	style: { height: '50vh', scrollbarWidth: 'thin' },
 });
 list.init(0, TestListInfiniteItem);

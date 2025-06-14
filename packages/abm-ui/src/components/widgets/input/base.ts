@@ -79,9 +79,12 @@ export abstract class WidgetInput<
 {
 	static styles = css(CSS);
 	protected input: Input;
-	protected _placeholder: WidgetLang<Params> = $new<WidgetLang<any>>('w-lang', {
-		class: 'placeholder',
-	});
+	protected _placeholder: WidgetLang<Params> = $new<WidgetLang<Params>, {}>(
+		'w-lang',
+		{
+			class: 'placeholder',
+		},
+	);
 	constructor(input: Input) {
 		super(['input', 'confirm', 'autofill', 'action'], true);
 		this.input = input;

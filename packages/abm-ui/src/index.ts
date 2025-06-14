@@ -1,4 +1,5 @@
 import { DOMApplyOptions } from 'abm-utils';
+import { Widget } from './components/widgets/base';
 import {
 	WidgetBtn,
 	WidgetBtnEvents,
@@ -240,60 +241,44 @@ export interface WidgetsEventsMap {
 	'w-color': WidgetColorEvents;
 }
 declare module 'abm-utils' {
-	export function $apply<
-		K extends keyof WidgetTagNameMap,
-		E extends WidgetTagNameMap[K] = WidgetTagNameMap[K],
-	>(
+	type PropForType<E extends Widget> =
+		WidgetTagForType<E> extends keyof WidgetsPropMap
+			? WidgetsPropMap[WidgetTagForType<E>]
+			: Record<string, any>;
+	type EventForType<E extends Widget> =
+		WidgetTagForType<E> extends keyof WidgetsEventsMap
+			? WidgetsEventsMap[WidgetTagForType<E>]
+			: {};
+	/**
+	 * 应用配置到 DOM 元素
+	 * @param target - 目标 DOM 元素
+	 * @param options - 配置
+	 */
+	export function $apply<E extends Widget = Widget>(
 		target: E,
-		options: DOMApplyOptions<
-			E,
-			K extends keyof WidgetsPropMap ? WidgetsPropMap[K] : {},
-			K extends keyof WidgetsEventsMap ? WidgetsEventsMap[K] : {}
-		>,
-	): void;
-	export function $apply<
-		E extends WidgetTagNameMap[keyof WidgetTagNameMap],
-		K extends WidgetTagForType<E> = WidgetTagForType<E>,
-	>(
-		target: E,
-		options: DOMApplyOptions<
-			WidgetTagNameMap[K],
-			K extends keyof WidgetsPropMap ? WidgetsPropMap[K] : {},
-			K extends keyof WidgetsEventsMap ? WidgetsEventsMap[K] : {}
-		>,
-	): void;
+		options: DOMApplyOptions<E, PropForType<E>, EventForType<E>>,
+	): E;
+	/**
+	 * 创建 DOM 元素并应用配置
+	 * @param tag 标签名
+	 * @param options 选项
+	 * @param content 内容
+	 */
 	export function $new<
-		K extends keyof WidgetTagNameMap,
-		E extends WidgetTagNameMap[K] = WidgetTagNameMap[K],
+		E extends WidgetTagNameMap[K],
+		O,
+		K extends keyof WidgetTagNameMap = keyof WidgetTagNameMap,
 	>(
 		tag: K,
-		options?: DOMApplyOptions<
-			E,
-			K extends keyof WidgetsPropMap ? WidgetsPropMap[K] : {},
-			K extends keyof WidgetsEventsMap ? WidgetsEventsMap[K] : {}
-		>,
+		options?: O extends HTMLElement | string
+			? O
+			: DOMApplyOptions<
+					E,
+					K extends keyof WidgetsPropMap ? WidgetsPropMap[K] : {},
+					K extends keyof WidgetsEventsMap ? WidgetsEventsMap[K] : {}
+				>,
 		...content: (HTMLElement | string)[]
 	): E;
-	export function $new<
-		E extends WidgetTagNameMap[keyof WidgetTagNameMap],
-		K extends WidgetTagForType<E> = WidgetTagForType<E>,
-	>(
-		tag: K,
-		options?: DOMApplyOptions<
-			E,
-			K extends keyof WidgetsPropMap ? WidgetsPropMap[K] : {},
-			K extends keyof WidgetsEventsMap ? WidgetsEventsMap[K] : {}
-		>,
-		...content: (HTMLElement | string)[]
-	): E;
-	export function $new<
-		K extends keyof WidgetTagNameMap,
-		E extends WidgetTagNameMap[K] = WidgetTagNameMap[K],
-	>(tag: K, ...content: (HTMLElement | string)[]): E;
-	export function $new<
-		E extends WidgetTagNameMap[keyof WidgetTagNameMap],
-		K extends WidgetTagForType<E> = WidgetTagForType<E>,
-	>(tag: K, ...content: (HTMLElement | string)[]): E;
 }
 
 initContextMenu();

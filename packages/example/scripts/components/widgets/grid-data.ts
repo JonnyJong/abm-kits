@@ -65,7 +65,7 @@ const OPTIONS = [
 	{ value: 'moderator', label: 'moderator' },
 ];
 
-const grid = $new<WidgetGridData<Row>>('w-grid-data');
+const grid = $new<WidgetGridData<Row>, {}>('w-grid-data');
 grid.setup({
 	data: generateTestData(30),
 	columnDefinitions: new Map([
@@ -161,7 +161,7 @@ grid.setup({
 			{
 				head: () => $div('option'),
 				create: (row) => {
-					const node = $new<WidgetSelect<any>>('w-select', {
+					const node = $new<WidgetSelect<any>, {}>('w-select', {
 						style: { width: '100%' },
 					});
 					node.options = OPTIONS;

@@ -11,7 +11,6 @@ import {
 } from 'abm-utils';
 import { configs } from '../configs';
 import { navigate } from '../navigate';
-import { WidgetLang } from './widgets/lang';
 
 type Position = { x: number; y: number };
 
@@ -77,7 +76,7 @@ class UITooltips {
 		for (const target of $$('[tooltips]')) {
 			const tooltips = target.getAttribute('tooltips');
 			if (!tooltips) continue;
-			const content = $new<WidgetLang>('w-lang');
+			const content = $new('w-lang');
 			content.key = tooltips;
 			this.#map.set(target, content);
 		}

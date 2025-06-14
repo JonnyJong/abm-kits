@@ -10,7 +10,7 @@ const observer = new IntersectionObserver((entries) => {
 });
 
 export function createIcon(info: IconInfo) {
-	const img = $new<HTMLImageElement & { info: IconInfo }>('img', {
+	const img = $new<HTMLImageElement & { info: IconInfo }, {}>('img', {
 		class: 'icon',
 		attr: {
 			src: `node_modules/@fluentui/svg-icons/icons/${info.file}`,

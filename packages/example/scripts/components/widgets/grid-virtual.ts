@@ -36,7 +36,7 @@ class TestGridVirtualItem extends WidgetGridVirtualItem<string> {
 	}
 }
 
-const grid = $new<WidgetGridVirtual<string>>('w-grid-virtual');
+const grid = $new<WidgetGridVirtual<string>, {}>('w-grid-virtual');
 
 export function initGridVirtual() {
 	grid.itemClass = TestGridVirtualItem;

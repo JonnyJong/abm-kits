@@ -13,7 +13,6 @@ import { events, UIEventActive } from '../../../events';
 import { Navigable } from '../../../navigate';
 import { Dialog } from '../../dialog';
 import { Widget } from '../base';
-import { WidgetColorPicker } from '../color-picker';
 import CSS from './index.styl';
 
 interface WidgetColorEventsInit {
@@ -65,7 +64,7 @@ export class WidgetColor
 	#activeHandler = async ({ cancel, active }: UIEventActive) => {
 		if (this.readOnly) return;
 		if (cancel || active) return;
-		const picker = $new<WidgetColorPicker>('w-color-picker', {
+		const picker = $new('w-color-picker', {
 			prop: {
 				enableAlpha: this.enableAlpha,
 				value: this.#value,

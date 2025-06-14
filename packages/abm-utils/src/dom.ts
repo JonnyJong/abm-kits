@@ -599,6 +599,10 @@ export function $applyColor(target: HTMLElement, color?: Color) {
 	}
 }
 
+type PropForType<E extends HTMLElement> =
+	HTMLElementTagForType<E> extends keyof HTMLElementProp
+		? HTMLElementProp[HTMLElementTagForType<E>]
+		: Record<string, any>;
 /**
  * 应用配置到 DOM 元素
  * @param target - 目标 DOM 元素
@@ -606,8 +610,8 @@ export function $applyColor(target: HTMLElement, color?: Color) {
  */
 export function $apply<
 	E extends HTMLElement = HTMLElement,
-	Prop extends Record<string, any> = {},
->(target: E, options: DOMApplyOptions<E, Prop>) {
+	Prop extends Record<string, any> = PropForType<E>,
+>(target: E, options: DOMApplyOptions<E, Prop>): E {
 	applyBasic(target, options);
 	applyStyle(target, options);
 	applyContent(target, options);
@@ -615,6 +619,7 @@ export function $apply<
 	applyEvent(target, options);
 	if (options.color === null) $applyColor(target);
 	else if (options.color instanceof Color) $applyColor(target, options.color);
+	return target;
 }
 
 //#region Query
@@ -647,53 +652,35 @@ export function $$<E extends HTMLElement = HTMLElement>(
 }
 
 //#region #Create
-/** 创建 DOM 元素并应用配置 */
+type HTMLElementTagName =
+	| keyof HTMLElementTagNameMap
+	| keyof HTMLElementDeprecatedTagNameMap
+	| (string & {});
+/**
+ * 创建 DOM 元素并应用配置
+ * @param tag 标签名
+ * @param options 选项
+ * @param content 内容
+ */
 export function $new<
-	K extends keyof HTMLElementTagNameMap,
-	E extends HTMLElementTagNameMap[K] = HTMLElementTagNameMap[K],
+	E extends K extends keyof HTMLElementTagNameMap
+		? HTMLElementTagNameMap[K]
+		: K extends keyof HTMLElementDeprecatedTagNameMap
+			? HTMLElementDeprecatedTagNameMap[K]
+			: HTMLElement,
+	O,
+	K extends HTMLElementTagName = HTMLElementTagName,
 >(
 	tag: K,
-	options?: DOMApplyOptions<
-		E,
-		K extends keyof HTMLElementProp ? HTMLElementProp[K] : {},
-		{}
-	>,
+	options?: O extends HTMLElement | string
+		? O
+		: DOMApplyOptions<
+				E,
+				K extends keyof HTMLElementProp ? HTMLElementProp[K] : {}
+			>,
 	...content: (HTMLElement | string)[]
-): E;
-export function $new<
-	E extends HTMLElementTagNameMap[keyof HTMLElementTagNameMap],
-	K extends HTMLElementTagForType<E> = HTMLElementTagForType<E>,
->(
-	tag: K,
-	options?: DOMApplyOptions<
-		E,
-		K extends keyof HTMLElementProp ? HTMLElementProp[K] : {},
-		{}
-	>,
-	...content: (HTMLElement | string)[]
-): E;
-export function $new<
-	K extends keyof HTMLElementTagNameMap,
-	E extends HTMLElementTagNameMap[K] = HTMLElementTagNameMap[K],
->(
-	tag: K,
-	options?: HTMLElement | string,
-	...content: (HTMLElement | string)[]
-): E;
-export function $new<
-	E extends HTMLElementTagNameMap[keyof HTMLElementTagNameMap],
-	K extends HTMLElementTagForType<E> = HTMLElementTagForType<E>,
->(
-	tag: K,
-	options?: HTMLElement | string,
-	...content: (HTMLElement | string)[]
-): E;
-export function $new(
-	tag: string,
-	options?: DOMApplyOptions<HTMLElement, {}, {}> | HTMLElement | string,
-	...content: (HTMLElement | string)[]
-): HTMLElement {
-	const element = document.createElement(tag) as HTMLElement;
+): E {
+	const element = document.createElement(tag) as E;
 	if (typeof options === 'object' && !(options instanceof HTMLElement)) {
 		$apply(element, options);
 	} else if (options !== undefined) {
@@ -704,18 +691,11 @@ export function $new(
 }
 
 /** 创建 <div> 元素并应用配置 */
-export function $div(): HTMLDivElement;
-export function $div(options: DOMApplyOptions<HTMLDivElement>): HTMLDivElement;
-export function $div(...content: (string | HTMLElement)[]): HTMLDivElement;
-export function $div(
-	options: DOMApplyOptions<HTMLDivElement>,
-	...content: (string | HTMLElement)[]
-): HTMLDivElement;
-export function $div(
-	options?: DOMApplyOptions<HTMLDivElement> | string | HTMLElement,
-	...content: (string | HTMLElement)[]
+export function $div<O>(
+	options?: O extends HTMLElement | string ? O : DOMApplyOptions<HTMLElement>,
+	...content: (HTMLElement | string)[]
 ): HTMLDivElement {
-	return $new<HTMLDivElement>('div', options as string, ...content);
+	return $new('div', options, ...content);
 }
 
 //#region #Other

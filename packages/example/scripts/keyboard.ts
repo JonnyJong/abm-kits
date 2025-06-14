@@ -1,4 +1,4 @@
-import { WidgetHintKey, keyboard } from 'abm-ui';
+import { keyboard } from 'abm-ui';
 import { $, $apply, $div, $new } from 'abm-utils';
 
 function normalize(input: string): string {
@@ -10,9 +10,7 @@ export function initKeyboard() {
 	const pressing = $('#keyboard-pressing')!;
 	const pressingUpHandler = () => {
 		pressing.replaceChildren(
-			...keyboard.pressing.map((key) =>
-				$new<WidgetHintKey>('w-hint-key', { prop: { key } }),
-			),
+			...keyboard.pressing.map((key) => $new('w-hint-key', { prop: { key } })),
 		);
 	};
 	keyboard.on('down', pressingUpHandler);

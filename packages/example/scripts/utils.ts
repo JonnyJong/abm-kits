@@ -1,11 +1,4 @@
-import {
-	WidgetBtn,
-	WidgetColor,
-	WidgetLang,
-	WidgetNumber,
-	WidgetSelect,
-	WidgetText,
-} from 'abm-ui';
+import { WidgetBtn, WidgetText } from 'abm-ui';
 import { $, $div, $new, AnimationFrameController, Throttle } from 'abm-utils';
 
 //#region Define
@@ -76,7 +69,7 @@ class PropString implements Prop {
 	#target: HTMLElement;
 	#key: string;
 	#default: any;
-	#element = $new<WidgetText>('w-text', {
+	#element = $new<WidgetText, {}>('w-text', {
 		event: {
 			focus: () => {
 				this.#block = true;
@@ -113,7 +106,7 @@ class PropString implements Prop {
 class PropNumber implements Prop {
 	#target: HTMLElement;
 	#key: string;
-	#element = $new<WidgetNumber>('w-number', {
+	#element = $new('w-number', {
 		event: {
 			focus: () => {
 				this.#block = true;
@@ -150,7 +143,7 @@ class PropNumber implements Prop {
 class PropBoolean implements Prop {
 	#target: HTMLElement;
 	#key: string;
-	#element = $new<WidgetBtn>('w-btn', { prop: { state: 'toggle' } });
+	#element = $new<WidgetBtn, {}>('w-btn', { prop: { state: 'toggle' } });
 	constructor(target: HTMLElement, options: PropertyItemBoolean) {
 		this.#target = target;
 		this.#key = options.key;
@@ -170,7 +163,7 @@ class PropBoolean implements Prop {
 class PropColor implements Prop {
 	#target: HTMLElement;
 	#key: string;
-	#element = $new<WidgetColor>('w-color');
+	#element = $new('w-color');
 	constructor(target: HTMLElement, options: PropertyItemColor) {
 		this.#target = target;
 		this.#key = options.key;
@@ -189,7 +182,7 @@ class PropColor implements Prop {
 class PropEnum implements Prop {
 	#target: HTMLElement;
 	#key: string;
-	#element = $new<WidgetSelect>('w-select');
+	#element = $new('w-select');
 	constructor(target: HTMLElement, options: PropertyItemEnum) {
 		this.#target = target;
 		this.#key = options.key;
@@ -270,7 +263,7 @@ export function $propertiesPanel(
 
 	return $div(
 		{ attr: { 'ui-layout': 'flow-column' } },
-		$new('h6', $new<WidgetLang>('w-lang', 'dev.properties')),
+		$new('h6', $new('w-lang', 'dev.properties')),
 		...elements,
 	);
 }
@@ -281,11 +274,11 @@ export function $eventsPanel(
 ): HTMLElement {
 	return $div(
 		{ attr: { 'ui-layout': 'flow-column' } },
-		$new('h6', $new<WidgetLang>('w-lang', 'dev.events')),
+		$new('h6', $new('w-lang', 'dev.events')),
 		$div(
 			{ attr: { 'ui-layout': 'flow' } },
 			...events.map((type) => {
-				const indicator = $new<WidgetBtn>('w-btn', {
+				const indicator = $new('w-btn', {
 					prop: { state: 'toggle', disabled: true, content: type },
 				});
 				(target as any).on(type, () => {

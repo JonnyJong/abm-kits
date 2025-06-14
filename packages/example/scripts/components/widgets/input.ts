@@ -78,7 +78,7 @@ export function initInput() {
 		['input', 'confirm', 'autofill', 'action'],
 	);
 	//#region Psw
-	const psw = $new<WidgetPassword>('w-password', {
+	const psw = $new<WidgetPassword, {}>('w-password', {
 		prop: {
 			autoFill: AUTO_FILL,
 			actionsLeft: [{ id: '', content: { icon: 'Password' } }],

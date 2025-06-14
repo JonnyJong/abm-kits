@@ -55,10 +55,10 @@ class ProjectListItem extends WidgetListItem<ProjectInfo> implements Navigable {
 		class: 'project-name',
 		attr: { 'ui-nav': '' },
 	});
-	#rename = $new<WidgetBtn & Navigable>('w-btn', {
+	#rename = $new<WidgetBtn & Navigable, {}>('w-btn', {
 		prop: { content: { icon: 'Rename' } },
 	});
-	#delete = $new<WidgetBtn & Navigable>('w-btn', {
+	#delete = $new<WidgetBtn & Navigable, {}>('w-btn', {
 		prop: { content: { icon: 'Delete' } },
 	});
 	#info!: ProjectInfo;
@@ -81,7 +81,7 @@ class ProjectListItem extends WidgetListItem<ProjectInfo> implements Navigable {
 		tooltips.set(this.#main, value.path);
 	}
 	static create(data: ProjectInfo): ProjectListItem {
-		const item = $new<ProjectListItem>('project-item');
+		const item = $new<ProjectListItem, {}>('project-item');
 		item.data = data;
 		return item;
 	}
