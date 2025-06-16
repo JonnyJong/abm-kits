@@ -1,5 +1,5 @@
 import { $new, LocaleParams } from 'abm-utils';
-import { html } from 'lit';
+import { TemplateResult, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { Navigable } from '../../../navigate';
 import { InputActions, WidgetInputActionItem } from './actions';
@@ -48,8 +48,8 @@ export class WidgetText<Params extends LocaleParams = LocaleParams>
 	set autoFill(value: IWidgetInputAutoFillItem<string>[]) {
 		this.#autofill.items = value;
 	}
-	#actionsLeft = new InputActions(this, this.events, 'left');
-	#actionsRight = new InputActions(this, this.events, 'right');
+	#actionsLeft: InputActions = new InputActions(this, this.events, 'left');
+	#actionsRight: InputActions = new InputActions(this, this.events, 'right');
 	/** 左侧动作按钮 */
 	get actionsLeft() {
 		return this.#actionsLeft.items;
@@ -65,7 +65,7 @@ export class WidgetText<Params extends LocaleParams = LocaleParams>
 		this.#actionsRight.items = value;
 	}
 	//#region View
-	protected render() {
+	protected render(): TemplateResult<1> {
 		return html`
 			${this.input}
 			${this._placeholder}
