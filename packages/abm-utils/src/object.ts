@@ -146,6 +146,31 @@ export class IterableWeakSet<T extends WeakKey = WeakKey> implements Set<T> {
 	get [Symbol.toStringTag](): string {
 		return 'IterableWeakSet';
 	}
+	/**
+	 * 返回满足提供的测试函数的第一个值。否则返回 undefined
+	 */
+	find<S extends T>(
+		predicate: (value: T, object: this) => value is S,
+	): S | undefined;
+	find(predicate: (value: T, object: this) => unknown): T | undefined;
+	find(predicate: (value: T, object: this) => unknown): T | undefined {
+		for (const value of this.values()) {
+			if (predicate(value, this)) return value;
+		}
+		return undefined;
+	}
+	/**
+	 * 返回满足提供的测试函数的所有值
+	 */
+	findAll<S extends T>(predicate: (value: T, object: this) => value is S): S[];
+	findAll(predicate: (value: T, object: this) => unknown): T[];
+	findAll(predicate: (value: T, object: this) => unknown): T[] {
+		const values: T[] = [];
+		for (const value of this.values()) {
+			if (predicate(value, this)) values.push(value);
+		}
+		return values;
+	}
 }
 
 export interface ProxyObjectOptions<T extends object> {
