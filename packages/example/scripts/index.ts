@@ -41,6 +41,13 @@ const LOCALES: Record<string, FlatLocaleSource<string>> = {
 		'dev.ops': '操作',
 		'dev.widget.select': '选项 ${i}',
 		'dev.empty': '',
+		'dev.components.tooltips.content': '工具提示内容',
+		'dev.components.dialog.title': '标题',
+		'dev.components.dialog.content': '内容（HTML）',
+		'dev.components.dialog.color': '主题色',
+		'dev.components.dialog.normal': '创建普通对话框',
+		'dev.components.dialog.confirm': '创建确认对话框',
+		'dev.components.dialog.alert': '创建警告对话框',
 	},
 	en: {
 		// Basic
@@ -51,6 +58,13 @@ const LOCALES: Record<string, FlatLocaleSource<string>> = {
 		'dev.ops': 'Operations',
 		'dev.widget.select': 'Option ${i}',
 		'dev.empty': '',
+		'dev.components.tooltips.content': 'Tooltips content',
+		'dev.components.dialog.title': 'Title',
+		'dev.components.dialog.content': 'Content (HTML)',
+		'dev.components.dialog.color': 'Theme color',
+		'dev.components.dialog.normal': 'Create Normal Dialog',
+		'dev.components.dialog.confirm': 'Create Confirm Dialog',
+		'dev.components.dialog.alert': 'Create Alert Dialog',
 	},
 };
 
