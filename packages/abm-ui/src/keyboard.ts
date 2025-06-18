@@ -34,18 +34,18 @@ declare global {
 	}
 }
 
-const DEFAULT_SHORTCUT_MAP: KeyBindMap = {
+export const DEFAULT_SHORTCUT_MAP: KeyBindMap = {
 	'ui.navNext': [new Set(['Tab'])],
 	'ui.navPrev': [new Set(['Tab', 'ShiftLeft'])],
 };
 
-const DEFAULT_ALIAS_MAP: AliasMap = {
+export const DEFAULT_ALIAS_MAP: AliasMap = {
 	'ui.confirm': new Set(['Enter', 'Space']),
 	'ui.cancel': new Set(['Escape']),
-	'ui.up': new Set(['ArrowUp', 'KeyW']),
-	'ui.right': new Set(['ArrowRight', 'KeyD']),
-	'ui.down': new Set(['ArrowDown', 'KeyS']),
-	'ui.left': new Set(['ArrowLeft', 'KeyA']),
+	'ui.up': new Set(['ArrowUp']),
+	'ui.right': new Set(['ArrowRight']),
+	'ui.down': new Set(['ArrowDown']),
+	'ui.left': new Set(['ArrowLeft']),
 	'ui.selectMulti': new Set(['ControlLeft', 'ControlRight']),
 	'ui.selectRange': new Set(['ShiftLeft', 'ShiftRight']),
 };

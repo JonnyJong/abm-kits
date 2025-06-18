@@ -116,7 +116,18 @@ export * from './events';
 export * from './events/base';
 
 // Control
-export * from './keyboard';
+export {
+	KeysAllow,
+	KEYS_ALLOW,
+	KeyBindItem,
+	KeyBindGroup,
+	KeyBindMap,
+	AliasItem,
+	AliasMap,
+	KeyBinderEvents,
+	KeyboardEvents,
+	keyboard,
+} from './keyboard';
 export * from './game-controller';
 export * from './navigate';
 
