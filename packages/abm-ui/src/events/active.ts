@@ -139,6 +139,18 @@ export class UIEventActiveManager implements IUIEventBaseManage<'active'> {
 		target.removeEventListener('touchend', this.#touchEnd);
 		target.removeEventListener('touchmove', this.#touchMove);
 	}
+	start(target: HTMLElement): boolean {
+		if (!target || this.#activated.has(target)) return false;
+		this.#activate(target, -2);
+		this.#emit(target, true, false, -2);
+		return true;
+	}
+	end(target: HTMLElement): boolean {
+		if (!(target && this.#activated.has(target))) return false;
+		this.#activate(target, -2);
+		this.#emit(target, false, false, -2);
+		return true;
+	}
 	cancel(target: HTMLElement): boolean {
 		if (!(target && this.#activated.has(target))) return false;
 		this.#deactivate(target);

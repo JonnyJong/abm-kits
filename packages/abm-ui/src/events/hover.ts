@@ -70,6 +70,19 @@ export class UIEventHoverManager implements IUIEventBaseManage<'hover'> {
 		target.removeEventListener('pointermove', this.#pointerMoveHandler);
 		target.removeEventListener('pointerout', this.#pointerOutHandler);
 	}
+	start(target: HTMLElement): boolean {
+		if (!target || this.#activated.has(target)) return false;
+		this.#activate(target);
+		this.#emit(target, true);
+		return true;
+	}
+	end(target: HTMLElement): boolean {
+		if (!(target && this.#activated.has(target))) return false;
+		this.#deactivate(target);
+		this.#emit(target, false);
+		target.removeEventListener('pointerout', this.#pointerOutHandler);
+		return true;
+	}
 	#activate(target: HTMLElement) {
 		this.#activated.add(target);
 		target.toggleAttribute('ui-hover', true);
