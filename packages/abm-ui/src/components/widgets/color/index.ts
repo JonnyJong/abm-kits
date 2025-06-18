@@ -39,7 +39,10 @@ export class WidgetColor
 	static styles = css(CSS);
 	#value = configs.theme.color;
 	constructor() {
-		super(['change'], true);
+		super({
+			eventTypes: ['change'],
+			nav: true,
+		});
 
 		events.active.on(this, this.#activeHandler);
 	}

@@ -55,7 +55,7 @@ export class WidgetGridData<Data extends object = object>
 	#head = $div({ class: 'head' });
 	#body = $div({ class: 'body', style: { $wGridDataZzz: 32 } });
 	constructor() {
-		super(undefined, false, true);
+		super({ navGroup: true });
 		this.#root.append(this.#head, this.#body);
 	}
 	connectedCallback(): void {

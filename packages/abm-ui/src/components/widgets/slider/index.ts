@@ -59,7 +59,10 @@ export class WidgetSlider
 	static styles = css(CSS);
 	#clampedStepper = createClampedStepper(0, 100);
 	constructor() {
-		super(['input', 'change'], true);
+		super({
+			eventTypes: ['input', 'change'],
+			nav: true,
+		});
 
 		tooltips.set(this, '0');
 

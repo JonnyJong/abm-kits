@@ -76,7 +76,7 @@ export class WidgetInputAutoFillItem<
 		return html`${this.label}`;
 	}
 	constructor() {
-		super([], true);
+		super({ nav: true });
 
 		this.activeTrigger = this;
 		events.hover.add(this);

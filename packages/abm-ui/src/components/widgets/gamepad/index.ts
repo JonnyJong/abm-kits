@@ -111,7 +111,7 @@ export class WidgetGamepad extends Widget implements Navigable {
 		`;
 	}
 	constructor() {
-		super(undefined, false, true);
+		super({ navGroup: true });
 
 		this.#vibrate.on('active', this.#vibrateHandler);
 		this.#vibrate.navParent = this;

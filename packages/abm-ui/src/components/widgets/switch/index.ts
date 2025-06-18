@@ -33,7 +33,10 @@ export class WidgetSwitch
 {
 	static styles = css(CSS);
 	constructor() {
-		super(['change'], true);
+		super({
+			eventTypes: ['change'],
+			nav: true,
+		});
 
 		events.hover.add(this);
 		events.active.on(this, this.#activeHandler);

@@ -86,7 +86,10 @@ export abstract class WidgetInput<
 		},
 	);
 	constructor(input: Input) {
-		super(['input', 'confirm', 'autofill', 'action'], true);
+		super({
+			eventTypes: ['input', 'confirm', 'autofill', 'action'],
+			nav: true,
+		});
 		this.input = input;
 
 		events.hover.add(this);

@@ -291,7 +291,10 @@ export class WidgetList<
 	#root = this.createRenderRoot();
 	#resizeObserver = new ResizeObserver(() => this.#updateLayout());
 	constructor() {
-		super(['active', 'sort', 'select'], false, true);
+		super({
+			eventTypes: ['active', 'sort', 'select'],
+			navGroup: true,
+		});
 		this.#resizeObserver.observe(this);
 	}
 	connectedCallback(): void {

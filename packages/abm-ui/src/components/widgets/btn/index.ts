@@ -70,7 +70,10 @@ export class WidgetBtn<
 	//#region Main
 	#initialized = false;
 	constructor() {
-		super(['active'], true);
+		super({
+			eventTypes: ['active'],
+			nav: true,
+		});
 
 		events.hover.add(this);
 		events.active.on(this, this.#activeHandler);

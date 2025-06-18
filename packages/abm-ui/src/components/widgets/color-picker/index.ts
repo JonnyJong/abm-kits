@@ -65,7 +65,10 @@ export class WidgetColorPicker
 	#color = configs.theme.color;
 	#current = this.#color.clone();
 	constructor() {
-		super(['input', 'change'], false, true);
+		super({
+			eventTypes: ['input', 'change'],
+			navGroup: true,
+		});
 		this.#updateHEX();
 		this.#updateIndicator();
 		this.#updateRGB();

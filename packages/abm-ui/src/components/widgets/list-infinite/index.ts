@@ -112,7 +112,7 @@ export class WidgetListInfinite<
 	});
 	#prevScroll = NaN;
 	constructor() {
-		super(undefined, false, true);
+		super({ navGroup: true });
 		this.#root.append(
 			this.#topBoundaryIndicator,
 			this.#container,

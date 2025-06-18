@@ -1,9 +1,27 @@
 import { SignalWatcher } from '@lit-labs/signals';
-import { EventHandler, Events, EventsInitList, IEventSource } from 'abm-utils';
+import {
+	EventHandler,
+	Events,
+	EventsInitList,
+	IEventSource,
+	IterableWeakSet,
+} from 'abm-utils';
 import { LitElement } from 'lit';
 import { Navigable } from '../../navigate';
 
 type Keys<List extends Record<string, any>> = keyof List & string;
+
+/** UI 组件初始化参数 */
+export interface WidgetInit<EventTypes extends string[]> {
+	/** 事件类型列表，`undefined` 时禁用事件机制 */
+	eventTypes?: EventTypes;
+	/** 是否可导航 */
+	nav?: boolean;
+	/** 是否为导航组 */
+	navGroup?: boolean;
+}
+
+export const navigableWidgets = new IterableWeakSet<Widget>();
 
 /**
  * UI 组件
@@ -20,17 +38,12 @@ export abstract class Widget<
 	protected events: Events<E> = null as any;
 	#nav?: boolean;
 	#navGroup?: boolean;
-	/**
-	 * 初始化 UI 组件
-	 * @param eventTypes 事件类型列表，`undefined` 时禁用事件机制
-	 * @param nav 是否可导航
-	 * @param navGroup 是否为导航组
-	 */
-	constructor(eventTypes?: EventTypes[], nav?: boolean, navGroup?: boolean) {
+	constructor({ nav, navGroup, eventTypes }: WidgetInit<EventTypes[]> = {}) {
 		super();
 
 		this.#nav = nav;
 		this.#navGroup = navGroup;
+		if (nav) navigableWidgets.add(this);
 
 		if (!eventTypes) return;
 		this.events = new Events<E>(eventTypes);

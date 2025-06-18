@@ -75,7 +75,7 @@ class WidgetSelectItem<
 	#root = this.createRenderRoot();
 	updateLabel!: (index: number) => any;
 	constructor() {
-		super(undefined, true);
+		super({ nav: true });
 
 		this.activeTrigger = this;
 		events.hover.add(this);
@@ -119,7 +119,10 @@ export class WidgetSelect<
 > extends Widget<WidgetSelectEventsInit<Value, Params, Data>> {
 	static styles = css(CSS);
 	constructor() {
-		super(['change'], true);
+		super({
+			eventTypes: ['change'],
+			nav: true,
+		});
 
 		configs.icon.on('selectExpand', () => {
 			this.#indicator.key = configs.icon.defaults.selectExpand;

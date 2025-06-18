@@ -56,7 +56,10 @@ export class WidgetSlider2D
 	#xClampedStepper = createClampedStepper(0, 100);
 	#yClampedStepper = this.#xClampedStepper;
 	constructor() {
-		super(['input', 'change'], true);
+		super({
+			eventTypes: ['input', 'change'],
+			nav: true,
+		});
 
 		tooltips.set(this, '0, 0');
 

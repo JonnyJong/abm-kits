@@ -166,7 +166,10 @@ export class WidgetNav<ID extends string = string>
 {
 	static styles = css(CSS);
 	constructor() {
-		super(['change'], false, true);
+		super({
+			eventTypes: ['change'],
+			navGroup: true,
+		});
 
 		this.#resizeObserver.observe(this);
 	}

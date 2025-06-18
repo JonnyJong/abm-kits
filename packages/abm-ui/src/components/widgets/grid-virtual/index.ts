@@ -400,7 +400,7 @@ export class WidgetGridVirtual<
 		this.#updateLayoutDebounce();
 	});
 	constructor() {
-		super(undefined, false, true);
+		super({ navGroup: true });
 		this.#root.append(this.#content);
 		this.#resizeObserver.observe(this.#content);
 		this.#intersectionObserver.observe(this);
