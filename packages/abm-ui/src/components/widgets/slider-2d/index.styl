@@ -3,7 +3,7 @@
 	display block
 	height 300px
 	border 1px solid var(--w-slider2d-border)
-	border-radius 4px
+	border-radius var(--ui-border-radius)
 	background var(--w-slider2d-bg)
 	transition .1s background
 	&[ui-hover]
@@ -22,7 +22,7 @@
 	outline 3px solid var(--w-slider2d-thumb-in)
 	outline-offset -5px
 	border 7px solid var(--w-slider2d-thumb-out)
-	border-radius 100%
+	border-radius s('min(calc(var(--ui-border-radius) * 1e6), 100%)')
 	transition .1s scale, .1s left, .1s top
 	translate -50% -50%
 

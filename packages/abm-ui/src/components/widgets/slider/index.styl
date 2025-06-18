@@ -19,13 +19,13 @@
 
 .track
 	height 4px
-	border-radius 2px
+	border-radius var(--ui-border-radius)
 	background var(--w-slider-track)
 	&:before
 		display block
 		width var(--value, 0%)
 		height 100%
-		border-radius 2px
+		border-radius var(--ui-border-radius)
 		background var(--w-slider-cover)
 		content ''
 		transition .1s width
@@ -36,7 +36,7 @@
 	left var(--value, 0%)
 	width 22px
 	height 22px
-	border-radius 100%
+	border-radius s('min(calc(var(--ui-border-radius) * 1e6), 100%)')
 	background var(--w-slider-thumb-back)
 	transition .1s translate, .1s left
 	translate calc(var(--value, 0%) * -1) 0
@@ -44,7 +44,7 @@
 	&:after
 		position absolute
 		margin auto
-		border-radius 100%
+		border-radius s('min(calc(var(--ui-border-radius) * 1e6), 100%)')
 		content ''
 		inset 0
 	&:before

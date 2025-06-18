@@ -5,7 +5,7 @@
 	width 48px
 	height 24px
 	border 1px solid var(--w-switch-border)
-	border-radius 24px
+	border-radius s('min(calc(var(--ui-border-radius) * 1e6), 24px)')
 	background var(--w-switch-bg)
 	transition .1s background
 	--size 16px
@@ -46,7 +46,7 @@
 		margin auto
 		width var(--size)
 		height var(--size)
-		border-radius 100%
+		border-radius s('min(calc(var(--ui-border-radius) * 1e6), 100%)')
 		background var(--text)
 		content ''
 		transition .1s height, .1s width

@@ -468,6 +468,8 @@ export interface UIConfigsInit {
 	swipeThreshold?: number;
 	/** 触摸开始到首次移动的最大允许时间 */
 	holdDurationThreshold?: number;
+	/** 圆角 */
+	borderRadius?: number | string;
 }
 
 class UIConfigs {
@@ -488,6 +490,12 @@ class UIConfigs {
 			this.#touch.swipeThreshold = options.swipeThreshold;
 		if (options.holdDurationThreshold)
 			this.#touch.holdDurationThreshold = options.holdDurationThreshold;
+		if (options.borderRadius !== undefined)
+			$apply(document.body, {
+				style: {
+					$uiBorderRadius: options.borderRadius,
+				},
+			});
 	}
 	/** 图标配置 */
 	get icon(): UIIconConfigs {

@@ -18,13 +18,15 @@
 		color var(--w-hint-gamepad-y)
 	&[w-hint-gamepad='lb']
 	&[w-hint-gamepad='rb']
-		border-radius 4px
+		border-radius var(--ui-border-radius)
 		font-weight normal
 	&[w-hint-gamepad='lt']
-		border-radius 4px 4px 4px 50%
+		border-radius var(--ui-border-radius)
+		border-bottom-left-radius 50%
 		font-weight normal
 	&[w-hint-gamepad='rt']
-		border-radius 4px 4px 50% 4px
+		border-radius var(--ui-border-radius)
+		border-bottom-right-radius 50%
 		font-weight normal
 
 .press

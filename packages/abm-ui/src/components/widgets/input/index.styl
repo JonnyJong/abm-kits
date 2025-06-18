@@ -6,7 +6,7 @@
 	height 24px + 8px
 	border 1px solid var(--w-input-border)
 	border-bottom-color var(--w-input-indicator)
-	border-radius 4px
+	border-radius var(--ui-border-radius)
 	background var(--w-input-bg)
 	transition .1s
 	transition-property background, border-bottom-color
@@ -33,9 +33,13 @@
 		background var(--w-input-disabled-bg)
 		color var(--w-input-disabled-text)
 	&[autofill]
-		border-radius 4px 4px 0 0
+		border-radius var(--ui-border-radius)
 	&[autofill='up']
-		border-radius 0 0 4px 4px
+		border-top-left-radius 0
+		border-top-right-radius 0
+	&[autofill='down']
+		border-bottom-right-radius 0
+		border-bottom-left-radius 0
 	&[autosize]
 		min-width 32px
 		width max-content
