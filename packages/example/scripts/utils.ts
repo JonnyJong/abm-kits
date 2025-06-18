@@ -221,6 +221,7 @@ function createProp(target: HTMLElement, property: PropertyItem): Prop {
 }
 
 //#region API
+let propId = 0;
 export function $propertiesPanel(
 	target: HTMLElement,
 	properties: PropertyItem[],
@@ -236,10 +237,15 @@ export function $propertiesPanel(
 			continue;
 		}
 		props.push(prop);
+		prop.element.id = `dev-input-${propId}`;
 		elements.push(
-			$div(property.description ?? key2desc(property.key)),
+			$new('w-label', {
+				prop: { for: `dev-input-${propId}` },
+				content: property.description ?? key2desc(property.key),
+			}),
 			prop.element,
 		);
+		propId++;
 	}
 	if (toggles.length > 0)
 		elements.push(

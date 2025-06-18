@@ -62,6 +62,7 @@ import {
 } from './components/widgets/input/password';
 import { WidgetText, WidgetTextProp } from './components/widgets/input/text';
 import { WidgetTextField } from './components/widgets/input/text-field';
+import { WidgetLabel, WidgetLabelProp } from './components/widgets/label';
 import { WidgetLang, WidgetLangProp } from './components/widgets/lang';
 import {
 	WidgetList,
@@ -160,6 +161,7 @@ export * from './components/widgets/hint/index';
 export * from './components/widgets/grid-virtual';
 export * from './components/widgets/list-infinite';
 export * from './components/widgets/grid-data';
+export * from './components/widgets/label';
 
 // Utils
 export interface WidgetTagNameMap {
@@ -191,6 +193,7 @@ export interface WidgetTagNameMap {
 	'w-grid-virtual': WidgetGridVirtual;
 	'w-list-infinite': WidgetListInfinite;
 	'w-grid-data': WidgetGridData;
+	'w-label': WidgetLabel;
 }
 export type WidgetTagForType<E> = {
 	[K in keyof WidgetTagNameMap]: E extends WidgetTagNameMap[K] ? K : never;
@@ -223,6 +226,7 @@ export interface WidgetsPropMap {
 	'w-hint': WidgetHintProp;
 	'w-grid-virtual': WidgetGridVirtualProp;
 	'w-list-infinite': WidgetListInfiniteProp;
+	'w-label': WidgetLabelProp;
 }
 export interface WidgetsEventsMap {
 	'w-btn': WidgetBtnEvents;

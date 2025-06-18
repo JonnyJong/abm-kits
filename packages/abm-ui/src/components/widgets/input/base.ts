@@ -93,6 +93,10 @@ export abstract class WidgetInput<
 		this.input = input;
 
 		events.hover.add(this);
+		events.active.on(this, ({ active, cancel }) => {
+			if (active || cancel) return;
+			this.input.focus();
+		});
 		input.addEventListener('input', this.updatePlaceholder);
 		input.addEventListener('focus', this.#focusHandler);
 		input.addEventListener('blur', this.#blurHandler);
