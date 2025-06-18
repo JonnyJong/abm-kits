@@ -80,6 +80,12 @@ configs.init({
 			sheet.replaceSync(css);
 			return sheet;
 		}),
+	keyAlias: {
+		'ui.up': new Set(['ArrowUp', 'KeyW']),
+		'ui.right': new Set(['ArrowRight', 'KeyD']),
+		'ui.down': new Set(['ArrowDown', 'KeyS']),
+		'ui.left': new Set(['ArrowLeft', 'KeyA']),
+	},
 });
 
 //#region Components

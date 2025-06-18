@@ -22,6 +22,13 @@ import {
 } from 'abm-utils';
 import { CSSResult } from 'lit';
 import { DEFAULTS_ICONS } from './defaults';
+import {
+	AliasItem,
+	DEFAULT_ALIAS_MAP,
+	DEFAULT_SHORTCUT_MAP,
+	KeyBindGroup,
+	keyboard,
+} from './keyboard';
 import { setLocaleDriver } from './locale';
 
 //#region #Icon
@@ -470,6 +477,23 @@ export interface UIConfigsInit {
 	holdDurationThreshold?: number;
 	/** 圆角 */
 	borderRadius?: number | string;
+	/** 组合键 */
+	keyShortcut?: {
+		[key in 'ui.navNext' | 'ui.navPrev' | (string & {})]?: KeyBindGroup;
+	};
+	/** 按键别名 */
+	keyAlias?: {
+		[key in
+			| 'ui.confirm'
+			| 'ui.cancel'
+			| 'ui.up'
+			| 'ui.right'
+			| 'ui.down'
+			| 'ui.left'
+			| 'ui.selectMulti'
+			| 'ui.selectRange'
+			| (string & {})]?: AliasItem;
+	};
 }
 
 class UIConfigs {
@@ -496,6 +520,16 @@ class UIConfigs {
 					$uiBorderRadius: options.borderRadius,
 				},
 			});
+		if (options.keyShortcut)
+			keyboard.bindMap = {
+				...DEFAULT_SHORTCUT_MAP,
+				...options.keyShortcut,
+			};
+		if (options.keyAlias)
+			keyboard.aliasMap = {
+				...DEFAULT_ALIAS_MAP,
+				...options.keyAlias,
+			};
 	}
 	/** 图标配置 */
 	get icon(): UIIconConfigs {
