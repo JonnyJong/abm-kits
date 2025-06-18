@@ -49,6 +49,13 @@ export interface DialogActionInit<ID extends string = string> {
 	disabled?: boolean;
 	/** 按钮颜色 */
 	color?: Color | string;
+	/**
+	 * 按钮大小
+	 * @description
+	 * - 数字：flex-grow
+	 * - 其他：width
+	 */
+	size?: number | 'auto' | 'max-content' | (string & {});
 }
 
 export interface DialogInit<ID extends string = string> extends DialogInitBase {
@@ -81,6 +88,7 @@ const DIALOG_HIDE_ANIMATION_REDUCED = {
 class DialogAction<ID extends string = string> {
 	id!: ID;
 	element = $new('w-btn', { class: 'ui-dialog-action' });
+	#size: number | 'max-content' | (string & {}) = 1;
 	constructor(options: DialogActionInit<ID>, emit: (id: ID) => void) {
 		this.data = options;
 		this.element.on('active', () => emit(this.id));
@@ -135,6 +143,22 @@ class DialogAction<ID extends string = string> {
 		this.progress = options.progress ?? 100;
 		this.disabled = !!options.disabled;
 		this.color = options.color;
+		this.size = options.size!;
+	}
+	get size() {
+		return this.#size;
+	}
+	set size(value) {
+		if (typeof value === 'number') {
+			this.element.style.flex = `${value} 0 auto`;
+			this.element.style.width = '';
+			this.#size = value;
+			return;
+		}
+		if (typeof value !== 'string') return;
+		this.element.style.flex = '0 0 auto';
+		this.element.style.width = value;
+		this.#size = value;
 	}
 }
 

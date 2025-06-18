@@ -30,15 +30,6 @@
 	&>*
 		padding 16px
 		max-width calc(100vw - 4px)
-	&:after
-		position absolute
-		bottom 49px
-		left 0
-		width 100%
-		height 16px
-		background linear-gradient(transparent 0%, var(--bg) 100%)
-		content ''
-		pointer-events none
 	&:has(.ui-dialog-actions:empty):after
 		bottom 0
 
@@ -49,12 +40,23 @@
 	gap 8px
 
 .ui-dialog-content
+	position relative
 	overflow hidden overlay
 	padding-top 0
 	max-height calc(100vh - 146px)
+	&:after
+		position absolute
+		bottom 0
+		left 0
+		width 100%
+		height 16px
+		background linear-gradient(transparent 0%, var(--bg) 100%)
+		content ''
+		pointer-events none
 
 .ui-dialog-actions
 	display flex
+	flex-wrap wrap
 	padding 8px
 	background var(--ui-dialog-action-bg)
 	gap 8px
