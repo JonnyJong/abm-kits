@@ -179,6 +179,11 @@ export function initInput() {
 				min: 0,
 			},
 			{
+				type: 'number',
+				key: 'incrementStep',
+				min: 0,
+			},
+			{
 				type: 'boolean',
 				key: 'invalid',
 			},

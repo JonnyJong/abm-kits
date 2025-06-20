@@ -27,6 +27,8 @@ export interface WidgetNumberProp {
 	 * 步长为 0 时，按下“增加”、“减少”按钮将增加、减少 1；
 	 */
 	step?: number;
+	/** 按钮增量 */
+	incrementStep?: number;
 	/** 自动填充 */
 	autoFill?: IWidgetInputAutoFillItem<number>[];
 	/**
@@ -125,6 +127,11 @@ export class WidgetNumber<Params extends LocaleParams = LocaleParams>
 		this.value = this.#valueCache;
 		this.#updateActions(this.value);
 	}
+	#clampIncrementStep() {
+		if (this.#step === 0) return;
+		this.#incrementStep =
+			Math.round(this.#incrementStep / this.#step) * this.#step;
+	}
 	#inputCache: unknown = null;
 	#valueCache = 0;
 	#textCache = '';
@@ -153,7 +160,7 @@ export class WidgetNumber<Params extends LocaleParams = LocaleParams>
 	#updateValue(increase: boolean) {
 		const defaultValue = increase ? this.#min : this.#max;
 		let value = this.value;
-		let step = this.#step ? this.#step : 1;
+		let step = this.#incrementStep;
 		if (!increase) step *= -1;
 
 		if (!Number.isFinite(value)) value = defaultValue;
@@ -243,6 +250,23 @@ export class WidgetNumber<Params extends LocaleParams = LocaleParams>
 		if (value === this.#step) return;
 		this.#step = value;
 		this.#reClampedStep();
+		this.#clampIncrementStep();
+	}
+	#incrementStep = 1;
+	/**
+	 * 按钮增量
+	 * @description
+	 * 点击输入框上的按钮时的增量
+	 */
+	@property({ type: Number, attribute: 'increment-step' })
+	get incrementStep() {
+		return this.#incrementStep;
+	}
+	set incrementStep(value) {
+		if (!Number.isFinite(value)) return;
+		if (value <= 0) return;
+		this.#incrementStep = value;
+		this.#clampIncrementStep();
 	}
 	#autofill = new InputAutoFill(this, this.input, this.events);
 	/** 自动填充 */
