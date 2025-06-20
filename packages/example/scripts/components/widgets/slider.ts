@@ -26,6 +26,11 @@ export function initSlider() {
 				min: 0,
 			},
 			{
+				type: 'number',
+				key: 'incrementStep',
+				min: 0,
+			},
+			{
 				type: 'boolean',
 				key: 'disabled',
 			},

@@ -42,6 +42,8 @@ export interface WidgetSliderProp {
 	step?: number;
 	// ticks?: number[] | number;
 	// snapTicks?: boolean;
+	/** 按钮增量 */
+	incrementStep?: number;
 	/** 禁用 */
 	disabled?: boolean;
 	// vertical?: boolean;
@@ -69,13 +71,12 @@ export class WidgetSlider
 		events.hover.add(this);
 		events.slide.on(this, this.#slideHandler);
 	}
-
+	#clampIncrementStep() {
+		if (this.#step === 0) return;
+		this.#incrementStep =
+			Math.round(this.#incrementStep / this.#step) * this.#step;
+	}
 	#updateMinMaxStep() {
-		const stroke = this.#to - this.#from;
-		this.#digitalStep = this.#step;
-		if (!this.#digitalStep)
-			this.#digitalStep = Math.abs(stroke) <= 1 ? stroke / 100 : 1;
-
 		if (this.#from <= this.#to) {
 			this.#left = this.#from;
 			this.#right = this.#to;
@@ -151,9 +152,20 @@ export class WidgetSlider
 		value = Math.abs(value);
 		if (this.#step === value) return;
 		this.#step = value;
+		this.#clampIncrementStep();
 		this.#updateMinMaxStep();
 	}
-	#digitalStep = 1;
+	#incrementStep = 1;
+	@property({ type: Number, attribute: 'increment-step' })
+	get incrementStep() {
+		return this.#incrementStep;
+	}
+	set incrementStep(value) {
+		if (!Number.isFinite(value)) return;
+		if (value <= 0) return;
+		this.#incrementStep = value;
+		this.#clampIncrementStep();
+	}
 	#left = 0;
 	#right = 100;
 	//#region Events
@@ -263,10 +275,10 @@ export class WidgetSlider
 		}
 	}
 	get digitalXStep() {
-		return this.#digitalStep;
+		return this.#incrementStep;
 	}
 	get joystickXSpeedFactor() {
-		return this.#digitalStep * 50;
+		return this.#incrementStep * 50;
 	}
 	get slideBorder(): SlideBorder {
 		return [this.#left, this.#right, 0, 0];
