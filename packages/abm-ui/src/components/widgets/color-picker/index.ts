@@ -548,11 +548,17 @@ export class WidgetColorPicker
 		this.#alphaValue.value = alpha;
 	}
 	//#region HSL
-	// #hslPicker = $div({ class: 'picker' });
-	// #hslMain = $div({ class: 'main' }, this.#hslPicker);
 	#hslMain = $new<WidgetSlider2D, {}>('w-slider-2d', {
 		class: 'main',
-		prop: { minX: 0, maxX: 360, minY: 0, maxY: 1 },
+		prop: {
+			minX: 0,
+			maxX: 360,
+			stepX: 1,
+			minY: 0,
+			maxY: 1,
+			stepY: 0.01,
+			incrementStepY: 0.01,
+		},
 	});
 	#hslMainSlider = $new<WidgetSlider, {}>('w-slider', {
 		class: 'main-slider',
