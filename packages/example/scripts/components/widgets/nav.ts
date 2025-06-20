@@ -28,6 +28,10 @@ export function initNav() {
 				key: 'vertical',
 			},
 			{
+				type: 'boolean',
+				key: 'verticalDisplay',
+			},
+			{
 				type: 'enum',
 				key: 'display',
 				options: ['all', 'icon', 'text'],

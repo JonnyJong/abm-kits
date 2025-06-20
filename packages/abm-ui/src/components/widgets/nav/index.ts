@@ -79,6 +79,8 @@ export interface WidgetNavProp<ID extends string = string> {
 	 * - `text`：只显示文本
 	 */
 	display?: WidgetNavDisplay;
+	/** 垂直显示 */
+	verticalDisplay?: boolean;
 }
 
 const DISPLAYS: WidgetNavDisplay[] = ['all', 'icon', 'text'];
@@ -242,6 +244,9 @@ export class WidgetNav<ID extends string = string>
 		if (!DISPLAYS.includes(value)) value = 'all';
 		this.setAttribute('display', value);
 	}
+	/** 垂直显示 */
+	@property({ type: Boolean, reflect: true, attribute: 'vertical-display' })
+	accessor verticalDisplay = false;
 	//#region Events
 	#activeHandler = (item: NavItem<ID>) => {
 		if (this.disabled) return;

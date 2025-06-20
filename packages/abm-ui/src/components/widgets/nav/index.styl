@@ -2,20 +2,8 @@
 	position relative
 	display flex
 	&:not([vertical])
-		&[display='icon']
-			.item
-				:last-child
-					margin-top -16px
-					width 0px
-					opacity 0
-					scale 0
-		&[display='text']
-			.item
-				:first-child
-					height 0px
-					scale 0
-				:last-child
-					margin-top 0px
+		.item
+			padding-top 12px
 	&[vertical]
 		flex-direction column
 		width max-content
@@ -27,24 +15,25 @@
 			height calc(var(--size) - 16px)
 			transition .2s top, .2s height
 		.item
-			flex-direction row
 			padding 12px
-			height 44px
-			transition .1s background, .3s width
+	&[vertical-display]
+		.item
+			flex-direction column
+			gap 8px
+	&[display='icon']
+		.item
+			width 40px
+			height 40px
+	&[display='text']
+		.item
+			gap 0px
+			:first-child
+				width 0px
+				height 0
+				opacity 0
+				scale 0
 			:last-child
-				margin 0
-				margin-left 12px
-		&[display='icon']
-			.item
-				width 44px
-		&[display='text']
-			.item
-				:first-child
-					width 0px
-					opacity 0
-					scale 0
-				:last-child
-					margin-left 0px
+				width 100%
 	&[disabled]
 		.item
 			&[ui-hover]
@@ -55,13 +44,12 @@
 
 .item
 	display flex
-	flex-direction column
 	align-items center
 	overflow hidden
 	padding 8px
-	padding-top 12px
 	border-radius var(--ui-border-radius)
-	transition .1s background, .3s padding
+	transition .1s background, .3s width, .3s height, .3s gap
+	gap 12px
 	interpolate-size allow-keywords
 	&:not([disabled])
 		&[ui-hover]
@@ -70,19 +58,17 @@
 			background var(--w-nav-active-bg)
 			&>*
 				opacity var(--w-nav-active-content-opacity)
-	&>*
-		transition .3s opacity, .3s width, .3s margin, .3s height, .3s scale
 	:first-child
 		flex 0 0 auto
 		overflow hidden
 		height calc-size(auto, size)
 		font-size 20px
+		transition .3s width, .3s height, .3s opacity, .3s scale
 		--w-progress-ring-size 20px
 	:last-child
-		margin-top 8px
 		width calc-size(auto, size)
-		// height calc-size(auto, size)
 		line-height 1
+		transition .3s width
 	&[disabled]
 		opacity var(--w-nav-disabled-opacity)
 
