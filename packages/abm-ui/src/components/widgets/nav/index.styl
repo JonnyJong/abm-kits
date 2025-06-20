@@ -1,9 +1,6 @@
 :host
 	position relative
 	display flex
-	&:not([vertical])
-		.item
-			padding-top 12px
 	&[vertical]
 		flex-direction column
 		width max-content
@@ -14,18 +11,24 @@
 			width 4px
 			height calc(var(--size) - 16px)
 			transition .2s top, .2s height
-		.item
-			padding 12px
 	&[vertical-display]
 		.item
 			flex-direction column
 			gap 8px
+		&:not([vertical])
+			.item
+				padding-top 12px
+		&[vertical] .item :last-child
+			overflow hidden
+			max-width 100%
+			text-overflow ellipsis
 	&[display='icon']
 		.item
-			width 40px
-			height 40px
+			width 36px
+			height 36px
 	&[display='text']
 		.item
+			height 36px
 			gap 0px
 			:first-child
 				width 0px
@@ -67,7 +70,7 @@
 		--w-progress-ring-size 20px
 	:last-child
 		width calc-size(auto, size)
-		line-height 1
+		line-height 20px
 		transition .3s width
 	&[disabled]
 		opacity var(--w-nav-disabled-opacity)

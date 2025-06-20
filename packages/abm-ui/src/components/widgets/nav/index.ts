@@ -188,7 +188,11 @@ export class WidgetNav<ID extends string = string>
 	#items = new SyncList<WidgetNavItems<ID>, NavItem<ID>>({
 		getData: (i) => i,
 		setData: (i, data) => i.reset(data),
-		create: (data) => new NavItem(data, this.#activeHandler, this),
+		create: (data) => {
+			const node = new NavItem(data, this.#activeHandler, this);
+			this.#resizeObserver.observe(node.element);
+			return node;
+		},
 		update: () => this.requestUpdate(),
 		updateDelay: 50,
 		creatable: true,
