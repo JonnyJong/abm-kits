@@ -44,6 +44,8 @@ export interface WidgetSlider2DProp {
 	stepY?: number;
 	/** 禁用 */
 	disabled?: boolean;
+	incrementStepX?: number;
+	incrementStepY?: number;
 }
 
 @customElement('w-slider-2d')
@@ -66,28 +68,30 @@ export class WidgetSlider2D
 		events.hover.add(this);
 		events.slide.on(this, this.#slideHandler);
 	}
+	#clampIncrementStepX() {
+		if (this.#stepX === 0) return;
+		this.#incrementStepX =
+			Math.round(this.#incrementStepX / this.#stepX) * this.#stepX;
+	}
+	#clampIncrementStepY() {
+		if (this.#stepY === 0) return;
+		this.#incrementStepY =
+			Math.round(this.#incrementStepY / this.#stepY) * this.#stepY;
+	}
 	#updateMinMaxStepX() {
-		const stroke = this.#maxX - this.#minX;
-		this.#digitalStepX = this.#stepX;
-		if (!this.#digitalStepX) this.#digitalStepX = stroke <= 1 ? stroke / 100 : 1;
-
 		this.#xClampedStepper = createClampedStepper(
 			this.#minX,
 			this.#maxX,
-			this.#digitalStepX,
+			this.#stepX,
 		);
 		this.#x = this.#xClampedStepper(this.#x);
 		this.#updateView();
 	}
 	#updateMinMaxStepY() {
-		const stroke = this.#maxY - this.#minY;
-		this.#digitalStepY = this.#stepY;
-		if (!this.#digitalStepY) this.#digitalStepY = stroke <= 1 ? stroke / 100 : 1;
-
 		this.#yClampedStepper = createClampedStepper(
 			this.#minY,
 			this.#maxY,
-			this.#digitalStepY,
+			this.#stepY,
 		);
 		this.#y = this.#yClampedStepper(this.#y);
 		this.#updateView();
@@ -123,8 +127,8 @@ export class WidgetSlider2D
 	#maxY = 100;
 	#stepX = 0;
 	#stepY = 0;
-	#digitalStepX = 1;
-	#digitalStepY = 1;
+	#incrementStepX = 1;
+	#incrementStepY = 1;
 	@property({ type: Number })
 	get x() {
 		return this.#x;
@@ -185,7 +189,8 @@ export class WidgetSlider2D
 	}
 	set stepX(value) {
 		if (this.#stepX === value) return;
-		this.#stepX = value;
+		this.#stepX = Math.abs(value);
+		this.#clampIncrementStepX();
 		this.#updateMinMaxStepX();
 	}
 	@property({ type: Number })
@@ -194,8 +199,29 @@ export class WidgetSlider2D
 	}
 	set stepY(value) {
 		if (this.#stepY === value) return;
-		this.#stepY = value;
+		this.#stepY = Math.abs(value);
+		this.#clampIncrementStepY();
 		this.#updateMinMaxStepY();
+	}
+	@property({ type: Number, attribute: 'increment-step-x' })
+	get incrementStepX() {
+		return this.#incrementStepX;
+	}
+	set incrementStepX(value) {
+		if (!Number.isFinite(value)) return;
+		if (value <= 0) return;
+		this.#incrementStepX = value;
+		this.#clampIncrementStepX();
+	}
+	@property({ type: Number, attribute: 'increment-step-y' })
+	get incrementStepY() {
+		return this.#incrementStepY;
+	}
+	set incrementStepY(value) {
+		if (!Number.isFinite(value)) return;
+		if (value <= 0) return;
+		this.#incrementStepY = value;
+		this.#clampIncrementStepY();
 	}
 	//#region Events
 	#tempX = 0;
@@ -313,16 +339,16 @@ export class WidgetSlider2D
 		return [this.#minX, this.#maxX, this.#minY, this.#maxY];
 	}
 	get digitalXStep() {
-		return this.#digitalStepX;
+		return this.#incrementStepX;
 	}
 	get digitalYStep() {
-		return this.#digitalStepY;
+		return this.#incrementStepY;
 	}
 	get joystickXSpeedFactor() {
-		return this.#digitalStepX * 50;
+		return this.#incrementStepX * 50;
 	}
 	get joystickYSpeedFactor() {
-		return this.#digitalStepY * 50;
+		return this.#incrementStepY * 50;
 	}
 	cloneNode(deep?: boolean): WidgetSlider2D {
 		const node = super.cloneNode(deep) as WidgetSlider2D;
