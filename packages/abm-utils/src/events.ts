@@ -303,6 +303,38 @@ export class EventVector<Type extends string = string, Target = any>
 	}
 }
 
+//#region API: Error
+export interface EventErrorInit<Target = any, Err extends Error = Error>
+	extends EventBaseInit<Target> {
+	error: Err;
+}
+
+export interface IEventError<
+	Type extends string = string,
+	Target = any,
+	Err extends Error = Error,
+> extends IEventBase<Type, Target> {
+	readonly error: Err;
+}
+
+export class EventError<
+		Type extends string = string,
+		Target = any,
+		Err extends Error = Error,
+	>
+	extends EventBase<Type, Target>
+	implements IEventError<Type, Target, Err>
+{
+	#error: Err;
+	constructor(type: Type, options: EventErrorInit<Target, Err>) {
+		super(type, options);
+		this.#error = options.error;
+	}
+	get error() {
+		return this.#error;
+	}
+}
+
 //#region API: Custom
 export interface EventCustomInit<Target = any, Details = any>
 	extends EventBaseInit<Target> {
