@@ -263,7 +263,7 @@ grid.setup({
 		{ key: 'progress', width: 100 },
 		{ key: 'text', width: 200 },
 		{ key: 'psw', width: 200 },
-		{ key: 'number', width: 100 },
+		{ key: 'number', width: 110 },
 		{ key: 'option', width: 120 },
 		{ key: 'number2', width: 100 },
 		{ key: 'enable', width: 80 },
@@ -281,7 +281,7 @@ export function initGridData() {
 		[],
 		[
 			$new('w-btn', {
-				prop: { content: 'Refresh' },
+				content: 'Refresh',
 				on: {
 					active: () => {
 						grid.data = generateTestData(30);

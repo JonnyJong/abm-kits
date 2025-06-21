@@ -147,7 +147,7 @@ class PropBoolean implements Prop {
 	constructor(target: HTMLElement, options: PropertyItemBoolean) {
 		this.#target = target;
 		this.#key = options.key;
-		this.#element.content = options.description ?? options.key;
+		this.#element.key = options.description ?? options.key;
 		this.update();
 		this.#element.on('active', () =>
 			setValue(this.#target, this.#key, this.#element.checked),
@@ -285,7 +285,7 @@ export function $eventsPanel(
 			{ attr: { 'ui-layout': 'flow' } },
 			...events.map((type) => {
 				const indicator = $new('w-btn', {
-					prop: { state: 'toggle', disabled: true, content: type },
+					prop: { state: 'toggle', disabled: true, key: type },
 				});
 				(target as any).on(type, () => {
 					indicator.checked = true;

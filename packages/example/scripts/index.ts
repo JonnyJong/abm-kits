@@ -1,7 +1,12 @@
-import { DEFAULT_LOCALES_FLAT, configs } from 'abm-ui';
+import {
+	DEFAULT_LOCALE_DICTS,
+	UIDefaultLocaleDict,
+	configs,
+	defaultLocale,
+} from 'abm-ui';
 import * as UI from 'abm-ui';
 import * as Utils from 'abm-utils';
-import { $$, FlatLocaleSource, createSimpleLocaleDriver } from 'abm-utils';
+import { $$, LocaleDict, defineTranslation as dt } from 'abm-utils';
 import { initDialog } from './components/dialog';
 import { initTooltips } from './components/tooltips';
 import { initBtn } from './components/widgets/btn';
@@ -31,48 +36,79 @@ import { initSettings } from './settings';
 (window as any).Utils = Utils;
 
 //#region Configs
-const LOCALES: Record<string, FlatLocaleSource<string>> = {
+declare module 'abm-ui' {
+	export interface UIDefaultLocaleDict extends LocaleDict {
+		dev: {
+			properties: string;
+			events: string;
+			ops: string;
+			widget: { select: [string, { i?: Intl.NumberFormatOptions }] };
+			empty: '';
+			components: {
+				tooltips: { content: string };
+				dialog: {
+					title: string;
+					content: string;
+					color: string;
+					normal: string;
+					confirm: string;
+					alert: string;
+				};
+			};
+		};
+	}
+}
+
+const LOCALE_DICTS: Record<string, UIDefaultLocaleDict> = {
 	zh: {
-		// Basic
-		...DEFAULT_LOCALES_FLAT.zh,
-		// Other
-		'dev.properties': '属性',
-		'dev.events': '事件',
-		'dev.ops': '操作',
-		'dev.widget.select': '选项 ${i}',
-		'dev.empty': '',
-		'dev.components.tooltips.content': '工具提示内容',
-		'dev.components.dialog.title': '标题',
-		'dev.components.dialog.content': '内容（HTML）',
-		'dev.components.dialog.color': '主题色',
-		'dev.components.dialog.normal': '创建普通对话框',
-		'dev.components.dialog.confirm': '创建确认对话框',
-		'dev.components.dialog.alert': '创建警告对话框',
+		...DEFAULT_LOCALE_DICTS.zh,
+		dev: {
+			properties: '属性',
+			events: '事件',
+			ops: '操作',
+			widget: {
+				select: dt('选项 {i}', {}),
+			},
+			empty: '',
+			components: {
+				tooltips: { content: '工具提示内容' },
+				dialog: {
+					title: '标题',
+					content: '内容（HTML）',
+					color: '主题色',
+					normal: '创建普通对话框',
+					confirm: '创建确认对话框',
+					alert: '创建警告对话框',
+				},
+			},
+		},
 	},
 	en: {
-		// Basic
-		...DEFAULT_LOCALES_FLAT.en,
-		// Other
-		'dev.properties': 'Properties',
-		'dev.events': 'Events',
-		'dev.ops': 'Operations',
-		'dev.widget.select': 'Option ${i}',
-		'dev.empty': '',
-		'dev.components.tooltips.content': 'Tooltips content',
-		'dev.components.dialog.title': 'Title',
-		'dev.components.dialog.content': 'Content (HTML)',
-		'dev.components.dialog.color': 'Theme color',
-		'dev.components.dialog.normal': 'Create Normal Dialog',
-		'dev.components.dialog.confirm': 'Create Confirm Dialog',
-		'dev.components.dialog.alert': 'Create Alert Dialog',
+		...DEFAULT_LOCALE_DICTS.en,
+		dev: {
+			properties: 'Properties',
+			events: 'Events',
+			ops: 'Operations',
+			widget: {
+				select: dt('Option {i}', {}),
+			},
+			empty: '',
+			components: {
+				tooltips: { content: 'Tooltips content' },
+				dialog: {
+					title: 'Title',
+					content: 'Content (HTML)',
+					color: 'Theme color',
+					normal: 'Create Normal Dialog',
+					confirm: 'Create Confirm Dialog',
+					alert: 'Create Alert Dialog',
+				},
+			},
+		},
 	},
 };
 
 configs.init({
-	locale: createSimpleLocaleDriver((_namespace, locale) => {
-		if (locale in LOCALES) return LOCALES[locale];
-		return null;
-	}),
 	icon: $$<HTMLLinkElement>('link[rel="stylesheet"]')
 		.map((e) => [...e.sheet!.cssRules].map((rule) => rule.cssText).join(''))
 		.map((css) => {
@@ -87,6 +123,8 @@ configs.init({
 		'ui.left': new Set(['ArrowLeft', 'KeyA']),
 	},
 });
+
+defaultLocale.loader = (locale) => LOCALE_DICTS[locale] ?? null;
 
 //#region Components
 //#region Widgets

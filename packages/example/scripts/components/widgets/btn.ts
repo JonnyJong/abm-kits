@@ -3,10 +3,8 @@ import { $panel } from '../../utils';
 
 const btn = $new('w-btn', {
 	prop: {
-		content: {
-			key: 'ui.confirm',
-			icon: 'Home',
-		},
+		key: 'ui.confirm',
+		icon: 'Home',
 	},
 });
 

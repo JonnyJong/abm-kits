@@ -1,4 +1,9 @@
-import { WidgetPassword } from 'abm-ui';
+import {
+	WidgetNumber,
+	WidgetPassword,
+	WidgetText,
+	WidgetTextField,
+} from 'abm-ui';
 import { $new } from 'abm-utils';
 import { $panel } from '../../utils';
 
@@ -29,11 +34,11 @@ const AUTO_FILL_NUM = [
 
 export function initInput() {
 	//#region Text
-	const text = $new('w-text', {
+	const text = $new<WidgetText, {}>('w-text', {
 		prop: {
 			autoFill: AUTO_FILL,
-			actionsLeft: [{ id: 'search', content: { icon: 'Search' } }],
-			actionsRight: [{ id: 'clear', content: { icon: 'Dismiss' }, hidden: true }],
+			actionsLeft: [{ id: 'search', icon: 'Search' }],
+			actionsRight: [{ id: 'clear', icon: 'Dismiss', hidden: true }],
 		},
 	});
 	text.on('input', () => {
@@ -55,7 +60,8 @@ export function initInput() {
 			},
 			{
 				type: 'string',
-				key: 'placeholder',
+				key: 'textContent',
+				description: 'Placeholder',
 				default: '',
 			},
 			{
@@ -81,10 +87,10 @@ export function initInput() {
 	const psw = $new<WidgetPassword, {}>('w-password', {
 		prop: {
 			autoFill: AUTO_FILL,
-			actionsLeft: [{ id: '', content: { icon: 'Password' } }],
+			actionsLeft: [{ id: '', icon: 'Password' }],
 			actionsRight: [
-				{ id: 'clear', content: { icon: 'Dismiss' }, hidden: true },
-				{ id: 'visible', content: { icon: 'EyeOff' }, toggle: true },
+				{ id: 'clear', icon: 'Dismiss', hidden: true },
+				{ id: 'visible', icon: 'EyeOff', toggle: true },
 			],
 		},
 	});
@@ -99,9 +105,7 @@ export function initInput() {
 		}
 		if (value !== 'visible') return;
 		psw.passwordVisible = !!psw.actionsRight[1].checked;
-		psw.actionsRight[1].content = {
-			icon: psw.passwordVisible ? 'Eye' : 'EyeOff',
-		};
+		psw.actionsRight[1].icon = psw.passwordVisible ? 'Eye' : 'EyeOff';
 	});
 	$panel(
 		'psw',
@@ -114,7 +118,8 @@ export function initInput() {
 			},
 			{
 				type: 'string',
-				key: 'placeholder',
+				key: 'textContent',
+				description: 'Placeholder',
 				default: '',
 			},
 			{
@@ -141,7 +146,7 @@ export function initInput() {
 		['input', 'confirm', 'autofill', 'action'],
 	);
 	//#region Number
-	const number = $new('w-number', {
+	const number = $new<WidgetNumber, {}>('w-number', {
 		prop: {
 			autoFill: AUTO_FILL_NUM,
 		},
@@ -156,7 +161,8 @@ export function initInput() {
 			},
 			{
 				type: 'string',
-				key: 'placeholder',
+				key: 'textContent',
+				description: 'Placeholder',
 				default: '',
 			},
 			{
@@ -203,7 +209,7 @@ export function initInput() {
 		['input', 'confirm', 'autofill', 'action'],
 	);
 	// Text field
-	const field = $new('w-text-field');
+	const field = $new<WidgetTextField, {}>('w-text-field');
 	$panel(
 		'text-field',
 		field,
@@ -215,7 +221,8 @@ export function initInput() {
 			},
 			{
 				type: 'string',
-				key: 'placeholder',
+				key: 'textContent',
+				description: 'Placeholder',
 				default: '',
 			},
 			{
