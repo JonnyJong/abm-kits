@@ -1,3 +1,8 @@
+@keyframes w-select-picker-show
+	0%
+	100%
+		scrollbar-width none
+
 .w-select-picker
 	position fixed
 	top var(--w-select-top-begin)
@@ -27,6 +32,7 @@
 	top var(--w-select-top-end)
 	height var(--w-select-height)
 	transition .3s height var(--ease-out), .3s top var(--ease-out), .1s opacity
+	animation w-select-picker-show .3s
 	--ease-out cubic-bezier(0, 0, 0, 1)
 	.w-select-list
 		top 0px

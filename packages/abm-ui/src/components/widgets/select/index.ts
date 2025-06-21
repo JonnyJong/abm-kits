@@ -202,7 +202,7 @@ export class WidgetSelect<
 			['item-diff', itemDiff],
 			['top-begin', top],
 			['top-end', listTop],
-			['height', height],
+			['height', height + 1],
 		]) {
 			this.#picker.style.setProperty(`--w-select-${k}`, `${v}px`);
 		}
