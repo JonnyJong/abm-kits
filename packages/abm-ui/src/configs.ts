@@ -34,35 +34,8 @@ import { setLocaleDriver } from './locale';
 //#region #Icon
 
 export type UIIconCSS = CSSStyleSheet | CSSResult | string | URL;
-export type UIDefaultsIcons =
-	| 'increase'
-	| 'decrease'
-	| 'calculate'
-	| 'selectExpand'
-	| 'keyDisallow'
-	| 'keyTab'
-	| 'keyEnter'
-	| 'keyShift'
-	| 'keyNumpadAdd'
-	| 'keyNumpadSubtract'
-	| 'keyNumpadMultiply'
-	| 'keyNumpadDivide'
-	| 'keyArrowUp'
-	| 'keyArrowRight'
-	| 'keyArrowDown'
-	| 'keyArrowLeft'
-	| 'keySpace'
-	| 'keyHome'
-	| 'keyBackspace'
-	| 'up'
-	| 'right'
-	| 'down'
-	| 'left'
-	| 'gamepadStart'
-	| 'gamepadBack'
-	| 'orderDesc';
 
-const DEFAULTS_ICONS_NAMES: UIDefaultsIcons[] = [
+const DEFAULTS_ICONS_NAMES = [
 	'increase',
 	'decrease',
 	'calculate',
@@ -89,7 +62,8 @@ const DEFAULTS_ICONS_NAMES: UIDefaultsIcons[] = [
 	'gamepadStart',
 	'gamepadBack',
 	'orderDesc',
-];
+] as const satisfies string[];
+export type UIDefaultsIcons = (typeof DEFAULTS_ICONS_NAMES)[number];
 
 class UIIconConfigs {
 	//#region Default Namespace
