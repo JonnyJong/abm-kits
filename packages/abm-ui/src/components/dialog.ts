@@ -32,7 +32,11 @@ export interface DialogInitBase {
 export interface DialogActionInit<ID extends string = string> {
 	id: ID;
 	/** 按钮内容 */
-	content: string | UIContentInit | UIContent;
+	content?: DOMContents;
+	/** 图标 */
+	icon?: string;
+	/** 翻译键 */
+	key?: string;
 	/**
 	 * 按钮状态
 	 * @description
@@ -93,11 +97,26 @@ class DialogAction<ID extends string = string> {
 		this.data = options;
 		this.element.on('active', () => emit(this.id));
 	}
-	get content(): UIContent {
-		return this.element.content;
+	get content(): (string | HTMLElement)[] {
+		return [...this.element.childNodes].map((v) => {
+			if (v instanceof Text) return v.textContent ?? '';
+			return v as HTMLElement;
+		});
 	}
-	set content(content: UIContentInit | UIContent | string) {
-		this.element.content = content;
+	set content(content: DOMContents) {
+		this.element.replaceChildren(...asArray(content));
+	}
+	get icon() {
+		return this.element.icon;
+	}
+	set icon(value) {
+		this.element.icon = value;
+	}
+	get key() {
+		return this.element.key;
+	}
+	set key(value) {
+		this.element.key = value;
 	}
 	get state(): Exclude<WidgetBtnState, 'toggle'> {
 		const state = this.element.state;
@@ -137,10 +156,12 @@ class DialogAction<ID extends string = string> {
 	}
 	set data(options: DialogActionInit<ID>) {
 		this.id = options.id;
-		this.content = options.content;
+		if (options.content) this.content = options.content;
+		if (options.key) this.key = options.key;
+		if (options.icon) this.icon = options.icon;
 		this.state = options.state ?? '';
 		this.delay = options.delay ?? 0;
-		this.progress = options.progress ?? 100;
+		this.progress = options.progress ?? 0;
 		this.disabled = !!options.disabled;
 		this.color = options.color;
 		this.size = options.size!;
@@ -328,34 +349,32 @@ export class Dialog<ID extends string = string>
 	}
 	//#region Static
 	/** 确认按钮 */
-	static ACTION_CONFIRM = Object.freeze<DialogActionInit<'confirm'>>({
+	static ACTION_CONFIRM = Object.freeze({
 		id: 'confirm',
-		content: 'ui.confirm',
+		key: 'ui.confirm',
 		state: 'primary',
-	});
+	} as const satisfies DialogActionInit<'confirm'>);
 	/**
 	 * 危险确认按钮
 	 * @description
 	 * 默认长按 1 秒激活
 	 */
-	static readonly ACTION_DANGER_CONFIRM = Object.freeze<
-		DialogActionInit<'confirm'>
-	>({
+	static readonly ACTION_DANGER_CONFIRM = Object.freeze({
 		id: 'confirm',
-		content: 'ui.confirm',
+		key: 'ui.confirm',
 		state: 'danger',
 		delay: 1000,
-	});
+	} as const satisfies DialogActionInit<'confirm'>);
 	/** 取消按钮 */
-	static readonly ACTION_CANCEL = Object.freeze<DialogActionInit<'cancel'>>({
+	static readonly ACTION_CANCEL = Object.freeze({
 		id: 'cancel',
-		content: 'ui.cancel',
-	});
+		key: 'ui.cancel',
+	} as const satisfies DialogActionInit<'cancel'>);
 	/** 好的按钮 */
-	static readonly ACTION_OK = Object.freeze<DialogActionInit<'ok'>>({
+	static readonly ACTION_OK = Object.freeze({
 		id: 'ok',
-		content: 'ui.ok',
-	});
+		key: 'ui.ok',
+	} as const satisfies DialogActionInit<'ok'>);
 	/** 用户确认对话框 */
 	static confirm(
 		options: DialogConfirmInit,
