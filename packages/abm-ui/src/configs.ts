@@ -8,7 +8,6 @@ import {
 	Color,
 	Debounce,
 	IterableWeakSet,
-	LocaleDriver,
 	PromiseOr,
 	ProxyObjectOptions,
 	RGB,
@@ -29,7 +28,6 @@ import {
 	KeyBindGroup,
 	keyboard,
 } from './keyboard';
-import { setLocaleDriver } from './locale';
 
 //#region #Icon
 
@@ -433,8 +431,6 @@ class UIMediaRules {
 //#region #ALL
 
 export interface UIConfigsInit {
-	/** 本地化 */
-	locale?: PromiseOr<LocaleDriver>;
 	/** 图标 */
 	icon?: PromiseOr<ArrayOr<UIIconCSS>>;
 	/** 主题色 */
@@ -483,7 +479,6 @@ class UIConfigs {
 		if (options.scheme) this.#theme.colorScheme = await options.scheme;
 		if (options.defaultIcons) this.#icon.defaults = await options.defaultIcons;
 		if (options.safeArea) this.#screen.safeArea = await options.safeArea;
-		if (options.locale) setLocaleDriver(await options.locale);
 		if (options.swipeThreshold)
 			this.#touch.swipeThreshold = options.swipeThreshold;
 		if (options.holdDurationThreshold)

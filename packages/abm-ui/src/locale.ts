@@ -1,46 +1,46 @@
 import { Signal } from '@lit-labs/signals';
-import { LocaleDriver, LocaleParams, parseKeyNamespace } from 'abm-utils';
+import {
+	FlatLocaleParams,
+	Locale,
+	LocaleDict,
+	LocaleManager,
+	LocaleManagerEvents,
+	parseKeyNamespace,
+} from 'abm-utils';
+import { DEFAULT_LOCALE_DICTS } from './defaults';
 
-export type UIDefaultLocaleKeys =
-	| 'confirm'
-	| 'cancel'
-	| 'ok'
-	| 'color_picker'
-	| 'alpha'
-	| 'red'
-	| 'green'
-	| 'blue'
-	| 'hue'
-	| 'saturation'
-	| 'lightness';
-export type UIDefaultFlatLocaleKeys = `ui.${UIDefaultLocaleKeys}`;
-
-//#region Driver
-
-let localeDriver: LocaleDriver | undefined = undefined;
-const signal = new Signal.State(true);
-
-export function locale(key: string, params?: LocaleParams, namespace?: string) {
-	if (!localeDriver) return key;
-	return localeDriver.getString(key, params, namespace);
+export interface UIDefaultLocaleDict extends LocaleDict {
+	ui: {
+		confirm: string;
+		cancel: string;
+		ok: string;
+		color_picker: string;
+		alpha: string;
+		red: string;
+		green: string;
+		blue: string;
+		hue: string;
+		saturation: string;
+		lightness: string;
+	};
 }
 
-export function getCurrentLocaleDriver() {
-	return localeDriver;
-}
+export const defaultLocale = new Locale<UIDefaultLocaleDict>({
+	loader(locale) {
+		return (
+			DEFAULT_LOCALE_DICTS[locale as keyof typeof DEFAULT_LOCALE_DICTS] ?? null
+		);
+	},
+});
 
-function localeUpdateListener() {
-	signal.set(!signal.get());
-}
+export const localeManager = new LocaleManager();
+localeManager.registerLocale('', defaultLocale);
 
-export function setLocaleDriver(driver: LocaleDriver) {
-	if (localeDriver) localeDriver.rmUpdateListener(localeUpdateListener);
-	localeDriver = driver;
-	localeDriver.addUpdateListener(localeUpdateListener);
-	localeUpdateListener();
-}
-
-export class LocaleProvider<Params extends LocaleParams = LocaleParams> {
+export class LocaleProvider<
+	K extends keyof FlatLocaleParams<UIDefaultLocaleDict> | (string & {}),
+	A extends FlatLocaleParams<UIDefaultLocaleDict>[K],
+> {
+	#update = new Signal.State(false);
 	#key = new Signal.State('');
 	#namespace = new Signal.State('');
 	#keyCompute = new Signal.Computed(() => {
@@ -50,27 +50,28 @@ export class LocaleProvider<Params extends LocaleParams = LocaleParams> {
 	});
 	#textCompute = new Signal.Computed(() => {
 		// Watch locale update
-		signal.get();
-		return locale(this.#key.get(), this.#params.get(), this.#namespace.get());
+		this.#update.get();
+		return localeManager.getString(
+			this.#namespace.get(),
+			this.#key.get(),
+			this.#params.get() as any,
+		);
 	});
-	#params = new Signal.State<Params | undefined>(undefined);
-	constructor(key?: string, namespace?: string, params?: Params) {
+	#params = new Signal.State<A | undefined>(undefined);
+	constructor(key?: K, namespace?: string, params?: A) {
 		if (typeof key === 'string') this.key = key;
-		if (typeof namespace === 'string') this.namespace = namespace;
-		if (params) this.params = params;
+		if (typeof namespace === 'string') this.#namespace.set(namespace);
+		if (params) this.#params.set(params);
+		localeManager.on('update', this.#updateHandler);
 	}
-	/**
-	 * 命名空间
-	 */
+	/** 命名空间 */
 	get namespace() {
 		return this.#namespace.get();
 	}
 	set namespace(value: string) {
 		this.#namespace.set(value);
 	}
-	/**
-	 * 翻译键
-	 */
+	/** 翻译键 */
 	get key() {
 		return this.#keyCompute.get();
 	}
@@ -79,18 +80,14 @@ export class LocaleProvider<Params extends LocaleParams = LocaleParams> {
 		if (namespace !== null) this.#namespace.set(namespace);
 		this.#key.set(key);
 	}
-	/**
-	 * 翻译参数
-	 */
+	/** 翻译参数 */
 	get params() {
 		return this.#params.get();
 	}
-	set params(value: Params | undefined) {
+	set params(value) {
 		this.#params.set(value);
 	}
-	/**
-	 * 获取本地化文本字符串
-	 */
+	/** 获取本地化文本字符串 */
 	text() {
 		return this.#textCompute.get();
 	}
@@ -100,4 +97,8 @@ export class LocaleProvider<Params extends LocaleParams = LocaleParams> {
 	get textSignal() {
 		return this.#textCompute;
 	}
+	#updateHandler = (event?: LocaleManagerEvents['update']) => {
+		if (event?.value !== this.#namespace) return;
+		this.#update.set(!this.#update.get());
+	};
 }

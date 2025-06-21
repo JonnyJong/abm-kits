@@ -1,16 +1,5 @@
-import { FlatLocaleSource } from 'abm-utils';
 import { UIDefaultsIcons } from './configs';
-import { UIDefaultFlatLocaleKeys, UIDefaultLocaleKeys } from './locale';
-
-function flat(
-	locale: Readonly<{ [key in UIDefaultLocaleKeys]: string }>,
-): Readonly<FlatLocaleSource<string, UIDefaultFlatLocaleKeys>> {
-	const result: FlatLocaleSource<string, UIDefaultFlatLocaleKeys> = {} as any;
-	for (const [key, value] of Object.entries(locale)) {
-		result[`ui.${key as UIDefaultLocaleKeys}`] = value;
-	}
-	return Object.freeze(result);
-}
+import { UIDefaultLocaleDict } from './locale';
 
 export const DEFAULTS_ICONS: Readonly<Record<UIDefaultsIcons, string>> =
 	Object.freeze({
@@ -40,16 +29,16 @@ export const DEFAULTS_ICONS: Readonly<Record<UIDefaultsIcons, string>> =
 		gamepadStart: 'Navigation',
 		gamepadBack: 'SquareMultiple',
 		orderDesc: 'ChevronDown',
+		file: 'Document',
+		addFile: 'Add',
+		removeFile: 'Subtract',
+		pickFile: 'DocumentArrowUp',
+		clearFile: 'Dismiss',
 	});
 
-export const DEFAULT_LOCALES_NESTED: Readonly<
-	Record<
-		'zh' | 'en',
-		Readonly<{ ui: Readonly<{ [key in UIDefaultLocaleKeys]: string }> }>
-	>
-> = Object.freeze({
-	zh: Object.freeze({
-		ui: Object.freeze({
+export const DEFAULT_LOCALE_DICTS = {
+	zh: {
+		ui: {
 			confirm: '确定',
 			cancel: '取消',
 			ok: '好',
@@ -61,10 +50,10 @@ export const DEFAULT_LOCALES_NESTED: Readonly<
 			hue: '色相',
 			saturation: '饱和度',
 			lightness: '亮度',
-		}),
-	}),
-	en: Object.freeze({
-		ui: Object.freeze({
+		},
+	},
+	en: {
+		ui: {
 			confirm: 'Confirm',
 			cancel: 'Cancel',
 			ok: 'OK',
@@ -76,16 +65,6 @@ export const DEFAULT_LOCALES_NESTED: Readonly<
 			hue: 'Hue',
 			saturation: 'Saturation',
 			lightness: 'Lightness',
-		}),
-	}),
-});
-
-export const DEFAULT_LOCALES_FLAT: Readonly<
-	Record<
-		'zh' | 'en',
-		Readonly<FlatLocaleSource<string, UIDefaultFlatLocaleKeys>>
-	>
-> = Object.freeze({
-	zh: flat(DEFAULT_LOCALES_NESTED.zh.ui),
-	en: flat(DEFAULT_LOCALES_NESTED.en.ui),
-});
+		},
+	},
+} as const satisfies Record<string, UIDefaultLocaleDict>;
