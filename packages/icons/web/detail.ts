@@ -84,7 +84,7 @@ export function initDetail() {
 	id = $('#detail-id')!;
 
 	const copyBtn = $<WidgetBtn>('#detail-copy')!;
-	copyBtn.content.icon = 'Copy';
+	copyBtn.icon = 'Copy';
 	copyBtn.on('active', () => {
 		navigator.clipboard.writeText(id.textContent!);
 	});

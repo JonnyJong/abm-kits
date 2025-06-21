@@ -56,14 +56,14 @@ class ProjectListItem extends WidgetListItem<ProjectInfo> implements Navigable {
 		attr: { 'ui-nav': '' },
 	});
 	#rename = $new<WidgetBtn & Navigable, {}>('w-btn', {
-		prop: { content: { icon: 'Rename' } },
+		prop: { icon: 'Rename' },
 	});
 	#delete = $new<WidgetBtn & Navigable, {}>('w-btn', {
-		prop: { content: { icon: 'Delete' } },
+		prop: { icon: 'Delete' },
 	});
 	#info!: ProjectInfo;
 	constructor() {
-		super(undefined, false, true);
+		super({ navGroup: true });
 		this.activeTrigger = this.#main;
 		events.hover.add(this.#main);
 		this.#main.navParent = this;
@@ -130,8 +130,8 @@ class ProjectIcon extends WidgetListItem<IconInfo> implements Navigable {
 	info!: IconInfo;
 	#icon = $div();
 	#id = $div({ class: 'id' });
-	#copy = $new('w-btn', { prop: { content: { icon: 'Copy' } } });
-	#del = $new('w-btn', { prop: { content: { icon: 'Delete' } } });
+	#copy = $new<WidgetBtn, {}>('w-btn', { prop: { content: { icon: 'Copy' } } });
+	#del = $new<WidgetBtn, {}>('w-btn', { prop: { content: { icon: 'Delete' } } });
 	constructor() {
 		super();
 		this.activeTrigger = this.#id;
@@ -256,12 +256,12 @@ async function deleteProject(path: string) {
 			{
 				...Dialog.ACTION_DANGER_CONFIRM,
 				id: 'project-only',
-				content: { key: 'delete-project-only' },
+				key: 'delete-project-only',
 			},
 			{
 				...Dialog.ACTION_DANGER_CONFIRM,
 				id: 'project-with-data',
-				content: { key: 'delete-project-data' },
+				key: 'delete-project-data',
 			},
 			Dialog.ACTION_CANCEL,
 		],

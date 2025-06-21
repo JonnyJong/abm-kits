@@ -1,21 +1,43 @@
-import { DEFAULT_LOCALES_FLAT, configs } from 'abm-ui';
 import {
-	$$,
-	$ready,
-	FlatLocaleSource,
-	createSimpleLocaleDriver,
-} from 'abm-utils';
+	DEFAULT_LOCALE_DICTS,
+	UIDefaultLocaleDict,
+	configs,
+	defaultLocale,
+} from 'abm-ui';
+import { $$, $ready, LocaleDict } from 'abm-utils';
 import { initAPI } from './api';
 import { initDetail } from './detail';
 import { initPicker } from './picker';
 import { initProject } from './project';
 
 //#region Configs
-const LOCALES: Record<string, FlatLocaleSource<string>> = {
+declare module 'abm-ui' {
+	export interface UIDefaultLocaleDict extends LocaleDict {
+		error: string;
+		'project-list': string;
+		'filter-name': string;
+		'filter-region': string;
+		'filter-type': string;
+		'filter-size': string;
+		'add-to-project': string;
+		'compile-project': string;
+		'compile-all': string;
+		'delete-project': string;
+		'delete-project-only': string;
+		'delete-project-data': string;
+		'include-with-defaults': string;
+		'compile-started': string;
+		'compile-all-warning': string;
+		'rename-project': string;
+		'create-project': string;
+		'project-name': string;
+		'project-path': string;
+		'project-dist': string;
+	}
+}
+const LOCALE_DICTS: Record<string, UIDefaultLocaleDict> = {
 	zh: {
-		// Basic
-		...DEFAULT_LOCALES_FLAT.zh,
-		// Other
+		...DEFAULT_LOCALE_DICTS.zh,
 		error: '错误',
 		'project-list': '项目列表',
 		'filter-name': '名称',
@@ -39,9 +61,7 @@ const LOCALES: Record<string, FlatLocaleSource<string>> = {
 		'project-dist': '图标生成路径（推荐相对路径）',
 	},
 	en: {
-		// Basic
-		...DEFAULT_LOCALES_FLAT.en,
-		// Other
+		...DEFAULT_LOCALE_DICTS.en,
 		error: 'Error',
 		'project-list': 'Project List',
 		'filter-name': 'Name',
@@ -65,10 +85,6 @@ const LOCALES: Record<string, FlatLocaleSource<string>> = {
 };
 
 configs.init({
-	locale: createSimpleLocaleDriver((_namespace, locale) => {
-		if (locale in LOCALES) return LOCALES[locale];
-		return null;
-	}),
 	icon: $$<HTMLLinkElement>('#link-icon')
 		.map((e) => [...e.sheet!.cssRules].map((rule) => rule.cssText).join(''))
 		.map((css) => {
@@ -77,6 +93,8 @@ configs.init({
 			return sheet;
 		}),
 });
+
+defaultLocale.loader = (locale) => LOCALE_DICTS[locale] ?? null;
 
 $ready(() => {
 	initAPI();
