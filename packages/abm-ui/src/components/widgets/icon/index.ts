@@ -1,7 +1,11 @@
 import { Signal } from '@lit-labs/signals';
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { configs } from '../../../configs';
+import {
+	DEFAULTS_ICONS_NAMES,
+	UIDefaultsIcons,
+	configs,
+} from '../../../configs';
 import { Widget } from '../base';
 
 export interface WidgetIconProp {
@@ -9,6 +13,7 @@ export interface WidgetIconProp {
 	namespace?: string;
 	/** 图标名 */
 	key?: string;
+	keyUI?: UIDefaultsIcons;
 }
 
 const styles = new CSSStyleSheet();
@@ -24,6 +29,7 @@ export class WidgetIcon extends Widget {
 	#initialized = false;
 	#namespace = configs.icon.defaultNamespace;
 	#key = '';
+	#keyUI: undefined | UIDefaultsIcons = undefined;
 	#updateStyleSheet = () => {
 		if (!(this.renderRoot instanceof ShadowRoot)) return;
 		this.renderRoot.adoptedStyleSheets = [styles, ...configs.icon.signal.get()];
@@ -34,7 +40,6 @@ export class WidgetIcon extends Widget {
 			queueMicrotask(this.#updateStyleSheet),
 		);
 		watcher.watch(configs.icon.signal);
-		// this.#updateStyleSheet();
 		this.addController({
 			hostConnected: this.#updateStyleSheet,
 			hostUpdated: this.#updateStyleSheet,
@@ -71,6 +76,25 @@ export class WidgetIcon extends Widget {
 		}
 		this.#key = value.slice(i + 1);
 	}
+	@property({ type: String, attribute: 'key-ui' })
+	get keyUI() {
+		return this.#keyUI;
+	}
+	set keyUI(value) {
+		if (!DEFAULTS_ICONS_NAMES.includes(value!)) value = undefined;
+		if (this.#keyUI === value) return;
+		if (this.#keyUI)
+			configs.icon.offDefaultChange(this.#keyUI, this.#defaultChangeHandler);
+		this.#keyUI = value;
+		if (this.#keyUI)
+			configs.icon.onDefaultChange(this.#keyUI, this.#defaultChangeHandler);
+		this.#defaultChangeHandler();
+	}
+	#defaultChangeHandler = () => {
+		if (!this.#keyUI) return;
+		this.#namespace = configs.icon.defaultNamespace;
+		this.#key = configs.icon.defaults[this.#keyUI];
+	};
 	protected render() {
 		return html`<div class="${this.namespace} ${this.namespace}-${this.key}"></div>`;
 	}

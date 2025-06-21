@@ -14,6 +14,7 @@ import {
 	RGBA,
 	Rect,
 	asArray,
+	callTask,
 	normalizeCSSFourValue,
 	proxyObject,
 	range,
@@ -33,7 +34,7 @@ import {
 
 export type UIIconCSS = CSSStyleSheet | CSSResult | string | URL;
 
-const DEFAULTS_ICONS_NAMES = [
+export const DEFAULTS_ICONS_NAMES = Object.freeze([
 	'increase',
 	'decrease',
 	'calculate',
@@ -60,7 +61,7 @@ const DEFAULTS_ICONS_NAMES = [
 	'gamepadStart',
 	'gamepadBack',
 	'orderDesc',
-] as const satisfies string[];
+] as const) satisfies readonly string[];
 export type UIDefaultsIcons = (typeof DEFAULTS_ICONS_NAMES)[number];
 
 class UIIconConfigs {
@@ -155,10 +156,14 @@ class UIIconConfigs {
 				deleteProperty() {
 					return false;
 				},
-				set(target, p, newValue, receiver) {
+				set: (target, p, newValue, receiver) => {
 					if (typeof newValue !== 'string') return false;
 					if (!DEFAULTS_ICONS_NAMES.includes(p as any)) return false;
-					return Reflect.set(target, p, newValue, receiver);
+					const result = Reflect.set(target, p, newValue, receiver);
+					for (const handler of this.#defaultSubscriptions.get(p as any) ?? []) {
+						callTask(handler);
+					}
+					return result;
 				},
 			},
 		},
@@ -196,6 +201,20 @@ class UIIconConfigs {
 		if (!this.#subscriptions[name]) return;
 		if (typeof handler !== 'function') return;
 		this.#subscriptions[name].delete(handler);
+	}
+	#defaultSubscriptions = new Map<UIDefaultsIcons, Set<Function>>();
+	onDefaultChange(name: UIDefaultsIcons, handler: Function) {
+		if (!DEFAULTS_ICONS_NAMES.includes(name)) return;
+		let handlers = this.#defaultSubscriptions.get(name);
+		if (!handlers) {
+			handlers = new Set();
+			this.#defaultSubscriptions.set(name, handlers);
+		}
+		handlers.add(handler);
+	}
+	offDefaultChange(name: UIDefaultsIcons, handler: Function) {
+		if (!DEFAULTS_ICONS_NAMES.includes(name)) return;
+		this.#defaultSubscriptions.get(name)?.delete(handler);
 	}
 }
 
