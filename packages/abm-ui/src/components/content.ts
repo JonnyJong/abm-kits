@@ -7,7 +7,6 @@ import {
 	EventHandler,
 	Events,
 	IEventSource,
-	LocaleParams,
 	parseKeyNamespace,
 } from 'abm-utils';
 import { WidgetIcon } from './widgets/icon';
@@ -16,12 +15,12 @@ import { WidgetProgressRing } from './widgets/progress';
 
 //#region #Base
 
-export interface UIContentEvents<Params extends LocaleParams = LocaleParams> {
-	icon: EventBaseInit<UIContent<Params>>;
-	label: EventBaseInit<UIContent<Params>>;
+export interface UIContentEvents {
+	icon: EventBaseInit<UIContent>;
+	label: EventBaseInit<UIContent>;
 }
 
-export interface UIContentInit<Params extends LocaleParams = LocaleParams> {
+export interface UIContentInit {
 	/**
 	 * 本地化键名
 	 * @description
@@ -31,7 +30,7 @@ export interface UIContentInit<Params extends LocaleParams = LocaleParams> {
 	/** 本地化命名空间 */
 	localeNamespace?: string;
 	/** 本地化参数 */
-	localeParams?: Params;
+	localeParams?: Record<string, any>;
 	/**
 	 * 文本内容
 	 * @description
@@ -47,19 +46,15 @@ export interface UIContentInit<Params extends LocaleParams = LocaleParams> {
 }
 
 /** UI 组件内容 */
-export class UIContent<Params extends LocaleParams = LocaleParams>
-	implements IEventSource<UIContentEvents<Params>>
-{
+export class UIContent implements IEventSource<UIContentEvents> {
 	#iconState = new Signal.State<WidgetIcon | WidgetProgressRing | null>(null);
-	#labelState = new Signal.State<HTMLDivElement | WidgetLang<Params> | null>(
-		null,
-	);
+	#labelState = new Signal.State<HTMLDivElement | WidgetLang | null>(null);
 	#iconComputed = new Signal.Computed(() => this.#iconState.get());
 	#labelComputed = new Signal.Computed(() => this.#labelState.get());
-	constructor(options?: UIContentInit<Params> | string | UIContent<Params>) {
+	constructor(options?: UIContentInit | string | UIContent) {
 		this.#setup(options);
 	}
-	#setup(options?: UIContentInit<Params> | string | UIContent<Params>) {
+	#setup(options?: UIContentInit | string | UIContent) {
 		if (typeof options === 'string') {
 			this.key = options;
 			return;
@@ -89,7 +84,7 @@ export class UIContent<Params extends LocaleParams = LocaleParams>
 	 * 重置
 	 * @param options - `undefined` 时清除所有内容
 	 */
-	reset(options?: UIContentInit<Params> | string | UIContent<Params>) {
+	reset(options?: UIContentInit | string | UIContent) {
 		this.#key = undefined;
 		this.#localeNamespace = undefined;
 		this.#localeParams = undefined;
@@ -107,14 +102,14 @@ export class UIContent<Params extends LocaleParams = LocaleParams>
 	//#region Label
 	#key?: string;
 	#localeNamespace?: string;
-	#localeParams?: Params;
+	#localeParams?: Record<string, any>;
 	#text?: string;
 	#updateLabel() {
 		let element = this.#labelState.get();
 
 		if (typeof this.#key === 'string') {
 			if (!(element instanceof WidgetLang)) {
-				element = $new<WidgetLang<Params>, {}>('w-lang');
+				element = $new<WidgetLang, {}>('w-lang');
 				this.#labelState.set(element);
 				this.#events.emit(new EventBase('label', { target: this }));
 			}
@@ -169,7 +164,7 @@ export class UIContent<Params extends LocaleParams = LocaleParams>
 	get localeParams() {
 		return this.#localeParams;
 	}
-	set localeParams(value: Params | undefined) {
+	set localeParams(value: Record<string, any> | undefined) {
 		this.#localeParams = value;
 		this.#updateLabel();
 	}
@@ -267,10 +262,10 @@ export class UIContent<Params extends LocaleParams = LocaleParams>
 	}
 	//#region Other
 	/** 克隆 */
-	clone(): UIContent<Params> {
+	clone(): UIContent {
 		return new UIContent(this);
 	}
-	#events = new Events<UIContentEvents<Params>>(['icon', 'label']);
+	#events = new Events<UIContentEvents>(['icon', 'label']);
 	/**
 	 * 添加事件处理器
 	 * @param type - 事件类型
@@ -279,7 +274,7 @@ export class UIContent<Params extends LocaleParams = LocaleParams>
 	 */
 	on<Type extends keyof UIContentEvents>(
 		type: Type,
-		handler: EventHandler<Type, UIContentEvents<Params>[Type], any>,
+		handler: EventHandler<Type, UIContentEvents[Type], any>,
 	): void {
 		this.#events.on(type, handler);
 	}
@@ -291,7 +286,7 @@ export class UIContent<Params extends LocaleParams = LocaleParams>
 	 */
 	once<Type extends keyof UIContentEvents>(
 		type: Type,
-		handler: EventHandler<Type, UIContentEvents<Params>[Type], any>,
+		handler: EventHandler<Type, UIContentEvents[Type], any>,
 	): void {
 		this.#events.once(type, handler);
 	}
@@ -303,7 +298,7 @@ export class UIContent<Params extends LocaleParams = LocaleParams>
 	 */
 	off<Type extends keyof UIContentEvents>(
 		type: Type,
-		handler: EventHandler<Type, UIContentEvents<Params>[Type], any>,
+		handler: EventHandler<Type, UIContentEvents[Type], any>,
 	): void {
 		this.#events.off(type, handler);
 	}
@@ -316,7 +311,7 @@ export class UIContent<Params extends LocaleParams = LocaleParams>
  * @description
  * 文本元素固定存在
  */
-export type UIContentTextInit<Params extends LocaleParams = LocaleParams> =
+export type UIContentTextInit =
 	| {
 			/**
 			 * 本地化键名
@@ -327,7 +322,7 @@ export type UIContentTextInit<Params extends LocaleParams = LocaleParams> =
 			/** 本地化命名空间 */
 			localeNamespace?: string;
 			/** 本地化参数 */
-			localeParams?: Params;
+			localeParams?: Record<string, any>;
 			/**
 			 * 文本内容
 			 * @description
@@ -351,7 +346,7 @@ export type UIContentTextInit<Params extends LocaleParams = LocaleParams> =
 			/** 本地化命名空间 */
 			localeNamespace?: string;
 			/** 本地化参数 */
-			localeParams?: Params;
+			localeParams?: Record<string, any>;
 			/**
 			 * 文本内容
 			 * @description
@@ -366,12 +361,8 @@ export type UIContentTextInit<Params extends LocaleParams = LocaleParams> =
 			progress?: number;
 	  };
 
-export class UIContentText<
-	Params extends LocaleParams = LocaleParams,
-> extends UIContent<Params> {
-	constructor(
-		options?: UIContentTextInit<Params> | string | UIContentText<Params>,
-	) {
+export class UIContentText extends UIContent {
+	constructor(options?: UIContentTextInit | string | UIContentText) {
 		if (typeof options !== 'object') {
 			if (typeof options !== 'string') super({ text: '' });
 			else super(options);
@@ -380,7 +371,7 @@ export class UIContentText<
 		if (typeof options.text !== 'string') options.text = '';
 		super(options);
 	}
-	reset(options?: UIContentTextInit<Params> | string | UIContentText<Params>) {
+	reset(options?: UIContentTextInit | string | UIContentText) {
 		if (typeof options !== 'object') {
 			if (typeof options !== 'string') super.reset({ text: '' });
 			else super.reset(options);
@@ -396,20 +387,18 @@ export class UIContentText<
 		super.text = value ?? '';
 	}
 	get labelSignal() {
-		return super.labelSignal as Signal.Computed<
-			HTMLDivElement | WidgetLang<Params>
-		>;
+		return super.labelSignal as Signal.Computed<HTMLDivElement | WidgetLang>;
 	}
 	get labelElement() {
 		return this.labelSignal.get();
 	}
-	clone(): UIContentText<Params> {
+	clone(): UIContentText {
 		return new UIContentText(this);
 	}
 }
 
 //#region #All
-export type UIContentAllInit<Params extends LocaleParams = LocaleParams> =
+export type UIContentAllInit =
 	| {
 			/**
 			 * 本地化键名
@@ -420,7 +409,7 @@ export type UIContentAllInit<Params extends LocaleParams = LocaleParams> =
 			/** 本地化命名空间 */
 			localeNamespace?: string;
 			/** 本地化参数 */
-			localeParams?: Params;
+			localeParams?: Record<string, any>;
 			/**
 			 * 文本内容
 			 * @description
@@ -444,7 +433,7 @@ export type UIContentAllInit<Params extends LocaleParams = LocaleParams> =
 			/** 本地化命名空间 */
 			localeNamespace?: string;
 			/** 本地化参数 */
-			localeParams?: Params;
+			localeParams?: Record<string, any>;
 			/**
 			 * 文本内容
 			 * @description
@@ -468,7 +457,7 @@ export type UIContentAllInit<Params extends LocaleParams = LocaleParams> =
 			/** 本地化命名空间 */
 			localeNamespace?: string;
 			/** 本地化参数 */
-			localeParams?: Params;
+			localeParams?: Record<string, any>;
 			/**
 			 * 文本内容
 			 * @description
@@ -492,7 +481,7 @@ export type UIContentAllInit<Params extends LocaleParams = LocaleParams> =
 			/** 本地化命名空间 */
 			localeNamespace?: string;
 			/** 本地化参数 */
-			localeParams?: Params;
+			localeParams?: Record<string, any>;
 			/**
 			 * 文本内容
 			 * @description
@@ -512,17 +501,13 @@ export type UIContentAllInit<Params extends LocaleParams = LocaleParams> =
  * @description
  * 图标和文本元素固定存在
  */
-export class UIContentAll<
-	Params extends LocaleParams = LocaleParams,
-> extends UIContentText<Params> {
-	constructor(
-		options?: UIContentAllInit<Params> | string | UIContentAll<Params>,
-	) {
+export class UIContentAll extends UIContentText {
+	constructor(options?: UIContentAllInit | string | UIContentAll) {
 		super(options);
 
 		if (super.icon === undefined) super.icon = '';
 	}
-	reset(options?: UIContentAllInit<Params> | string | UIContentAll<Params>) {
+	reset(options?: UIContentAllInit | string | UIContentAll) {
 		super.reset(options);
 
 		if (super.icon === undefined) super.icon = '';
@@ -539,7 +524,7 @@ export class UIContentAll<
 	get iconElement() {
 		return this.iconSignal.get();
 	}
-	clone(): UIContentAll<Params> {
+	clone(): UIContentAll {
 		return new UIContentAll(this);
 	}
 }
