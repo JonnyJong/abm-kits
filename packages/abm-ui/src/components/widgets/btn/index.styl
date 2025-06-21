@@ -1,99 +1,65 @@
 :host
 	position relative
-	display block
-	overflow hidden
-	padding 4px 8px
-	width max-content
-	border 1px solid var(--w-btn-border-color)
-	border-radius var(--ui-border-radius)
-	background var(--w-btn-backdrop)
-	transition .1s background
-	--w-btn-progress-bg var(--w-btn-bg)
-	--w-btn-border-color var(--w-btn-border)
-	&[flat]
-		border-color #0000
-		--w-btn-progress-bg #0000
-		--w-btn-backdrop #0000
-	&[rounded]
-		border-radius 10000vmax
-	&[ui-hover]
-		--w-btn-progress-bg var(--w-btn-hover-bg)
-	&[ui-active]
-		--w-btn-progress-bg var(--w-btn-active-bg)
-	&[disabled]
-		--w-btn-progress-bg var(--w-btn-disabled-bg)
-		--w-btn-border-color var(--w-btn-disabled-border)
-	&[state='primary']
-	&[state='toggle'][checked]
-		color var(--theme-text)
-		--w-btn-border-color var(--theme)
-		--w-btn-backdrop var(--theme-a4)
-		--w-btn-progress-bg var(--theme-ac)
-		&[ui-hover]
-			--w-btn-progress-bg var(--theme)
-		&[ui-active]
-			--w-btn-progress-bg var(--theme-aa)
-		&[disabled]
-			--w-btn-progress-bg var(--theme-a6)
-	&[state='danger']
-		color var(--theme-text)
-		--w-btn-border-color var(--w-btn-danger-border)
-		--w-btn-progress-bg var(--w-btn-danger-bg)
-		&[ui-hover]
-			--w-btn-progress-bg var(--w-btn-danger-hover-bg)
-		&[ui-active]
-			--w-btn-progress-bg var(--w-btn-danger-active-bg)
-		&[disabled]
-			--w-btn-progress-bg var(--w-btn-danger-disabled-bg)
-
-.content
-	position relative
 	display flex
 	justify-content center
 	align-items center
-	min-height 24px
-	width 100%
-	height 100%
-	transition .1s opacity
-	gap 4px
-	--w-progress-ring-size 16px
-
-.delay
-	position absolute
-	top 0
-	left 0
-	height 100%
+	overflow hidden
+	padding 4px 7px
+	min-width 32px
+	min-height 32px
+	width max-content
+	border 1px solid var(--w-btn-border)
+	border-radius var(--ui-border-radius)
 	background var(--w-btn-bg)
-	opacity 0
-	transition .2s opacity
+	transition .1s background, .2s opacity
+	gap 4px
+	&[flat]
+		border-color #0000
+		--w-btn-bg #0000
+	&[rounded]
+		border-radius 10000vmax
+	&[state='primary']
+	&[state='toggle'][checked]
+		color var(--theme-text)
+		--w-btn-bg var(--theme-ad)
+		--w-btn-border var(--theme)
+		--w-btn-hover-bg var(--theme)
+		--w-btn-active-bg var(--theme-ab)
+		--w-btn-delay var(--theme)
+		.progress
+			--theme var(--theme-text)
+	&[state='danger']
+		--w-btn-bg var(--w-btn-danger-bg)
+		--w-btn-border var(--w-btn-danger-border)
+		--w-btn-hover-bg var(--w-btn-danger-hover-bg)
+		--w-btn-active-bg var(--w-btn-danger-active-bg)
+		.progress
+			--theme var(--text)
+	&:not([disabled])
+		&[ui-hover]
+			background var(--w-btn-hover-bg)
+		&[ui-active]
+			background var(--w-btn-active-bg)
+			opacity var(--w-btn-active-opacity)
+			.delay
+				opacity 1
+				transition 0s
+	&[disabled]
+		opacity var(--w-btn-disabled-opacity)
 
 .progress
 	position absolute
 	top 0
-	left 0
-	width 100%
-	height 100%
-	background var(--w-btn-progress-bg)
-	transition .1s background, .1s width
+	left -2px
+	width calc(100% + 4px)
+	--w-progress-bar-track #0000
 
-:host
-	&[ui-active]:not([disabled])
-		.content
-			opacity var(--w-btn-active-content-opacity)
-		.delay
-			opacity .5
-	&[disabled]
-		.content
-			opacity var(--w-btn-disabled-content-opacity)
-	&[state='primary']
-	&[state='toggle'][checked]
-	&[state='danger']
-		w-progress-ring
-			--theme var(--theme-text)
-	&[state='primary']
-	&[state='toggle'][checked]
-		.delay
-			background var(--theme)
-	&[state='danger']
-		.delay
-			background var(--w-btn-danger-hover-bg)
+.delay
+	position absolute
+	z-index -1
+	width 10%
+	height 100%
+	background var(--w-btn-delay)
+	opacity 0
+	transition 0s .2s width, .2s opacity
+	inset 0

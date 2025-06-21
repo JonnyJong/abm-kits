@@ -17,27 +17,15 @@ export function initBtn() {
 		[
 			{
 				type: 'string',
-				key: 'content.key',
+				key: 'key',
 				description: 'Locale Key',
 				default: undefined,
 			},
 			{
 				type: 'string',
-				key: 'content.icon',
+				key: 'icon',
 				description: 'Icon',
 				default: undefined,
-			},
-			{
-				type: 'string',
-				key: 'content.text',
-				description: 'Text',
-				default: undefined,
-			},
-			{
-				type: 'number',
-				key: 'content.progress',
-				description: 'Progress',
-				default: NaN,
 			},
 			{
 				type: 'number',

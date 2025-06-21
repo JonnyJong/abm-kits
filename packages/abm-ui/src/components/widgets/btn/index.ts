@@ -1,12 +1,12 @@
 import { Signal } from '@lit-labs/signals';
 import {
 	$applyColor,
+	$new,
 	AnimationFrameController,
 	Color,
 	EventBase,
 	EventBaseInit,
 	EventsList,
-	LocaleParams,
 	clamp,
 	css,
 	runSync,
@@ -15,8 +15,10 @@ import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { events, UIEventActive } from '../../../events/index';
-import { UIContent, UIContentInit } from '../../content';
 import { Widget } from '../base';
+import { WidgetIcon } from '../icon';
+import { WidgetLang } from '../lang';
+import { WidgetProgressBar } from '../progress';
 import CSS from './index.styl';
 
 /**
@@ -29,9 +31,11 @@ import CSS from './index.styl';
  */
 export type WidgetBtnState = '' | 'primary' | 'danger' | 'toggle';
 
-export interface WidgetBtnProp<Params extends LocaleParams = LocaleParams> {
-	/** 内容 */
-	content?: string | UIContentInit<Params> | UIContent<Params>;
+export interface WidgetBtnProp {
+	/** 图标 */
+	icon?: string;
+	/** 翻译键 */
+	key?: string;
 	/** 状态 */
 	state?: WidgetBtnState;
 	/** 扁平 */
@@ -50,25 +54,20 @@ export interface WidgetBtnProp<Params extends LocaleParams = LocaleParams> {
 	color?: Color | string;
 }
 
-interface WidgetBtnEventsInit<Params extends LocaleParams = LocaleParams> {
+interface WidgetBtnEventsInit {
 	/** 激活事件 */
-	active: EventBaseInit<WidgetBtn<Params>>;
+	active: EventBaseInit<WidgetBtn>;
 }
 
-export interface WidgetBtnEvents<Params extends LocaleParams = LocaleParams>
-	extends EventsList<WidgetBtnEventsInit<Params>> {}
+export interface WidgetBtnEvents extends EventsList<WidgetBtnEventsInit> {}
 
 const STATES: WidgetBtnState[] = ['', 'primary', 'danger', 'toggle'];
 
 /** 按钮组件 */
 @customElement('w-btn')
-export class WidgetBtn<
-	Params extends LocaleParams = LocaleParams,
-> extends Widget<WidgetBtnEventsInit<Params>> {
+export class WidgetBtn extends Widget<WidgetBtnEventsInit> {
 	//#region Styles
 	static styles = css(CSS);
-	//#region Main
-	#initialized = false;
 	constructor() {
 		super({
 			eventTypes: ['active'],
@@ -78,51 +77,46 @@ export class WidgetBtn<
 		events.hover.add(this);
 		events.active.on(this, this.#activeHandler);
 	}
-	connectedCallback(): void {
-		super.connectedCallback();
-
-		if (this.#initialized) return;
-		this.#initialized = true;
-
-		const text = this.textContent?.trim();
-		if (!text) return;
-		this.#content.key = text;
-
-		const icon = this.getAttribute('icon');
-		if (icon) this.#content.icon = icon;
-	}
 	protected render() {
-		const icon = this.#content.iconSignal.get();
-		const label = this.#content.labelSignal.get();
-		if (icon) (icon as any).part = 'icon';
-		if (label) (label as any).part = 'label';
 		return html`
-			<div class="progress" style=${styleMap({ width: `${this.#progress}%` })}></div>
 			<div class="delay" style=${styleMap({ width: `${this.#activeProgress.get()}%` })}></div>
-			<div class="content" part="content">${icon}${label}</div>
+			${this.#progress}
+			<slot></slot>
 		`;
 	}
-	//#region Content
-	#content = new UIContent<Params>();
-	/** 内容 */
-	get content(): UIContent<Params> {
-		this.#initialized = true;
-		return this.#content;
+	//#region Properties
+	/** 图标 */
+	@property({ type: String })
+	get icon() {
+		if (this.firstElementChild instanceof WidgetIcon)
+			return this.firstElementChild.key;
+		return undefined;
 	}
-	set content(value:
-		| string
-		| UIContent<Params>
-		| UIContentInit<Params>
-		| undefined) {
-		this.#initialized = true;
-
-		if (typeof value === 'string') {
-			this.#content.key = value;
+	set icon(value: string | undefined) {
+		if (this.firstElementChild instanceof WidgetIcon) {
+			if (value === undefined) this.firstElementChild.remove();
+			else this.firstElementChild.key = value;
 			return;
 		}
-		this.#content.reset(value);
+		if (value === undefined) return;
+		this.prepend($new('w-icon', value));
 	}
-	//#region Properties
+	/** 翻译键 */
+	@property({ type: String })
+	get key() {
+		if (this.lastElementChild instanceof WidgetLang)
+			return this.lastElementChild.key;
+		return undefined;
+	}
+	set key(value: string | undefined) {
+		if (this.lastElementChild instanceof WidgetLang) {
+			if (value === undefined) this.lastElementChild.remove();
+			else this.lastElementChild.key = value;
+			return;
+		}
+		if (value === undefined) return;
+		this.append($new('w-lang', value));
+	}
 	/** 禁用 */
 	@property({ type: Boolean, reflect: true }) accessor disabled = false;
 	/** 扁平 */
@@ -143,7 +137,7 @@ export class WidgetBtn<
 	}
 	#color?: Color;
 	/** 颜色 */
-	@property({ type: String, attribute: false })
+	@property({ type: String })
 	get color(): Color | undefined {
 		return this.#color?.clone();
 	}
@@ -152,37 +146,42 @@ export class WidgetBtn<
 			this.#color = color.clone();
 		} else if (typeof color === 'string') {
 			runSync(() => {
-				this.#color = Color.hexa(color);
+				try {
+					this.#color = Color.hexa(color);
+				} catch {
+					this.#color = Color.hex(color);
+				}
 			});
 		} else {
 			this.#color = undefined;
 		}
 		$applyColor(this, this.#color);
 	}
-	#progress = 100;
+	#progress = $new<WidgetProgressBar, {}>('w-progress-bar', {
+		class: 'progress',
+		prop: { value: 0 },
+	});
 	/** 进度 */
 	@property({ type: Number })
 	get progress() {
-		return this.#progress;
+		return this.#progress.value;
 	}
 	set progress(value: number) {
-		this.#initialized = true;
-		if (isNaN(value)) return;
-		this.#progress = clamp(0, value, 100);
+		this.#progress.value = value;
 	}
 	#delay = 0;
 	/** 长按激活时长 */
+	@property({ type: Number })
 	get delay() {
 		return this.#delay;
 	}
 	set delay(value: number) {
-		this.#initialized = true;
 		if (isNaN(value) || value < 0) value = 0;
 		if (value === Infinity) console.warn('Delay value is Infinity');
 		this.#delay = value;
 	}
 	//#region Events
-	#activeProgress = new Signal.State(100);
+	#activeProgress = new Signal.State(0);
 	#activeDuration = 0;
 	#activePrevTime = 0;
 	#activeController = new AnimationFrameController((time) => {
@@ -193,14 +192,15 @@ export class WidgetBtn<
 		this.#activePrevTime = time;
 		this.#activeDuration += intervals;
 		this.#activeProgress.set(
-			(clamp(0, this.#activeDuration, this.#delay) / this.#delay) * 100,
+			(1 - (1 - clamp(0, this.#activeDuration, this.#delay) / this.#delay) ** 2) *
+				100,
 		);
 	});
 	#resetActiveDuration() {
 		this.#activeController.stop();
 		this.#activeDuration = 0;
 		this.#activePrevTime = 0;
-		this.#activeProgress.set(100);
+		this.#activeProgress.set(0);
 	}
 	#activeHandler(event: UIEventActive) {
 		if (this.disabled) return;
@@ -225,9 +225,8 @@ export class WidgetBtn<
 		this.events.emit(new EventBase('active', { target: this }));
 	}
 	//#region Other
-	cloneNode(deep?: boolean): WidgetBtn<Params> {
-		const node = super.cloneNode(deep) as WidgetBtn<Params>;
-		node.content = this.#content;
+	cloneNode(deep?: boolean): WidgetBtn {
+		const node = super.cloneNode(deep) as WidgetBtn;
 		node.state = this.state;
 		node.flat = this.flat;
 		node.rounded = this.rounded;
