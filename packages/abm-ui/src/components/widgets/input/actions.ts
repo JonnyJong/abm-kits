@@ -1,22 +1,27 @@
 import {
 	$div,
 	$new,
+	DOMContents,
 	Debounce,
 	EventValue,
 	Events,
+	asArray,
 	find,
 	proxyArray,
 	proxyObject,
 } from 'abm-utils';
 import { Navigable } from '../../../navigate';
-import { UIContent, UIContentInit } from '../../content';
 import { WidgetBtn } from '../btn';
 import { WidgetInput, WidgetInputEventsInit, WidgetInputValue } from './base';
 
 export interface WidgetInputActionItem {
 	id: string;
+	/** 图标 */
+	icon?: string;
+	/** 翻译键 */
+	key?: string;
 	/** 按钮内容 */
-	content: UIContent | string | UIContentInit;
+	content?: DOMContents;
 	/** 开关型 */
 	toggle?: boolean;
 	/** 开关状态 */
@@ -76,7 +81,9 @@ export class InputActions<Value extends WidgetInputValue = WidgetInputValue> {
 				element.on('active', this.#activeHandler);
 			}
 
-			element.content = item.content;
+			if (item.content) element.replaceChildren(...asArray(item.content));
+			if (item.icon) element.icon = item.icon;
+			if (item.key) element.key = item.key;
 			element.state = item.toggle ? 'toggle' : '';
 			element.checked = !!item.checked;
 			element.disabled = item.disabled || !!item.hidden;
@@ -118,6 +125,8 @@ export class InputActions<Value extends WidgetInputValue = WidgetInputValue> {
 				{
 					id: value.id,
 					content: value.content,
+					icon: value.icon,
+					key: value.key,
 					toggle: value.toggle,
 					checked: value.checked,
 					disabled: value.disabled,

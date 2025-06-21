@@ -1,9 +1,9 @@
 import {
+	$div,
 	$new,
 	EventValue,
 	EventValueInit,
 	EventsList,
-	LocaleParams,
 	css,
 } from 'abm-utils';
 import { html } from 'lit';
@@ -16,7 +16,6 @@ import {
 	navigate,
 } from '../../../navigate';
 import { Widget } from '../base';
-import { WidgetLang } from '../lang';
 import { IWidgetInputAutoFillItem } from './autofill';
 import CSS from './index.styl';
 
@@ -26,16 +25,11 @@ export type InputElement = HTMLInputElement | HTMLTextAreaElement;
 
 export interface WidgetInputProp<
 	Value extends WidgetInputValue = WidgetInputValue,
-	Params extends LocaleParams = LocaleParams,
 > {
 	/** 输入框内容 */
 	value?: Value;
-	/** 占位符本地化键名 */
+	/** 占位符 */
 	placeholder?: string;
-	/** 占位符本地化命名空间 */
-	placeholderNamespace?: string;
-	/** 占位符本地化参数 */
-	placeholderParams?: Params;
 	/** 未通过验证 */
 	invalid?: boolean;
 	/** 禁用 */
@@ -71,7 +65,6 @@ export interface WidgetInputEvents<
 /** 输入框基类 */
 export abstract class WidgetInput<
 		Value extends WidgetInputValue = WidgetInputValue,
-		Params extends LocaleParams = LocaleParams,
 		Input extends InputElement = InputElement,
 	>
 	extends Widget<WidgetInputEventsInit<Value>>
@@ -79,11 +72,9 @@ export abstract class WidgetInput<
 {
 	static styles = css(CSS);
 	protected input: Input;
-	protected _placeholder: WidgetLang<Params> = $new<WidgetLang<Params>, {}>(
-		'w-lang',
-		{
-			class: 'placeholder',
-		},
+	protected _placeholder: HTMLElement = $div(
+		{ class: 'placeholder' },
+		$new('slot'),
 	);
 	constructor(input: Input) {
 		super({
@@ -116,28 +107,13 @@ export abstract class WidgetInput<
 	//#region Properties
 	/** 输入框内容 */
 	abstract accessor value: Value;
-	/** 占位符本地化键名 */
+	/** 占位符 */
 	@property({ type: String })
 	get placeholder() {
-		return this._placeholder.key;
+		return this.textContent ?? '';
 	}
 	set placeholder(value: string) {
-		this._placeholder.key = value;
-	}
-	/** 占位符本地化命名空间 */
-	@property({ type: String, attribute: 'placeholder-namespace' })
-	get placeholderNamespace() {
-		return this._placeholder.namespace;
-	}
-	set placeholderNamespace(value: string) {
-		this._placeholder.namespace = value;
-	}
-	/** 占位符本地化参数 */
-	get placeholderParams() {
-		return this._placeholder.params;
-	}
-	set placeholderParams(value: Params | undefined) {
-		this._placeholder.params = value;
+		this.textContent = value;
 	}
 	/** 未通过验证 */
 	@property({ type: Boolean, reflect: true }) accessor invalid = false;
@@ -187,11 +163,8 @@ export abstract class WidgetInput<
 	};
 	//#region Others
 	cloneNode(deep?: boolean): Node {
-		const node = super.cloneNode(deep) as WidgetInput<Value, Params, Input>;
+		const node = super.cloneNode(deep) as WidgetInput<Value, Input>;
 
-		node.placeholderParams = this.placeholderParams;
-		node.placeholderNamespace = this.placeholderNamespace;
-		node.placeholder = this.placeholder;
 		node.invalid = this.invalid;
 		node.disabled = this.disabled;
 		node.readOnly = this.readOnly;

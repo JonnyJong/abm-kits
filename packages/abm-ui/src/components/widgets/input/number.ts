@@ -1,19 +1,14 @@
-import {
-	$new,
-	IExpressionEvaluator,
-	LocaleParams,
-	createClampedStepper,
-} from 'abm-utils';
+import { $new, IExpressionEvaluator, createClampedStepper } from 'abm-utils';
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { configs } from '../../../configs';
 import { Navigable } from '../../../navigate';
+import { WidgetIcon } from '../icon';
 import { InputActions } from './actions';
 import { IWidgetInputAutoFillItem, InputAutoFill } from './autofill';
-import { WidgetInput } from './base';
+import { WidgetInput, WidgetInputProp } from './base';
 import { initInputNavigate } from './nav';
 
-export interface WidgetNumberProp {
+export interface WidgetNumberProp extends WidgetInputProp<number> {
 	/** 默认值，默认为 0 */
 	default?: number;
 	/** 最小值，默认为 Number.NEGATIVE_INFINITY */
@@ -42,8 +37,8 @@ export interface WidgetNumberProp {
 
 /** 数字输入框 */
 @customElement('w-number')
-export class WidgetNumber<Params extends LocaleParams = LocaleParams>
-	extends WidgetInput<number, Params, HTMLInputElement>
+export class WidgetNumber
+	extends WidgetInput<number, HTMLInputElement>
 	implements Navigable
 {
 	static properties = { value: { type: Number } };
@@ -65,9 +60,7 @@ export class WidgetNumber<Params extends LocaleParams = LocaleParams>
 		this.#actionsLeft.items = [
 			{
 				id: 'calc',
-				content: {
-					icon: configs.icon.defaults.calculate,
-				},
+				content: $new<WidgetIcon, {}>('w-icon', { prop: { keyUI: 'calculate' } }),
 				hidden: true,
 				disabled: true,
 			},
@@ -75,33 +68,13 @@ export class WidgetNumber<Params extends LocaleParams = LocaleParams>
 		this.#actionsRight.items = [
 			{
 				id: 'increase',
-				content: {
-					icon: configs.icon.defaults.increase,
-				},
+				content: $new<WidgetIcon, {}>('w-icon', { prop: { keyUI: 'increase' } }),
 			},
 			{
 				id: 'decrease',
-				content: {
-					icon: configs.icon.defaults.decrease,
-				},
+				content: $new<WidgetIcon, {}>('w-icon', { prop: { keyUI: 'decrease' } }),
 			},
 		];
-
-		configs.icon.on('calculate', () => {
-			this.#actionsLeft.items[0].content = {
-				icon: configs.icon.defaults.calculate,
-			};
-		});
-		configs.icon.on('increase', () => {
-			this.#actionsRight.items[0].content = {
-				icon: configs.icon.defaults.increase,
-			};
-		});
-		configs.icon.on('decrease', () => {
-			this.#actionsRight.items[1].content = {
-				icon: configs.icon.defaults.decrease,
-			};
-		});
 
 		this.input.addEventListener('input', this.#inputHandler);
 		this.input.addEventListener('blur', this.#blurHandler);
@@ -332,8 +305,8 @@ export class WidgetNumber<Params extends LocaleParams = LocaleParams>
 			this.#autofill.element,
 		];
 	}
-	cloneNode(deep?: boolean): WidgetNumber<Params> {
-		const node = super.cloneNode(deep) as WidgetNumber<Params>;
+	cloneNode(deep?: boolean): WidgetNumber {
+		const node = super.cloneNode(deep) as WidgetNumber;
 
 		node.value = this.value;
 		node.default = this.default;

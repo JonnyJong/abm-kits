@@ -1,13 +1,13 @@
-import { $new, LocaleParams } from 'abm-utils';
+import { $new } from 'abm-utils';
 import { customElement, property } from 'lit/decorators.js';
-import { WidgetInput } from './base';
+import { WidgetInput, WidgetInputProp } from './base';
 import { initInputNavigate } from './nav';
+
+export interface WidgetTextFieldProp extends WidgetInputProp<string> {}
 
 /** 多行文本输入框 */
 @customElement('w-text-field')
-export class WidgetTextField<
-	Params extends LocaleParams = LocaleParams,
-> extends WidgetInput<string, Params, HTMLTextAreaElement> {
+export class WidgetTextField extends WidgetInput<string, HTMLTextAreaElement> {
 	static properties = { value: { type: String } };
 	constructor() {
 		super($new('textarea'));
@@ -27,8 +27,8 @@ export class WidgetTextField<
 		this.input.value = value;
 		this.updatePlaceholder();
 	}
-	cloneNode(deep?: boolean): WidgetTextField<Params> {
-		const node = super.cloneNode(deep) as WidgetTextField<Params>;
+	cloneNode(deep?: boolean): WidgetTextField {
+		const node = super.cloneNode(deep) as WidgetTextField;
 
 		node.value = this.value;
 

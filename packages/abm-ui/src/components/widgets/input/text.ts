@@ -1,13 +1,13 @@
-import { $new, LocaleParams } from 'abm-utils';
+import { $new } from 'abm-utils';
 import { TemplateResult, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { Navigable } from '../../../navigate';
 import { InputActions, WidgetInputActionItem } from './actions';
 import { IWidgetInputAutoFillItem, InputAutoFill } from './autofill';
-import { WidgetInput } from './base';
+import { WidgetInput, WidgetInputProp } from './base';
 import { initInputNavigate } from './nav';
 
-export interface WidgetTextProp {
+export interface WidgetTextProp extends WidgetInputProp<string> {
 	/** 自动填充 */
 	autoFill?: IWidgetInputAutoFillItem<string>[];
 	/** 左侧动作按钮 */
@@ -18,8 +18,8 @@ export interface WidgetTextProp {
 
 /** 单行文本输入框 */
 @customElement('w-text')
-export class WidgetText<Params extends LocaleParams = LocaleParams>
-	extends WidgetInput<string, Params, HTMLInputElement>
+export class WidgetText
+	extends WidgetInput<string, HTMLInputElement>
 	implements Navigable
 {
 	static properties = { value: { type: String } };
@@ -81,8 +81,8 @@ export class WidgetText<Params extends LocaleParams = LocaleParams>
 			this.#autofill.element,
 		];
 	}
-	cloneNode(deep?: boolean): WidgetText<Params> {
-		const node = super.cloneNode(deep) as WidgetText<Params>;
+	cloneNode(deep?: boolean): WidgetText {
+		const node = super.cloneNode(deep) as WidgetText;
 
 		node.value = this.value;
 		node.autoFill = this.autoFill;

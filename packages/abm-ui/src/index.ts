@@ -48,10 +48,7 @@ import {
 	WidgetHintTouchProp,
 } from './components/widgets/hint/touch';
 import { WidgetIcon, WidgetIconProp } from './components/widgets/icon';
-import {
-	WidgetInputEvents,
-	WidgetInputProp,
-} from './components/widgets/input/base';
+import { WidgetInputEvents } from './components/widgets/input/base';
 import {
 	WidgetNumber,
 	WidgetNumberProp,
@@ -61,7 +58,10 @@ import {
 	WidgetPasswordProp,
 } from './components/widgets/input/password';
 import { WidgetText, WidgetTextProp } from './components/widgets/input/text';
-import { WidgetTextField } from './components/widgets/input/text-field';
+import {
+	WidgetTextField,
+	WidgetTextFieldProp,
+} from './components/widgets/input/text-field';
 import { WidgetLabel, WidgetLabelProp } from './components/widgets/label';
 import { WidgetLang, WidgetLangProp } from './components/widgets/lang';
 import {
@@ -216,10 +216,10 @@ export interface WidgetsPropMap {
 	'w-progress-ring': WidgetProgressProp;
 	'w-btn': WidgetBtnProp;
 	'w-list': WidgetListProp;
-	'w-text': WidgetInputProp<string> & WidgetTextProp;
-	'w-password': WidgetInputProp<string> & WidgetPasswordProp;
-	'w-text-field': WidgetInputProp<string>;
-	'w-number': WidgetInputProp<number> & WidgetNumberProp;
+	'w-text': WidgetTextProp;
+	'w-password': WidgetPasswordProp;
+	'w-text-field': WidgetTextFieldProp;
+	'w-number': WidgetNumberProp;
 	'w-select': WidgetSelectProp;
 	'w-nav': WidgetNavProp;
 	'w-slider': WidgetSliderProp;
