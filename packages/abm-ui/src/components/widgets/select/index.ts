@@ -6,7 +6,6 @@ import {
 	EventValue,
 	EventValueInit,
 	EventsList,
-	LocaleParams,
 	asArray,
 	clamp,
 	css,
@@ -22,7 +21,6 @@ import {
 	NavigateCallbackOptions,
 	navigate,
 } from '../../../navigate';
-import { UIContentText, UIContentTextInit } from '../../content';
 import { Widget } from '../base';
 import { WidgetList, WidgetListItem } from '../list';
 import CSS from './index.styl';
@@ -30,18 +28,16 @@ import CSS_ITEM from './item.styl';
 
 interface WidgetSelectEventsInit<
 	Value = unknown,
-	Params extends LocaleParams = LocaleParams,
 	Data extends IWidgetSelectItem<Value> = IWidgetSelectItem<Value>,
 > {
 	/** 更改事件 */
-	change: EventValueInit<WidgetSelect<Value, Params, Data>, Value>;
+	change: EventValueInit<WidgetSelect<Value, Data>, Value>;
 }
 
 export interface WidgetSelectEvents<
 	Value = unknown,
-	Params extends LocaleParams = LocaleParams,
 	Data extends IWidgetSelectItem<Value> = IWidgetSelectItem<Value>,
-> extends EventsList<WidgetSelectEventsInit<Value, Params, Data>> {}
+> extends EventsList<WidgetSelectEventsInit<Value, Data>> {}
 
 export interface IWidgetSelectItem<Value = unknown> {
 	value: Value;
@@ -50,7 +46,6 @@ export interface IWidgetSelectItem<Value = unknown> {
 
 export interface WidgetSelectProp<
 	Value = unknown,
-	Params extends LocaleParams = LocaleParams,
 	Data extends IWidgetSelectItem<Value> = IWidgetSelectItem<Value>,
 > {
 	/** 选项索引 */
@@ -60,7 +55,7 @@ export interface WidgetSelectProp<
 	/** 选项列表 */
 	options?: Data[];
 	/** 占位符 */
-	placeholder?: string | UIContentText<Params> | UIContentTextInit<Params>;
+	placeholder?: string;
 	/** 禁用 */
 	disabled?: boolean;
 }
@@ -114,9 +109,8 @@ class WidgetSelectItem<
 @customElement('w-select')
 export class WidgetSelect<
 	Value = unknown,
-	Params extends LocaleParams = LocaleParams,
 	Data extends IWidgetSelectItem<Value> = IWidgetSelectItem<Value>,
-> extends Widget<WidgetSelectEventsInit<Value, Params, Data>> {
+> extends Widget<WidgetSelectEventsInit<Value, Data>> {
 	static styles = css(CSS);
 	constructor() {
 		super({
@@ -229,7 +223,6 @@ export class WidgetSelect<
 	}
 	//#region View
 	#content = new Signal.State<(string | Node)[]>([]);
-	#placeholder = new UIContentText<Params>();
 	#indicator = $new('w-icon', {
 		class: 'indicator',
 		prop: { key: configs.icon.defaults.selectExpand },
@@ -245,8 +238,7 @@ export class WidgetSelect<
 				placeholder: true,
 				hidden: selected !== -1,
 			})}>
-				${this.#placeholder.iconSignal.get()}
-				${this.#placeholder.labelSignal.get()}
+				<slot></slot>
 			</div>
 			${this.#indicator}
 		`;
@@ -272,16 +264,12 @@ export class WidgetSelect<
 	/** 禁用 */
 	@property({ type: Boolean, reflect: true }) accessor disabled = false;
 	/** 占位符 */
-	@property()
+	@property({ type: String })
 	get placeholder() {
-		return this.#placeholder;
+		return this.textContent ?? '';
 	}
-	set placeholder(value:
-		| string
-		| UIContentTextInit<Params>
-		| UIContentText<Params>) {
-		if (typeof value === 'string') this.#placeholder.key = value;
-		else this.#placeholder.reset(value);
+	set placeholder(value: string) {
+		this.textContent = value;
 	}
 	/** 选项列表 */
 	get options() {
@@ -331,13 +319,12 @@ export class WidgetSelect<
 	#navCallback = ({ cancel }: NavigateCallbackOptions) => {
 		if (cancel) this.#hidePicker();
 	};
-	cloneNode(deep?: boolean): WidgetSelect<Value, Params> {
-		const node = super.cloneNode(deep) as WidgetSelect<Value, Params>;
+	cloneNode(deep?: boolean): WidgetSelect<Value> {
+		const node = super.cloneNode(deep) as WidgetSelect<Value>;
 
 		node.disabled = this.disabled;
 		node.options = this.options;
 		node.index = this.index;
-		node.placeholder = this.placeholder;
 
 		return node;
 	}
