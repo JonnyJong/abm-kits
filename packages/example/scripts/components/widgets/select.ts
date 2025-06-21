@@ -4,7 +4,7 @@ import { $panel } from '../../utils';
 const select = $new('w-select', {
 	prop: {
 		placeholder: 'Pick one',
-		options: range(10).map((i) => {
+		options: range(20).map((i) => {
 			return {
 				value: i * i,
 				label: $new('w-lang', {

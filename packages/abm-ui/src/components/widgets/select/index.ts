@@ -206,7 +206,7 @@ export class WidgetSelect<
 		]) {
 			this.#picker.style.setProperty(`--w-select-${k}`, `${v}px`);
 		}
-		this.#list.scroll({ top: scroll, behavior: 'instant' });
+		this.#picker.scroll({ top: scroll, behavior: 'instant' });
 		// Display
 		await sleep(10);
 		this.#picker.classList.add('w-select-picker-show');
