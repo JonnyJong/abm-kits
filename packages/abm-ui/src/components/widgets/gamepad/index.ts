@@ -21,7 +21,7 @@ export class WidgetGamepad extends Widget implements Navigable {
 	static styles = css(CSS);
 	#vibrate: WidgetBtn & Navigable = $new('w-btn', {
 		class: 'vibrate',
-		prop: { content: { icon: 'PhoneVibrate' }, disabled: true },
+		prop: { icon: 'PhoneVibrate', disabled: true },
 	});
 	#connected = new Signal.State(false);
 	#home = new Signal.State(false);
