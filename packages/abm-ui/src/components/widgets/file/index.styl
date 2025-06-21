@@ -110,10 +110,13 @@ img.file-icon
 	width max-content
 	border-radius var(--ui-border-radius)
 	background var(--w-file-action-bg)
-	opacity 0
 	transition .1s opacity
 	gap 8px
 	backdrop-filter blur(8px)
+
+@media (pointer fine)
+	.actions
+		opacity 0
 
 :host[ui-hover] .actions
 :host[multiple] .actions
