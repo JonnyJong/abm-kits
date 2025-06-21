@@ -22,6 +22,11 @@ export interface UIDefaultLocaleDict extends LocaleDict {
 		hue: string;
 		saturation: string;
 		lightness: string;
+		file: {
+			pick: string;
+			add: string;
+			clear: string;
+		};
 	};
 }
 

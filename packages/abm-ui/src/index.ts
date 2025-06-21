@@ -20,6 +20,11 @@ import {
 	WidgetColorPickerEvents,
 	WidgetColorPickerProp,
 } from './components/widgets/color-picker';
+import {
+	WidgetFile,
+	WidgetFileEvents,
+	WidgetFileProp,
+} from './components/widgets/file';
 import { WidgetGamepad, WidgetGamepadProp } from './components/widgets/gamepad';
 import { WidgetGridData } from './components/widgets/grid-data';
 import {
@@ -173,6 +178,7 @@ export * from './components/widgets/grid-virtual';
 export * from './components/widgets/list-infinite';
 export * from './components/widgets/grid-data';
 export * from './components/widgets/label';
+export * from './components/widgets/file';
 
 // Utils
 export interface WidgetTagNameMap {
@@ -205,6 +211,7 @@ export interface WidgetTagNameMap {
 	'w-list-infinite': WidgetListInfinite;
 	'w-grid-data': WidgetGridData;
 	'w-label': WidgetLabel;
+	'w-file': WidgetFile;
 }
 export type WidgetTagForType<E> = {
 	[K in keyof WidgetTagNameMap]: E extends WidgetTagNameMap[K] ? K : never;
@@ -238,6 +245,7 @@ export interface WidgetsPropMap {
 	'w-grid-virtual': WidgetGridVirtualProp;
 	'w-list-infinite': WidgetListInfiniteProp;
 	'w-label': WidgetLabelProp;
+	'w-file': WidgetFileProp;
 }
 export interface WidgetsEventsMap {
 	'w-btn': WidgetBtnEvents;
@@ -254,6 +262,7 @@ export interface WidgetsEventsMap {
 	'w-checkbox': WidgetCheckboxEvents;
 	'w-color-picker': WidgetColorPickerEvents;
 	'w-color': WidgetColorEvents;
+	'w-file': WidgetFileEvents;
 }
 declare module 'abm-utils' {
 	type PropForType<E extends Widget> =

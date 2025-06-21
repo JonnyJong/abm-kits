@@ -320,4 +320,26 @@ export const DEFAULTS_ICONS: [string, IconInfo][] = [
 			file: 'settings_20_regular.svg',
 		},
 	],
+	[
+		'document_20_regular.svg',
+		{
+			id: 'Document',
+			name: 'document',
+			region: '',
+			type: 'regular',
+			size: 20,
+			file: 'document_20_regular.svg',
+		},
+	],
+	[
+		'document_arrow_up_20_regular.svg',
+		{
+			id: 'DocumentArrowUp',
+			name: 'document_arrow_up',
+			region: '',
+			type: 'regular',
+			size: 20,
+			file: 'document_arrow_up_20_regular.svg',
+		},
+	],
 ];

@@ -50,6 +50,11 @@ export const DEFAULT_LOCALE_DICTS = {
 			hue: '色相',
 			saturation: '饱和度',
 			lightness: '亮度',
+			file: {
+				pick: '选取文件',
+				add: '添加文件',
+				clear: '移除所有文件',
+			},
 		},
 	},
 	en: {
@@ -65,6 +70,11 @@ export const DEFAULT_LOCALE_DICTS = {
 			hue: 'Hue',
 			saturation: 'Saturation',
 			lightness: 'Lightness',
+			file: {
+				pick: 'Pick Files',
+				add: 'Add Files',
+				clear: 'Remove All Files',
+			},
 		},
 	},
 } as const satisfies Record<string, UIDefaultLocaleDict>;

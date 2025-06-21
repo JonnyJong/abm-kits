@@ -13,6 +13,7 @@ import { initBtn } from './components/widgets/btn';
 import { initCheckbox } from './components/widgets/checkbox';
 import { initColor } from './components/widgets/color';
 import { initColorPicker } from './components/widgets/color-picker';
+import { initFile } from './components/widgets/file';
 import { initGridData } from './components/widgets/grid-data';
 import { initGridVirtual } from './components/widgets/grid-virtual';
 import { initHintKey } from './components/widgets/hint-key';
@@ -55,6 +56,11 @@ declare module 'abm-ui' {
 					alert: string;
 				};
 			};
+			widgets: {
+				file: {
+					placeholder: string;
+				};
+			};
 		};
 	}
 }
@@ -81,6 +87,11 @@ const LOCALE_DICTS: Record<string, UIDefaultLocaleDict> = {
 					alert: '创建警告对话框',
 				},
 			},
+			widgets: {
+				file: {
+					placeholder: '点击此处选择文件或将文件拖入此处以添加文件',
+				},
+			},
 		},
 	},
 	en: {
@@ -102,6 +113,11 @@ const LOCALE_DICTS: Record<string, UIDefaultLocaleDict> = {
 					normal: 'Create Normal Dialog',
 					confirm: 'Create Confirm Dialog',
 					alert: 'Create Alert Dialog',
+				},
+			},
+			widgets: {
+				file: {
+					placeholder: 'Click here to select files or drag files here to add files',
 				},
 			},
 		},
@@ -153,4 +169,5 @@ document.addEventListener('DOMContentLoaded', () => {
 	initGridVirtual();
 	initListInfinite();
 	initGridData();
+	initFile();
 });

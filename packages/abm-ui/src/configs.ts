@@ -61,6 +61,11 @@ export const DEFAULTS_ICONS_NAMES = Object.freeze([
 	'gamepadStart',
 	'gamepadBack',
 	'orderDesc',
+	'file',
+	'addFile',
+	'removeFile',
+	'pickFile',
+	'clearFile',
 ] as const) satisfies readonly string[];
 export type UIDefaultsIcons = (typeof DEFAULTS_ICONS_NAMES)[number];
 
