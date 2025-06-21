@@ -242,7 +242,7 @@ export interface LocaleInit<D extends LocaleDict = LocaleDict> {
 	/** 翻译源加载器 */
 	loader: (locale: string) => PromiseOr<D | null>;
 	/** 语言列表 */
-	locales?: string[];
+	locales?: readonly string[];
 }
 
 interface LocaleEventsInit {
@@ -408,40 +408,46 @@ export interface LocaleManagerEvents
 
 export class LocaleManager implements IEventSource<LocaleManagerEventsInit> {
 	#events = new Events<LocaleManagerEventsInit>(['update']);
-	#locales = new Map<string, Locale>();
+	#locales = new Map<string, [Locale, () => void]>();
 	/**
 	 * 注册命名空间
 	 * @returns 返回 `false` 表示该命名空间已被占用
 	 */
 	registerLocale(namespace: string, init: LocaleInit | Locale) {
 		if (this.#locales.has(namespace)) return false;
-		if (init instanceof Locale) this.#locales.set(namespace, init);
-		else this.#locales.set(namespace, new Locale(init));
+		if (!(init instanceof Locale)) init = new Locale(init);
+		const handler = () =>
+			this.#events.emit(
+				new EventValue('update', { target: this, value: namespace }),
+			);
+		(init as Locale).on('update', handler);
+		this.#locales.set(namespace, [init as Locale, handler]);
 		return true;
 	}
 	/** 获取命名空间 */
 	getLocale<D extends LocaleDict = LocaleDict>(namespace: string) {
-		return this.#locales.get(namespace) as Locale<D> | undefined;
+		return this.#locales.get(namespace)?.[0] as Locale<D> | undefined;
 	}
 	/** 移除命名空间 */
 	removeLocale(namespace: string) {
-		return this.#locales.delete(namespace);
+		const locale = this.#locales.get(namespace);
+		if (!locale) return false;
+		locale[0].off('update', locale[1]);
+		this.#locales.delete(namespace);
+		return true;
 	}
 	/** 获取翻译 */
 	getString(namespace: string, key: string, params?: Record<string, any>) {
 		return (
-			this.#locales.get(namespace)?.getStringOrNull(key, params) ??
-			`${namespace}:${key}`
+			this.#locales.get(namespace)?.[0].getStringOrNull(key, params) ??
+			(namespace ? `${namespace}:${key}` : key)
 		);
 	}
 	/** 更新所有命名空间的语言列表 */
-	async updateLocales(locales: string[]) {
-		for (const [namespace, locale] of this.#locales) {
+	async updateLocales(locales: readonly string[]) {
+		for (const [locale] of this.#locales.values()) {
 			locale.locales = locales;
 			await locale.reload();
-			this.#events.emit(
-				new EventValue('update', { target: this, value: namespace }),
-			);
 		}
 	}
 	on<Type extends keyof LocaleManagerEventsInit>(

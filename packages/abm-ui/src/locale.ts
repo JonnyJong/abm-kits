@@ -31,6 +31,7 @@ export const defaultLocale = new Locale<UIDefaultLocaleDict>({
 			DEFAULT_LOCALE_DICTS[locale as keyof typeof DEFAULT_LOCALE_DICTS] ?? null
 		);
 	},
+	locales: navigator.languages,
 });
 
 export const localeManager = new LocaleManager();
@@ -98,7 +99,7 @@ export class LocaleProvider<
 		return this.#textCompute;
 	}
 	#updateHandler = (event?: LocaleManagerEvents['update']) => {
-		if (event?.value !== this.#namespace) return;
+		if (event && event?.value !== this.#namespace.get()) return;
 		this.#update.set(!this.#update.get());
 	};
 }
