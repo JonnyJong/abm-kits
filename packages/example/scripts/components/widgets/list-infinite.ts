@@ -10,10 +10,14 @@ class TestListInfiniteItem extends WidgetListInfiniteItem<number> {
 	static styles = css`
 		:host {
 			padding: 16px;
-			outline: 1px solid;
+			outline: 1px solid #8888;
 			outline-offset: -1px;
+			font-size: 32px;
 		}
 	`;
+	constructor() {
+		super({ nav: true });
+	}
 	#identifier = new Signal.State(0);
 	get identifier() {
 		return this.#identifier.get();
@@ -31,12 +35,12 @@ class TestListInfiniteItem extends WidgetListInfiniteItem<number> {
 	}
 	static async prev(from: number): Promise<number[] | null> {
 		await sleep(Math.trunc(Math.random() * 10));
-		if (from < -200) return null;
+		if (from < -30) return null;
 		return range(-10, 0).map((diff) => from + diff);
 	}
 	static async next(from: number): Promise<number[] | null> {
 		await sleep(Math.trunc(Math.random() * 10));
-		if (from > 200) return null;
+		if (from > 30) return null;
 		return range(1, 11).map((diff) => from + diff);
 	}
 }
