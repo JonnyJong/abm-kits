@@ -16,6 +16,9 @@
 	--w-input-actions-right 4px
 	&[readonly]
 		border-bottom-color var(--w-input-readonly-indicator)
+	&[flat]:not(:focus-within):not([ui-hover])
+		border-color #0000
+		background #0000
 	&[ui-hover]
 		background var(--w-input-hover-bg)
 	&:focus-within

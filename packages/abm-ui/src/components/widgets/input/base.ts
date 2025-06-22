@@ -38,6 +38,8 @@ export interface WidgetInputProp<
 	readOnly?: boolean;
 	/** 自动尺寸 */
 	autoSize?: boolean;
+	/** 扁平 */
+	flat?: boolean;
 }
 
 export interface WidgetInputEventsInit<
@@ -136,6 +138,8 @@ export abstract class WidgetInput<
 	/** 自动尺寸 */
 	@property({ type: Boolean, reflect: true, attribute: 'autosize' })
 	accessor autoSize = false;
+	/** 扁平 */
+	@property({ type: Boolean, reflect: true }) accessor flat = false;
 	#focusing = false;
 	get focusing() {
 		return this.#focusing;

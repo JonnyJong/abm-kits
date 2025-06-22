@@ -80,6 +80,10 @@ export function initInput() {
 				type: 'boolean',
 				key: 'autoSize',
 			},
+			{
+				type: 'boolean',
+				key: 'flat',
+			},
 		],
 		['input', 'confirm', 'autofill', 'action'],
 	);
@@ -141,6 +145,10 @@ export function initInput() {
 			{
 				type: 'boolean',
 				key: 'autoSize',
+			},
+			{
+				type: 'boolean',
+				key: 'flat',
 			},
 		],
 		['input', 'confirm', 'autofill', 'action'],
@@ -205,6 +213,10 @@ export function initInput() {
 				type: 'boolean',
 				key: 'autoSize',
 			},
+			{
+				type: 'boolean',
+				key: 'flat',
+			},
 		],
 		['input', 'confirm', 'autofill', 'action'],
 	);
@@ -240,6 +252,10 @@ export function initInput() {
 			{
 				type: 'boolean',
 				key: 'autoSize',
+			},
+			{
+				type: 'boolean',
+				key: 'flat',
 			},
 		],
 		['input', 'confirm', 'autofill', 'action'],
