@@ -255,3 +255,28 @@ export function searchByOrder(
 
 	return null;
 }
+
+/**
+ * 查找最接近的可导航元素
+ * @param root - 根元素
+ * @param begin - 起始位置
+ */
+export function searchClosest(root: Navigable, begin: Rect): Navigable | null {
+	const children = [...(root.navChildren ?? root.children)].filter(
+		NavItemFilter(),
+	) as Navigable[];
+	if (children.length === 0) return null;
+
+	let item: Navigable | null = null;
+	let distance = Infinity;
+	for (const child of children) {
+		const d = getDistance(child.getBoundingClientRect(), begin);
+		if (d > distance) continue;
+		distance = d;
+		item = child;
+	}
+
+	if (!item) return null;
+	if (item.hasAttribute('ui-nav')) return item;
+	return searchClosest(item, begin);
+}

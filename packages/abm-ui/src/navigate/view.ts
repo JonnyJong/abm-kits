@@ -7,7 +7,7 @@ import {
 	Events,
 } from 'abm-utils';
 import { INavigate, Navigable, NavigateEventsInit, Rect } from './types';
-import { isAvailable } from './utils';
+import { isAvailable, searchClosest } from './utils';
 
 const SCROLL_OPTIONS: ScrollIntoViewOptions = {
 	block: 'center',
@@ -38,7 +38,15 @@ export class NavigateUI {
 	#y = innerHeight / 2;
 	#frameController = new AnimationFrameController(() => {
 		let { root, current, lock } = this.#getCurrentLayer();
-		if (!isAvailable(current, root) || current?.nonNavigable) current = null;
+		if (!isAvailable(current, root) || current?.nonNavigable) {
+			current = searchClosest(root, {
+				left: this.#x,
+				top: this.#y,
+				height: 0,
+				width: 0,
+			});
+			if (current) this.#navigate.current = current;
+		}
 		current = lock ?? current;
 
 		if (!current) {
