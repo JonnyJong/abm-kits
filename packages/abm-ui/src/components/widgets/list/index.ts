@@ -395,7 +395,15 @@ export class WidgetList<
 	set items(value) {
 		this.#items.replace(...value);
 	}
-	@property({ type: Boolean, reflect: true }) accessor sortable = false;
+	@property({ type: Boolean })
+	get sortable() {
+		return this.hasAttribute('sortable');
+	}
+	set sortable(value) {
+		this.toggleAttribute('sortable', !!value);
+		if (value) return;
+		this.emitSortEnd();
+	}
 	/**
 	 * 列表选择类型
 	 * @description
@@ -422,6 +430,7 @@ export class WidgetList<
 		identifier: number,
 		position?: readonly [number, number],
 	) {
+		if (!this.sortable) return;
 		if (this.#sortingItem) return;
 		this.#sortingItem = item;
 		navigate.lock(item);
