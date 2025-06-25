@@ -51,8 +51,7 @@ export class NavigateUI {
 
 		if (!current) {
 			this.#clearCurrent();
-			this.#frameController.stop();
-			this.#indicator.classList.remove(CLASS_VISIBLE);
+			this.hide();
 			this.#events.emit(new EventBase('nav', { target: this.#navigate }));
 			return;
 		}
@@ -90,6 +89,8 @@ export class NavigateUI {
 	hide(x?: number, y?: number) {
 		this.#frameController.stop();
 		this.#indicator.classList.remove(CLASS_VISIBLE);
+		this.#indicator.style.width = '';
+		this.#indicator.style.height = '';
 		if (x === undefined || y === undefined) return;
 		this.#x = x;
 		this.#y = y;
