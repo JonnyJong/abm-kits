@@ -39,12 +39,7 @@ export class NavigateUI {
 	#frameController = new AnimationFrameController(() => {
 		let { root, current, lock } = this.#getCurrentLayer();
 		if (!isAvailable(current, root) || current?.nonNavigable) {
-			current = searchClosest(root, {
-				left: this.#x,
-				top: this.#y,
-				height: 0,
-				width: 0,
-			});
+			current = searchClosest(root, this.getRect());
 			if (current) this.#navigate.current = current;
 		}
 		current = lock ?? current;
