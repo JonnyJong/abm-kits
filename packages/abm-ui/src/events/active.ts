@@ -147,7 +147,7 @@ export class UIEventActiveManager implements IUIEventBaseManage<'active'> {
 	}
 	end(target: HTMLElement): boolean {
 		if (!(target && this.#activated.has(target))) return false;
-		this.#activate(target, -2);
+		this.#deactivate(target);
 		this.#emit(target, false, false, -2);
 		return true;
 	}
