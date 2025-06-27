@@ -42,7 +42,7 @@ importers:
         specifier: ~0.1.1
         version: 0.1.1
       abm-utils:
-        specifier: workspace:*
+        specifier: workspace:~
         version: link:../abm-utils
       lit:
         specifier: ~3.3.0

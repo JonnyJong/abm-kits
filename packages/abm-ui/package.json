@@ -1,6 +1,6 @@
 {
 	"name": "abm-ui",
-	"version": "0.6.0",
+	"version": "0.6.1",
 	"description": "The UI lib from ABM",
 	"author": "jonnyjonny",
 	"license": "MIT",
@@ -17,7 +17,7 @@
 	"main": "./dist/index.js",
 	"dependencies": {
 		"@lit-labs/signals": "~0.1.1",
-		"abm-utils": "workspace:*",
+		"abm-utils": "workspace:~",
 		"lit": "~3.3.0",
 		"signal-utils": "~0.21.1"
 	},
