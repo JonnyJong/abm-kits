@@ -75,8 +75,8 @@ export function range(
  * @returns 打乱顺序后的数组
  */
 export function shuffle<T>(array: T[]): T[] {
-	for (const i of range(array.length)) {
-		const j = Math.trunc(Math.random() * array.length);
+	for (let i = array.length - 1; i > 0; i--) {
+		const j = Math.trunc(Math.random() * (i + 1));
 		if (i === j) continue;
 		[array[i], array[j]] = [array[j], array[i]];
 	}
