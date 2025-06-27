@@ -78,6 +78,16 @@ export function defineTranslation<T extends string, O extends ParseOptions<T>>(
 	return [translation, options];
 }
 
+export type LocaleDictDefine<D extends LocaleDict> = {
+	[K in keyof D]?: D[K] extends [infer T extends string, any]
+		? [string, ParseOptions<T>]
+		: D[K] extends LocaleDict
+			? LocaleDictDefine<D[K]>
+			: D[K] extends string
+				? string
+				: never;
+};
+
 //#region Params
 
 type ExtractMessageParams<T extends I18nMessage> = T extends string
