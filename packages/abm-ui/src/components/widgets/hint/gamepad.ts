@@ -63,22 +63,16 @@ export class WidgetHintGamepad extends Widget {
 	connectedCallback(): void {
 		super.connectedCallback();
 		if (this.#initialized) return;
-		this.#initialized = true;
-		this.key = this.textContent?.trim() as WidgetHintGamepadKey;
+		this.#updateKey();
 	}
-	#icon?: UIDefaultsIcons;
-	#key?: WidgetHintGamepadKey;
-	@property({ type: String })
-	get key() {
-		return this.#key;
-	}
-	set key(value) {
-		if (this.#key === value) return;
+	#updateKey(
+		value = this.textContent?.trim() as WidgetHintGamepadKey | undefined,
+	) {
 		this.#initialized = true;
 
 		this.#unbind();
 
-		if (!value) this.#key = undefined;
+		if (!value) value = undefined;
 		else if (!KEYS.includes(value)) return;
 
 		this.#key = value;
@@ -86,6 +80,17 @@ export class WidgetHintGamepad extends Widget {
 		this.#render();
 		this.#bind();
 		this.#iconUpdateHandler();
+	}
+	#icon?: UIDefaultsIcons;
+	#key?: WidgetHintGamepadKey;
+	@property({ type: String })
+	get key() {
+		if (!this.#initialized) this.#updateKey();
+		return this.#key;
+	}
+	set key(value) {
+		if (this.#key === value) return;
+		this.#updateKey(value);
 	}
 	#bind() {
 		if (!this.#icon) return;

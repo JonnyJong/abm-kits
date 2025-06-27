@@ -1,4 +1,4 @@
-import { Dialog } from 'abm-ui';
+import { Dialog, WidgetBtn } from 'abm-ui';
 import { $, $div, $new } from 'abm-utils';
 
 export function initDialog() {
@@ -12,7 +12,9 @@ export function initDialog() {
 	});
 	const color = $new('w-color', { id: 'dev-dialog-color' });
 
-	const normal = $new('w-btn', 'dev.components.dialog.normal');
+	const normal = $new<WidgetBtn, {}>('w-btn', {
+		prop: { key: 'dev.components.dialog.normal' },
+	});
 	normal.on('active', () => {
 		new Dialog({
 			title: title.value,
@@ -27,7 +29,9 @@ export function initDialog() {
 			theme: color.value,
 		}).show();
 	});
-	const confirm = $new('w-btn', 'dev.components.dialog.confirm');
+	const confirm = $new<WidgetBtn, {}>('w-btn', {
+		prop: { key: 'dev.components.dialog.confirm' },
+	});
 	confirm.on('active', () => {
 		Dialog.confirm({
 			title: title.value,
@@ -35,8 +39,10 @@ export function initDialog() {
 			theme: color.value,
 		});
 	});
-	const ok = $new('w-btn', 'dev.components.dialog.alert');
-	ok.on('active', () => {
+	const alert = $new<WidgetBtn, {}>('w-btn', {
+		prop: { key: 'dev.components.dialog.alert' },
+	});
+	alert.on('active', () => {
 		Dialog.alert({
 			title: title.value,
 			content: $div({ html: content.value }),
@@ -63,6 +69,6 @@ export function initDialog() {
 			$new('w-lang', 'dev.components.dialog.color'),
 		),
 		color,
-		$div({ attr: { 'ui-layout': 'flow' } }, normal, confirm, ok),
+		$div({ attr: { 'ui-layout': 'flow' } }, normal, confirm, alert),
 	);
 }

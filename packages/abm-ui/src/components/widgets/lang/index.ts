@@ -37,6 +37,7 @@ export class WidgetLang<
 	/** 命名空间 */
 	@property({ type: String })
 	get namespace() {
+		if (!this.#initialized) this.#locale.key = this.textContent ?? '';
 		return this.#locale.namespace;
 	}
 	set namespace(value) {
@@ -46,6 +47,7 @@ export class WidgetLang<
 	/** 本地化键名 */
 	@property({ type: String })
 	get key() {
+		if (!this.#initialized) this.#locale.key = this.textContent ?? '';
 		return this.#locale.key;
 	}
 	set key(value) {

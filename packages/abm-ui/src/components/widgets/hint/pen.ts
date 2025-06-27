@@ -57,22 +57,25 @@ export class WidgetHintPen extends Widget {
 	connectedCallback(): void {
 		super.connectedCallback();
 		if (this.#initialized) return;
-		this.#initialized = true;
-		this.key = this.textContent?.trim() as WidgetHintPenKey;
+		this.#updateKey();
 	}
-	#key = new Signal.State<WidgetHintPenKey | undefined>(undefined);
-	@property({ type: String })
-	get key() {
-		return this.#key.get();
-	}
-	set key(value) {
-		if (this.#key.get() === value) return;
+	#updateKey(value = this.textContent?.trim() as WidgetHintPenKey | undefined) {
 		this.#initialized = true;
 
 		if (!value) value = undefined;
 		else if (!KEYS.includes(value)) return;
 
 		this.#key.set(value);
+	}
+	#key = new Signal.State<WidgetHintPenKey | undefined>(undefined);
+	@property({ type: String })
+	get key() {
+		if (!this.#initialized) this.#updateKey();
+		return this.#key.get();
+	}
+	set key(value) {
+		if (this.#key.get() === value) return;
+		this.#updateKey(value);
 	}
 	cloneNode(deep?: boolean): WidgetHintPen {
 		const node = super.cloneNode(deep) as WidgetHintPen;

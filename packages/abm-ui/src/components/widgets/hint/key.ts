@@ -76,22 +76,14 @@ export class WidgetHintKey extends Widget {
 	connectedCallback(): void {
 		super.connectedCallback();
 		if (this.#initialized) return;
-		this.#initialized = true;
-		this.key = this.textContent?.trim() as KeysAllow;
+		this.#updateKey();
 	}
-	#icon?: UIDefaultsIcons;
-	#key?: KeysAllow;
-	@property({ type: String })
-	get key() {
-		return this.#key;
-	}
-	set key(value) {
-		if (this.#key === value) return;
+	#updateKey(value = this.textContent?.trim() as KeysAllow | undefined) {
 		this.#initialized = true;
 
 		this.#unbind();
 
-		if (!value) this.#key = undefined;
+		if (!value) value = undefined;
 		else if (!KEYS_ALLOW.includes(value)) return;
 
 		this.#key = value;
@@ -99,6 +91,17 @@ export class WidgetHintKey extends Widget {
 		this.#render();
 		this.#bind();
 		this.#iconUpdateHandler();
+	}
+	#icon?: UIDefaultsIcons;
+	#key?: KeysAllow;
+	@property({ type: String })
+	get key() {
+		if (!this.#initialized) this.#updateKey();
+		return this.#key;
+	}
+	set key(value) {
+		if (this.#key === value) return;
+		this.#updateKey(value);
 	}
 	#bind() {
 		if (!this.#icon) return;
