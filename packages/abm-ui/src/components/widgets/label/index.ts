@@ -23,8 +23,8 @@ export class WidgetLabel extends Widget {
 		});
 		events.active.on(this, ({ active, cancel }) => {
 			this.#activating = active;
-			if (active) this.#startActive();
-			else if (cancel) this.#cancelActive();
+			if (cancel) this.#cancelActive();
+			else if (active) this.#startActive();
 			else this.#endActive();
 		});
 	}
@@ -39,7 +39,7 @@ export class WidgetLabel extends Widget {
 		for (const widget of this.#targets) {
 			events.hover.end(widget);
 		}
-		this.#targets.clear();
+		if (!this.#activating) this.#targets.clear();
 	}
 	#startActive() {
 		for (const widget of this.#targets) {
@@ -55,6 +55,7 @@ export class WidgetLabel extends Widget {
 		for (const widget of this.#targets) {
 			events.active.cancel(widget);
 		}
+		if (!this.#hovering) this.#targets.clear();
 	}
 	createRenderRoot() {
 		return this;
