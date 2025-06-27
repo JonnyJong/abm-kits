@@ -60,7 +60,10 @@ export class NavigateUI {
 				left,
 				width,
 				height,
-				$borderRadius: getComputedStyle(current).borderRadius,
+				$borderRadiusTl: getComputedStyle(current).borderTopLeftRadius,
+				$borderRadiusTr: getComputedStyle(current).borderTopRightRadius,
+				$borderRadiusBr: getComputedStyle(current).borderBottomRightRadius,
+				$borderRadiusBl: getComputedStyle(current).borderBottomLeftRadius,
 			},
 		});
 		this.#indicator.classList.add(CLASS_VISIBLE);

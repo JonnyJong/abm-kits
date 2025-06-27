@@ -7,7 +7,10 @@
 	z-index 90
 	outline 4px solid var(--theme)
 	outline-offset 2px
-	border-radius calc(var(--border-radius) + 1px)
+	border-top-left-radius calc(var(--border-radius-tl) + 1px)
+	border-top-right-radius calc(var(--border-radius-tr) + 1px)
+	border-bottom-right-radius calc(var(--border-radius-br) + 1px)
+	border-bottom-left-radius calc(var(--border-radius-bl) + 1px)
 	transition .05s top, .05s left, .1s height, .1s width, .2s border-radius, .1s opacity
 	animation ui-nav 1s linear infinite alternate
 	pointer-events none
