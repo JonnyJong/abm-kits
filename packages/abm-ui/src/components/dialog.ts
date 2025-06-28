@@ -203,6 +203,7 @@ export class Dialog<ID extends string = string>
 		// Actions
 		this.actions = options.actions;
 		this.autoHide = !!options.autoHide;
+		this.#observer.observe(this.#actionsElement);
 		// Theme
 		this.theme = options.theme;
 	}
@@ -251,6 +252,13 @@ export class Dialog<ID extends string = string>
 		updateDelay: 50,
 		creatable: true,
 	});
+	#updateActionsHeight = () => {
+		this.#dialog.style.setProperty(
+			'--ui-dialog-actions-height',
+			`${Math.max(this.#actionsElement.offsetHeight, this.#actionsElement.getBoundingClientRect().height)}px`,
+		);
+	};
+	#observer = new ResizeObserver(this.#updateActionsHeight);
 	/** 对话框按钮 */
 	get actions() {
 		return this.#actions.items;
@@ -332,6 +340,7 @@ export class Dialog<ID extends string = string>
 			break;
 		}
 		navigate.addLayer(this.#dialog, element);
+		setTimeout(this.#updateActionsHeight, 900);
 	}
 	/** 隐藏对话框 */
 	hide() {
