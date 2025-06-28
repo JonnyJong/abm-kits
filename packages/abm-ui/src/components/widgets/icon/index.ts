@@ -84,6 +84,7 @@ export class WidgetIcon extends Widget {
 		return this.#keyUI;
 	}
 	set keyUI(value) {
+		this.#initialized = true;
 		if (!DEFAULTS_ICONS_NAMES.includes(value!)) value = undefined;
 		if (this.#keyUI === value) return;
 		if (this.#keyUI)
