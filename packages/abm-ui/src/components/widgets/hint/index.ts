@@ -73,11 +73,9 @@ function update(value: OperateType) {
 //#region Widget
 @customElement('w-hint')
 export class WidgetHint extends Widget {
-	#root = this.createRenderRoot();
 	#slot = $new('slot', { attr: { name: 'mouse' } });
-	constructor() {
-		super();
-		this.#root.append(this.#slot);
+	protected render(): unknown {
+		return this.#slot;
 	}
 	connectedCallback(): void {
 		super.connectedCallback();

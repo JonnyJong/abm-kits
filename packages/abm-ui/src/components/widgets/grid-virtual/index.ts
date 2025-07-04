@@ -389,7 +389,6 @@ export class WidgetGridVirtual<
 	implements Navigable
 {
 	static styles = css(CSS);
-	#root = this.createRenderRoot();
 	#container = $div({ class: 'container' });
 	#content = $div({ class: 'content' }, this.#container);
 	#resizeObserver = new ResizeObserver(() => {
@@ -401,7 +400,6 @@ export class WidgetGridVirtual<
 	});
 	constructor() {
 		super({ navGroup: true });
-		this.#root.append(this.#content);
 		this.#resizeObserver.observe(this.#content);
 		this.#intersectionObserver.observe(this);
 		this.#updateRect();
@@ -776,6 +774,9 @@ export class WidgetGridVirtual<
 			offset += lineHeight + this.#vGap;
 			if (offset - 100 > bottom) return;
 		}
+	}
+	protected render() {
+		return this.#content;
 	}
 	//#region Nav
 	get navChildren() {

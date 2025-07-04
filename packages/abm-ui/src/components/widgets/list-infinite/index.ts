@@ -87,7 +87,6 @@ export class WidgetListInfinite<
 	implements Navigable
 {
 	static styles = css(CSS);
-	#root = this.createRenderRoot();
 	#topBoundaryContainer = $div({ class: 'boundary-content' });
 	#bottomBoundaryContainer = $div({ class: 'boundary-content' });
 	#topBoundaryIndicator = $div(
@@ -113,11 +112,6 @@ export class WidgetListInfinite<
 	#prevScroll = NaN;
 	constructor() {
 		super({ navGroup: true });
-		this.#root.append(
-			this.#topBoundaryIndicator,
-			this.#container,
-			this.#bottomBoundaryIndicator,
-		);
 		this.addEventListener('scroll', () => {
 			const scroll = this.scrollTop;
 			if (this.#prevScroll === scroll) return;
@@ -125,6 +119,13 @@ export class WidgetListInfinite<
 			this.#prevScroll = scroll;
 		});
 		this.#observer.observe(this);
+	}
+	protected render() {
+		return [
+			this.#topBoundaryIndicator,
+			this.#container,
+			this.#bottomBoundaryIndicator,
+		];
 	}
 	/** 顶部边界提示内容 */
 	get topBoundaryContent(): NodeListOf<ChildNode> {

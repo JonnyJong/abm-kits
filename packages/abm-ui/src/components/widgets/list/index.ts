@@ -11,7 +11,6 @@ import {
 	callTask,
 	css,
 	shift,
-	sleep,
 } from 'abm-utils';
 import { customElement, property } from 'lit/decorators.js';
 import { events, UIEventActive, UIEventSlide } from '../../../events';
@@ -283,7 +282,6 @@ export class WidgetList<
 	implements Navigable, Slidable
 {
 	static styles = css(CSS);
-	#root = this.createRenderRoot();
 	#resizeObserver = new ResizeObserver(() => this.#updateLayout());
 	constructor() {
 		super({
@@ -368,9 +366,12 @@ export class WidgetList<
 		offset += parseFloat(paddingBottom);
 		this.style.height = `${offset}px`;
 	}
+	protected render() {
+		return this.#items.instances;
+	}
 	async #updateView() {
-		this.#root.replaceChildren(...this.#items.instances);
-		await sleep(0);
+		this.requestUpdate();
+		await super.updateComplete;
 		this.#updateLayout();
 	}
 	//#region Properties
