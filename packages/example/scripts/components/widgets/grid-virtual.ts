@@ -16,7 +16,7 @@ class TestGridVirtualItem extends WidgetGridVirtualItem<string> {
 		}
 	`;
 	constructor() {
-		super(undefined, false, false);
+		super();
 		this.viewHeight = Math.random() * 48 + 24;
 		this.viewWidth = Math.min(innerWidth / 2 - 36, 150);
 	}
