@@ -601,6 +601,18 @@ export class WidgetList<
 		}
 		this.events.emit(new EventBase('select', { target: this }));
 	}
+	/** 获取选中的数据 */
+	getSelected(): Data[] {
+		return this.#items.instances
+			.filter((e) => e.classList.contains(CLASS_SELECTED))
+			.map((e) => e.data);
+	}
+	/** 获取选中的下标 */
+	getSelectedIndex(): number[] {
+		return this.#items.instances
+			.map((e, i) => (e.classList.contains(CLASS_SELECTED) ? i : -1))
+			.filter((i) => i !== -1);
+	}
 	//#region Others
 	/**
 	 * 根据条件隐藏列表中的元素
