@@ -89,6 +89,11 @@ import {
 	WidgetProgressRing,
 } from './components/widgets/progress';
 import {
+	WidgetRange,
+	WidgetRangeEvents,
+	WidgetRangeProp,
+} from './components/widgets/range';
+import {
 	WidgetSelect,
 	WidgetSelectEvents,
 	WidgetSelectProp,
@@ -179,6 +184,7 @@ export * from './components/widgets/list-infinite';
 export * from './components/widgets/grid-data';
 export * from './components/widgets/label';
 export * from './components/widgets/file';
+export * from './components/widgets/range';
 
 // Utils
 export interface WidgetTagNameMap {
@@ -212,6 +218,7 @@ export interface WidgetTagNameMap {
 	'w-grid-data': WidgetGridData;
 	'w-label': WidgetLabel;
 	'w-file': WidgetFile;
+	'w-range': WidgetRange;
 }
 export type WidgetTagForType<E> = {
 	[K in keyof WidgetTagNameMap]: E extends WidgetTagNameMap[K] ? K : never;
@@ -246,6 +253,7 @@ export interface WidgetsPropMap {
 	'w-list-infinite': WidgetListInfiniteProp;
 	'w-label': WidgetLabelProp;
 	'w-file': WidgetFileProp;
+	'w-range': WidgetRangeProp;
 }
 export interface WidgetsEventsMap {
 	'w-btn': WidgetBtnEvents;
@@ -263,6 +271,7 @@ export interface WidgetsEventsMap {
 	'w-color-picker': WidgetColorPickerEvents;
 	'w-color': WidgetColorEvents;
 	'w-file': WidgetFileEvents;
+	'w-range': WidgetRangeEvents;
 }
 declare module 'abm-utils' {
 	type PropForType<E extends Widget> =

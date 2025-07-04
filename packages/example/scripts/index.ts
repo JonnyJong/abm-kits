@@ -24,6 +24,7 @@ import { initList } from './components/widgets/list';
 import { initListInfinite } from './components/widgets/list-infinite';
 import { initNav } from './components/widgets/nav';
 import { initProg } from './components/widgets/progress';
+import { initRange } from './components/widgets/range';
 import { initSelect } from './components/widgets/select';
 import { initSlider } from './components/widgets/slider';
 import { initSlider2D } from './components/widgets/slider-2d';
@@ -170,4 +171,5 @@ document.addEventListener('DOMContentLoaded', () => {
 	initListInfinite();
 	initGridData();
 	initFile();
+	initRange();
 });
