@@ -566,15 +566,20 @@ export class WidgetList<
 		const type = this.selectType;
 		if (!type) return;
 		// Single
-		if (type === 'single') return this.#selectSingle(item);
+		if (type === 'single') {
+			this.#selectSingle(item);
+			this.events.emit(new EventBase('select', { target: this }));
+			return;
+		}
 		// Multi
 		const multi = keyboard.isAliasActivated('ui.selectMulti');
 		const range = keyboard.isAliasActivated('ui.selectRange');
 		// Multi: single
 		if (!range) {
 			this.#prevSelect = new WeakRef(item);
-			if (!multi) return this.#selectSingle(item);
-			item.classList.toggle(CLASS_SELECTED);
+			if (multi) item.classList.toggle(CLASS_SELECTED);
+			else this.#selectSingle(item);
+			this.events.emit(new EventBase('select', { target: this }));
 			return;
 		}
 		// Multi: range
@@ -582,6 +587,7 @@ export class WidgetList<
 		if (!from) {
 			this.#prevSelect = new WeakRef(item);
 			item.classList.toggle(CLASS_SELECTED);
+			this.events.emit(new EventBase('select', { target: this }));
 			return;
 		}
 		if (!multi) this.#selectSingle();
@@ -593,6 +599,7 @@ export class WidgetList<
 			if (element.classList.contains(CLASS_FILTERED)) continue;
 			element.classList.toggle(CLASS_SELECTED, add);
 		}
+		this.events.emit(new EventBase('select', { target: this }));
 	}
 	//#region Others
 	/**

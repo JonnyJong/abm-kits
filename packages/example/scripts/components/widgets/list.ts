@@ -13,7 +13,7 @@ class TestListItem extends WidgetListItem<string> implements Navigable {
 	`;
 	#str = $div();
 	constructor() {
-		super(undefined, true);
+		super({ nav: true });
 		this.dragHandle = this;
 		this.activeTrigger = this;
 		this.selectTrigger = this;
@@ -56,7 +56,7 @@ export function initList() {
 				options: [null, 'single', 'multi'],
 			},
 		],
-		['active', 'sort'],
+		['active', 'sort', 'select'],
 		[
 			[
 				$new('w-btn', {
