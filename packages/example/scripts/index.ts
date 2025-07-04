@@ -6,7 +6,7 @@ import {
 } from 'abm-ui';
 import * as UI from 'abm-ui';
 import * as Utils from 'abm-utils';
-import { $$, LocaleDict, defineTranslation as dt } from 'abm-utils';
+import { $$, $ready, LocaleDict, defineTranslation as dt } from 'abm-utils';
 import { initDialog } from './components/dialog';
 import { initTooltips } from './components/tooltips';
 import { initBtn } from './components/widgets/btn';
@@ -145,7 +145,7 @@ defaultLocale.loader = (locale) => LOCALE_DICTS[locale] ?? null;
 
 //#region Components
 //#region Widgets
-document.addEventListener('DOMContentLoaded', () => {
+$ready(() => {
 	initSettings();
 	initEvents();
 	initKeyboard();
