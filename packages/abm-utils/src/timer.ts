@@ -315,3 +315,42 @@ export class SerialExecutor<Args extends any[], Result> {
 		});
 	}
 }
+
+/** 计时器 */
+export class Timer {
+	#duration = 0;
+	#time = 0;
+	/** 时长 */
+	get duration() {
+		if (this.#time) return this.#duration + (Date.now() - this.#time);
+		return this.#duration;
+	}
+	set duration(value) {
+		this.#duration = value;
+		if (this.#time) this.#time = Date.now();
+	}
+	/** 开始/继续 */
+	start(): boolean {
+		if (this.#time) return false;
+		this.#time = Date.now();
+		return true;
+	}
+	/** 暂停 */
+	pause(): boolean {
+		if (!this.#time) return false;
+		this.#duration += Date.now() - this.#time;
+		this.#time = 0;
+		return true;
+	}
+	/** 停止并清零 */
+	clear(): boolean {
+		if (this.#time === 0 && this.#duration === 0) return false;
+		this.#time = 0;
+		this.#duration = 0;
+		return true;
+	}
+	/** 是否正在运行 */
+	get isRunning() {
+		return this.#time;
+	}
+}
