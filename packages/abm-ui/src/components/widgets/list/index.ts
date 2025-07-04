@@ -359,7 +359,7 @@ export class WidgetList<
 			if (item.classList.contains(CLASS_FILTERED)) continue;
 
 			const minHeight = item.viewMinSize;
-			let { height } = item.getBoundingClientRect();
+			let height = item.offsetHeight;
 			if (Number.isFinite(minHeight!)) height = Math.max(height, minHeight!);
 
 			if (!item.classList.contains(CLASS_DRAGGING)) item.style.top = `${offset}px`;

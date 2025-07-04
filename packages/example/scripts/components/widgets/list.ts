@@ -1,11 +1,11 @@
-import { events, Navigable, WidgetList, WidgetListItem } from 'abm-ui';
+import { events, Dialog, Navigable, WidgetList, WidgetListItem } from 'abm-ui';
 import { $div, $new, shuffle } from 'abm-utils';
 import { css } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { $panel } from '../../utils';
 
 @customElement('test-list-item')
-class TestListItem extends WidgetListItem<string> implements Navigable {
+export class TestListItem extends WidgetListItem<string> implements Navigable {
 	static styles = css`
 		:host { display: flex; align-items: center; gap: 4px; }
 		:host([ui-hover]) { background: #0004 }
@@ -74,6 +74,18 @@ export function initList() {
 				$new('w-btn', {
 					content: 'Reduce',
 					on: { active: () => list.items.pop() },
+				}),
+				$new('w-btn', {
+					content: 'Create In Dialog',
+					on: {
+						active() {
+							const list = $new<WidgetList<string>, {}>('w-list');
+							list.itemClass = TestListItem;
+							list.items = ['Item 1', 'Item 2', 'Item 3'];
+							list.sortable = true;
+							Dialog.alert({ title: 'List In Dialog', content: list });
+						},
+					},
 				}),
 			],
 		],
