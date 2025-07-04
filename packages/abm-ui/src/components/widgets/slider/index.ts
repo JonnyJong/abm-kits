@@ -289,6 +289,7 @@ export class WidgetSlider
 		node.from = this.#from;
 		node.to = this.#to;
 		node.step = this.#step;
+		node.incrementStep = this.#incrementStep;
 		node.value = this.#value;
 		node.disabled = this.disabled;
 

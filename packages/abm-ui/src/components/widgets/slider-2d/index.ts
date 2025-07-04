@@ -356,10 +356,12 @@ export class WidgetSlider2D
 		node.minX = this.#minX;
 		node.maxX = this.#maxX;
 		node.stepX = this.#stepX;
+		node.incrementStepX = this.#incrementStepX;
 		node.x = this.#x;
 		node.minY = this.#minY;
 		node.maxY = this.#maxY;
 		node.stepY = this.#stepY;
+		node.incrementStepY = this.#incrementStepY;
 		node.y = this.#y;
 		node.disabled = this.disabled;
 

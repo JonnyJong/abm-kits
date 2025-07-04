@@ -313,6 +313,7 @@ export class WidgetNumber
 		node.min = this.min;
 		node.max = this.max;
 		node.step = this.step;
+		node.incrementStep = this.#incrementStep;
 		node.autoFill = this.autoFill;
 		node.expressionEvaluator = this.expressionEvaluator;
 
