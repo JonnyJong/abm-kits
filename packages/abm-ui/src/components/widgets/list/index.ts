@@ -71,19 +71,14 @@ export interface WidgetListProp<
 	selectType?: WidgetListSelectType;
 	/** 列表元素初始化 */
 	initItem?: (item: Item) => any;
+	/** 排序启动延迟 */
+	sortStartDelay?: number;
 }
 
 const CLASS_DRAGGING = 'w-list-dragging';
 const CLASS_FILTERED = 'w-list-filtered';
 const CLASS_SELECTED = 'w-list-selected';
 const SELECT_TYPES = ['single', 'multi'];
-// const SCROLL_OPTIONS: ScrollIntoViewOptions = {
-// 	block: 'center',
-// 	inline: 'center',
-// 	behavior: 'smooth',
-// };
-// const SLIDE_START_OFFSET = 4;
-const SORT_START_TIME = 1000;
 
 //#region #Item
 /** 列表元素类基类 */
@@ -196,7 +191,7 @@ export abstract class WidgetListItem<
 				events.active.cancel(this.#dragHandle!);
 				this.#host.emitSortStart(this, identifier, position);
 				this.#clearSortTimer();
-			}, SORT_START_TIME);
+			}, this.#host.sortStartDelay);
 			return;
 		}
 		if (cancel || active === false) {
@@ -403,6 +398,17 @@ export class WidgetList<
 		this.toggleAttribute('sortable', !!value);
 		if (value) return;
 		this.emitSortEnd();
+	}
+	#sortStartDelay = 1000;
+	/** 排序启动延迟 */
+	@property({ type: Number })
+	get sortStartDelay() {
+		return this.#sortStartDelay;
+	}
+	set sortStartDelay(value) {
+		if (!Number.isFinite(value)) return;
+		if (value < 0) value = 0;
+		this.#sortStartDelay = value;
 	}
 	/**
 	 * 列表选择类型

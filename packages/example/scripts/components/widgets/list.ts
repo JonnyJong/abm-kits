@@ -55,6 +55,10 @@ export function initList() {
 				key: 'selectType',
 				options: [null, 'single', 'multi'],
 			},
+			{
+				type: 'number',
+				key: 'sortStartDelay',
+			},
 		],
 		['active', 'sort', 'select'],
 		[
