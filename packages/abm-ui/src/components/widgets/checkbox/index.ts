@@ -1,4 +1,4 @@
-import { EventValue, EventValueInit, EventsList, css } from 'abm-utils';
+import { $div, EventValue, EventValueInit, EventsList, css } from 'abm-utils';
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { events, UIEventActive } from '../../../events';
@@ -17,6 +17,8 @@ export interface WidgetCheckboxEvents
 export interface WidgetCheckboxProp {
 	/** 选中 */
 	checked?: boolean;
+	/** 中间状态 */
+	indeterminate?: boolean;
 	/** 禁用 */
 	disabled?: boolean;
 }
@@ -28,6 +30,7 @@ export class WidgetCheckbox
 	implements Navigable
 {
 	static styles = css(CSS);
+	#indeterminateIndicator = $div({ class: 'indicator' });
 	constructor() {
 		super({
 			eventTypes: ['change'],
@@ -42,16 +45,20 @@ export class WidgetCheckbox
 			<svg width="12" height="9" fill="none" viewBox="0 0 12 9">
 				<path d="M 0.99038251,4.9854434 4.0129808,8.0145144 11.009617,0.98551681"></path>
 			</svg>
+			${this.#indeterminateIndicator}
 		`;
 	}
 	/** 选中 */
 	@property({ type: Boolean, reflect: true }) accessor checked = false;
+	/** 中间状态 */
+	@property({ type: Boolean, reflect: true }) accessor indeterminate = false;
 	/** 禁用 */
 	@property({ type: Boolean, reflect: true }) accessor disabled = false;
 	#activeHandler(event: UIEventActive) {
 		if (this.disabled) return;
 		if (event.cancel || event.active) return;
 		this.checked = !this.checked;
+		this.indeterminate = false;
 		this.events.emit(
 			new EventValue('change', {
 				target: this,

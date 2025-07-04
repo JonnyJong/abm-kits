@@ -1,16 +1,24 @@
 :host
+	position relative
 	display block
 	width 24px
 	height 24px
 	border 1px solid var(--w-checkbox-border)
 	border-radius var(--ui-border-radius)
 	transition .1s background
+	&[indeterminate]
 	&[checked]
 		background var(--theme-ac)
 		--w-checkbox-hover-bg var(--theme)
 		--w-checkbox-active-bg var(--theme-aa)
 		svg
 			stroke-dashoffset 0
+	&[indeterminate]
+		svg
+			stroke-dashoffset 15
+		.indicator
+			left 10%
+			width 80%
 	&:not([disabled])
 		&[ui-hover]
 			background var(--w-checkbox-hover-bg)
@@ -30,3 +38,13 @@ svg
 	stroke-linejoin round
 	stroke-dasharray 15
 	stroke-dashoffset 15
+
+.indicator
+	position absolute
+	top calc(50% - 1px)
+	left 50%
+	width 0%
+	height 2px
+	border-radius var(--ui-border-radius)
+	background var(--theme-text)
+	transition .1s width, .1s left

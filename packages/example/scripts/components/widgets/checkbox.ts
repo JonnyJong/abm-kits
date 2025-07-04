@@ -14,6 +14,10 @@ export function initCheckbox() {
 			},
 			{
 				type: 'boolean',
+				key: 'indeterminate',
+			},
+			{
+				type: 'boolean',
 				key: 'disabled',
 			},
 		],
