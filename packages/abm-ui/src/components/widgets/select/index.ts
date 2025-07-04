@@ -83,7 +83,8 @@ class WidgetSelectItem<
 		});
 	}
 	set label(value: DOMContents) {
-		this.#root.replaceChildren(...asArray(value));
+		if (value === undefined) this.#root.replaceChildren(String(this.value));
+		else this.#root.replaceChildren(...asArray(value));
 		if (!this.parentNode) return;
 		this.updateLabel([...(this.parentNode as ShadowRoot).children].indexOf(this));
 	}
