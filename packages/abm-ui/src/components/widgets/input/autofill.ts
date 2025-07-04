@@ -21,7 +21,7 @@ import {
 	WidgetInputValue,
 } from './base';
 
-interface WidgetInputAutoFillItemValue<Value extends WidgetInputValue> {
+export interface WidgetInputAutoFillItemValue<Value extends WidgetInputValue> {
 	id: string;
 	/**
 	 * 应用该自动填充项目时：
@@ -35,7 +35,7 @@ interface WidgetInputAutoFillItemValue<Value extends WidgetInputValue> {
 	label?: DOMContents;
 }
 
-interface WidgetInputAutoFillItemLabel<Value extends WidgetInputValue> {
+export interface WidgetInputAutoFillItemLabel<Value extends WidgetInputValue> {
 	id: string;
 	/**
 	 * 应用该自动填充项目时：
@@ -49,7 +49,7 @@ interface WidgetInputAutoFillItemLabel<Value extends WidgetInputValue> {
 	label: DOMContents;
 }
 
-type WidgetInputAutoFillItemObject<Value extends WidgetInputValue> =
+export type WidgetInputAutoFillItemObject<Value extends WidgetInputValue> =
 	| WidgetInputAutoFillItemValue<Value>
 	| WidgetInputAutoFillItemLabel<Value>;
 
