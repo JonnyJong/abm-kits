@@ -186,6 +186,10 @@ export * from './components/widgets/label';
 export * from './components/widgets/file';
 export * from './components/widgets/range';
 
+// Prefabs
+export * from './prefabs/base';
+export * from './prefabs/slider-input';
+
 // Utils
 export interface WidgetTagNameMap {
 	'w-lang': WidgetLang;
