@@ -72,7 +72,7 @@ export interface DialogConfirmInit extends DialogInitBase {
 	actions?: (Partial<DialogActionInit> | undefined | null)[];
 }
 
-export interface DialogOKInit extends DialogInitBase {
+export interface DialogAlertInit extends DialogInitBase {
 	/** 对话框按钮 */
 	actions?: (Partial<DialogActionInit> | undefined | null)[];
 }
@@ -410,7 +410,9 @@ export class Dialog<ID extends string = string>
 		return promise;
 	}
 	/** 提示对话框 */
-	static alert(options: DialogOKInit): Promise<void> & { dialog: Dialog<'ok'> } {
+	static alert(
+		options: DialogAlertInit,
+	): Promise<void> & { dialog: Dialog<'ok'> } {
 		const dialog = new Dialog({
 			autoHide: true,
 			...options,
