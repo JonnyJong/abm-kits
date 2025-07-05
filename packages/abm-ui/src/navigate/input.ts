@@ -90,6 +90,7 @@ export function initInput({
 	//#region Gamepad
 	const gameController = GameController.getInstance(0);
 	gameController.on('ls', () => {
+		if (navigate.blockGameController) return;
 		const vec = gameController.ls;
 		let direction = vec.direction;
 		if (vec.length < GAME_CONTROLLER_SWITCH_DEAD_ZONE) direction = undefined;
@@ -99,12 +100,14 @@ export function initInput({
 		leftController[direction === 'left' ? 'start' : 'stop']();
 	});
 	gameController.on('arrow', () => {
+		if (navigate.blockGameController) return;
 		upController[gameController.up ? 'start' : 'stop']();
 		rightController[gameController.right ? 'start' : 'stop']();
 		downController[gameController.down ? 'start' : 'stop']();
 		leftController[gameController.left ? 'start' : 'stop']();
 	});
 	gameController.on('a', () => {
+		if (navigate.blockGameController) return;
 		const { root, current } = getTarget();
 		callback({ active: gameController.a }, root);
 		if (!current) return;
@@ -115,6 +118,7 @@ export function initInput({
 		);
 	});
 	gameController.on('b', () => {
+		if (navigate.blockGameController) return;
 		const { root, current } = getTarget();
 		callback({ cancel: gameController.b }, root);
 		if (!current) return;

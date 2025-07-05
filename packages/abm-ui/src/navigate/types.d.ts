@@ -65,6 +65,8 @@ export interface INavigate extends IEventSource<NavigateEventsInit> {
 	nav(direction: NavDirection): void;
 	/** 屏蔽键盘输入 */
 	blockKeyboard: boolean;
+	/** 屏蔽游戏控制器输入 */
+	blockGameController: boolean;
 	/** 当前聚焦元素 */
 	get current(): HTMLElement | null;
 	set current(value: HTMLElement);

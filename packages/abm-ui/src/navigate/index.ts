@@ -175,6 +175,7 @@ class Navigate implements INavigate {
 		});
 	}
 	blockKeyboard = false;
+	blockGameController = false;
 }
 
 export const navigate = new Navigate();
