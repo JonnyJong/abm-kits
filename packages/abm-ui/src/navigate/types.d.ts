@@ -63,11 +63,17 @@ export interface INavigate extends IEventSource<NavigateEventsInit> {
 	 * Navigate to the next element
 	 */
 	nav(direction: NavDirection): void;
+	/** 屏蔽键盘输入 */
 	blockKeyboard: boolean;
+	/** 当前聚焦元素 */
 	get current(): HTMLElement | null;
 	set current(value: HTMLElement);
+	/** 锁定/解锁聚焦元素 */
 	lock(value: HTMLElement | null): void;
+	/** 获取当前锁定元素 */
 	get locking(): boolean;
+	/** 添加导航层 */
 	addLayer(root: Navigable, current?: Navigable): void;
+	/** 移除导航层 */
 	rmLayer(root: Navigable): boolean;
 }
