@@ -11,6 +11,7 @@ export function initDialog() {
 		style: { width: '100%', maxHeight: 'min(50vh, 300px)' },
 	});
 	const color = $new('w-color', { id: 'dev-dialog-color' });
+	const maskAction = $new('w-text', { id: 'dev-dialog-mask' });
 
 	const normal = $new<WidgetBtn, {}>('w-btn', {
 		prop: { key: 'dev.components.dialog.normal' },
@@ -27,6 +28,7 @@ export function initDialog() {
 			],
 			autoHide: true,
 			theme: color.value,
+			maskAction: maskAction.value === '' ? undefined : maskAction.value,
 		}).show();
 	});
 	const confirm = $new<WidgetBtn, {}>('w-btn', {
@@ -37,6 +39,7 @@ export function initDialog() {
 			title: title.value,
 			content: $div({ html: content.value }),
 			theme: color.value,
+			maskAction: maskAction.value === '' ? undefined : (maskAction.value as any),
 		});
 	});
 	const alert = $new<WidgetBtn, {}>('w-btn', {
@@ -47,6 +50,7 @@ export function initDialog() {
 			title: title.value,
 			content: $div({ html: content.value }),
 			theme: color.value,
+			maskAction: maskAction.value === '' ? undefined : (maskAction.value as any),
 		});
 	});
 
@@ -69,6 +73,12 @@ export function initDialog() {
 			$new('w-lang', 'dev.components.dialog.color'),
 		),
 		color,
+		$new(
+			'w-label',
+			{ prop: { for: 'dev-dialog-mask' } },
+			$new('w-lang', 'dev.components.dialog.mask_action'),
+		),
+		maskAction,
 		$div({ attr: { 'ui-layout': 'flow' } }, normal, confirm, alert),
 	);
 }

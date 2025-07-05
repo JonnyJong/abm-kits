@@ -14,11 +14,12 @@ import {
 	sleep,
 } from 'abm-utils';
 import { configs } from '../configs';
+import { events } from '../events';
 import { navigate } from '../navigate';
 import { UIContent, UIContentInit } from './content';
 import { WidgetBtn, WidgetBtnState } from './widgets/btn';
 
-export interface DialogInitBase {
+export interface DialogInitBase<ID extends string = string> {
 	/** 对话框标题 */
 	title: string | UIContentInit | UIContent;
 	/** 对话框内容 */
@@ -27,6 +28,8 @@ export interface DialogInitBase {
 	autoHide?: boolean;
 	/** 对话框主题色 */
 	theme?: Color | string;
+	/** 点击遮罩时触发的 action ID  */
+	maskAction?: ID;
 }
 
 export interface DialogActionInit<ID extends string = string> {
@@ -62,17 +65,19 @@ export interface DialogActionInit<ID extends string = string> {
 	size?: number | 'auto' | 'max-content' | (string & {});
 }
 
-export interface DialogInit<ID extends string = string> extends DialogInitBase {
+export interface DialogInit<ID extends string = string>
+	extends DialogInitBase<ID> {
 	/** 对话框按钮 */
 	actions: DialogActionInit<ID>[];
 }
 
-export interface DialogConfirmInit extends DialogInitBase {
+export interface DialogConfirmInit
+	extends DialogInitBase<'confirm' | 'cancel'> {
 	/** 对话框按钮 */
 	actions?: (Partial<DialogActionInit> | undefined | null)[];
 }
 
-export interface DialogAlertInit extends DialogInitBase {
+export interface DialogAlertInit extends DialogInitBase<'ok'> {
 	/** 对话框按钮 */
 	actions?: (Partial<DialogActionInit> | undefined | null)[];
 }
@@ -203,9 +208,18 @@ export class Dialog<ID extends string = string>
 		// Actions
 		this.actions = options.actions;
 		this.autoHide = !!options.autoHide;
+		this.maskAction = options.maskAction;
 		this.#observer.observe(this.#actionsElement);
 		// Theme
 		this.theme = options.theme;
+		// Mask
+		events.active.on(this.#filter, ({ active, cancel }) => {
+			if (active || cancel) return;
+			const action = this.actions.find((a) => a.id === this.maskAction);
+			if (!action) return;
+			if (action.disabled) return;
+			this.#emit(this.maskAction!);
+		});
 	}
 	//#region Title
 	#titleElement = $div({ class: 'ui-dialog-title' });
@@ -235,7 +249,10 @@ export class Dialog<ID extends string = string>
 		this.#content.replaceChildren(...asArray(value));
 	}
 	//#region Actions
+	/** 按钮激活时关闭对话框 */
 	autoHide = false;
+	/** 点击遮罩时触发的 action ID  */
+	maskAction?: ID;
 	#actionsElement = $div({ class: 'ui-dialog-actions' });
 	#updateActions = () => {
 		this.#actionsElement.replaceChildren(

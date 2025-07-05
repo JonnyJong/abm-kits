@@ -55,6 +55,7 @@ declare module 'abm-ui' {
 					normal: string;
 					confirm: string;
 					alert: string;
+					mask_action: string;
 				};
 			};
 			widgets: {
@@ -86,6 +87,7 @@ const LOCALE_DICTS: Record<string, UIDefaultLocaleDict> = {
 					normal: '创建普通对话框',
 					confirm: '创建确认对话框',
 					alert: '创建警告对话框',
+					mask_action: '点击遮罩时触发的 action ID',
 				},
 			},
 			widgets: {
@@ -114,6 +116,7 @@ const LOCALE_DICTS: Record<string, UIDefaultLocaleDict> = {
 					normal: 'Create Normal Dialog',
 					confirm: 'Create Confirm Dialog',
 					alert: 'Create Alert Dialog',
+					mask_action: 'The action ID that is triggered when the mask is clicked',
 				},
 			},
 			widgets: {
