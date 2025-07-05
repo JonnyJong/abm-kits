@@ -1,12 +1,7 @@
-import {
-	DEFAULT_LOCALE_DICTS,
-	UIDefaultLocaleDict,
-	configs,
-	defaultLocale,
-} from 'abm-ui';
+import { configs } from 'abm-ui';
 import * as UI from 'abm-ui';
 import * as Utils from 'abm-utils';
-import { $$, $ready, LocaleDict, defineTranslation as dt } from 'abm-utils';
+import { $$, $ready } from 'abm-utils';
 import { initDialog } from './components/dialog';
 import { initTooltips } from './components/tooltips';
 import { initBtn } from './components/widgets/btn';
@@ -31,6 +26,7 @@ import { initSlider2D } from './components/widgets/slider-2d';
 import { initSwitch } from './components/widgets/switch';
 import { initEvents } from './events';
 import { initKeyboard } from './keyboard';
+import { initLocale } from './locales';
 import { initSettings } from './settings';
 
 //#region Export
@@ -38,95 +34,6 @@ import { initSettings } from './settings';
 (window as any).Utils = Utils;
 
 //#region Configs
-declare module 'abm-ui' {
-	export interface UIDefaultLocaleDict extends LocaleDict {
-		dev: {
-			properties: string;
-			events: string;
-			ops: string;
-			widget: { select: [string, { i?: Intl.NumberFormatOptions }] };
-			empty: '';
-			components: {
-				tooltips: { content: string };
-				dialog: {
-					title: string;
-					content: string;
-					color: string;
-					normal: string;
-					confirm: string;
-					alert: string;
-					mask_action: string;
-				};
-			};
-			widgets: {
-				file: {
-					placeholder: string;
-				};
-			};
-		};
-	}
-}
-
-const LOCALE_DICTS: Record<string, UIDefaultLocaleDict> = {
-	zh: {
-		...DEFAULT_LOCALE_DICTS.zh,
-		dev: {
-			properties: '属性',
-			events: '事件',
-			ops: '操作',
-			widget: {
-				select: dt('选项 {i}', {}),
-			},
-			empty: '',
-			components: {
-				tooltips: { content: '工具提示内容' },
-				dialog: {
-					title: '标题',
-					content: '内容（HTML）',
-					color: '主题色',
-					normal: '创建普通对话框',
-					confirm: '创建确认对话框',
-					alert: '创建警告对话框',
-					mask_action: '点击遮罩时触发的 action ID',
-				},
-			},
-			widgets: {
-				file: {
-					placeholder: '点击此处选择文件或将文件拖入此处以添加文件',
-				},
-			},
-		},
-	},
-	en: {
-		...DEFAULT_LOCALE_DICTS.en,
-		dev: {
-			properties: 'Properties',
-			events: 'Events',
-			ops: 'Operations',
-			widget: {
-				select: dt('Option {i}', {}),
-			},
-			empty: '',
-			components: {
-				tooltips: { content: 'Tooltips content' },
-				dialog: {
-					title: 'Title',
-					content: 'Content (HTML)',
-					color: 'Theme color',
-					normal: 'Create Normal Dialog',
-					confirm: 'Create Confirm Dialog',
-					alert: 'Create Alert Dialog',
-					mask_action: 'The action ID that is triggered when the mask is clicked',
-				},
-			},
-			widgets: {
-				file: {
-					placeholder: 'Click here to select files or drag files here to add files',
-				},
-			},
-		},
-	},
-};
 
 configs.init({
 	icon: $$<HTMLLinkElement>('link[rel="stylesheet"]')
@@ -144,7 +51,7 @@ configs.init({
 	},
 });
 
-defaultLocale.loader = (locale) => LOCALE_DICTS[locale] ?? null;
+initLocale();
 
 //#region Components
 //#region Widgets
