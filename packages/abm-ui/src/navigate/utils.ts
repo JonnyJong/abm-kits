@@ -131,7 +131,8 @@ function NavItemFilter(from?: any) {
 	const SAME = (item: Element) => item === from;
 	const NAVIGABLE = (item: Element) =>
 		!(item as Navigable).nonNavigable &&
-		(item.clientHeight !== 0 || item.clientWidth !== 0);
+		(((item as HTMLElement).offsetHeight ?? item.clientHeight) !== 0 ||
+			((item as HTMLElement).offsetWidth ?? item.clientWidth) !== 0);
 	const IS_NAV_ITEM = (item: Element) => item.hasAttribute('ui-nav');
 	// Group Check
 	const IS_GROUP_DIRECT = (item: Element) =>
