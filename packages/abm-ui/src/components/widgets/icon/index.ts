@@ -103,7 +103,7 @@ export class WidgetIcon extends Widget {
 		return html`<div class="${this.namespace} ${this.namespace}-${this.key}"></div>`;
 	}
 	cloneNode(deep?: boolean): WidgetIcon {
-		const node = this.cloneNode(deep) as WidgetIcon;
+		const node = super.cloneNode(deep) as WidgetIcon;
 		if (!this.#initialized) this.#updateKey();
 		node.namespace = this.#namespace;
 		node.key = this.#key;
