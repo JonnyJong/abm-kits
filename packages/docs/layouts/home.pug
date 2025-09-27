@@ -1,0 +1,39 @@
+doctype html
+html(lang=language)
+	head
+		meta(charset="UTF-8")
+		meta(name="viewport", content="width=device-width, initial-scale=1.0")
+		title=title
+		link(rel="shortcut icon" href="/abm-kits/favicon.png")
+		link#assets-icon(rel="stylesheet" href="/abm-kits/icon/icon.css")
+		link(rel="stylesheet" href="/abm-kits/deps/abm.css")
+		link(rel="stylesheet" href="/abm-kits/main.css")
+		link(rel="stylesheet" href="/abm-kits/doc.css")
+		link(rel="stylesheet" href="/abm-kits/index.css")
+		script!=localeJS
+		script!=languagesJS
+		script(src="/abm-kits/deps/abm.js")
+		script(src="/abm-kits/main.js")
+		script(src="/abm-kits/doc.js")
+		script(src="/abm-kits/index.js")
+	body
+		include include/nav
+		include include/aside
+		main
+			header
+				picture
+					source(media="(prefers-color-scheme: dark)" srcset="/abm-kits/banner.svg")
+					source(media="(prefers-color-scheme: light)" srcset="/abm-kits/banner.light.svg")
+					img(src="/abm-kits/icon.svg" alt="ABM Icon" width="100%" style="padding-top:var(--ui-safe-top)")
+				h1=title
+				#source(data-list=JSON.stringify(source))
+			article
+				ul.docs
+					each item in [...lang.items.values()]
+						if (item.data.layout !== 'home')
+							li.doc-item
+								a(href="/abm-kits/" + language + "/" + item.data.url)
+									if item.data.icon
+										w-icon.doc-icon(key=item.data.icon)
+									.doc-title=item.data.title
+				!=content

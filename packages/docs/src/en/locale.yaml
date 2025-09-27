@@ -1,0 +1,29 @@
+ui:
+  confirm: Confirm
+  cancel: Cancel
+  ok: OK
+  color_picker: Color Picker
+  alpha: Alpha
+  red: Red
+  green: Green
+  blue: Blue
+  hue: Hue
+  saturation: Saturation
+  lightness: Lightness
+  file:
+    pick: Pick Files
+    add: Add Files
+    clear: Remove All Files
+
+nav:
+  color: Theme Color
+  schema: Color Schema
+  lang: Language
+
+schema:
+  system: System
+  light: Light
+  dark: Dark
+
+demo:
+  missing: No matching DEMO!

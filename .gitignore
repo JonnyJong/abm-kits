@@ -1,7 +1,9 @@
 node_modules
 dist
 cache
-packages/icons/node
-packages/icons/icons.sqlite
-packages/icons/projects.json
-demo
+/packages/icons/node
+/packages/icons/icons.sqlite
+/packages/icons/projects.json
+/docs
+/packages/docs/scripts/index.js
+/packages/docs/scripts/index.js.map

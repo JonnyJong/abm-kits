@@ -1,0 +1,231 @@
+:root
+	--l2d-number #0842a0
+	--l2d-bigint #136c2e
+	--l2d-string #dc362e
+	--l2d-boolean #0842a0
+	--l2d-undefined #aaaaaa
+	--l2d-null #aaaaaa
+	--l2d-symbol #dc362e
+	--l2d-fn #1f1f1f
+	--l2d-fn-flag #0842a0
+	--l2d-fn-arrow #1f1f1f
+	--l2d-class #1f1f1f
+	--l2d-class-flag #0842a0
+	--l2d-obj #1f1f1f
+	--l2d-key-abbr #8f8f8f
+	--l2d-key #8e004b
+	--l2d-proto #8f8f8f
+	--l2d-hover #fff2
+	--l2d-link #0957d0
+	--l2d-html-tag #8e004b
+	--l2d-html-attr #9f4311
+	--l2d-html-value #0842a0
+	--l2d-info #1f1f1f
+	--l2d-warn #3e2f00
+	--l2d-err #410e0b
+	--l2d-warn-bg #ffbf0020
+	--l2d-err-bg #ff0d0020
+
+@media (prefers-color-scheme dark)
+	:root
+		--l2d-number #997fff
+		--l2d-bigint #ababab
+		--l2d-string #5cd5fb
+		--l2d-boolean #997fff
+		--l2d-undefined #6f6f6f
+		--l2d-null #6f6f6f
+		--l2d-symbol #5cd5fb
+		--l2d-fn #e3e3e3
+		--l2d-fn-flag #fe8d59
+		--l2d-fn-arrow #e3e3e3
+		--l2d-class #e3e3e3
+		--l2d-class-flag #fe8d59
+		--l2d-obj #e3e3e3
+		--l2d-key-abbr #8f8f8f
+		--l2d-key #7cacf8
+		--l2d-proto #8f8f8f
+		--l2d-hover #fff2
+		--l2d-link #a8c7fa
+		--l2d-html-tag #7cacf8
+		--l2d-html-attr #a8c7ef
+		--l2d-html-value #fe8d59
+		--l2d-info #e3e3e3
+		--l2d-warn #fdf3aa
+		--l2d-err #fadedc
+		--l2d-warn-bg #ffe10020
+		--l2d-err-bg #ff110020
+
+.l2d
+	padding 4px
+	border-radius 4px
+	white-space pre-wrap
+	word-break break-word
+	font-size 14px
+	font-family monospace
+	cursor default
+	user-select text
+
+.l2d-item
+	padding-left .5em
+
+.l2d-item:first-child
+	padding-left 0
+
+.l2d-number
+	color var(--l2d-number)
+
+.l2d-bigint
+	color var(--l2d-bigint)
+
+.l2d-string
+	color var(--l2d-string)
+
+.l2d-boolean
+	color var(--l2d-boolean)
+
+.l2d-undefined
+	color var(--l2d-undefined)
+
+.l2d-null
+	color var(--l2d-null)
+
+.l2d-symbol
+	color var(--l2d-symbol)
+
+.l2d-fn
+	color var(--l2d-fn)
+	font-style italic
+
+.l2d-fn::before
+	color var(--l2d-fn-flag)
+	content 'ƒ '
+	font-style normal
+
+.l2d-fn-arrow
+	color var(--l2d-fn-arrow)
+	font-style italic
+
+.l2d-class
+	color var(--l2d-class)
+	font-style italic
+
+.l2d-class::before
+	color var(--l2d-class-flag)
+	content 'class '
+
+.l2d>.l2d-obj
+.l2d>span>.l2d-obj
+	display inline-block
+	color var(--l2d-obj)
+	vertical-align top
+
+.l2d>.l2d-obj>:first-child .l2d-key
+.l2d-proto>:first-child .l2d-key
+	color var(--l2d-key-abbr)
+	font-weight normal
+	opacity 1
+
+.l2d-key
+	color var(--l2d-key)
+	font-weight bold
+
+.l2d summary:hover
+	background var(--l2d-hover)
+
+.l2d-obj>.l2d-item
+	padding-left 2em
+
+.l2d-obj>.l2d-obj
+	padding-left calc(2em - 12px)
+
+.l2d-obj>.l2d-item:hover:not(:has(.l2d-obj>.l2d-item:hover
+summary:hover
+>.l2d-item:hover))
+	background var(--l2d-hover)
+
+.l2d-getter .l2d-key
+.l2d-proto .l2d-key
+	opacity .5
+
+.l2d-waiting:hover
+	text-decoration underline
+
+.l2d-link
+	color var(--l2d-link)
+	text-decoration underline
+
+.l2d-html-tag
+	color var(--l2d-html-tag)
+
+.l2d-html-attr
+	color var(--l2d-html-attr)
+
+.l2d-html-value
+	color var(--l2d-html-value)
+
+.l2d-err
+	color var(--l2d-info)
+
+.l2d-warn
+	background var(--l2d-warn-bg)
+	--l2d-info var(--l2d-warn)
+
+.l2d-error
+	background var(--l2d-err-bg)
+	--l2d-info var(--l2d-err)
+
+body
+	display flex
+
+#main
+	position relative
+	display flex
+	flex 1
+	flex-wrap wrap
+	justify-content center
+	align-items center
+	align-content center
+	overflow hidden auto
+
+#panel
+	display flex
+	flex-direction column
+	width s('min(500px, 50%)')
+	background var(--ui-panel-bg)
+
+#control
+	overflow hidden auto
+	padding 0 16px
+	overscroll-behavior none
+	&:empty
+		display none
+	&>:first-child
+		margin-top 16px
+	&>:last-child
+		margin-bottom 16px
+
+#logs
+	flex 1
+	overflow hidden auto
+	padding 16px
+	min-height 200px
+	overscroll-behavior none
+
+.events
+	display flex
+	flex-wrap wrap
+	gap 8px
+
+.attr-list
+	display flex
+	flex-direction column
+	gap 8px
+	&>*
+		width 100%
+
+.attr
+	display flex
+	align-items center
+	gap 16px
+	&>:last-child
+		flex 1

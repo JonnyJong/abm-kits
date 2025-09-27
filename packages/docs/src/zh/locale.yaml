@@ -1,0 +1,33 @@
+ui:
+  confirm: 确定
+  cancel: 取消
+  ok: 好
+  color_picker: 颜色选择器
+  alpha: 不透明度
+  red: 红
+  green: 绿
+  blue: 蓝
+  hue: 色相
+  saturation: 饱和度
+  lightness: 亮度
+  file:
+    pick: 选择文件
+    add: 添加文件
+    clear: 移除所有文件
+
+nav:
+  color: 主题色
+  schema: 颜色模式
+  lang: 语言
+
+schema:
+  system: 系统
+  light: 亮色
+  dark: 暗色
+
+demo:
+  missing: 没有匹配的 DEMO！
+  events: 事件
+  attrs: 属性
+
+source: 源代码

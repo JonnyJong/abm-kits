@@ -31,13 +31,13 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Build demo
-        run: pnpm demo
+      - name: Build docs
+        run: pnpm docs:build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './demo'
+          path: './docs/abm-kits'
 
   deploy:
     needs: build-and-deploy

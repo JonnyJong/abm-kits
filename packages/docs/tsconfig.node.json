@@ -1,0 +1,21 @@
+{
+	"extends": "../../tsconfig.json",
+	"compilerOptions": {
+		"target": "es2024",
+		"module": "nodenext",
+		"moduleResolution": "bundler",
+		"types": [
+			"node"
+		],
+		"lib": [
+			"ES2024"
+		],
+		"declaration": false,
+		"incremental": true,
+		"tsBuildInfoFile": "../../cache/demo-node.tsbuildinfo",
+		"sourceMap": true,
+	},
+	"include": [
+		"scripts/**/*.ts",
+	],
+}

@@ -1,0 +1,21 @@
+doctype html
+html
+	head
+		meta(charset="UTF-8")
+		meta(name="viewport" content="width=device-width, initial-scale=1.0")
+		title=title
+		link(rel="shortcut-icon" href="/abm-kits/favicon.png")
+		link(rel="stylesheet" href="/abm-kits/demo/style.css")
+		link(rel="stylesheet" href="/abm-kits/deps/abm.css")
+		if inject.css
+			link(rel="stylesheet" href="./index.css")
+		script(src="/abm-kits/deps/abm.js")
+		script(src="/abm-kits/deps/log2dom.js")
+		if inject.script
+			script(src="./index.js")
+		script(src="/abm-kits/demo/script.js")
+	body
+		main#main!=main
+		aside#panel
+			#control
+			#logs

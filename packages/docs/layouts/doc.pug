@@ -1,0 +1,25 @@
+doctype html
+html(lang=language)
+	head
+		meta(charset="UTF-8")
+		meta(name="viewport", content="width=device-width, initial-scale=1.0")
+		title=title + ' - ABM Docs'
+		link(rel="shortcut icon" href="/abm-kits/favicon.png")
+		//- title=(title === '@INDEX' ? 'ABM Docs' : title + ' - ABM Docs')
+		link#assets-icon(rel="stylesheet" href="/abm-kits/icon/icon.css")
+		link(rel="stylesheet" href="/abm-kits/deps/abm.css")
+		link(rel="stylesheet" href="/abm-kits/main.css")
+		link(rel="stylesheet" href="/abm-kits/doc.css")
+		script!=localeJS
+		script!=languagesJS
+		script(src="/abm-kits/deps/abm.js")
+		script(src="/abm-kits/main.js")
+		script(src="/abm-kits/doc.js")
+	body
+		include include/nav
+		include include/aside
+		main
+			header
+				h1=title
+				#source(data-list=JSON.stringify(source))
+			article!=content

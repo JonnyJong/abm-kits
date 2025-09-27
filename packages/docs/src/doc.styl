@@ -1,0 +1,252 @@
+SchemeLight =
+	--c #f8f8f8
+	--c-0 #44930c
+	--c-1 #bd5151
+	--c-2 #bf6f1b
+	--c-3 #7e7b4e
+	--c-4 #7853c3
+	--c-5 #2077da
+	--c-6 #8dae2c
+	--c-7 #a38300
+	--c-8 #71a3a8
+	--c-9 #a65973
+	--c-a #808080
+SchemeDark =
+	--c #1e1e1e
+	--c-0 #a4dfae
+	--c-1 #edabab
+	--c-2 #f0c0a8
+	--c-3 #ded6cf
+	--c-4 #d2ccff
+	--c-5 #8fc7ff
+	--c-6 #d5f288
+	--c-7 #eecfa0
+	--c-8 #b8d7f9
+	--c-9 #e3cbeb
+	--c-a #999
+
+[ui-scheme='light']
+	{SchemeLight}
+
+[ui-scheme='dark']
+	{SchemeDark}
+
+[ui-scheme='system']
+body
+	@extend [ui-scheme='light']
+
+@media (prefers-color-scheme dark)
+	[ui-scheme='system']
+	body
+		{SchemeDark}
+
+aside
+	position fixed
+	top 56px
+	left 0
+	overflow hidden auto
+	padding 16px
+	width 300px
+	height calc(100vh - 56px)
+	a
+		padding 4px 0
+		color var(--text)
+		text-decoration none
+	summary
+		display flex
+		justify-content space-between
+		align-items center
+		padding 0 8px
+		border-radius 4px
+		list-style none
+		transition .1s background
+		&:hover
+			background var(--w-btn-hover-bg)
+	details
+		&>summary>w-icon
+			transition .1s rotate
+		&::details-content
+			display block
+			overflow hidden
+			height 0
+			transition .1s height, .1s content-visibility
+			transition-behavior allow-discrete
+		&[open]
+			&>summary>w-icon
+				rotate 180deg
+			&::details-content
+				height auto
+				height calc-size(auto, size)
+	ul
+		margin 0
+		padding 0 0 0 12px
+	&>ul
+		padding 0
+	li
+		list-style none
+		&>a
+			display flex
+			align-items center
+			padding 4px 8px
+			border-radius 4px
+			transition .1s background
+			gap 4px
+			&:not(:has(w-icon))
+				padding-left 28px
+			&:hover
+				background var(--w-btn-hover-bg)
+
+main
+	position fixed
+	top 56px
+	left 300px
+	display flex
+	flex-direction column
+	width calc(100vw - 300px)
+	height calc(100vh - 56px)
+	border-top-left-radius 8px
+	background var(--ui-panel-bg)
+
+header
+	padding 32px 32px 16px 32px
+
+article
+	flex 1
+	overflow hidden auto
+	padding 0 32px 32px 32px
+	code
+		padding 0 .25em
+		border-radius 6px
+		background var(--theme-a1)
+		color var(--theme)
+		color s('color-mix(in srgb,var(--theme), var(--text))')
+	a
+		color var(--theme)
+		color s('color-mix(in srgb,var(--theme), var(--text))')
+		text-decoration underline var(--theme)
+
+pre code
+article p
+article ul
+article ol
+article h2
+article h3
+article h4
+article h5
+article h6
+	user-select text
+
+pre code
+	padding 0
+	background none
+	tab-size 2
+
+.demo
+	overflow hidden
+	margin 16px 0
+	border 1px solid var(--w-btn-border)
+	border-radius 6px
+	background var(--ui-panel-bg)
+	iframe
+		max-height calc(100vh - 400px)
+		width 100%
+		height 300px
+		border none
+	w-nav
+		padding 0 16px
+	pre
+		display none
+		margin 0
+		padding 16px
+		tab-size 2
+	.demo-file-show
+		display block
+
+.demo-error
+	display flex
+	flex-direction column
+	align-items center
+	padding 32px
+	gap 4px
+	w-icon
+		font-size 64px
+	w-lang
+		font-size 18px
+
+pre code
+	// Highlight
+	color var(--text)
+	.bold
+	.builtin
+	.important
+	.namespace
+		font-weight bold
+	.italic
+	.keyword
+		font-style italic
+	.string
+	.string-property
+	.char
+	.regex
+	.inserted
+	.attr-value
+		color var(--c-0)
+	.tag
+	.selector
+	.deleted
+		color var(--c-1)
+	.constant
+	.class-name
+	.entity
+		color var(--c-2)
+	.variable
+	.property
+		color var(--c-3)
+	.keyword
+	.builtin
+	.boolean
+		color var(--c-4)
+	.function
+		color var(--c-5)
+	.number
+		color var(--c-6)
+	.url
+	.attr-name
+		color var(--c-7)
+	.operator
+		color var(--c-8)
+	.important
+	.namespace
+		color var(--c-9)
+	.comment
+	.prolog
+	.cdata
+		color var(--c-a)
+
+.codeblock
+	margin 16px 0
+	padding 16px
+	border 1px solid var(--w-btn-border)
+	border-radius 6px
+	background-color var(--ui-panel-bg)
+	background-image radial-gradient(circle 150px at 0px -50px, var(--code-color), #0000)
+
+.codeblock-caption
+	display flex
+
+.codeblock-name
+	flex 1
+
+.codeblock-code
+	margin 8px 0 0 0
+
+@keyframes highlight
+	100%
+		background #ff08
+
+.highlight
+	animation .3s highlight 4 alternate
+
+article hr
+	border-color var(--text)
+	opacity .3

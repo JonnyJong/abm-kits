@@ -1,0 +1,31 @@
+{
+	"name": "docs",
+	"private": true,
+	"scripts": {
+		"prepare": "rolldown -c rolldown.config.ts",
+		"build": "node ./scripts/index.js"
+	},
+	"devDependencies": {
+		"@types/live-server": "^1.2.3",
+		"@types/node": "^24.3.3",
+		"@types/prismjs": "^1.26.5",
+		"@types/pug": "^2.0.10",
+		"@types/stylus": "^0.48.43",
+		"chokidar": "^4.0.3",
+		"ezal-markdown": "0.4.0",
+		"live-server": "^1.2.2",
+		"prismjs": "^1.30.0",
+		"pug": "3.0.3",
+		"stylus": "0.64.0",
+		"yaml": "^2.8.1"
+	},
+	"dependencies": {
+		"@lit-labs/signals": "~0.1.1",
+		"abm-ui": "workspace:*",
+		"abm-utils": "workspace:*",
+		"add": "^2.0.6",
+		"lit": "~3.3.0",
+		"log2dom": "1.0.1",
+		"rolldown": "1.0.0-beta.40"
+	}
+}

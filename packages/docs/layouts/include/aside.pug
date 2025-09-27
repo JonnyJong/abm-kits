@@ -1,0 +1,24 @@
+mixin Item(item)
+	li
+		if item.items.size > 0
+			details
+				summary
+					if item.data
+						if item.data.icon
+							w-icon(key=item.data.icon)
+						a(href="/abm-kits/" + language + "/" + item.data.url)=item.data.title
+						w-icon(key='ChevronUp')
+				+List(item.items)
+		else if item.data
+			a(href="/abm-kits/" + language + "/" + item.data.url)
+				if item.data.icon
+					w-icon(key=item.data.icon)
+				=item.data.title
+
+mixin List(items)
+	ul
+		each item in [...items.values()]
+			+Item(item)
+
+aside
+	+List(lang.items)

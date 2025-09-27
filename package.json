@@ -18,9 +18,10 @@
 		"watch:ui": "node scripts/build.js ui -w",
 		"watch": "node scripts/build.js utils ui -w",
 		"dev": "pnpm --filter example run dev",
-		"demo": "pnpm build && pnpm --filter example run build",
 		"prepack": "pnpm run clean && pnpm run build",
-		"publish": "pnpm clean && pnpm build && pnpm publish -r --filter abm-utils --access public && pnpm publish -r --filter abm-ui --access public"
+		"publish": "pnpm clean && pnpm build && pnpm publish -r --filter abm-utils --access public && pnpm publish -r --filter abm-ui --access public",
+		"docs:prepare": "pnpm -F docs run prepare",
+		"docs:build": "pnpm -F docs run build"
 	},
 	"devDependencies": {
 		"@types/node": "^22.10.10",

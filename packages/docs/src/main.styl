@@ -1,0 +1,29 @@
+nav
+	position fixed
+	top 0
+	left 0
+	z-index 50
+	display flex
+	align-items center
+	padding 12px
+	width 100vw
+	gap 8px
+
+.site-logo
+	color var(--text)
+	text-decoration none
+	font-size 18px
+	line-height 24px
+	&:before
+		display inline-block
+		margin-right 4px
+		width 24px
+		height 24px
+		background var(--text)
+		content ''
+		vertical-align bottom
+		mask-size cover
+		mask-image url('/abm-kits/icon.svg')
+
+.nav-flex
+	flex 1

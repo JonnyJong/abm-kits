@@ -1,0 +1,14 @@
+---
+title: 颜色选择器
+source:
+	- packages/abm-ui/src/components/widgets/color-picker/index.ts
+---
+
+# 尝试一下
+```demo components/widgets/color-picker
+locale: {}
+```
+
+# 接口
+
+WIP...

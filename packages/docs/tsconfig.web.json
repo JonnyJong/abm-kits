@@ -1,0 +1,20 @@
+{
+	"extends": "../../tsconfig.json",
+	"compilerOptions": {
+		"target": "es2022",
+		"module": "esnext",
+		"moduleResolution": "bundler",
+		"types": ["demo/types.d.ts"],
+		"lib": [
+			"ES2022",
+			"DOM"
+		],
+		"declaration": false,
+		"incremental": true,
+		"tsBuildInfoFile": "../../cache/demo-web.tsbuildinfo",
+	},
+	"include": [
+		"src/**/*.ts",
+		"demo/**/*.ts",
+	],
+}
