@@ -23,7 +23,6 @@
 		"publish": "pnpm clean && pnpm build && pnpm publish -r --filter abm-utils --access public && pnpm publish -r --filter abm-ui --access public"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^1.9.4",
 		"@types/node": "^22.10.10",
 		"@types/stylus": "^0.48.43",
 		"@types/uglifycss": "^0.0.11",
@@ -38,6 +37,11 @@
 		"pnpm": ">=10"
 	},
 	"pnpm": {
-		"onlyBuiltDependencies": ["@biomejs/biome", "esbuild", "sqlite3", "ttf2woff2"]
+		"onlyBuiltDependencies": [
+			"@biomejs/biome",
+			"esbuild",
+			"sqlite3",
+			"ttf2woff2"
+		]
 	}
 }

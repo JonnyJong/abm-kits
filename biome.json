@@ -1,5 +1,5 @@
 {
-	"$schema": "node_modules/@biomejs/biome/configuration_schema.json",
+	"$schema": "https://biomejs.dev/schemas/2.2.4/schema.json",
 	"vcs": {
 		"enabled": false,
 		"clientKind": "git",
@@ -7,16 +7,19 @@
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"ignore": [
-			".vscode",
-			"node_modules",
-			"dist",
-			"tsconfig.*",
-			"scripts/**/*.js",
-			"packages/icons/projects.json",
-			"packages/**/icons.json"
-		],
-		"include": ["*.ts", "*.json", "packages/icons/src/*.js", "scripts/**/*"]
+		"includes": [
+			"**/*.ts",
+			"**/*.json",
+			"**/packages/icons/src/**/*.js",
+			"**/scripts/**/*",
+			"!**/.vscode",
+			"!**/node_modules",
+			"!**/dist",
+			"!**/tsconfig.*",
+			"!**/scripts/**/*.js",
+			"!**/packages/icons/projects.json",
+			"!**/packages/**/icons.json"
+		]
 	},
 	"formatter": {
 		"enabled": true,
@@ -25,9 +28,7 @@
 		"lineEnding": "lf",
 		"indentWidth": 1
 	},
-	"organizeImports": {
-		"enabled": true
-	},
+	"assist": { "actions": { "source": { "organizeImports": "on" } } },
 	"linter": {
 		"enabled": true,
 		"rules": {
@@ -43,7 +44,8 @@
 				"useDateNow": "error",
 				"useSimplifiedLogicExpression": "error",
 				"noBannedTypes": "off",
-				"noForEach": "off"
+				"noForEach": "off",
+				"noUselessEscapeInRegex": "error"
 			},
 			"correctness": {
 				"noConstantMathMinMaxClamp": "warn",
@@ -51,32 +53,14 @@
 				"noUnusedFunctionParameters": "error",
 				"noUnusedImports": "error",
 				"noUnusedPrivateClassMembers": "error",
-				"noUnusedVariables": "error",
-				"useArrayLiterals": "error"
+				"noUnusedVariables": "error"
 			},
 			"nursery": {
-				"noDuplicateElseIf": "error",
-				"noDynamicNamespaceImportAccess": "error",
-				"noExportedImports": "error",
-				"noIrregularWhitespace": "error",
-				"noNestedTernary": "error",
-				"noOctalEscape": "error",
-				"noProcessEnv": "error",
-				"noRestrictedImports": "error",
-				"noSubstr": "error",
-				"noUselessEscapeInRegex": "error",
-				"useAtIndex": "error",
-				"useCollapsedIf": "error",
-				"useComponentExportOnlyModules": "error",
-				"useConsistentMemberAccessibility": "error",
-				"useGuardForIn": "error",
-				"useStrictMode": "error",
-				"useTrimStartEnd": "error",
-				"useAdjacentOverloadSignatures": "off",
 				"noSecrets": "off"
 			},
 			"performance": {
-				"useTopLevelRegex": "warn"
+				"useTopLevelRegex": "warn",
+				"noDynamicNamespaceImportAccess": "error"
 			},
 			"style": {
 				"noNonNullAssertion": "off",
@@ -88,12 +72,22 @@
 				"useConsistentArrayType": "error",
 				"useConsistentBuiltinInstantiation": "error",
 				"useForOf": "error",
-				"useShorthandArrayType": "error",
 				"useShorthandAssign": "error",
 				"useThrowNewError": "error",
 				"useThrowOnlyError": "error",
 				"useImportType": "off",
-				"useNumberNamespace": "off"
+				"useNumberNamespace": "off",
+				"useArrayLiterals": "error",
+				"noExportedImports": "error",
+				"noNestedTernary": "error",
+				"noProcessEnv": "error",
+				"noRestrictedImports": "error",
+				"noSubstr": "error",
+				"useAtIndex": "error",
+				"useCollapsedIf": "error",
+				"useComponentExportOnlyModules": "error",
+				"useConsistentMemberAccessibility": "error",
+				"useTrimStartEnd": "error"
 			},
 			"suspicious": {
 				"noDebugger": "warn",
@@ -101,7 +95,13 @@
 				"useAwait": "warn",
 				"useErrorMessage": "error",
 				"noExplicitAny": "off",
-				"noGlobalIsNan": "off"
+				"noGlobalIsNan": "off",
+				"noDuplicateElseIf": "error",
+				"noIrregularWhitespace": "error",
+				"noOctalEscape": "error",
+				"useGuardForIn": "error",
+				"useStrictMode": "error",
+				"useAdjacentOverloadSignatures": "off"
 			}
 		}
 	},
