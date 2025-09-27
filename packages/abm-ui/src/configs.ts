@@ -318,7 +318,7 @@ class UIScreenConfigs {
 			this.#detecters.push(div);
 			this.#safeAreaObserver.observe(div, { box: 'border-box' });
 		}
-		document.body.append(...this.#detecters);
+		$ready(() => document.body.append(...this.#detecters));
 
 		window.addEventListener('resize', () => this.#updateSafeRect());
 
