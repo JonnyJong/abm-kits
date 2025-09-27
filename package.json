@@ -17,7 +17,7 @@
 		"watch:utils": "node scripts/build.js utils -w",
 		"watch:ui": "node scripts/build.js ui -w",
 		"watch": "node scripts/build.js utils ui -w",
-		"dev": "pnpm --filter example run dev",
+		"dev": "pnpm -F docs run build -w",
 		"prepack": "pnpm run clean && pnpm run build",
 		"publish": "pnpm clean && pnpm build && pnpm publish -r --filter abm-utils --access public && pnpm publish -r --filter abm-ui --access public",
 		"docs:prepare": "pnpm -F docs run prepare",
