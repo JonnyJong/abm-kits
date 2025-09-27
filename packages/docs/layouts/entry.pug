@@ -1,0 +1,17 @@
+doctype html
+html
+	head
+		meta(charset="UTF-8")
+		meta(name="viewport", content="width=device-width, initial-scale=1.0")
+		title Redirecting - ABM Kits
+		script.
+			location.href = '/abm-kits/' + navigator.languages.some((lang)=>lang.split('-').includes('zh')) ? 'zh' : 'en';
+	body
+		p
+			='重定向中，若时间过长，请点击'
+			a(href="/abm-kits/zh") 链接
+			='跳转。'
+		p
+			='Redirecting is being done. If the time is too long, please click on the '
+			a(href="/abm-kits/en") link
+			=' to jump.'
