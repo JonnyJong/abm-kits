@@ -1,10 +1,10 @@
 {
 	"extends": "../../tsconfig.json",
-  "include": ["./src/**/*.ts"],
-  "exclude": [],
+	"include": ["./src/**/*.ts"],
+	"exclude": [],
 	"compilerOptions": {
 		"lib": ["ES2022", "DOM", "DOM.Iterable"],
-    "outDir": "./browser",
+		"outDir": "./browser",
 		"module": "ESNext",
 		"moduleResolution": "node",
 		"declaration": false,

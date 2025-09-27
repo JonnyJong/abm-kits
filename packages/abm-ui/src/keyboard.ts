@@ -1,4 +1,5 @@
 import {
+	areSetEqual,
 	EventBase,
 	EventBaseInit,
 	EventHandler,
@@ -8,7 +9,6 @@ import {
 	EventsList,
 	IEventSource,
 	RepeatingTriggerController,
-	areSetEqual,
 } from 'abm-utils';
 
 declare global {

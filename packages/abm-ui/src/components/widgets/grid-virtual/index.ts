@@ -1,11 +1,11 @@
 import {
 	$div,
 	AnimationFrameController,
+	clamp,
+	css,
 	Debounce,
 	EventsInitList,
 	SyncList,
-	clamp,
-	css,
 	toReversed,
 	zip,
 } from 'abm-utils';
@@ -711,7 +711,7 @@ export class WidgetGridVirtual<
 		}
 		this.#content.style.paddingLeft = `${(this.#width - lineWidth) / 2}px`;
 		let top = 0;
-		let prevSpacing: Spacing | undefined = undefined;
+		let prevSpacing: Spacing | undefined;
 		const horizontalPositioning = HORIZONTAL_POSITIONING[this.#itemAlign];
 		const verticalPositioning = VERTICAL_POSITIONING[this.#itemVerticalAlign];
 		for (const [

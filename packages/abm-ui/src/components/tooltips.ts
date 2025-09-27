@@ -4,10 +4,10 @@ import {
 	$new,
 	$path,
 	$ready,
-	DOMContents,
-	IntervalController,
 	asArray,
 	clamp,
+	DOMContents,
+	IntervalController,
 } from 'abm-utils';
 import { configs } from '../configs';
 import { navigate } from '../navigate';
@@ -126,7 +126,7 @@ class UITooltips {
 		if (lockItem) path = [lockItem];
 		// Target
 		let target: HTMLElement | null = null;
-		let content: DOMContents | undefined = undefined;
+		let content: DOMContents | undefined;
 		for (const element of path) {
 			content = this.#map.get(element);
 			if (content === undefined) continue;

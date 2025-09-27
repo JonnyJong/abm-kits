@@ -2,15 +2,15 @@ import {
 	$applyColor,
 	$div,
 	$new,
+	asArray,
 	Color,
 	DOMContents,
 	EventHandler,
+	Events,
 	EventValue,
 	EventValueInit,
-	Events,
 	IEventSource,
 	SyncList,
-	asArray,
 	sleep,
 } from 'abm-utils';
 import { configs } from '../configs';
@@ -350,7 +350,7 @@ export class Dialog<ID extends string = string>
 	async show() {
 		document.body.append(this.#filter, this.#dialog);
 		await sleep(100);
-		let element: WidgetBtn | undefined = undefined;
+		let element: WidgetBtn | undefined;
 		for (let i = this.#actions.instances.length - 1; i >= 0; i--) {
 			if (this.#actions.instances[i].disabled) continue;
 			element = this.#actions.instances[i].element;

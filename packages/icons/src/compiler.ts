@@ -1,10 +1,8 @@
-import { existsSync } from 'node:fs';
-import { createReadStream, createWriteStream } from 'node:fs';
+import { createReadStream, createWriteStream, existsSync } from 'node:fs';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import cliProgress from 'cli-progress';
 import svg2ttf from 'svg2ttf';
-// @ts-ignore
 import type { SVGIcons2SVGFontStream } from 'svgicons2svgfont';
 import ttf2woff from 'ttf2woff';
 import { ReadStream } from 'typeorm/platform/PlatformTools';
@@ -218,15 +216,14 @@ async function executeCompileAll(projectPath: string) {
 	return true;
 }
 
-export function compileProject(projectPath: string) {
+export function compileProject(projectPath: string): undefined {
 	let compiler = compiling.get(projectPath);
 	if (compiler) return;
 	compiler = executeCompile(projectPath);
 	compiling.set(projectPath, compiler);
-	return;
 }
 
-export function compileAllIconForProject(projectPath: string) {
+export function compileAllIconForProject(projectPath: string): undefined {
 	let compiler = compiling.get(projectPath);
 	if (compiler) return;
 	compiler = executeCompileAll(projectPath);

@@ -91,8 +91,11 @@ export async function getProject(projectPath: string): Promise<Project> {
 	}
 }
 
-export function writeProject(projectPath: string, project: Project) {
-	return writeFile(
+export async function writeProject(
+	projectPath: string,
+	project: Project,
+): Promise<undefined> {
+	await writeFile(
 		path.join(projectPath, 'icons.json'),
 		JSON.stringify({
 			...project,

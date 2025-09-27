@@ -12,7 +12,10 @@
 		"url": "https://github.com/JonnyJong/abm-kits/issues"
 	},
 	"homepage": "https://github.com/JonnyJong/abm-kits/tree/main/packages/abm-ui#readme",
-	"files": ["dist", "styles"],
+	"files": [
+		"dist",
+		"styles"
+	],
 	"type": "module",
 	"main": "./dist/index.js",
 	"dependencies": {

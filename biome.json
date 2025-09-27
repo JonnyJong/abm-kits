@@ -34,12 +34,6 @@
 		"rules": {
 			"recommended": true,
 			"complexity": {
-				"noExcessiveCognitiveComplexity": {
-					"level": "warn",
-					"options": {
-						"maxAllowedComplexity": 15
-					}
-				},
 				"noUselessStringConcat": "error",
 				"useDateNow": "error",
 				"useSimplifiedLogicExpression": "error",
@@ -53,7 +47,8 @@
 				"noUnusedFunctionParameters": "error",
 				"noUnusedImports": "error",
 				"noUnusedPrivateClassMembers": "error",
-				"noUnusedVariables": "error"
+				"noUnusedVariables": "error",
+				"useParseIntRadix": "off"
 			},
 			"nursery": {
 				"noSecrets": "off"

@@ -1,11 +1,11 @@
 import {
 	$div,
 	$new,
-	DOMContents,
-	Debounce,
-	EventValue,
-	Events,
 	asArray,
+	Debounce,
+	DOMContents,
+	Events,
+	EventValue,
 	find,
 	proxyArray,
 	proxyObject,
@@ -98,9 +98,9 @@ export class InputActions<Value extends WidgetInputValue = WidgetInputValue> {
 		this.#inputWidth = this.#input.offsetWidth;
 		this.#inputHeight = this.#input.offsetHeight;
 
-		this.#updateSize();
+		Promise.resolve(() => this.#updateSize());
 	};
-	async #updateSize() {
+	#updateSize() {
 		if (this.#inputWidth === 0 && this.#inputHeight === 0) return;
 
 		const size = [...this.#element.children].reduce((size, element, i) => {

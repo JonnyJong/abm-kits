@@ -36,19 +36,19 @@ class Logging {
 		if (!LEVELS.includes(log.level)) log.level = 'error';
 		this.logs.push(log);
 		switch (log.level) {
-			// @ts-ignore
+			// @ts-expect-error
 			// biome-ignore lint/suspicious/noFallthroughSwitchClause: Deliberate
 			case 'fatal':
 				this.#emit('fatal', log);
-			// @ts-ignore
+			// @ts-expect-error
 			// biome-ignore lint/suspicious/noFallthroughSwitchClause: Deliberate
 			case 'error':
 				this.#emit('error', log);
-			// @ts-ignore
+			// @ts-expect-error
 			// biome-ignore lint/suspicious/noFallthroughSwitchClause: Deliberate
 			case 'warn':
 				this.#emit('warn', log);
-			// @ts-ignore
+			// @ts-expect-error
 			// biome-ignore lint/suspicious/noFallthroughSwitchClause: Deliberate
 			case 'info':
 				this.#emit('info', log);
@@ -80,7 +80,7 @@ class Logging {
 	};
 	on(handler: (log: Log) => any): void;
 	on(handler: (log: Log) => any, level: 'debug'): void;
-	// @ts-ignore
+	// @ts-expect-error
 	on(
 		handler: (log: Log<'info' | 'warn' | 'error' | 'fatal'>) => any,
 		level: 'info',
@@ -97,7 +97,7 @@ class Logging {
 	}
 	off(handler: (log: Log) => any): void;
 	off(handler: (log: Log) => any, level: 'debug'): void;
-	// @ts-ignore
+	// @ts-expect-error
 	off(
 		handler: (log: Log<'info' | 'warn' | 'error' | 'fatal'>) => any,
 		level: 'info',

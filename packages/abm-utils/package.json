@@ -12,7 +12,10 @@
 		"url": "https://github.com/JonnyJong/abm-kits/issues"
 	},
 	"homepage": "https://github.com/JonnyJong/abm-kits/tree/main/packages/abm-utils#readme",
-	"files": ["dist", "browser"],
+	"files": [
+		"dist",
+		"browser"
+	],
 	"type": "commonjs",
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",

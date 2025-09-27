@@ -1,12 +1,12 @@
 import {
-	events,
 	Dialog,
+	events,
 	Navigable,
+	tooltips,
 	WidgetBtn,
 	WidgetCheckbox,
 	WidgetList,
 	WidgetListItem,
-	tooltips,
 } from 'abm-ui';
 import { $, $div, $new, Debounce } from 'abm-utils';
 import { css } from 'lit';
@@ -90,9 +90,9 @@ class ProjectListItem extends WidgetListItem<ProjectInfo> implements Navigable {
 		return [this.#main, this.#rename, this.#delete];
 	}
 	protected active(): void {
-		[...this.parentNode!.children].forEach((item) =>
-			item.classList.remove('project-active'),
-		);
+		for (const item of this.parentNode!.children) {
+			item.classList.remove('project-active');
+		}
 		this.classList.add('project-active');
 		loadProject(this.#info.path);
 	}

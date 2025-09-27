@@ -51,8 +51,7 @@ export interface APIMap extends ProtocolMap {
 	};
 	writeProject: {
 		args: [string, Project];
-		// biome-ignore lint/suspicious/noConfusingVoidType: <explanation>
-		result: void;
+		result: undefined;
 	};
 	renameProject: {
 		args: [string, string];
@@ -80,12 +79,10 @@ export interface APIMap extends ProtocolMap {
 	};
 	compileProject: {
 		args: [string];
-		// biome-ignore lint/suspicious/noConfusingVoidType: <explanation>
-		result: void;
+		result: undefined;
 	};
 	compileAllIconForProject: {
 		args: [string];
-		// biome-ignore lint/suspicious/noConfusingVoidType: <explanation>
-		result: void;
+		result: undefined;
 	};
 }

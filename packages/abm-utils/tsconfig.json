@@ -1,12 +1,12 @@
 {
 	"extends": "../../tsconfig.json",
-  "include": ["./src/**/*.ts"],
-  "exclude": [],
+	"include": ["./src/**/*.ts"],
+	"exclude": [],
 	"compilerOptions": {
 		"module": "NodeNext",
 		"moduleResolution": "nodenext",
 		"lib": ["ES2022", "DOM", "DOM.Iterable"],
-    "outDir": "./dist",
+		"outDir": "./dist",
 		"incremental": true,
 		"tsBuildInfoFile": "../../cache/abm-utils.tsbuildinfo",
 	},

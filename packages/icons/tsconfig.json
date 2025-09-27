@@ -13,5 +13,5 @@
 		"tsBuildInfoFile": "../../cache/icons-node.tsbuildinfo",
 	},
 	"include": ["src/**/*.ts"],
-	"exclude": ["node/**/*"]
+	"exclude": ["node/**/*"],
 }

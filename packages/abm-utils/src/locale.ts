@@ -4,10 +4,10 @@ import {
 	EventError,
 	EventErrorInit,
 	EventHandler,
-	EventValue,
-	EventValueInit,
 	Events,
 	EventsList,
+	EventValue,
+	EventValueInit,
 	IEventSource,
 } from './events';
 import { PromiseOr } from './function';
@@ -335,7 +335,7 @@ export class Locale<
 		this.#loadedLocales = Object.freeze(successLocales);
 		this.#dict = dict;
 
-		let error: LocaleLoadError | undefined = undefined;
+		let error: LocaleLoadError | undefined;
 		if (failedLocales.length > 0) {
 			error = new LocaleLoadError(failedLocales);
 		}
