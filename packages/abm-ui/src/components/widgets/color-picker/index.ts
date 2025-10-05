@@ -714,6 +714,7 @@ export class WidgetColorPicker
 	set enableAlpha(value: boolean) {
 		this.toggleAttribute('alpha', value);
 		this.#updateHEX();
+		this.#updateIndicator();
 	}
 	/** 颜色 */
 	@property({ type: String })
