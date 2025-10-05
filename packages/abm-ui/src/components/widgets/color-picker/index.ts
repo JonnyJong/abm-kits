@@ -3,10 +3,10 @@ import {
 	$div,
 	$new,
 	Color,
+	css,
+	EventsList,
 	EventValue,
 	EventValueInit,
-	EventsList,
-	css,
 } from 'abm-utils';
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
@@ -51,8 +51,6 @@ const SLIDER_HUE = { from: 0, to: 360 };
 const VALUE_HUE = { min: 0, max: 360 };
 const VALUE_SL = { min: 0, max: 100 };
 
-const HEX_REGEX = /[0-9a-fA-F]{1,8}/;
-
 const SLIDER_THUMB = '--w-slider-thumb-front';
 const SLIDER_TRACK = '--w-slider-track';
 
@@ -86,19 +84,11 @@ export class WidgetColorPicker
 		});
 		// HEX
 		this.#hexValue.on('input', () => {
-			const result = this.#hexValue.value.match(HEX_REGEX);
-			if (!result) return;
-			let hex = result[0];
-			if (hex.length < 3) {
-				hex = hex.repeat(3).slice(0, 3);
-			} else if (hex.length === 5) {
-				hex += hex[4];
-			} else if (hex.length === 7) {
-				hex += hex[6];
+			try {
+				this.#current.hexa(this.#hexValue.value);
+			} catch {
+				return;
 			}
-			if (hex.length === 3) hex += 'f';
-			if (hex.length === 6) hex += 'ff';
-			this.#current.hexa(hex);
 			this.#updateIndicator();
 			this.#updateRGB();
 			this.#updateHSL();
