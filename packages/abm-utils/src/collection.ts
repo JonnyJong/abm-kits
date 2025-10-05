@@ -21,6 +21,7 @@ export function asArray<T>(value: ArrayOr<T>): T[] {
  *
  * @param array - 输入的数组。
  * @returns 一个包含从0到数组长度减1的整数的数组。
+ * @link https://jonnyjong.github.io/abm-kits/zh/utils/collection#range
  */
 export function range(array: any[]): number[];
 /**
@@ -28,6 +29,7 @@ export function range(array: any[]): number[];
  *
  * @param to - 数组的结束值。
  * @returns 从 0 到 to，步长为 1 的数字数组
+ * @link https://jonnyjong.github.io/abm-kits/zh/utils/collection#range
  */
 export function range(to: number): number[];
 /**
@@ -36,6 +38,7 @@ export function range(to: number): number[];
  * @param from - 数组的起始值。
  * @param to - 数组的结束值。
  * @returns 从 from 到 to，步长为 1 的数字数组
+ * @link https://jonnyjong.github.io/abm-kits/zh/utils/collection#range
  */
 export function range(from: number, to: number): number[];
 /**
@@ -45,6 +48,7 @@ export function range(from: number, to: number): number[];
  * @param to - 数组的结束值。
  * @param step - 数组中每个元素之间的步长。
  * @returns 从 from 到 to，步长为 step 的数字数组
+ * @link https://jonnyjong.github.io/abm-kits/zh/utils/collection#range
  */
 export function range(from: number, to: number, step: number): number[];
 export function range(
@@ -52,18 +56,21 @@ export function range(
 	to?: number,
 	step?: number,
 ): number[] {
-	if (Array.isArray(arg0)) {
-		return range(arg0.length);
+	if (Array.isArray(arg0)) return range(arg0.length);
+	let from = 0;
+	if (to === undefined) to = arg0;
+	else from = arg0;
+	if (from === to) return [];
+	if (!step) step = 1;
+	if (step < 0) {
+		[from, to] = [to, from];
+		step *= -1;
 	}
-	if (to === undefined) {
-		to = arg0;
-		arg0 = 0;
-	}
-	if (step === undefined) {
-		step = arg0 < to ? 1 : -1;
-	}
+	const sign = Math.sign(to - from);
+	step *= sign;
+	const positive = sign === 1;
 	const result: number[] = [];
-	for (let i = arg0; arg0 < to ? i < to : i > to; i += step) {
+	for (let i = from; positive ? i < to : i > to; i += step) {
 		result.push(i);
 	}
 	return result;
@@ -415,7 +422,7 @@ export function applyConditionalOperation<T, D = T>(
 	dataMapper?: (item: T) => D,
 ) {
 	if (Array.isArray(condition)) {
-		for (const i of range(array.length)) {
+		for (const i of range(array)) {
 			operate(array[i], condition.includes(i));
 		}
 		return;
