@@ -215,7 +215,7 @@ export class Color {
 	}
 	/**
 	 * 将可能为 hex 格式的字符串转换为 RGBA
-	 * @link https://jonnyjong.github.io/abm-kits/zh/utils/color#parsehex
+	 * @link https://jonnyjong.github.io/abm-kits/utils/color#parsehex
 	 */
 	static parseHEX(hex: string): RGBA | null {
 		const matched = hex.match(PATTERN_HEX);

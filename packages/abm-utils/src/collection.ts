@@ -21,7 +21,7 @@ export function asArray<T>(value: ArrayOr<T>): T[] {
  *
  * @param array - 输入的数组。
  * @returns 一个包含从0到数组长度减1的整数的数组。
- * @link https://jonnyjong.github.io/abm-kits/zh/utils/collection#range
+ * @link https://jonnyjong.github.io/abm-kits/utils/collection#range
  */
 export function range(array: any[]): number[];
 /**
@@ -29,7 +29,7 @@ export function range(array: any[]): number[];
  *
  * @param to - 数组的结束值。
  * @returns 从 0 到 to，步长为 1 的数字数组
- * @link https://jonnyjong.github.io/abm-kits/zh/utils/collection#range
+ * @link https://jonnyjong.github.io/abm-kits/utils/collection#range
  */
 export function range(to: number): number[];
 /**
@@ -38,7 +38,7 @@ export function range(to: number): number[];
  * @param from - 数组的起始值。
  * @param to - 数组的结束值。
  * @returns 从 from 到 to，步长为 1 的数字数组
- * @link https://jonnyjong.github.io/abm-kits/zh/utils/collection#range
+ * @link https://jonnyjong.github.io/abm-kits/utils/collection#range
  */
 export function range(from: number, to: number): number[];
 /**
@@ -48,7 +48,7 @@ export function range(from: number, to: number): number[];
  * @param to - 数组的结束值。
  * @param step - 数组中每个元素之间的步长。
  * @returns 从 from 到 to，步长为 step 的数字数组
- * @link https://jonnyjong.github.io/abm-kits/zh/utils/collection#range
+ * @link https://jonnyjong.github.io/abm-kits/utils/collection#range
  */
 export function range(from: number, to: number, step: number): number[];
 export function range(
