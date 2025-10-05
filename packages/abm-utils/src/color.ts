@@ -11,6 +11,8 @@ export type HSLA = [
 	alpha: number,
 ];
 
+const PATTERN_HEX = /^#?([0-9a-fA-F]+)$/;
+
 function quantify(value: number): number {
 	return clamp(0, Math.round(value), 255);
 }
@@ -232,5 +234,25 @@ export class Color {
 			255 - this.#rgba[2],
 			this.#rgba[3],
 		]);
+	}
+	static parseHEX(hex: string): RGBA | null {
+		const matched = hex.match(PATTERN_HEX);
+		if (!matched) return null;
+		const value = matched[1];
+		// 简写
+		if (value.length <= 4) {
+			const r = parseInt(value[0].repeat(2), 16);
+			const g = value[1] ? parseInt(value[1].repeat(2), 16) : r;
+			const b = value[2] ? parseInt(value[2].repeat(2), 16) : r;
+			const a = value[3] ? parseInt(value[3].repeat(2), 16) : 255;
+			return [r, g, b, a];
+		}
+		// 全写
+		const r = parseInt(value.slice(0, 2), 16);
+		const g = parseInt(value.slice(2, 4), 16);
+		const b = parseInt(value.repeat(2).slice(4, 6), 16);
+		const a =
+			value.length > 6 ? parseInt(value.slice(6).repeat(2).slice(0, 2), 16) : 255;
+		return [r, g, b, a];
 	}
 }
