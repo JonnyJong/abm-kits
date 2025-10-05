@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>404 - ABM Kits</title>
+	<script src="/abm-kits/deps/abm.js"></script>
+	<script>
+		const languages = ['zh', 'en'];
+		const paths = location.pathname.split('/').slice(1);
+		if (!languages.includes(paths[2])) {
+			let lang = __ABM_UTILS.Locale.patchFallbacks(navigator.languages).find((l) => languages.includes(l));
+			if (!lang) lang = 'en';
+			paths.splice(1, 0, lang);
+			location.pathname = paths.join('/');
+		}
+	</script>
+</head>
+
+<body>
+	<h1>404</h1>
+</body>
+
+</html>

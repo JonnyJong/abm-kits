@@ -31,8 +31,9 @@ async function main() {
 		root: out('..'),
 		logLevel: 0,
 		open: false,
+		file: '/abm-kits/404.html',
 	});
-	logger.log('Ready');
+	logger.log('Ready on http://localhost:5500');
 	process.once('SIGINT', async () => {
 		logger.log('Shutting down...');
 		LiveServer.shutdown();
