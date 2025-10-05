@@ -4,19 +4,19 @@ import {
 	$div,
 	$ready,
 	ArrayOr,
-	CSSProperty,
+	asArray,
 	Color,
+	CSSProperty,
+	callTask,
 	Debounce,
 	IterableWeakSet,
+	normalizeCSSFourValue,
 	PromiseOr,
 	ProxyObjectOptions,
+	proxyObject,
+	Rect,
 	RGB,
 	RGBA,
-	Rect,
-	asArray,
-	callTask,
-	normalizeCSSFourValue,
-	proxyObject,
 	range,
 	runTask,
 } from 'abm-utils';
@@ -471,7 +471,7 @@ export interface UIConfigsInit {
 	holdDurationThreshold?: number;
 	/** 圆角 */
 	borderRadius?: number | string;
-	/** 组合键 */
+	/** 快捷键 */
 	keyShortcut?: {
 		[key in 'ui.navNext' | 'ui.navPrev' | (string & {})]?: KeyBindGroup;
 	};

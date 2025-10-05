@@ -392,7 +392,7 @@ class KeyBinder implements IEventSource<KeyBinderEventsInit> {
 	 * @param handler - 事件处理函数
 	 * @description
 	 * - `update`：按下按键发生变化
-	 * - `done`：用户完成组合键
+	 * - `done`：用户完成按键输入
 	 */
 	on<Type extends keyof KeyBinderEventsInit>(
 		type: Type,
@@ -406,7 +406,7 @@ class KeyBinder implements IEventSource<KeyBinderEventsInit> {
 	 * @param handler - 事件处理函数
 	 * @description
 	 * - `update`：按下按键发生变化
-	 * - `done`：用户完成组合键
+	 * - `done`：用户完成按键输入
 	 */
 	once<Type extends keyof KeyBinderEventsInit>(
 		type: Type,
@@ -420,7 +420,7 @@ class KeyBinder implements IEventSource<KeyBinderEventsInit> {
 	 * @param handler - 要移除的事件处理函数
 	 * @description
 	 * - `update`：按下按键发生变化
-	 * - `done`：用户完成组合键
+	 * - `done`：用户完成按键输入
 	 */
 	off<Type extends keyof KeyBinderEventsInit>(
 		type: Type,
@@ -505,7 +505,7 @@ class KeyboardManager implements IEventSource<KeyboardEventsInit> {
 		return [...this.#activated];
 	}
 	//#region ShortCut
-	/** 组合键绑定 */
+	/** 快捷键绑定 */
 	get bindMap() {
 		const result: KeyBindMap = {};
 		for (const [id, group] of Object.entries(this.#map)) {
@@ -528,10 +528,10 @@ class KeyboardManager implements IEventSource<KeyboardEventsInit> {
 		this.#map = map;
 	}
 	/**
-	 * 设置组合键
-	 * @description 为同一 id 设置多组组合键
-	 * @param id - 组合键 id
-	 * @param group - 组合键组
+	 * 设置快捷键
+	 * @description 为同一 id 设置多组快捷键
+	 * @param id - 快捷键 id
+	 * @param group - 快捷键组
 	 */
 	set(id: string, group: KeyBindGroup): void {
 		if (typeof id !== 'string') return;
@@ -545,10 +545,10 @@ class KeyboardManager implements IEventSource<KeyboardEventsInit> {
 		this.#map[id] = newGroup;
 	}
 	/**
-	 * 添加组合键
-	 * @description 为一 id 添加一个组合键
-	 * @param id - 组合键 id
-	 * @param group - 组合键
+	 * 添加快捷键
+	 * @description 为一 id 添加一个快捷键
+	 * @param id - 快捷键 id
+	 * @param group - 快捷键
 	 */
 	add(id: string, item: KeyBindItem): boolean {
 		if (typeof id !== 'string') return false;
@@ -559,10 +559,10 @@ class KeyboardManager implements IEventSource<KeyboardEventsInit> {
 		return true;
 	}
 	/**
-	 * 移除组合键
-	 * @description 为一 id 移除一个组合键
-	 * @param id - 组合键 id
-	 * @param group - 组合键
+	 * 移除快捷键
+	 * @description 为一 id 移除一个快捷键
+	 * @param id - 快捷键 id
+	 * @param group - 快捷键
 	 */
 	rm(id: string, item: KeyBindItem): boolean {
 		if (typeof id !== 'string' || !this.#map[id]) return false;
@@ -572,9 +572,9 @@ class KeyboardManager implements IEventSource<KeyboardEventsInit> {
 		return true;
 	}
 	/**
-	 * 删除组合键
-	 * @description 移除一 id 的所有组合键
-	 * @param id - 组合键 id
+	 * 删除快捷键
+	 * @description 移除一 id 的所有快捷键
+	 * @param id - 快捷键 id
 	 */
 	delete(id: string): boolean {
 		if (typeof id !== 'string') return false;
@@ -660,7 +660,7 @@ class KeyboardManager implements IEventSource<KeyboardEventsInit> {
 	//#region Bind
 	/**
 	 * 获取按键绑定器
-	 * @description 当需要从用户输入获取组合键时，使用该按键绑定器
+	 * @description 当需要从用户输入获取快捷键时，使用该按键绑定器
 	 */
 	bind(): KeyBinder | null {
 		if (this[BINDING]) return null;
@@ -753,8 +753,8 @@ class KeyboardManager implements IEventSource<KeyboardEventsInit> {
 	 * - `up`：按键被松开
 	 * - `press`：按键被按下后松开
 	 * - `trigger`：按键被按下（按住重复触发）
-	 * - `shortcut`：组合键按下
-	 * - `shortcutTrigger`：组合键按下（按住重复触发）
+	 * - `shortcut`：快捷键按下
+	 * - `shortcutTrigger`：快捷键按下（按住重复触发）
 	 * - `aliasDown`：别名按键被按下
 	 * - `aliasUp`：别名按键被松开
 	 * - `aliasPress`：别名按键被按下后松开
@@ -775,8 +775,8 @@ class KeyboardManager implements IEventSource<KeyboardEventsInit> {
 	 * - `up`：按键被松开
 	 * - `press`：按键被按下后松开
 	 * - `trigger`：按键被按下（按住重复触发）
-	 * - `shortcut`：组合键按下
-	 * - `shortcutTrigger`：组合键按下（按住重复触发）
+	 * - `shortcut`：快捷键按下
+	 * - `shortcutTrigger`：快捷键按下（按住重复触发）
 	 * - `aliasDown`：别名按键被按下
 	 * - `aliasUp`：别名按键被松开
 	 * - `aliasPress`：别名按键被按下后松开
@@ -797,8 +797,8 @@ class KeyboardManager implements IEventSource<KeyboardEventsInit> {
 	 * - `up`：按键被松开
 	 * - `press`：按键被按下后松开
 	 * - `trigger`：按键被按下（按住重复触发）
-	 * - `shortcut`：组合键按下
-	 * - `shortcutTrigger`：组合键按下（按住重复触发）
+	 * - `shortcut`：快捷键按下
+	 * - `shortcutTrigger`：快捷键按下（按住重复触发）
 	 * - `aliasDown`：别名按键被按下
 	 * - `aliasUp`：别名按键被松开
 	 * - `aliasPress`：别名按键被按下后松开
