@@ -104,6 +104,20 @@ source:
 ## `process()`
 提交任务到执行队列。
 
+# 类 `SerialCallbackExecutor`
+串行任务执行器，用于确保任务按添加顺序依次执行，类似于 [`SerialExecutor`](#类-serialexecutor)，但使用回调处理。
+
+## `constructor()`
+参数：
+- `exe`：执行函数
+- `callback`：回调函数
+
+## `process()`
+提交任务到执行队列。
+
+## `processMany()`
+提交多个任务到执行队列。
+
 # 类 `Timer`
 计时器。
 

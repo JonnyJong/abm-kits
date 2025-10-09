@@ -1,4 +1,4 @@
-import { Fn, run } from './function';
+import { Fn, run, runTask } from './function';
 
 /**
  * 生成一个指定时间后 resolve 的 `Promise`
@@ -313,6 +313,49 @@ export class SerialExecutor<Args extends any[], Result> {
 			this.#tasks.push({ args, resolve, reject });
 			if (!this.#running) this.#run();
 		});
+	}
+}
+
+/**
+ * @description
+ * 串行任务执行器，保证任务按添加顺序依次执行
+ */
+export class SerialCallbackExecutor<Args extends any[], Result> {
+	#exe: Fn<Args, Result | Promise<Result>>;
+	#callback: Fn<[Result] | [undefined, Error]>;
+	#tasks: Args[] = [];
+	#promise: Promise<void> | null = null;
+	/**
+	 * @param exe - 实际执行任务的函数
+	 */
+	constructor(exe: Fn<Args, Result | Promise<Result>>, callback: Fn<[Result]>) {
+		this.#exe = exe;
+		this.#callback = callback;
+	}
+	#run() {
+		if (this.#promise) return;
+		if (this.#tasks.length === 0) return;
+		const task = this.#tasks.shift()!;
+		this.#promise = new Promise<Result>((resolve) => resolve(this.#exe(...task)))
+			.then((result) => {
+				runTask(() => this.#callback(result));
+				this.#promise = null;
+				this.#run();
+			})
+			.catch((reason) => {
+				const error = new Error('Error while executing', { cause: reason });
+				runTask(() => this.#callback(undefined, error));
+				this.#promise = null;
+				this.#run();
+			});
+	}
+	process(...args: Args) {
+		this.#tasks.push(args);
+		this.#run();
+	}
+	processMany(...tasks: Args[]) {
+		this.#tasks.push(...tasks);
+		this.#run();
 	}
 }
 
