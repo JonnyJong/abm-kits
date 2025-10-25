@@ -1,0 +1,203 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.3.0/schema.json",
+	"vcs": {
+		"enabled": false,
+		"clientKind": "git",
+		"useIgnoreFile": false
+	},
+	"files": {
+		"ignoreUnknown": false,
+		"includes": [
+			"**/*.ts",
+			"**/*.json",
+			"!**/.vscode",
+			"!**/node_modules",
+			"!**/dist",
+			"!**/tsconfig.*",
+			"!**/scripts/**/*.js",
+			"!**/packages/icons/projects.json",
+			"!**/packages/**/icons.json"
+		]
+	},
+	"formatter": {
+		"enabled": true,
+		"indentStyle": "tab",
+		"lineWidth": 80,
+		"lineEnding": "lf",
+		"indentWidth": 1
+	},
+	"assist": {
+		"actions": {
+			"source": {
+				"organizeImports": "on"
+			}
+		}
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true,
+			"complexity": {
+				"noBannedTypes": "off",
+				"noForEach": "off",
+				"noUselessStringConcat": "error",
+				"noVoid": "error",
+				"useDateNow": "error",
+				"useSimplifiedLogicExpression": "error",
+				"useWhile": "info"
+			},
+			"correctness": {
+				"noUndeclaredVariables": {
+					"level": "error",
+					"options": { "checkTypes": true }
+				},
+				"noUnusedFunctionParameters": "error",
+				"noUnusedImports": "error",
+				"noUnusedPrivateClassMembers": "error",
+				"noUnusedVariables": "error",
+				"useParseIntRadix": "off",
+				"useSingleJsDocAsterisk": "info"
+			},
+			"nursery": {
+				"noDeprecatedImports": "on",
+				"noEmptySource": "on",
+				"noImportCycles": "on",
+				"noMisusedPromises": "on",
+				"noUnusedExpressions": "on",
+				"noUselessCatchBinding": "on",
+				"noUselessUndefined": "on",
+				"useConsistentArrowReturn": "on",
+				"useExhaustiveSwitchCases": "on",
+				"useMaxParams": {
+					"level": "warn",
+					"options": { "max": 6 }
+				}
+			},
+			"performance": {
+				"noAwaitInLoops": "info",
+				"noBarrelFile": "error",
+				"noDynamicNamespaceImportAccess": "error",
+				"useTopLevelRegex": "warn"
+			},
+			"security": {
+				// Biome can't distinguish keys well at the moment
+				"noSecrets": "off"
+			},
+			"style": {
+				"noEnum": "error",
+				"noExportedImports": "error",
+				"noInferrableTypes": "warn",
+				"noNegationElse": "error",
+				"noNestedTernary": "error",
+				// Biome cannot currently handle `arr.pop()`
+				"noNonNullAssertion": "off",
+				"noProcessEnv": "error",
+				"noRestrictedGlobals": "error",
+				"noSubstr": "error",
+				"noUnusedTemplateLiteral": "info",
+				"noUselessElse": "error",
+				"noYodaExpression": "error",
+				"useArrayLiterals": "error",
+				"useAsConstAssertion": "info",
+				"useAtIndex": "warn",
+				"useCollapsedElseIf": "error",
+				"useCollapsedIf": "error",
+				"useConsistentArrayType": "error",
+				"useConsistentBuiltinInstantiation": "error",
+				"useConsistentMemberAccessibility": "error",
+				"useConsistentObjectDefinitions": "error",
+				"useDefaultParameterLast": "error",
+				"useExplicitLengthCheck": "info",
+				"useForOf": "error",
+				"useGroupedAccessorPairs": "error",
+				"useNamingConvention": {
+					"level": "warn",
+					"fix": "safe",
+					"options": {
+						"strictCase": false,
+						"requireAscii": true,
+						"conventions": [
+							{
+								"selector": { "kind":"importAlias" },
+								"formats": ["camelCase", "CONSTANT_CASE", "PascalCase"]
+							},
+							{
+								"selector": { "kind": "const" },
+								"formats": ["camelCase", "CONSTANT_CASE"]
+							},
+							{
+								"selector": {
+									"kind": "classProperty",
+									"modifiers": ["readonly", "static"]
+								},
+								"formats": ["CONSTANT_CASE"]
+							},
+							{
+								"selector": {
+									"kind": "classProperty",
+									"modifiers": ["protected"]
+								},
+								"match": "_?[a-z][0-9a-zA-Z]*"
+							},
+							{
+								"selector": { "kind": "typeAlias" },
+								"match": "[A-Z][0-9a-zA-Z]*"
+							},
+							{
+								"selector": { "kind": "typeLike" },
+								"match": "[A-Z][0-9a-zA-Z]*"
+							},
+							{
+								"selector": { "kind": "enumMember" },
+								"formats": ["CONSTANT_CASE"]
+							},
+							{
+								"selector": { "kind": "objectLiteralProperty" },
+								"formats": ["camelCase", "CONSTANT_CASE"],
+								"match": "[A-Z][A-Z0-9_]*|[a-z\\$][0-9a-zA-Z\\$]*"
+							},
+							{
+								"selector": { "kind": "any" },
+								"match": "[a-z\\$][0-9a-zA-Z\\$]*"
+							}
+						]
+					}
+				},
+				"useNodeAssertStrict": "warn",
+				"useNodejsImportProtocol": "error",
+				"useObjectSpread": "info",
+				"useShorthandAssign": "warn",
+				"useSingleVarDeclarator": "error",
+				"useTemplate": "error",
+				"useThrowNewError": "error",
+				"useThrowOnlyError": "error",
+				"useTrimStartEnd": "warn"
+			},
+			"suspicious": {
+				"noAlert": "on",
+				"noConstantBinaryExpressions": "on",
+				"noConstEnum": "off",
+				"noDebugger": "warn",
+				"noExplicitAny": "off",
+				"noUnassignedVariables": "on",
+				"noVar": "error",
+				// Biome is currently unable to distinguish between static and instance methods
+				"useAdjacentOverloadSignatures": "off",
+				"useAwait": "on",
+				"useErrorMessage": "on",
+				"useGuardForIn": "on",
+				"useNumberToFixedDigitsArgument": "on",
+				"useStaticResponseMethods": "on",
+				"useStrictMode": "on"
+			}
+		}
+	},
+	"javascript": {
+		"formatter": {
+			"quoteStyle": "single"
+		},
+		"parser": {
+			"unsafeParameterDecoratorsEnabled": true
+		}
+	}
+}
