@@ -1,10 +1,10 @@
 import {
-	ColorScheme,
+	type ColorScheme,
 	configs,
 	defaultLocale,
 	tooltips,
-	WidgetColor,
-	WidgetSelect,
+	type WidgetColor,
+	type WidgetSelect,
 } from 'abm-ui';
 import { $, $$, $new, $ready } from 'abm-utils';
 
@@ -42,9 +42,7 @@ function nav() {
 		{ value: 'dark', label: $new('w-lang', 'schema.dark') },
 	];
 	colorSchema.value = 'system';
-	langSelect.options = languages.map((v) => {
-		return { value: v, label: v };
-	});
+	langSelect.options = languages.map((v) => ({ value: v, label: v }));
 	langSelect.value = document.documentElement.lang;
 	const color = localStorage.getItem('theme-color');
 	if (color) {
@@ -107,9 +105,7 @@ function link() {
 }
 
 $ready(() => {
-	Promise.resolve().then(nav);
-	Promise.resolve().then(toc);
-	Promise.resolve().then(link);
+	Promise.all([nav, toc, link].map((fn) => fn()));
 	defaultLocale.loader = () => (window as any).__LOCALE;
 	defaultLocale.reload();
 });

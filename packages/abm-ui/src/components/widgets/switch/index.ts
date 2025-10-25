@@ -1,9 +1,15 @@
-import { EventValue, EventValueInit, EventsList, clamp, css } from 'abm-utils';
+import {
+	clamp,
+	css,
+	type EventsList,
+	EventValue,
+	type EventValueInit,
+} from 'abm-utils';
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { events, UIEventActive, UIEventSlide } from '../../../events';
-import { KeyboardEvents, keyboard } from '../../../keyboard';
-import { Navigable } from '../../../navigate';
+import { events, type UIEventActive, type UIEventSlide } from '../../../events';
+import { type KeyboardEvents, keyboard } from '../../../keyboard';
+import type { Navigable } from '../../../navigate';
 import { Widget } from '../base';
 import CSS from './index.styl';
 

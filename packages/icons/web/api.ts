@@ -1,5 +1,5 @@
 import { Bridge } from 'scc/dist/browser';
-import { APIMap, Project, ProjectInit, QueryOptions } from '../types';
+import type { APIMap, Project, ProjectInit, QueryOptions } from '../types';
 
 let bridge: Bridge<APIMap>;
 

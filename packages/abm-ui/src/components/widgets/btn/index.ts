@@ -4,21 +4,21 @@ import {
 	$new,
 	AnimationFrameController,
 	Color,
-	EventBase,
-	EventBaseInit,
-	EventsList,
 	clamp,
 	css,
+	EventBase,
+	type EventBaseInit,
+	type EventsList,
 	runSync,
 } from 'abm-utils';
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
-import { events, UIEventActive } from '../../../events/index';
+import { events, type UIEventActive } from '../../../events/index';
 import { Widget } from '../base';
 import { WidgetIcon } from '../icon';
 import { WidgetLang } from '../lang';
-import { WidgetProgressBar } from '../progress';
+import type { WidgetProgressBar } from '../progress';
 import CSS from './index.styl';
 
 /**
@@ -88,9 +88,11 @@ export class WidgetBtn extends Widget<WidgetBtnEventsInit> {
 	/** 图标 */
 	@property({ type: String })
 	get icon() {
-		if (this.firstElementChild instanceof WidgetIcon)
+		if (this.firstElementChild instanceof WidgetIcon) {
 			return this.firstElementChild.key;
-		return undefined;
+		}
+		// biome-ignore lint/suspicious/useGetterReturn: Return nothing
+		return;
 	}
 	set icon(value: string | undefined) {
 		if (this.firstElementChild instanceof WidgetIcon) {
@@ -104,9 +106,11 @@ export class WidgetBtn extends Widget<WidgetBtnEventsInit> {
 	/** 翻译键 */
 	@property({ type: String })
 	get key() {
-		if (this.lastElementChild instanceof WidgetLang)
+		if (this.lastElementChild instanceof WidgetLang) {
 			return this.lastElementChild.key;
-		return undefined;
+		}
+		// biome-ignore lint/suspicious/useGetterReturn: Return nothing
+		return;
 	}
 	set key(value: string | undefined) {
 		if (this.lastElementChild instanceof WidgetLang) {
@@ -176,7 +180,7 @@ export class WidgetBtn extends Widget<WidgetBtnEventsInit> {
 		return this.#delay;
 	}
 	set delay(value: number) {
-		if (isNaN(value) || value < 0) value = 0;
+		if (Number.isNaN(value) || value < 0) value = 0;
 		if (value === Infinity) console.warn('Delay value is Infinity');
 		this.#delay = value;
 	}

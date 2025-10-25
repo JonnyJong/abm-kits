@@ -1,4 +1,4 @@
-import { Widget } from './components/widgets/base';
+import type { Widget } from './components/widgets/base';
 
 export function initContextMenu() {
 	addEventListener('contextmenu', (event) => {

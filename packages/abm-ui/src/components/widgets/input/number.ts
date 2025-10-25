@@ -1,11 +1,15 @@
-import { $new, IExpressionEvaluator, createClampedStepper } from 'abm-utils';
+import {
+	$new,
+	createClampedStepper,
+	type IExpressionEvaluator,
+} from 'abm-utils';
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { Navigable } from '../../../navigate';
-import { WidgetIcon } from '../icon';
+import type { Navigable } from '../../../navigate';
+import type { WidgetIcon } from '../icon';
 import { InputActions } from './actions';
-import { IWidgetInputAutoFillItem, InputAutoFill } from './autofill';
-import { WidgetInput, WidgetInputProp } from './base';
+import { InputAutoFill, type IWidgetInputAutoFillItem } from './autofill';
+import { WidgetInput, type WidgetInputProp } from './base';
 import { initInputNavigate } from './nav';
 
 export interface WidgetNumberProp extends WidgetInputProp<number> {
@@ -125,7 +129,7 @@ export class WidgetNumber
 		}
 
 		const { value, text, error } = this.#expressionEvaluator.evaluate(input);
-		if (error) return undefined;
+		if (error) return;
 		this.#valueCache = this.#clampedStep(value);
 		this.#textCache = text;
 		return this.#valueCache;
@@ -187,7 +191,7 @@ export class WidgetNumber
 		return this.#min;
 	}
 	set min(value: number) {
-		if (isNaN(value)) value = Number.NEGATIVE_INFINITY;
+		if (Number.isNaN(value)) value = Number.NEGATIVE_INFINITY;
 		if (value === this.#min) return;
 		this.#min = value;
 		this.input.min = value.toString();
@@ -200,7 +204,7 @@ export class WidgetNumber
 		return this.#max;
 	}
 	set max(value: number) {
-		if (isNaN(value)) value = Number.POSITIVE_INFINITY;
+		if (Number.isNaN(value)) value = Number.POSITIVE_INFINITY;
 		if (value === this.#max) return;
 		this.#max = value;
 		this.input.max = value.toString();
@@ -218,7 +222,7 @@ export class WidgetNumber
 		return this.#step;
 	}
 	set step(value: number) {
-		if (isNaN(value)) value = 0;
+		if (Number.isNaN(value)) value = 0;
 		value = Math.abs(value);
 		if (value === this.#step) return;
 		this.#step = value;
@@ -273,7 +277,7 @@ export class WidgetNumber
 	protected render() {
 		return html`
 			${this.input}
-			${this._placeholder}
+			${this.placeholder}
 			${this.#actionsLeft.element}
 			${this.#actionsRight.element}
 		`;

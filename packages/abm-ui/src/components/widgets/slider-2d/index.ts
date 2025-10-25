@@ -1,22 +1,22 @@
 import {
 	$div,
-	EventValue,
-	EventValueInit,
-	EventsList,
-	Throttle,
-	Vec2,
 	clamp,
 	createClampedStepper,
 	css,
+	type EventsList,
+	EventValue,
+	type EventValueInit,
 	formatWithStep,
+	Throttle,
+	type Vec2,
 } from 'abm-utils';
 import { customElement, property } from 'lit/decorators.js';
-import { events, UIEventSlide } from '../../../events';
-import { Slidable, SlideBorder } from '../../../events/slide';
-import { KeyboardEvents, keyboard } from '../../../keyboard';
+import { events, type UIEventSlide } from '../../../events';
+import type { Slidable, SlideBorder } from '../../../events/slide';
+import { type KeyboardEvents, keyboard } from '../../../keyboard';
 import {
-	Navigable,
-	NavigateCallbackOptions,
+	type Navigable,
+	type NavigateCallbackOptions,
 	navigate,
 } from '../../../navigate';
 import { tooltips } from '../../tooltips';

@@ -4,20 +4,20 @@ import {
 	$new,
 	Color,
 	css,
-	EventsList,
+	type EventsList,
 	EventValue,
-	EventValueInit,
+	type EventValueInit,
 } from 'abm-utils';
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { configs } from '../../../configs';
-import { Navigable } from '../../../navigate';
+import type { Navigable } from '../../../navigate';
 import { Widget } from '../base';
-import { WidgetNumber } from '../input/number';
-import { WidgetNav } from '../nav';
-import { WidgetSlider } from '../slider';
-import { WidgetSlider2D } from '../slider-2d';
+import type { WidgetNumber } from '../input/number';
+import type { WidgetNav } from '../nav';
+import type { WidgetSlider } from '../slider';
+import type { WidgetSlider2D } from '../slider-2d';
 import CSS from './index.styl';
 
 interface WidgetColorPickerEventsInit {

@@ -1,4 +1,4 @@
-import { configs, WidgetColor } from 'abm-ui';
+import { configs, type WidgetColor } from 'abm-ui';
 import { $ } from 'abm-utils';
 
 const color = $<WidgetColor>('w-color')!;

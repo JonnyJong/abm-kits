@@ -1,9 +1,9 @@
-import { $div, $new, Debounce, createArray, css, zip } from 'abm-utils';
+import { $div, $new, createArray, css, Debounce, zip } from 'abm-utils';
 import { customElement } from 'lit/decorators.js';
 import { configs } from '../../../configs';
-import { events, UIEventSlideState } from '../../../events';
-import { KeyboardEvents, keyboard } from '../../../keyboard';
-import { Navigable } from '../../../navigate';
+import { events, type UIEventSlideState } from '../../../events';
+import { type KeyboardEvents, keyboard } from '../../../keyboard';
+import type { Navigable } from '../../../navigate';
 import { Widget } from '../base';
 import CSS from './index.styl';
 
@@ -386,9 +386,7 @@ export class WidgetGridData<Data extends object = object>
 				return { ...col, key };
 			})
 			.filter((v) => !!v);
-		const current = this.#column.map(({ key }) => {
-			return { key, used: false };
-		});
+		const current = this.#column.map(({ key }) => ({ key, used: false }));
 		const headItems: HTMLElement[] = [];
 		const rows = createArray<HTMLElement[]>(this.#body.children.length, () => []);
 		for (const { key, head, create } of column) {

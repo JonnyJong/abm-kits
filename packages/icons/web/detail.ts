@@ -1,6 +1,6 @@
-import { WidgetBtn, WidgetSelect } from 'abm-ui';
+import type { WidgetBtn, WidgetSelect } from 'abm-ui';
 import { $ } from 'abm-utils';
-import { IconInfo } from '../types';
+import type { IconInfo } from '../types';
 import { getIcon } from './api';
 import { createIcon } from './icon';
 import { addInProject } from './project';

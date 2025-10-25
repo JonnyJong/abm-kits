@@ -1,8 +1,7 @@
-import { Vec2, callTask } from 'abm-utils';
-import { EventBase } from 'abm-utils';
+import { callTask, EventBase, type Vec2 } from 'abm-utils';
 import { configs } from '../configs';
-import { NavigateEvents, navigate } from '../navigate';
-import { IUIEventBase, IUIEventBaseManage, IUIEventHandler } from './base';
+import { type NavigateEvents, navigate } from '../navigate';
+import type { IUIEventBase, IUIEventBaseManage, IUIEventHandler } from './base';
 
 export class UIEventActive
 	extends EventBase<'active', HTMLElement>
@@ -34,9 +33,9 @@ export class UIEventActive
 	}
 	/**
 	 * @description
-	 * * `-2`: Nav
-	 * * `-1`: Mouse
-	 * * `>= 0`: Touch & Pen
+	 * - `-2`: Nav
+	 * - `-1`: Mouse
+	 * - `>= 0`: Touch & Pen
 	 */
 	get identifier() {
 		return this.#identifier;
@@ -61,9 +60,9 @@ export class UIEventActiveManager implements IUIEventBaseManage<'active'> {
 	#subscriptions: WeakMap<HTMLElement, Set<UIEventActiveHandler>> =
 		new WeakMap();
 	/**
-	 * * `-2`: Nav
-	 * * `-1`: Mouse
-	 * * `>= 0`: Touch & Pen
+	 * - `-2`: Nav
+	 * - `-1`: Mouse
+	 * - `>= 0`: Touch & Pen
 	 */
 	#activated: Map<HTMLElement, number> = new Map();
 	#emit(

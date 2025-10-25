@@ -157,7 +157,7 @@ export class IterableWeakSet<T extends WeakKey = WeakKey> implements Set<T> {
 		for (const value of this.values()) {
 			if (predicate(value, this)) return value;
 		}
-		return undefined;
+		return;
 	}
 	/**
 	 * 返回满足提供的测试函数的所有值
@@ -209,9 +209,6 @@ export function proxyObject<T extends object>(
 	};
 	const setter = handler.set;
 	const deleteProperty = handler.deleteProperty;
-
-	handler.set;
-	handler.deleteProperty;
 
 	return new Proxy(obj, {
 		...handler,

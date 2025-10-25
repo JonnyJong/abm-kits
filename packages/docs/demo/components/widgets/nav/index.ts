@@ -1,4 +1,4 @@
-import { WidgetNav } from 'abm-ui';
+import type { WidgetNav } from 'abm-ui';
 import { $ } from 'abm-utils';
 
 const nav = $<WidgetNav<'home' | 'settings'>>('w-nav')!;

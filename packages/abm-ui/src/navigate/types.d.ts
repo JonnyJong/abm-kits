@@ -1,8 +1,8 @@
-import {
+import type {
 	Direction4,
 	EventBaseInit,
-	EventValueInit,
 	EventsList,
+	EventValueInit,
 	IEventSource,
 	Vec2,
 } from 'abm-utils';
@@ -48,7 +48,7 @@ export type StackItem = [
 	lock: WeakRef<Navigable> | null,
 ];
 
-interface NavigateEventsInit {
+export interface NavigateEventsInit {
 	nav: EventBaseInit<INavigate>;
 	active: EventValueInit<INavigate, boolean>;
 	cancel: EventValueInit<INavigate, boolean>;

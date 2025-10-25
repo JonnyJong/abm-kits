@@ -1,4 +1,4 @@
-import { WidgetSlider2D } from 'abm-ui';
+import type { WidgetSlider2D } from 'abm-ui';
 import { $ } from 'abm-utils';
 
 const slider = $<WidgetSlider2D>('w-slider-2d')!;

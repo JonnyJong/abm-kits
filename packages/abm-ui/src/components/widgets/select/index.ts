@@ -2,27 +2,27 @@ import { Signal } from '@lit-labs/signals';
 import {
 	$div,
 	$new,
-	DOMContents,
-	EventValue,
-	EventValueInit,
-	EventsList,
 	asArray,
 	clamp,
 	css,
+	type DOMContents,
+	type EventsList,
+	EventValue,
+	type EventValueInit,
 	sleep,
 } from 'abm-utils';
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { configs } from '../../../configs';
-import { events, UIEventActive } from '../../../events';
+import { events, type UIEventActive } from '../../../events';
 import {
-	Navigable,
-	NavigateCallbackOptions,
+	type Navigable,
+	type NavigateCallbackOptions,
 	navigate,
 } from '../../../navigate';
 import { Widget } from '../base';
-import { WidgetList, WidgetListItem } from '../list';
+import { type WidgetList, WidgetListItem } from '../list';
 import CSS from './index.styl';
 import CSS_ITEM from './item.styl';
 

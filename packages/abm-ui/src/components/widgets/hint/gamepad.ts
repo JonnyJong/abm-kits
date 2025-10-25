@@ -1,6 +1,6 @@
 import { $div, $new, css } from 'abm-utils';
 import { customElement, property } from 'lit/decorators.js';
-import { UIDefaultsIcons, configs } from '../../../configs';
+import { configs, type UIDefaultsIcons } from '../../../configs';
 import { Widget } from '../base';
 import { WidgetIcon } from '../icon';
 import CSS from './gamepad.styl';

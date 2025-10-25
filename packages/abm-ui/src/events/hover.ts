@@ -1,7 +1,6 @@
-import { callTask } from 'abm-utils';
-import { EventBase } from 'abm-utils';
+import { callTask, EventBase } from 'abm-utils';
 import { navigate } from '../navigate';
-import { IUIEventBase, IUIEventBaseManage, IUIEventHandler } from './base';
+import type { IUIEventBase, IUIEventBaseManage, IUIEventHandler } from './base';
 
 export class UIEventHover
 	extends EventBase<'hover', HTMLElement>

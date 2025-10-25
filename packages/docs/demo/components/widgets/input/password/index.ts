@@ -1,4 +1,4 @@
-import { WidgetPassword } from 'abm-ui';
+import type { WidgetPassword } from 'abm-ui';
 import { $ } from 'abm-utils';
 
 const input = $<WidgetPassword>('w-password')!;

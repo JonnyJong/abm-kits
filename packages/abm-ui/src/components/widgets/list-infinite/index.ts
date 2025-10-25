@@ -1,16 +1,16 @@
 import {
 	$div,
 	$new,
-	DOMContents,
-	Debounce,
-	EventsInitList,
-	PromiseOr,
 	asArray,
 	css,
+	Debounce,
+	type DOMContents,
+	type EventsInitList,
+	type PromiseOr,
 	sleep,
 } from 'abm-utils';
 import { customElement } from 'lit/decorators.js';
-import { Navigable } from '../../../navigate';
+import type { Navigable } from '../../../navigate';
 import { Widget } from '../base';
 import CSS from './index.styl';
 

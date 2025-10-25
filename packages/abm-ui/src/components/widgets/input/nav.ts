@@ -1,8 +1,8 @@
-import { EventValue, Events } from 'abm-utils';
-import { KeyboardEvents, keyboard } from '../../../keyboard';
+import { type Events, EventValue } from 'abm-utils';
+import { type KeyboardEvents, keyboard } from '../../../keyboard';
 import { navigate } from '../../../navigate';
-import { InputAutoFill } from './autofill';
-import { InputElement, WidgetInput, WidgetInputEventsInit } from './base';
+import type { InputAutoFill } from './autofill';
+import type { InputElement, WidgetInput, WidgetInputEventsInit } from './base';
 
 export function initInputNavigate(
 	this: WidgetInput<any>,

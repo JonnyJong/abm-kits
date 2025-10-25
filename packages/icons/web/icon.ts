@@ -1,5 +1,5 @@
 import { $new } from 'abm-utils';
-import { IconInfo } from '../types';
+import type { IconInfo } from '../types';
 
 const observer = new IntersectionObserver((entries) => {
 	entries.forEach((entry) => {

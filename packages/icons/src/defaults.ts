@@ -1,4 +1,4 @@
-import { IconInfo } from '../types';
+import type { IconInfo } from '../types';
 
 export const DEFAULTS_ICONS: [string, IconInfo][] = [
 	[

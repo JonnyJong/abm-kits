@@ -1,10 +1,10 @@
 import { Signal } from '@lit-labs/signals';
 import {
-	FlatLocaleParams,
+	type FlatLocaleParams,
 	Locale,
-	LocaleDict,
+	type LocaleDict,
 	LocaleManager,
-	LocaleManagerEvents,
+	type LocaleManagerEvents,
 	parseKeyNamespace,
 } from 'abm-utils';
 import { DEFAULT_LOCALE_DICTS } from './defaults';
@@ -14,7 +14,7 @@ export interface UIDefaultLocaleDict extends LocaleDict {
 		confirm: string;
 		cancel: string;
 		ok: string;
-		color_picker: string;
+		colorPicker: string;
 		alpha: string;
 		red: string;
 		green: string;

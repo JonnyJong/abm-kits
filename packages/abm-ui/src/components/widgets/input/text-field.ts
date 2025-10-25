@@ -1,6 +1,6 @@
 import { $new } from 'abm-utils';
 import { customElement, property } from 'lit/decorators.js';
-import { WidgetInput, WidgetInputProp } from './base';
+import { WidgetInput, type WidgetInputProp } from './base';
 import { initInputNavigate } from './nav';
 
 export interface WidgetTextFieldProp extends WidgetInputProp<string> {}

@@ -1,4 +1,9 @@
-import { events, Navigable, WidgetList, WidgetListItem } from 'abm-ui';
+import {
+	events,
+	type Navigable,
+	type WidgetList,
+	WidgetListItem,
+} from 'abm-ui';
 import { $, $div, $new } from 'abm-utils';
 import { css } from 'lit';
 import { customElement } from 'lit/decorators.js';

@@ -49,14 +49,14 @@ export function createClampedStepper(from: number, to: number, step = 0) {
 
 	if (step === 0) {
 		return function clampedStepper(value: number): number {
-			if (typeof value !== 'number' || isNaN(value)) return NaN;
+			if (typeof value !== 'number' || Number.isNaN(value)) return NaN;
 			return clamp(from, value, to);
 		};
 	}
 
 	if (from === -Infinity) {
 		return function clampedStepper(value: number): number {
-			if (typeof value !== 'number' || isNaN(value)) return NaN;
+			if (typeof value !== 'number' || Number.isNaN(value)) return NaN;
 			return clamp(from, value, to);
 		};
 	}
@@ -65,7 +65,7 @@ export function createClampedStepper(from: number, to: number, step = 0) {
 	if (step >= to - from) {
 		const middle = from + range / 2;
 		return function clampedStepper(value: number): number {
-			if (typeof value !== 'number' || isNaN(value)) return NaN;
+			if (typeof value !== 'number' || Number.isNaN(value)) return NaN;
 			value = clamp(from, value, to);
 			if (value >= middle) return to;
 			return from;
@@ -73,7 +73,7 @@ export function createClampedStepper(from: number, to: number, step = 0) {
 	}
 
 	return function clampedStepper(value: number): number {
-		if (typeof value !== 'number' || isNaN(value)) return NaN;
+		if (typeof value !== 'number' || Number.isNaN(value)) return NaN;
 		value = clamp(from, value, to);
 		if (value === from || value === to) return value;
 

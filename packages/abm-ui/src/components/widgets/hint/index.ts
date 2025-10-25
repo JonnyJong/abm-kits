@@ -1,6 +1,9 @@
-import { $div, $new, DOMContents, asArray, callTask } from 'abm-utils';
+import { $div, $new, asArray, callTask, type DOMContents } from 'abm-utils';
 import { customElement } from 'lit/decorators.js';
-import { GameController, GameControllerEvents } from '../../../game-controller';
+import {
+	GameController,
+	type GameControllerEvents,
+} from '../../../game-controller';
 import { Widget } from '../base';
 
 //#region Define

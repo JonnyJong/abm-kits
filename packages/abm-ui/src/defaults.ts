@@ -1,5 +1,5 @@
-import { UIDefaultsIcons } from './configs';
-import { UIDefaultLocaleDict } from './locale';
+import type { UIDefaultsIcons } from './configs';
+import type { UIDefaultLocaleDict } from './locale';
 
 export const DEFAULTS_ICONS: Readonly<Record<UIDefaultsIcons, string>> =
 	Object.freeze({
@@ -42,7 +42,7 @@ export const DEFAULT_LOCALE_DICTS = {
 			confirm: '确定',
 			cancel: '取消',
 			ok: '好',
-			color_picker: '颜色选择器',
+			colorPicker: '颜色选择器',
 			alpha: '不透明度',
 			red: '红',
 			green: '绿',
@@ -62,7 +62,7 @@ export const DEFAULT_LOCALE_DICTS = {
 			confirm: 'Confirm',
 			cancel: 'Cancel',
 			ok: 'OK',
-			color_picker: 'Color Picker',
+			colorPicker: 'Color Picker',
 			alpha: 'Alpha',
 			red: 'Red',
 			green: 'Green',

@@ -1,4 +1,4 @@
-import { Fn, run, runTask } from './function';
+import { type Fn, run, runTask } from './function';
 
 /**
  * 生成一个指定时间后 resolve 的 `Promise`
@@ -166,7 +166,7 @@ export class AnimationFrameController {
 	 * @readonly
 	 */
 	get isRunning() {
-		return !isNaN(this.#requestId);
+		return !Number.isNaN(this.#requestId);
 	}
 	/**
 	 * 是否忽略回调函数中的错误
@@ -292,6 +292,7 @@ export class SerialExecutor<Args extends any[], Result> {
 			const task = this.#tasks.shift();
 			if (!task) break;
 			try {
+				// biome-ignore lint/performance/noAwaitInLoops: Need to ensure serial execution
 				task.resolve(await this.#exe(...task.args));
 			} catch (error) {
 				task.reject(error);

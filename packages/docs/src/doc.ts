@@ -1,4 +1,4 @@
-import { WidgetBtn, WidgetNav } from 'abm-ui';
+import type { WidgetBtn, WidgetNav } from 'abm-ui';
 import { $, $$, $apply, $div, $new, $ready, sleep } from 'abm-utils';
 
 function hashChangeHandler() {
@@ -25,7 +25,7 @@ function initDemo(root: HTMLElement) {
 	codes[0].classList.add('demo-file-show');
 	nav.on('change', () => {
 		const i = Number(nav.value);
-		if (isNaN(i)) return;
+		if (Number.isNaN(i)) return;
 		$('.demo-files pre.demo-file-show', root)?.classList.remove('demo-file-show');
 		codes[i].classList.add('demo-file-show');
 	});

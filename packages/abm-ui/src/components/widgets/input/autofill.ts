@@ -1,20 +1,20 @@
 import {
 	$new,
 	AnimationFrameController,
-	DOMContents,
-	EventValue,
-	Events,
 	css,
+	type DOMContents,
+	type Events,
+	EventValue,
 	proxyObject,
 } from 'abm-utils';
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { configs } from '../../../configs';
 import { events } from '../../../events';
-import { Navigable } from '../../../navigate';
-import { WidgetList, WidgetListItem } from '../list';
+import type { Navigable } from '../../../navigate';
+import { type WidgetList, WidgetListItem } from '../list';
 import CSS from './autofill.styl';
-import {
+import type {
 	InputElement,
 	WidgetInput,
 	WidgetInputEventsInit,
@@ -63,7 +63,7 @@ export class WidgetInputAutoFillItem<
 		Value extends WidgetInputValue,
 		Data extends
 			IWidgetInputAutoFillItem<Value> = IWidgetInputAutoFillItem<Value>,
-		_Obj extends
+		Obj extends
 			WidgetInputAutoFillItemObject<Value> = WidgetInputAutoFillItemObject<Value>,
 	>
 	extends WidgetListItem<Data>
@@ -87,10 +87,10 @@ export class WidgetInputAutoFillItem<
 			this.label = this.#data;
 			return;
 		}
-		if ((this.#data as _Obj).label) {
-			this.label = (this.#data as _Obj).label!;
+		if ((this.#data as Obj).label) {
+			this.label = (this.#data as Obj).label!;
 		} else {
-			this.label = (this.#data as _Obj).value!;
+			this.label = (this.#data as Obj).value!;
 		}
 	};
 	get data() {

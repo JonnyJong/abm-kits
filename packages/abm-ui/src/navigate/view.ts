@@ -4,9 +4,9 @@ import {
 	$ready,
 	AnimationFrameController,
 	EventBase,
-	Events,
+	type Events,
 } from 'abm-utils';
-import { INavigate, Navigable, NavigateEventsInit, Rect } from './types';
+import type { INavigate, Navigable, NavigateEventsInit, Rect } from './types';
 import { isAvailable, searchClosest } from './utils';
 
 const SCROLL_OPTIONS: ScrollIntoViewOptions = {

@@ -1,5 +1,5 @@
 import { ObjCodec } from 'obj-codec';
-import { ProtocolMap } from './common';
+import type { ProtocolMap } from './common';
 
 declare global {
 	interface RequestInit {
@@ -24,6 +24,7 @@ export class StreamBridge<T extends ProtocolMap = ProtocolMap> {
 		const codec = this.codec ?? ObjCodec;
 		const decoder = codec.decode();
 		while (true) {
+			// biome-ignore lint/performance/noAwaitInLoops: Serial read data
 			const { done, value } = await reader.read();
 			if (value) decoder.write(value);
 			if (done) return decoder.end();
@@ -79,6 +80,7 @@ export class Bridge<T extends ProtocolMap = ProtocolMap> {
 			// Send
 			const response = await fetch(this.url, {
 				method: 'POST',
+				// @ts-expect-error
 				body: new Blob([await this.#encode({ name, args })], {
 					type: 'application/octet-stream',
 				}),

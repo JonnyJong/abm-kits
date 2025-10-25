@@ -1,4 +1,4 @@
-import { WidgetFile } from 'abm-ui';
+import type { WidgetFile } from 'abm-ui';
 import { $ } from 'abm-utils';
 
 const picker = $<WidgetFile>('w-file')!;

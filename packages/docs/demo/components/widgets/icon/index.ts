@@ -1,4 +1,4 @@
-import { WidgetIcon } from 'abm-ui';
+import type { WidgetIcon } from 'abm-ui';
 import { $ } from 'abm-utils';
 
 const icon = $<WidgetIcon>('w-icon')!;

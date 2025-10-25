@@ -2,9 +2,9 @@ import { Signal } from '@lit-labs/signals';
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import {
-	DEFAULTS_ICONS_NAMES,
-	UIDefaultsIcons,
 	configs,
+	DEFAULTS_ICONS_NAMES,
+	type UIDefaultsIcons,
 } from '../../../configs';
 import { Widget } from '../base';
 

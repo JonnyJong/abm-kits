@@ -1,114 +1,126 @@
-import { DOMApplyOptions } from 'abm-utils';
-import { Widget } from './components/widgets/base';
-import {
+/** biome-ignore-all lint/performance/noBarrelFile: Required as the primary library entry point for exporting public API */
+/** biome-ignore-all assist/source/organizeImports: There is a special sort */
+
+import type { DOMApplyOptions } from 'abm-utils';
+import type { Widget } from './components/widgets/base';
+import type {
 	WidgetBtn,
 	WidgetBtnEvents,
 	WidgetBtnProp,
 } from './components/widgets/btn';
-import {
+import type {
 	WidgetCheckbox,
 	WidgetCheckboxEvents,
 	WidgetCheckboxProp,
 } from './components/widgets/checkbox';
-import {
+import type {
 	WidgetColor,
 	WidgetColorEvents,
 	WidgetColorProp,
 } from './components/widgets/color';
-import {
+import type {
 	WidgetColorPicker,
 	WidgetColorPickerEvents,
 	WidgetColorPickerProp,
 } from './components/widgets/color-picker';
-import {
+import type {
 	WidgetFile,
 	WidgetFileEvents,
 	WidgetFileProp,
 } from './components/widgets/file';
-import { WidgetGamepad, WidgetGamepadProp } from './components/widgets/gamepad';
-import { WidgetGridData } from './components/widgets/grid-data';
-import {
+import type {
+	WidgetGamepad,
+	WidgetGamepadProp,
+} from './components/widgets/gamepad';
+import type { WidgetGridData } from './components/widgets/grid-data';
+import type {
 	WidgetGridVirtual,
 	WidgetGridVirtualProp,
 } from './components/widgets/grid-virtual';
-import {
+import type {
 	WidgetHintGamepad,
 	WidgetHintGamepadProp,
 } from './components/widgets/hint/gamepad';
-import { WidgetHint, WidgetHintProp } from './components/widgets/hint/index';
-import {
+import type {
+	WidgetHint,
+	WidgetHintProp,
+} from './components/widgets/hint/index';
+import type {
 	WidgetHintKey,
 	WidgetHintKeyProp,
 } from './components/widgets/hint/key';
-import {
+import type {
 	WidgetHintMouse,
 	WidgetHintMouseProp,
 } from './components/widgets/hint/mouse';
-import {
+import type {
 	WidgetHintPen,
 	WidgetHintPenProp,
 } from './components/widgets/hint/pen';
-import {
+import type {
 	WidgetHintTouch,
 	WidgetHintTouchProp,
 } from './components/widgets/hint/touch';
-import { WidgetIcon, WidgetIconProp } from './components/widgets/icon';
-import { WidgetInputEvents } from './components/widgets/input/base';
-import {
+import type { WidgetIcon, WidgetIconProp } from './components/widgets/icon';
+import type { WidgetInputEvents } from './components/widgets/input/base';
+import type {
 	WidgetNumber,
 	WidgetNumberProp,
 } from './components/widgets/input/number';
-import {
+import type {
 	WidgetPassword,
 	WidgetPasswordProp,
 } from './components/widgets/input/password';
-import { WidgetText, WidgetTextProp } from './components/widgets/input/text';
-import {
+import type {
+	WidgetText,
+	WidgetTextProp,
+} from './components/widgets/input/text';
+import type {
 	WidgetTextField,
 	WidgetTextFieldProp,
 } from './components/widgets/input/text-field';
-import { WidgetLabel, WidgetLabelProp } from './components/widgets/label';
-import { WidgetLang, WidgetLangProp } from './components/widgets/lang';
-import {
+import type { WidgetLabel, WidgetLabelProp } from './components/widgets/label';
+import type { WidgetLang, WidgetLangProp } from './components/widgets/lang';
+import type {
 	WidgetList,
 	WidgetListEvents,
 	WidgetListProp,
 } from './components/widgets/list';
-import {
+import type {
 	WidgetListInfinite,
 	WidgetListInfiniteProp,
 } from './components/widgets/list-infinite';
-import {
+import type {
 	WidgetNav,
 	WidgetNavEvents,
 	WidgetNavProp,
 } from './components/widgets/nav';
-import {
+import type {
 	WidgetProgressBar,
 	WidgetProgressProp,
 	WidgetProgressRing,
 } from './components/widgets/progress';
-import {
+import type {
 	WidgetRange,
 	WidgetRangeEvents,
 	WidgetRangeProp,
 } from './components/widgets/range';
-import {
+import type {
 	WidgetSelect,
 	WidgetSelectEvents,
 	WidgetSelectProp,
 } from './components/widgets/select';
-import {
+import type {
 	WidgetSlider,
 	WidgetSliderEvents,
 	WidgetSliderProp,
 } from './components/widgets/slider';
-import {
+import type {
 	WidgetSlider2D,
 	WidgetSlider2DEvents,
 	WidgetSlider2DProp,
 } from './components/widgets/slider-2d';
-import {
+import type {
 	WidgetSwitch,
 	WidgetSwitchEvents,
 	WidgetSwitchProp,

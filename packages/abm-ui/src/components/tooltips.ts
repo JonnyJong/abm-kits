@@ -6,7 +6,7 @@ import {
 	$ready,
 	asArray,
 	clamp,
-	DOMContents,
+	type DOMContents,
 	IntervalController,
 } from 'abm-utils';
 import { configs } from '../configs';
@@ -236,7 +236,7 @@ class UITooltips {
 		this.#positionUpdater.start();
 	};
 	#touchEndHandler = (event: TouchEvent) => {
-		if (event.touches.length !== 0) return;
+		if (event.touches.length > 0) return;
 		this.#path = [];
 		this.#updateVisibility(false);
 

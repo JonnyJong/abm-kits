@@ -1,4 +1,4 @@
-import { configs, WidgetProgressBar } from 'abm-ui';
+import { configs, type WidgetProgressBar } from 'abm-ui';
 import { $ } from 'abm-utils';
 
 const progress = $<WidgetProgressBar>('w-progress-bar')!;

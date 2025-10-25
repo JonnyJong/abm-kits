@@ -2,7 +2,7 @@ ui:
   confirm: Confirm
   cancel: Cancel
   ok: OK
-  color_picker: Color Picker
+  colorPicker: Color Picker
   alpha: Alpha
   red: Red
   green: Green

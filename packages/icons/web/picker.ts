@@ -1,10 +1,10 @@
 import {
-	events,
 	Dialog,
-	UIEventActive,
-	WidgetSelect,
-	WidgetSlider,
-	WidgetText,
+	events,
+	type UIEventActive,
+	type WidgetSelect,
+	type WidgetSlider,
+	type WidgetText,
 } from 'abm-ui';
 import { $, Debounce } from 'abm-utils';
 import { getValues, queryIcon } from './api';

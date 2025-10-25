@@ -1,19 +1,19 @@
 import {
 	EventBase,
+	type Events,
 	EventValue,
-	Events,
 	RepeatingTriggerController,
 } from 'abm-utils';
 import { GameController } from '../game-controller';
 import { keyboard } from '../keyboard';
-import {
+import type {
 	INavigate,
 	Navigable,
 	NavigateCallbackOptions,
 	NavigateEvents,
 	NavigateEventsInit,
 } from './types';
-import { NavigateUI } from './view';
+import type { NavigateUI } from './view';
 
 const KEY_ALIAS_DIRECTION_MAP = {
 	'ui.up': 'up',

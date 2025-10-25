@@ -1,13 +1,13 @@
 import { SignalWatcher } from '@lit-labs/signals';
 import {
-	EventHandler,
+	type EventHandler,
 	Events,
-	EventsInitList,
-	IEventSource,
+	type EventsInitList,
+	type IEventSource,
 	IterableWeakSet,
 } from 'abm-utils';
 import { LitElement } from 'lit';
-import { Navigable } from '../../navigate';
+import type { Navigable } from '../../navigate';
 
 type Keys<List extends Record<string, any>> = keyof List & string;
 
@@ -85,6 +85,7 @@ export abstract class Widget<
 	 * - `true`：允许打开菜单
 	 */
 	get contextMenuBehavior(): boolean | undefined {
-		return undefined;
+		// biome-ignore lint/suspicious/useGetterReturn: Return nothing by default
+		return;
 	}
 }

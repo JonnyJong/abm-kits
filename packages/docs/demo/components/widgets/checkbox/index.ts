@@ -1,4 +1,4 @@
-import { WidgetCheckbox } from 'abm-ui';
+import type { WidgetCheckbox } from 'abm-ui';
 import { $ } from 'abm-utils';
 
 const checkbox = $<WidgetCheckbox>('w-checkbox')!;

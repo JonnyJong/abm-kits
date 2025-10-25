@@ -1,4 +1,4 @@
-import { WidgetLabel } from 'abm-ui';
+import type { WidgetLabel } from 'abm-ui';
 import { $ } from 'abm-utils';
 
 const label = $<WidgetLabel>('w-label')!;

@@ -23,7 +23,7 @@ async function main() {
 	Logger.stopWhenError = !watchMode;
 	await Promise.all([buildMain(), buildDemo(), buildDeps()]);
 	if (!watchMode) {
-		shutdown();
+		await shutdown();
 		return;
 	}
 	LiveServer.start({
@@ -33,7 +33,7 @@ async function main() {
 		open: false,
 		file: '/abm-kits/404.html',
 	});
-	logger.log('Ready on http://localhost:5500');
+	logger.log('Ready on http://localhost:5500/abm-kits');
 	process.once('SIGINT', async () => {
 		logger.log('Shutting down...');
 		LiveServer.shutdown();

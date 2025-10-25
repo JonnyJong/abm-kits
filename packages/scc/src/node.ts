@@ -1,7 +1,7 @@
-import { RequestListener } from 'node:http';
-import { Http2ServerRequest, Http2ServerResponse } from 'node:http2';
+import type { RequestListener } from 'node:http';
+import type { Http2ServerRequest, Http2ServerResponse } from 'node:http2';
 import { ObjCodec } from 'obj-codec';
-import { InvocationSchema, ProtocolMap } from './common';
+import type { InvocationSchema, ProtocolMap } from './common';
 
 export type Handler<T extends InvocationSchema> = (
 	...args: T['args']
@@ -33,6 +33,7 @@ export class StreamBridge<T extends HandlerMap = HandlerMap> {
 			'Access-Control-Allow-Origin': '*',
 		});
 		while (true) {
+			// biome-ignore lint/performance/noAwaitInLoops: Serial read data
 			const { done, value } = await reader.read();
 			if (value) (response as Http2ServerResponse).write(value);
 			if (done) {

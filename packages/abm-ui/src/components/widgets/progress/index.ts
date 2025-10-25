@@ -74,7 +74,7 @@ export class WidgetProgressBar extends WidgetProgress {
 		})}>
 			<div class=${classMap({
 				thumb: true,
-				waiting: isNaN(this.value),
+				waiting: Number.isNaN(this.value),
 			})} style=${styleMap({
 				'--progress': `${this._value}%`,
 			})}></div>
@@ -99,14 +99,14 @@ export class WidgetProgressRing extends WidgetProgress {
 		return this.#thickness;
 	}
 	set thickness(value) {
-		if (isNaN(value)) return;
+		if (Number.isNaN(value)) return;
 		this.#thickness = clamp(1, value, 24);
 	}
 	protected render() {
 		const offset = RING_OFFSET_BEGIN + this.#thickness * RING_OFFSET_SLOPE;
 		return html`<svg class=${classMap({
 			track: true,
-			waiting: isNaN(this.value),
+			waiting: Number.isNaN(this.value),
 		})} viewBox="25 25 50 50" style=${styleMap({
 			'--thickness': this.#thickness,
 			'--progress': ((100 - this._value) / 100) * offset,

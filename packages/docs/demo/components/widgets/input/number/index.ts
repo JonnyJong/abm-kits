@@ -1,4 +1,4 @@
-import { WidgetNumber } from 'abm-ui';
+import type { WidgetNumber } from 'abm-ui';
 import { $ } from 'abm-utils';
 
 const input = $<WidgetNumber>('w-number')!;

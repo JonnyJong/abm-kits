@@ -1,8 +1,14 @@
-import { $div, EventValue, EventValueInit, EventsList, css } from 'abm-utils';
+import {
+	$div,
+	css,
+	type EventsList,
+	EventValue,
+	type EventValueInit,
+} from 'abm-utils';
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { events, UIEventActive } from '../../../events';
-import { Navigable } from '../../../navigate';
+import { events, type UIEventActive } from '../../../events';
+import type { Navigable } from '../../../navigate';
 import { Widget } from '../base';
 import CSS from './index.styl';
 

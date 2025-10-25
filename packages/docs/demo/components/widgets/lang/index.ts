@@ -1,4 +1,4 @@
-import { WidgetLang } from 'abm-ui';
+import type { WidgetLang } from 'abm-ui';
 import { $ } from 'abm-utils';
 
 const lang = $<WidgetLang>('w-lang')!;

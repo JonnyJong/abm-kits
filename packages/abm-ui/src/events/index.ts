@@ -1,3 +1,5 @@
+/** biome-ignore-all lint/performance/noBarrelFile: Required as the primary library entry point for exporting public API */
+
 import { UIEventActiveManager } from './active';
 import { UIEventHoverManager } from './hover';
 import { UIEventSlideManager } from './slide';
@@ -20,14 +22,14 @@ class ProvidedEvents {
 
 export const events = new ProvidedEvents();
 
-export type { UIEventHoverHandler } from './hover';
-export { UIEventHover } from './hover';
 export type { UIEventActiveHandler } from './active';
 export { UIEventActive } from './active';
+export type { UIEventHoverHandler } from './hover';
+export { UIEventHover } from './hover';
 export type {
-	UIEventSlideHandler,
-	SlideBorder,
 	Slidable,
+	SlideBorder,
+	UIEventSlideHandler,
 	UIEventSlideState,
 } from './slide';
 export { UIEventSlide } from './slide';

@@ -1,4 +1,9 @@
-import { EventHandler, Events, EventsInitList, IEventSource } from 'abm-utils';
+import {
+	type EventHandler,
+	Events,
+	type EventsInitList,
+	type IEventSource,
+} from 'abm-utils';
 
 type Keys<List extends Record<string, any>> = keyof List & string;
 

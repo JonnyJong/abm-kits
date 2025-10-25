@@ -1,4 +1,4 @@
-import { configs, WidgetBtn } from 'abm-ui';
+import { configs, type WidgetBtn } from 'abm-ui';
 import { $ } from 'abm-utils';
 
 const btn = $<WidgetBtn>('w-btn')!;

@@ -1,4 +1,4 @@
-import { WidgetSwitch } from 'abm-ui';
+import type { WidgetSwitch } from 'abm-ui';
 import { $ } from 'abm-utils';
 
 const sw = $<WidgetSwitch>('w-switch')!;

@@ -1,5 +1,5 @@
-import { events, Slidable, SlideBorder } from "abm-ui";
-import { $, $apply, clamp } from "abm-utils";
+import { events, type Slidable, type SlideBorder } from 'abm-ui';
+import { $, $apply, clamp } from 'abm-utils';
 
 const container = $('#main')!;
 const target = $<Slidable>('#slide-target')!;
@@ -8,8 +8,8 @@ let slideBorder: SlideBorder = [0, 0, 0, 0];
 function updatePosition(x: number, y: number) {
 	$apply(target, {
 		style: {
-			left: isNaN(x) ? '50%' : clamp(slideBorder[0], x, slideBorder[1]),
-			top: isNaN(y) ? '50%' : clamp(slideBorder[2], y, slideBorder[3]),
+			left: Number.isNaN(x) ? '50%' : clamp(slideBorder[0], x, slideBorder[1]),
+			top: Number.isNaN(y) ? '50%' : clamp(slideBorder[2], y, slideBorder[3]),
 		},
 	});
 }

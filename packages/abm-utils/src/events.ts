@@ -226,12 +226,12 @@ export interface IEventValue<
 	readonly value: Value;
 }
 
-export class EventValue<Type extends string = string, Target = any, value = any>
+export class EventValue<Type extends string = string, Target = any, Value = any>
 	extends EventBase<Type, Target>
-	implements IEventValue<Type, Target, value>
+	implements IEventValue<Type, Target, Value>
 {
-	#value: value;
-	constructor(type: Type, options: EventValueInit<Target, value>) {
+	#value: Value;
+	constructor(type: Type, options: EventValueInit<Target, Value>) {
 		super(type, options);
 		this.#value = options.value;
 	}

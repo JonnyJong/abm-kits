@@ -1,16 +1,17 @@
+import { zip } from './collection';
 import {
 	EventBase,
-	EventBaseInit,
+	type EventBaseInit,
 	EventError,
-	EventErrorInit,
-	EventHandler,
+	type EventErrorInit,
+	type EventHandler,
 	Events,
-	EventsList,
+	type EventsList,
 	EventValue,
-	EventValueInit,
-	IEventSource,
+	type EventValueInit,
+	type IEventSource,
 } from './events';
-import { PromiseOr } from './function';
+import { type PromiseOr, run } from './function';
 
 export type PluralFormatOptions = Partial<
 	Record<Exclude<Intl.LDMLPluralRule, 'other'>, string>
@@ -162,8 +163,8 @@ type RequiredParams<T> = IsEmptyObject<T> extends true ? [] : [params: T];
 //#region Locale
 
 export class LocaleLoadError extends Error {
-	#errors: readonly Readonly<{ locale: string; error: unknown }>[];
-	constructor(errors: { locale: string; error: unknown }[]) {
+	#errors: readonly Readonly<{ locale: string; error: Error }>[];
+	constructor(errors: { locale: string; error: Error }[]) {
 		super('Failed to load locales');
 		this.#errors = Object.freeze(errors.map((e) => Object.freeze(e)));
 	}
@@ -313,35 +314,37 @@ export class Locale<
 	async reload(): Promise<LocaleLoadError | undefined> {
 		this.#loaded = false;
 
+		const locales = [...this.#locales]
+			.reverse()
+			.filter((v, i, a) => a.indexOf(v) === i);
 		const dict: ComposedDict = new Map();
-		const loadedLocales: string[] = [];
 		const successLocales: string[] = [];
-		const failedLocales: { locale: string; error: unknown }[] = [];
-		for (const locale of [...this.#locales].reverse()) {
-			if (loadedLocales.includes(locale)) continue;
-			loadedLocales.push(locale);
-			try {
-				const load = await this.#loader(locale);
-				if (!load) continue;
-				for (const [k, v] of flatten(load)) {
-					dict.set(k, [locale, v]);
-				}
-				successLocales.push(locale);
-			} catch (error) {
-				failedLocales.push({ locale, error });
+		const failedLocales: { locale: string; error: Error }[] = [];
+		const results = await Promise.all(
+			locales.map((locale) => run(this.#loader, locale)),
+		);
+		for (const [locale, result] of zip(locales, results)) {
+			if (!result) continue;
+			if (result instanceof Error) {
+				failedLocales.push({ locale, error: result });
+				continue;
 			}
+			for (const [k, v] of flatten(result)) {
+				dict.set(k, [locale, v]);
+			}
+			successLocales.push(locale);
 		}
 
 		this.#loadedLocales = Object.freeze(successLocales);
 		this.#dict = dict;
 
+		this.#events.emit(new EventBase('update', { target: this }));
+
 		let error: LocaleLoadError | undefined;
 		if (failedLocales.length > 0) {
 			error = new LocaleLoadError(failedLocales);
-		}
-		this.#events.emit(new EventBase('update', { target: this }));
-		if (error)
 			this.#events.emit(new EventError('error', { target: this, error }));
+		}
 
 		this.#loaded = true;
 
@@ -455,10 +458,12 @@ export class LocaleManager implements IEventSource<LocaleManagerEventsInit> {
 	}
 	/** 更新所有命名空间的语言列表 */
 	async updateLocales(locales: readonly string[]) {
+		const promises = [];
 		for (const [locale] of this.#locales.values()) {
 			locale.locales = locales;
-			await locale.reload();
+			promises.push(locale.reload());
 		}
+		await Promise.all(promises);
 	}
 	on<Type extends keyof LocaleManagerEventsInit>(
 		type: Type,

@@ -1,4 +1,4 @@
-import { WidgetTextField } from 'abm-ui';
+import type { WidgetTextField } from 'abm-ui';
 import { $ } from 'abm-utils';
 
 const input = $<WidgetTextField>('w-text-field')!;

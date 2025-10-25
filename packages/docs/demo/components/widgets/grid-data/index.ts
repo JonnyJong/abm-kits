@@ -1,4 +1,4 @@
-import {
+import type {
 	WidgetCheckbox,
 	WidgetColor,
 	WidgetGridData,
@@ -92,8 +92,8 @@ grid.setup({
 					(element as WidgetProgressRing).value = progress;
 				},
 				sort: (a, b) => {
-					const aNaN = isNaN(a.progress);
-					const bNaN = isNaN(b.progress);
+					const aNaN = Number.isNaN(a.progress);
+					const bNaN = Number.isNaN(b.progress);
 					if (aNaN && bNaN) return 0;
 					if (aNaN) return -Infinity;
 					if (bNaN) return Infinity;

@@ -1,13 +1,13 @@
 import { Signal } from '@lit-labs/signals';
-import { $new, Vec2, css } from 'abm-utils';
+import { $new, css, type Vec2 } from 'abm-utils';
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { GameController } from '../../../game-controller';
-import { Navigable } from '../../../navigate';
+import type { Navigable } from '../../../navigate';
 import { Widget } from '../base';
-import { WidgetBtn } from '../btn';
+import type { WidgetBtn } from '../btn';
 import CSS from './index.styl';
 
 const TRIGGER_HEIGHT = 27.985;

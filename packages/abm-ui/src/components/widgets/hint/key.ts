@@ -1,7 +1,9 @@
+/** biome-ignore-all lint/style/useNamingConvention: Key map need special name */
+
 import { $new, css } from 'abm-utils';
 import { customElement, property } from 'lit/decorators.js';
-import { UIDefaultsIcons, configs } from '../../../configs';
-import { KEYS_ALLOW, KeysAllow } from '../../../keyboard';
+import { configs, type UIDefaultsIcons } from '../../../configs';
+import { KEYS_ALLOW, type KeysAllow } from '../../../keyboard';
 import { Widget } from '../base';
 import { WidgetIcon } from '../icon';
 import CSS from './key.styl';

@@ -1,5 +1,5 @@
-import { keyboard } from "abm-ui";
-import { $, $apply, $div, $new } from "abm-utils";
+import { keyboard } from 'abm-ui';
+import { $, $apply, $div, $new } from 'abm-utils';
 
 function normalize(input: string): string {
 	return input.replaceAll('.', '-');
@@ -8,14 +8,16 @@ function normalize(input: string): string {
 const container = $('#main')!;
 
 container.append(
-	...Object.entries(keyboard.aliasMap).map(([id, keys])=>$div(
-		{ attr: { 'ui-layout': 'flow' }, style: { alignItems: 'center' } },
-		$div({ id: normalize(id) }, id),
-		...[...keys].map((key) => $new('w-hint-key', { prop: { key } })),
-	)),
+	...Object.entries(keyboard.aliasMap).map(([id, keys]) =>
+		$div(
+			{ attr: { 'ui-layout': 'flow' }, style: { alignItems: 'center' } },
+			$div({ id: normalize(id) }, id),
+			...[...keys].map((key) => $new('w-hint-key', { prop: { key } })),
+		),
+	),
 );
 
-keyboard.on('aliasTrigger', (event)=>{
+keyboard.on('aliasTrigger', (event) => {
 	console.log(event);
 	const item = $(`#${normalize(event.key)}`, container);
 	if (!item) return;

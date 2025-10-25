@@ -3,21 +3,21 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { FSWatcher } from 'chokidar';
 import {
-	CodeHighlighter,
-	CommonPlugin,
+	type CodeHighlighter,
+	type CommonPlugin,
 	EzalMarkdown,
-	Parsed,
+	type Parsed,
 	plugins,
-	SafeAny,
+	type SafeAny,
 	utils,
 } from 'ezal-markdown';
 import prism from 'prismjs';
 import loadLanguages from 'prismjs/components/index';
-import pug from 'pug';
+import type pug from 'pug';
 import yaml from 'yaml';
 import { here } from '../fs';
 import { Logger } from '../logger';
-import { PageData } from '../types';
+import type { PageData } from '../types';
 import { PugRenderer } from './pug';
 
 const ERROR = {
@@ -28,11 +28,11 @@ const ERROR = {
 	LAYOUT: 'Error applying template.',
 } as const;
 
-export enum MarkdownParseError {
+export const enum MarkdownParseError {
 	ReadFile,
 	Parse,
 }
-export enum MarkdownRenderError {
+export const enum MarkdownRenderError {
 	Unresolved,
 	Render,
 	Layout,

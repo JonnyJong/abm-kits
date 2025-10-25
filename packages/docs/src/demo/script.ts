@@ -1,4 +1,4 @@
-import { configs, defaultLocale, WidgetBtn } from 'abm-ui';
+import { configs, defaultLocale, type WidgetBtn } from 'abm-ui';
 import { $, $div, $new, $ready, IDGenerator, sleep } from 'abm-utils';
 import { error, log, warn } from 'log2dom';
 
@@ -14,7 +14,7 @@ channel.addEventListener('message', ({ data }) => {
 try {
 	const mainLocale = (window.parent as any)?.__LOCALE;
 	let locale = JSON.parse(window.frameElement?.getAttribute('locale') ?? '');
-	locale = Object.assign({}, mainLocale, locale);
+	locale = { ...mainLocale, ...locale };
 	defaultLocale.loader = () => locale;
 	defaultLocale.reload();
 } catch (error) {
@@ -122,9 +122,7 @@ window.register = (options) => {
 				}
 				case 'enum': {
 					const e = $new('w-select');
-					e.options = attr.options.map((v) => {
-						return { value: v, label: String(v) };
-					});
+					e.options = attr.options.map((v) => ({ value: v, label: String(v) }));
 					e.value = attr.value;
 					e.on('change', () => attr.action(e.value));
 					attrMap.set(attr.id, (value) => {
@@ -153,6 +151,7 @@ window.register = (options) => {
 			for (const btn of eventBtns) {
 				if (btn.dataset.event !== event) continue;
 				btn.checked = true;
+				// biome-ignore lint/performance/noAwaitInLoops: Sleep
 				await sleep(100);
 				btn.checked = false;
 			}

@@ -1,22 +1,22 @@
 import {
 	$div,
 	$new,
-	EventValue,
-	EventValueInit,
-	EventsList,
 	css,
+	type EventsList,
+	EventValue,
+	type EventValueInit,
 } from 'abm-utils';
 import { html } from 'lit';
 import { property } from 'lit/decorators.js';
 import { events } from '../../../events';
 import { keyboard } from '../../../keyboard';
 import {
-	Navigable,
-	NavigateCallbackOptions,
+	type Navigable,
+	type NavigateCallbackOptions,
 	navigate,
 } from '../../../navigate';
 import { Widget } from '../base';
-import { IWidgetInputAutoFillItem } from './autofill';
+import type { IWidgetInputAutoFillItem } from './autofill';
 import CSS from './index.styl';
 
 export type WidgetInputValue = string | number;

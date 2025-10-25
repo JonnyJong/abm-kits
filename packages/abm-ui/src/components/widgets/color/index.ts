@@ -1,16 +1,16 @@
 import {
 	$new,
 	Color,
-	EventValue,
-	EventValueInit,
-	EventsList,
 	css,
+	type EventsList,
+	EventValue,
+	type EventValueInit,
 } from 'abm-utils';
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { configs } from '../../../configs';
-import { events, UIEventActive } from '../../../events';
-import { Navigable } from '../../../navigate';
+import { events, type UIEventActive } from '../../../events';
+import type { Navigable } from '../../../navigate';
 import { Dialog } from '../../dialog';
 import { Widget } from '../base';
 import CSS from './index.styl';
@@ -74,7 +74,7 @@ export class WidgetColor
 			},
 		});
 		const confirm = await Dialog.confirm({
-			title: 'ui.color_picker',
+			title: 'ui.colorPicker',
 			content: picker,
 			autoHide: true,
 		});

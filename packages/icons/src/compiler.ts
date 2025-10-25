@@ -5,8 +5,8 @@ import cliProgress from 'cli-progress';
 import svg2ttf from 'svg2ttf';
 import type { SVGIcons2SVGFontStream } from 'svgicons2svgfont';
 import ttf2woff from 'ttf2woff';
-import { ReadStream } from 'typeorm/platform/PlatformTools';
-import { Icons } from '../types';
+import type { ReadStream } from 'typeorm/platform/PlatformTools';
+import type { Icons } from '../types';
 import { getAllIcons } from './db';
 import { DEFAULTS_ICONS } from './defaults';
 import { ICONS } from './path';
@@ -78,6 +78,7 @@ async function compileSVG(svgPath: string, icons: IconsToCompile) {
 
 	const unicode = generateUnicode();
 	for (const [file, id] of icons) {
+		// biome-ignore lint/performance/noAwaitInLoops: Keep order
 		await pushIcon(file, unicode, id, fontStream);
 		progress.update(++i);
 	}

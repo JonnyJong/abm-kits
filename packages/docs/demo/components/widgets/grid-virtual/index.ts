@@ -1,5 +1,5 @@
 import { Signal } from '@lit-labs/signals';
-import { WidgetGridVirtual, WidgetGridVirtualItem } from 'abm-ui';
+import { type WidgetGridVirtual, WidgetGridVirtualItem } from 'abm-ui';
 import { $, $new, createArray } from 'abm-utils';
 import { css } from 'lit';
 import { customElement } from 'lit/decorators.js';

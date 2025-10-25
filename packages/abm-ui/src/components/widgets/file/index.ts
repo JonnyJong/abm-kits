@@ -2,19 +2,19 @@ import { Signal } from '@lit-labs/signals';
 import {
 	$div,
 	$new,
-	EventBase,
-	EventBaseInit,
-	EventsList,
 	css,
+	EventBase,
+	type EventBaseInit,
+	type EventsList,
 } from 'abm-utils';
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { events } from '../../../events';
-import { Navigable } from '../../../navigate';
+import type { Navigable } from '../../../navigate';
 import { tooltips } from '../../tooltips';
 import { Widget } from '../base';
-import { WidgetBtn } from '../btn';
-import { WidgetIcon } from '../icon';
+import type { WidgetBtn } from '../btn';
+import type { WidgetIcon } from '../icon';
 import CSS from './index.styl';
 
 export type WidgetFileDisplay = 'row' | 'block';

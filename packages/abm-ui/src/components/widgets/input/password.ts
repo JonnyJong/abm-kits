@@ -1,5 +1,5 @@
 import { customElement, property } from 'lit/decorators.js';
-import { WidgetText, WidgetTextProp } from './text';
+import { WidgetText, type WidgetTextProp } from './text';
 
 export interface WidgetPasswordProp extends WidgetTextProp {
 	/** 密码可见性 */

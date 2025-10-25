@@ -1,4 +1,4 @@
-import { Debounce, Fn } from './function';
+import { Debounce, type Fn } from './function';
 import { wrapInRange } from './math';
 
 export type ArrayOr<T> = T | T[];
@@ -324,12 +324,13 @@ export class SyncList<Data = unknown, Instance = unknown> {
 	};
 	#sort = (compareFn?: (a: Data, b: Data) => number): Data[] => {
 		if (this.#creatable) {
-			if (compareFn)
-				this.instances.sort((a, b) => compareFn!(this.getData(a), this.getData(b)));
-			else
+			if (compareFn) {
+				this.instances.sort((a, b) => compareFn(this.getData(a), this.getData(b)));
+			} else {
 				this.instances.sort((a, b) =>
 					String(this.getData(a)).localeCompare(String(this.getData(b))),
 				);
+			}
 		} else if (compareFn) this.data.sort(compareFn);
 		else this.data.sort();
 		this.#update();

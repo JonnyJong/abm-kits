@@ -1,18 +1,18 @@
 import { Signal } from '@lit-labs/signals';
 import {
 	$div,
-	EventValue,
-	EventValueInit,
-	EventsList,
-	SyncList,
 	css,
+	type EventsList,
+	EventValue,
+	type EventValueInit,
+	SyncList,
 } from 'abm-utils';
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { events } from '../../../events';
-import { Navigable } from '../../../navigate';
-import { UIContentAll, UIContentAllInit } from '../../content';
+import type { Navigable } from '../../../navigate';
+import { UIContentAll, type UIContentAllInit } from '../../content';
 import { Widget } from '../base';
 import CSS from './index.styl';
 

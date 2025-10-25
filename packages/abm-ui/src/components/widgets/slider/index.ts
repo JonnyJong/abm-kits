@@ -1,22 +1,22 @@
 import {
 	$div,
-	EventValue,
-	EventValueInit,
-	EventsList,
-	Throttle,
 	clamp,
 	createClampedStepper,
 	css,
+	type EventsList,
+	EventValue,
+	type EventValueInit,
 	formatWithStep,
+	Throttle,
 } from 'abm-utils';
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { events, UIEventSlide } from '../../../events';
-import { Slidable, SlideBorder } from '../../../events/slide';
-import { KeyboardEvents, keyboard } from '../../../keyboard';
+import { events, type UIEventSlide } from '../../../events';
+import type { Slidable, SlideBorder } from '../../../events/slide';
+import { type KeyboardEvents, keyboard } from '../../../keyboard';
 import {
-	Navigable,
-	NavigateCallbackOptions,
+	type Navigable,
+	type NavigateCallbackOptions,
 	navigate,
 } from '../../../navigate';
 import { tooltips } from '../../tooltips';
@@ -148,7 +148,7 @@ export class WidgetSlider
 		return this.#step;
 	}
 	set step(value: number) {
-		if (isNaN(value)) value = 0;
+		if (Number.isNaN(value)) value = 0;
 		value = Math.abs(value);
 		if (this.#step === value) return;
 		this.#step = value;

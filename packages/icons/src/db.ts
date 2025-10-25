@@ -2,8 +2,8 @@ import { readdir, stat } from 'node:fs/promises';
 import path from 'node:path';
 import cliProgress from 'cli-progress';
 import { Column, DataSource, Entity, Index, PrimaryColumn } from 'typeorm';
-import { QueryOptions } from '../types';
-import { IconsToCompile } from './compiler';
+import type { QueryOptions } from '../types';
+import type { IconsToCompile } from './compiler';
 import { DB, ICONS } from './path';
 
 const INSERT_LIMIT = 150;
@@ -120,11 +120,12 @@ async function buildDB() {
 		}
 		data.push({ ...info, file });
 		if (data.length >= INSERT_LIMIT) {
+			// biome-ignore lint/performance/noAwaitInLoops: Need to keep order
 			await icons.insert(data);
 			data = [];
 		}
 	}
-	if (data.length) await icons.insert(data);
+	if (data.length > 0) await icons.insert(data);
 	progress.stop();
 
 	const mtime = (await stat(ICONS)).mtimeMs.toString(36);
@@ -232,13 +233,13 @@ export function getValues() {
 		.select('DISTINCT icon.size', 'size')
 		.getRawMany();
 
-	return Promise.all([regions, types, sizes]).then(([regions, types, sizes]) => {
-		return {
+	return Promise.all([regions, types, sizes]).then(
+		([regions, types, sizes]) => ({
 			regions: regions.map((region) => region.region),
 			types: types.map((type) => type.type),
 			sizes: sizes.map((size) => size.size),
-		};
-	});
+		}),
+	);
 }
 
 export function getIcon(name: string) {
@@ -258,9 +259,5 @@ export function getAllIcons(): Promise<IconsToCompile> {
 		.find({
 			select: ['file', 'id'],
 		})
-		.then((icons) =>
-			icons.map((icon) => {
-				return [icon.file, icon.id];
-			}),
-		);
+		.then((icons) => icons.map((icon) => [icon.file, icon.id]));
 }

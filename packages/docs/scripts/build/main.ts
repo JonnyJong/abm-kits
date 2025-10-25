@@ -7,7 +7,7 @@ import { Logger } from '../logger';
 import { MarkdownRenderer } from '../render/markdown';
 import { StylusRenderer } from '../render/stylus';
 import { TypeScriptRenderer } from '../render/typescript';
-import { PageData } from '../types';
+import type { PageData } from '../types';
 import { OrderedMap } from '../utils';
 
 export interface LangCate {
@@ -304,9 +304,11 @@ async function tryUpdateDoc(filepath: string): Promise<boolean> {
 	const cate = getLangCate(lang);
 	if (here('src', lang, 'locale.yaml') === filepath) {
 		buildLocale(filepath, lang);
-		for (const [filepath, renderer] of cate.pages) {
-			await buildDoc(filepath2Dist(filepath), renderer, cate, lang, filepath);
-		}
+		await Promise.all(
+			[...cate.pages].map(([filepath, renderer]) =>
+				buildDoc(filepath2Dist(filepath), renderer, cate, lang, filepath),
+			),
+		);
 		return true;
 	}
 	if (path.extname(filepath) !== '.md') return false;
@@ -335,29 +337,23 @@ async function buildAllDocs() {
 			cate,
 			[...fallbacks].reverse(),
 		);
-		for (const [filepath, renderer] of patchedCate.pages) {
-			await buildDoc(
-				filepath2Dist(filepath),
-				renderer,
-				patchedCate,
-				lang,
-				filepath,
-			);
-		}
+		// biome-ignore lint/performance/noAwaitInLoops: Build pre cate
+		await Promise.all(
+			[...patchedCate.pages].map(([filepath, renderer]) =>
+				buildDoc(filepath2Dist(filepath), renderer, patchedCate, lang, filepath),
+			),
+		);
 	}
 	fallbacks.reverse();
 	for (const [lang, cate] of langCates) {
 		if (fallbackOrder.includes(lang)) continue;
 		const patchedCate = applyLangCateFallback(lang, cate, fallbacks);
-		for (const [filepath, renderer] of patchedCate.pages) {
-			await buildDoc(
-				filepath2Dist(filepath),
-				renderer,
-				patchedCate,
-				lang,
-				filepath,
-			);
-		}
+		// biome-ignore lint/performance/noAwaitInLoops: Build pre cate
+		await Promise.all(
+			[...patchedCate.pages].map(([filepath, renderer]) =>
+				buildDoc(filepath2Dist(filepath), renderer, patchedCate, lang, filepath),
+			),
+		);
 	}
 }
 
@@ -382,18 +378,20 @@ export async function buildMain() {
 			buildPage(filepath, renderer);
 		});
 	});
-	for (const file of iterFiles(root)) {
-		await tryBuild(path.join(root, file));
-	}
+	await Promise.all(
+		[...iterFiles(root)].map((file) => tryBuild(path.join(root, file))),
+	);
 	await buildAllDocs();
-	for (const [filepath, renderer] of mdRenderer) {
-		await buildPage(filepath, renderer);
-	}
+	await Promise.all(
+		[...mdRenderer].map(([filepath, renderer]) => buildPage(filepath, renderer)),
+	);
 	tsRenderer.on('update', async (filepaths) => {
-		for (const filepath of filepaths) {
-			logger.log(`Updating ${filepath}`);
-			await buildTS(filepath);
-		}
+		await Promise.all(
+			filepaths.map(async (filepath) => {
+				logger.log(`Updating ${filepath}`);
+				await buildTS(filepath);
+			}),
+		);
 	});
 	stylusRenderer.on('update', (filepaths) => {
 		for (const filepath of filepaths) {

@@ -1,22 +1,27 @@
 import {
 	$div,
-	EventBaseInit,
-	EventValue,
-	EventValueInit,
-	EventsList,
-	Throttle,
 	clamp,
 	createClampedStepper,
 	css,
+	type EventBaseInit,
+	type EventsList,
+	EventValue,
+	type EventValueInit,
 	formatWithStep,
+	Throttle,
 } from 'abm-utils';
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { events, Slidable, SlideBorder, UIEventSlide } from '../../../events';
-import { KeyboardEvents, keyboard } from '../../../keyboard';
 import {
-	Navigable,
-	NavigateCallbackOptions,
+	events,
+	type Slidable,
+	type SlideBorder,
+	type UIEventSlide,
+} from '../../../events';
+import { type KeyboardEvents, keyboard } from '../../../keyboard';
+import {
+	type Navigable,
+	type NavigateCallbackOptions,
 	navigate,
 } from '../../../navigate';
 import { tooltips } from '../../tooltips';
@@ -195,7 +200,7 @@ export class WidgetRange
 		return this.#step;
 	}
 	set step(value: number) {
-		if (isNaN(value)) value = 0;
+		if (Number.isNaN(value)) value = 0;
 		value = Math.abs(value);
 		if (this.#step === value) return;
 		this.#step = value;

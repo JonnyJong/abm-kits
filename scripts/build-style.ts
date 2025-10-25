@@ -1,9 +1,9 @@
 import {
-	Stats,
 	existsSync,
 	mkdirSync,
-	readFileSync,
 	readdirSync,
+	readFileSync,
+	type Stats,
 	writeFileSync,
 } from 'node:fs';
 import path from 'node:path';

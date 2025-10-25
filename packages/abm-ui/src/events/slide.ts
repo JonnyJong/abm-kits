@@ -1,15 +1,15 @@
 import {
-	Direction4,
-	RepeatingTriggerController,
-	Vec2,
-	Vector2,
 	callTask,
 	clamp,
+	type Direction4,
+	EventBase,
+	RepeatingTriggerController,
+	type Vec2,
+	type Vector2,
 } from 'abm-utils';
-import { EventBase } from 'abm-utils';
 import { GameController } from '../game-controller';
-import { KeyboardEvents, keyboard } from '../keyboard';
-import { IUIEventBase, IUIEventBaseManage, IUIEventHandler } from './base';
+import { type KeyboardEvents, keyboard } from '../keyboard';
+import type { IUIEventBase, IUIEventBaseManage, IUIEventHandler } from './base';
 
 export type SlideBorder = [
 	left: number,
@@ -305,9 +305,9 @@ export class UIEventSlideManager implements IUIEventBaseManage<'slide'> {
 	}
 	/**
 	 * @param identifier
-	 * * `-2`: Nav (Keyboard & Game Controller)
-	 * * `-1`: Mouse
-	 * * `>= 0`: Touch & Pen
+	 * - `-2`: Nav (Keyboard & Game Controller)
+	 * - `-1`: Mouse
+	 * - `>= 0`: Touch & Pen
 	 * @param x - 起始点 x 坐标
 	 * @param y - 起始点 y 坐标
 	 *
@@ -404,7 +404,7 @@ export class UIEventSlideManager implements IUIEventBaseManage<'slide'> {
 			target.toggleAttribute('ui-slide', false);
 			this.#activated.delete(target);
 		}
-		if (this.#activated.size !== 0) return;
+		if (this.#activated.size > 0) return;
 		this.#stop();
 	};
 	//#region Touch
@@ -455,7 +455,7 @@ export class UIEventSlideManager implements IUIEventBaseManage<'slide'> {
 			target.toggleAttribute('ui-slide', false);
 			this.#activated.delete(target);
 		}
-		if (this.#activated.size !== 0) return;
+		if (this.#activated.size > 0) return;
 		this.#stop();
 	};
 	//#region Keyboard

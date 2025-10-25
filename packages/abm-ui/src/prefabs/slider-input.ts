@@ -1,4 +1,9 @@
-import { $new, EventValue, EventValueInit, EventsList } from 'abm-utils';
+import {
+	$new,
+	type EventsList,
+	EventValue,
+	type EventValueInit,
+} from 'abm-utils';
 import { Prefab } from './base';
 
 export interface PrefabSliderInputInit {

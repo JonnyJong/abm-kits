@@ -1,10 +1,10 @@
 import { $new } from 'abm-utils';
-import { TemplateResult, html } from 'lit';
+import { html, type TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { Navigable } from '../../../navigate';
-import { InputActions, WidgetInputActionItem } from './actions';
-import { IWidgetInputAutoFillItem, InputAutoFill } from './autofill';
-import { WidgetInput, WidgetInputProp } from './base';
+import type { Navigable } from '../../../navigate';
+import { InputActions, type WidgetInputActionItem } from './actions';
+import { InputAutoFill, type IWidgetInputAutoFillItem } from './autofill';
+import { WidgetInput, type WidgetInputProp } from './base';
 import { initInputNavigate } from './nav';
 
 export interface WidgetTextProp extends WidgetInputProp<string> {
@@ -68,7 +68,7 @@ export class WidgetText
 	protected render(): TemplateResult<1> {
 		return html`
 			${this.input}
-			${this._placeholder}
+			${this.placeholder}
 			${this.#actionsLeft.element}
 			${this.#actionsRight.element}
 		`;

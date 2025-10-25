@@ -1,5 +1,9 @@
 import path from 'node:path';
-import { StyleTask, compileStyle, compileStyleModule } from './build-style';
+import {
+	compileStyle,
+	compileStyleModule,
+	type StyleTask,
+} from './build-style';
 import { compileTypeScript } from './build-ts';
 
 const PKGS_ROOT = path.join(__dirname, '../packages');

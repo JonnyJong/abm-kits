@@ -1,5 +1,5 @@
-import { $$, Direction4, Vec2, Vector2 } from 'abm-utils';
-import { DirectionFilter, Navigable, Rect } from './types';
+import { $$, type Direction4, type Vec2, Vector2 } from 'abm-utils';
+import type { DirectionFilter, Navigable, Rect } from './types';
 
 //#region Contain
 
@@ -80,7 +80,7 @@ function isInside([x, y]: Vec2, { top, bottom, left, right }: DOMRect) {
 
 /** 方向过滤器 */
 const DIRECTION_FILTERS: {
-	[key in Direction4]: DirectionFilter;
+	[T in Direction4]: DirectionFilter;
 } = {
 	up: (from, to) => to.bottom < from[1],
 	right: (from, to) => from[0] < to.left,
@@ -95,7 +95,7 @@ const DIRECTION_FILTERS: {
  * @param begin - 起始矩形
  * @param direction - 方向
  */
-function NearestFinder(begin: Rect, direction: Direction4) {
+function nearestFinder(begin: Rect, direction: Direction4) {
 	const position: Vec2 = [
 		begin.left + begin.width / 2,
 		begin.top + begin.height / 2,
@@ -127,7 +127,7 @@ function NearestFinder(begin: Rect, direction: Direction4) {
  * 过滤出可导航元素
  * @param from - 起始元素
  */
-function NavItemFilter(from?: any) {
+function navItemFilter(from?: any) {
 	const SAME = (item: Element) => item === from;
 	const NAVIGABLE = (item: Element) =>
 		!(item as Navigable).nonNavigable &&
@@ -168,13 +168,13 @@ export function searchInwards(
 	begin: Rect | HTMLElement,
 ): Navigable | null {
 	const children = [...(root.navChildren ?? root.children)].filter(
-		NavItemFilter(begin),
+		navItemFilter(begin),
 	);
 	if (children.length === 0) return null;
 
 	const rect =
 		begin instanceof HTMLElement ? begin.getBoundingClientRect() : begin;
-	const finder = NearestFinder(rect, direction);
+	const finder = nearestFinder(rect, direction);
 	let item: Navigable | null = null;
 	for (const child of children) {
 		if (child === begin) continue;
@@ -203,12 +203,12 @@ export function searchOutwards(
 	if (!(root && isAvailable(root, border))) return null;
 
 	const children = [...(root.navChildren ?? root.children)].filter(
-		NavItemFilter(from),
+		navItemFilter(from),
 	);
 	if (children.length === 0)
 		return searchOutwards(border, direction, rect, root);
 
-	const finder = NearestFinder(rect, direction);
+	const finder = nearestFinder(rect, direction);
 	let item: Navigable | null = null;
 	for (const child of children) {
 		if (finder(child.getBoundingClientRect())) item = child as Navigable;
@@ -232,7 +232,7 @@ export function searchByOrder(
 	from?: Navigable | null,
 ): Navigable | null {
 	const children = [...(root.navChildren ?? root.children)].filter(
-		NavItemFilter(),
+		navItemFilter(),
 	) as Navigable[];
 	if (children.length === 0) return null;
 
@@ -264,7 +264,7 @@ export function searchByOrder(
  */
 export function searchClosest(root: Navigable, begin: Rect): Navigable | null {
 	const children = [...(root.navChildren ?? root.children)].filter(
-		NavItemFilter(),
+		navItemFilter(),
 	) as Navigable[];
 	if (children.length === 0) return null;
 

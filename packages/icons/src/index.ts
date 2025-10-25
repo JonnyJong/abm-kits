@@ -1,6 +1,6 @@
 import { createServer } from 'node:http';
-import { Bridge, HandlerMap } from 'scc/dist/node';
-import { APIMap } from '../types';
+import { Bridge, type HandlerMap } from 'scc/dist/node';
+import type { APIMap } from '../types';
 import { compileAllIconForProject, compileProject } from './compiler';
 import { getIcon, getValues, initDB, queryIcon } from './db';
 import {

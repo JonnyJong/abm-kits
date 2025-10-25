@@ -1,10 +1,10 @@
 import {
-	DEFAULT_LOCALE_DICTS,
-	UIDefaultLocaleDict,
 	configs,
+	DEFAULT_LOCALE_DICTS,
 	defaultLocale,
+	type UIDefaultLocaleDict,
 } from 'abm-ui';
-import { $$, $ready, LocaleDict } from 'abm-utils';
+import { $$, $ready, type LocaleDict } from 'abm-utils';
 import { initAPI } from './api';
 import { initDetail } from './detail';
 import { initPicker } from './picker';
@@ -81,6 +81,9 @@ const LOCALE_DICTS: Record<string, UIDefaultLocaleDict> = {
 			'Note: Unfinished feature! Compilation takes longer and icons are not always available.',
 		'rename-project': 'Rename project',
 		'create-project': 'Create project',
+		'project-name': 'Project Name',
+		'project-path': 'Project Path (Absolute Path)',
+		'project-dist': 'Icon Generation Path (Relative Path Recommended)',
 	},
 };
 

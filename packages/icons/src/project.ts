@@ -1,7 +1,7 @@
 import { existsSync } from 'node:fs';
 import { readFile, stat, unlink, writeFile } from 'node:fs/promises';
 import path from 'node:path';
-import { Project, ProjectInfo, ProjectInit } from '../types';
+import type { Project, ProjectInfo, ProjectInit } from '../types';
 import { PROJECT_LIST } from './path';
 
 const INTERNAL_PROJECTS: ProjectInfo[] = [
@@ -31,7 +31,9 @@ export async function getProjects(): Promise<ProjectInfo[]> {
 export async function createProject(
 	options: ProjectInit,
 ): Promise<string | boolean> {
-	if (!(options.path.length || options.dist.length)) return 'No path and dist';
+	if (!(options.path.length > 0 || options.dist.length > 0)) {
+		return 'No path and dist';
+	}
 	if (!path.isAbsolute(options.path)) return 'Absolute path required';
 	const projects: ProjectInfo[] = await getUserProjects();
 	const existProject = [...INTERNAL_PROJECTS, ...projects].find(

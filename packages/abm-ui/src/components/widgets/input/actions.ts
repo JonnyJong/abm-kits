@@ -3,16 +3,20 @@ import {
 	$new,
 	asArray,
 	Debounce,
-	DOMContents,
-	Events,
+	type DOMContents,
+	type Events,
 	EventValue,
 	find,
 	proxyArray,
 	proxyObject,
 } from 'abm-utils';
-import { Navigable } from '../../../navigate';
-import { WidgetBtn } from '../btn';
-import { WidgetInput, WidgetInputEventsInit, WidgetInputValue } from './base';
+import type { Navigable } from '../../../navigate';
+import type { WidgetBtn } from '../btn';
+import type {
+	WidgetInput,
+	WidgetInputEventsInit,
+	WidgetInputValue,
+} from './base';
 
 export interface WidgetInputActionItem {
 	id: string;
@@ -119,8 +123,8 @@ export class InputActions<Value extends WidgetInputValue = WidgetInputValue> {
 	//#region Contents
 	#items = proxyArray<WidgetInputActionItem>({
 		update: this.#debounceUpdateView,
-		set: (value): WidgetInputActionItem => {
-			return proxyObject(
+		set: (value): WidgetInputActionItem =>
+			proxyObject(
 				{ update: this.#debounceUpdateView },
 				{
 					id: value.id,
@@ -133,8 +137,7 @@ export class InputActions<Value extends WidgetInputValue = WidgetInputValue> {
 					hidden: value.hidden,
 					delay: value.delay,
 				},
-			);
-		},
+			),
 	});
 	get items() {
 		return this.#items;

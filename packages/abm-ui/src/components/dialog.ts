@@ -4,20 +4,20 @@ import {
 	$new,
 	asArray,
 	Color,
-	DOMContents,
-	EventHandler,
+	type DOMContents,
+	type EventHandler,
 	Events,
 	EventValue,
-	EventValueInit,
-	IEventSource,
+	type EventValueInit,
+	type IEventSource,
 	SyncList,
 	sleep,
 } from 'abm-utils';
 import { configs } from '../configs';
 import { events } from '../events';
 import { navigate } from '../navigate';
-import { UIContent, UIContentInit } from './content';
-import { WidgetBtn, WidgetBtnState } from './widgets/btn';
+import { UIContent, type UIContentInit } from './content';
+import type { WidgetBtn, WidgetBtnState } from './widgets/btn';
 
 export interface DialogInitBase<ID extends string = string> {
 	/** 对话框标题 */
@@ -375,7 +375,7 @@ export class Dialog<ID extends string = string>
 	}
 	//#region Static
 	/** 确认按钮 */
-	static ACTION_CONFIRM = Object.freeze({
+	static readonly ACTION_CONFIRM = Object.freeze({
 		id: 'confirm',
 		key: 'ui.confirm',
 		state: 'primary',
@@ -409,12 +409,8 @@ export class Dialog<ID extends string = string>
 			autoHide: true,
 			...options,
 			actions: [
-				Object.assign({}, Dialog.ACTION_CONFIRM, options.actions?.[0], {
-					id: 'confirm',
-				}),
-				Object.assign({}, Dialog.ACTION_CANCEL, options.actions?.[1], {
-					id: 'cancel',
-				}),
+				{ ...Dialog.ACTION_CONFIRM, ...options.actions?.[0], id: 'confirm' },
+				{ ...Dialog.ACTION_CANCEL, ...options.actions?.[1], id: 'cancel' },
 			],
 		});
 		dialog.show();
@@ -433,9 +429,7 @@ export class Dialog<ID extends string = string>
 		const dialog = new Dialog({
 			autoHide: true,
 			...options,
-			actions: [
-				Object.assign({}, Dialog.ACTION_OK, options.actions?.[0], { id: 'ok' }),
-			],
+			actions: [{ ...Dialog.ACTION_OK, ...options.actions?.[0], id: 'ok' }],
 		});
 		dialog.show();
 

@@ -1,5 +1,5 @@
-import { Dialog, WidgetBtn } from "abm-ui";
-import { $ } from "abm-utils";
+import { Dialog, type WidgetBtn } from 'abm-ui';
+import { $ } from 'abm-utils';
 
 const btn = $<WidgetBtn>('w-btn')!;
 

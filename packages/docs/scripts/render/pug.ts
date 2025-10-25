@@ -1,7 +1,7 @@
 import { EventEmitter } from 'node:events';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
-import { FSWatcher, watch } from 'chokidar';
+import { type FSWatcher, watch } from 'chokidar';
 import pug from 'pug';
 import { here } from '../fs';
 import { Logger } from '../logger';
@@ -34,11 +34,10 @@ function normalizeLayout(layout: string): string {
 function createFallbackTemplate(
 	layout: string,
 	path: string,
-	reason: string = FALLBACK_REASON['UNINITIALIZED'],
+	reason: string = FALLBACK_REASON.UNINITIALIZED,
 	extraInfo?: string,
 ): pug.compileTemplate {
-	return (locales) => {
-		return `<!DOCTYPE HTML>
+	return (locales) => `<!DOCTYPE HTML>
 			<html>
 				<head></head>
 				<body>
@@ -51,7 +50,6 @@ function createFallbackTemplate(
 					<pre><code>${escapeHTML(stringify(locales))}</code></pre>
 				</body>
 			</html>`;
-	};
 }
 
 /** Pug 渲染器 */
@@ -76,7 +74,7 @@ export class PugRenderer extends EventEmitter<{ update: [] }> {
 		this.#layout = layout;
 		this.#path = path.isAbsolute(layout)
 			? layout
-			: here('layouts', layout + '.pug');
+			: here('layouts', `${layout}.pug`);
 		this.#watcher = watch(this.#path, { awaitWriteFinish: true });
 		this.#template = createFallbackTemplate(this.#layout, this.#path);
 		this.#watcher.once('ready', () => {
@@ -139,8 +137,8 @@ export class PugRenderer extends EventEmitter<{ update: [] }> {
 		}
 	}
 	static async destroyAll() {
-		for (const renderer of cache.values()) {
-			await renderer.#watcher.close();
-		}
+		await Promise.all(
+			[...cache.values()].map((renderer) => renderer.#watcher.close()),
+		);
 	}
 }

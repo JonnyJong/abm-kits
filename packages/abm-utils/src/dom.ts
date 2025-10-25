@@ -1,4 +1,4 @@
-import { ArrayOr, asArray, range } from './collection';
+import { type ArrayOr, asArray, range } from './collection';
 import { Color } from './color';
 
 //#region #Define

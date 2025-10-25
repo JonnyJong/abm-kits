@@ -1,3 +1,5 @@
+/** biome-ignore-all lint/style/useNamingConvention: Special name needed */
+
 import * as ___LIT_LABS_SIGNALS from '@lit-labs/signals';
 import * as __ABM_UI from 'abm-ui';
 import * as __ABM_UTILS from 'abm-utils';

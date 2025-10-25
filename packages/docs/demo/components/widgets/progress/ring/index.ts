@@ -1,4 +1,4 @@
-import { configs, WidgetProgressRing } from 'abm-ui';
+import { configs, type WidgetProgressRing } from 'abm-ui';
 import { $ } from 'abm-utils';
 
 const progress = $<WidgetProgressRing>('w-progress-ring')!;

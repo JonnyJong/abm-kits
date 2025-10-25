@@ -1,6 +1,6 @@
-import { EventBase, EventHandler, Events, callTask } from 'abm-utils';
+import { callTask, EventBase, type EventHandler, Events } from 'abm-utils';
 import { initInput } from './input';
-import {
+import type {
 	INavigate,
 	NavDirection,
 	Navigable,
@@ -18,12 +18,12 @@ import {
 } from './utils';
 import { NavigateUI } from './view';
 
-export {
-	NavDirection,
-	NavigateCallbackOptions,
-	Navigable,
-	NavigateEvents,
+export type {
 	INavigate,
+	NavDirection,
+	Navigable,
+	NavigateCallbackOptions,
+	NavigateEvents,
 } from './types';
 
 class Navigate implements INavigate {

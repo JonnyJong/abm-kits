@@ -1,5 +1,5 @@
 import { Signal } from '@lit-labs/signals';
-import { WidgetListInfinite, WidgetListInfiniteItem } from 'abm-ui';
+import { type WidgetListInfinite, WidgetListInfiniteItem } from 'abm-ui';
 import { $, $new, range, sleep } from 'abm-utils';
 import { css } from 'lit';
 import { customElement } from 'lit/decorators.js';

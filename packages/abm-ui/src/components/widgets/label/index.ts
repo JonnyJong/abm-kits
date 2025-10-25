@@ -1,7 +1,7 @@
 import { IterableWeakSet } from 'abm-utils';
 import { customElement, property } from 'lit/decorators.js';
 import { events } from '../../../events';
-import { Widget, navigableWidgets } from '../base';
+import { navigableWidgets, Widget } from '../base';
 
 export interface WidgetLabelProp {
 	/** 关联元素 ID */

@@ -107,14 +107,16 @@ export async function buildDemo() {
 			tryBuild(filepath);
 		});
 	});
-	for (const file of iterFiles(root)) {
-		await tryBuild(path.join(root, file));
-	}
+	await Promise.all(
+		[...iterFiles(root)].map((file) => tryBuild(path.join(root, file))),
+	);
 	tsRenderer.on('update', async (filepaths) => {
-		for (const filepath of filepaths) {
-			logger.log(`Updating ${filepath}`);
-			await buildTS(filepath);
-		}
+		await Promise.all(
+			filepaths.map(async (filepath) => {
+				logger.log(`Updating ${filepath}`);
+				await buildTS(filepath);
+			}),
+		);
 	});
 	stylusRenderer.on('update', (filepaths) => {
 		for (const filepath of filepaths) {

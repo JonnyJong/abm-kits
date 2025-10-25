@@ -1,17 +1,17 @@
 import {
 	Dialog,
 	events,
-	Navigable,
+	type Navigable,
 	tooltips,
-	WidgetBtn,
-	WidgetCheckbox,
-	WidgetList,
+	type WidgetBtn,
+	type WidgetCheckbox,
+	type WidgetList,
 	WidgetListItem,
 } from 'abm-ui';
 import { $, $div, $new, Debounce } from 'abm-utils';
 import { css } from 'lit';
 import { customElement } from 'lit/decorators.js';
-import { IconInfo, Project, ProjectInfo } from '../types';
+import type { IconInfo, Project, ProjectInfo } from '../types';
 import {
 	compileAllIconForProject,
 	compileProject,
@@ -206,7 +206,7 @@ async function addProject() {
 	});
 	const check = () => {
 		promise.dialog.actions[0].disabled = !(
-			pathInput.value.length && distInput.value.length
+			pathInput.value.length > 0 && distInput.value.length > 0
 		);
 	};
 	pathInput.on('input', check);

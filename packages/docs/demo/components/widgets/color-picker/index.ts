@@ -1,4 +1,4 @@
-import { configs, WidgetColorPicker } from 'abm-ui';
+import { configs, type WidgetColorPicker } from 'abm-ui';
 import { $ } from 'abm-utils';
 
 const picker = $<WidgetColorPicker>('w-color-picker')!;

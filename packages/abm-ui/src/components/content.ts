@@ -3,10 +3,10 @@ import {
 	$div,
 	$new,
 	EventBase,
-	EventBaseInit,
-	EventHandler,
+	type EventBaseInit,
+	type EventHandler,
 	Events,
-	IEventSource,
+	type IEventSource,
 	parseKeyNamespace,
 } from 'abm-utils';
 import { WidgetIcon } from './widgets/icon';

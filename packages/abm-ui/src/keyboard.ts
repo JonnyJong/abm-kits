@@ -1,13 +1,13 @@
 import {
 	areSetEqual,
 	EventBase,
-	EventBaseInit,
-	EventHandler,
+	type EventBaseInit,
+	type EventHandler,
 	EventKey,
-	EventKeyInit,
+	type EventKeyInit,
 	Events,
-	EventsList,
-	IEventSource,
+	type EventsList,
+	type IEventSource,
 	RepeatingTriggerController,
 } from 'abm-utils';
 

@@ -1,5 +1,5 @@
-import { WidgetSelect } from 'abm-ui';
-import { $, $new, DOMContents, range } from 'abm-utils';
+import type { WidgetSelect } from 'abm-ui';
+import { $, $new, type DOMContents, range } from 'abm-utils';
 
 const select = $<WidgetSelect<number>>('w-select')!;
 select.placeholder = 'Pick one';

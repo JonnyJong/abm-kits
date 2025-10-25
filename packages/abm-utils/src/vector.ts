@@ -103,6 +103,7 @@ export class Vector2 {
 	 * 方向（上下左右）
 	 */
 	get direction(): Direction4 | undefined {
+		// biome-ignore lint/nursery/noUselessUndefined: Necessary return value
 		if (this.length === 0) return undefined;
 		const deg = this.angle;
 

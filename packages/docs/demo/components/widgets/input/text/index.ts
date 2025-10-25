@@ -1,4 +1,4 @@
-import { WidgetText } from 'abm-ui';
+import type { WidgetText } from 'abm-ui';
 import { $ } from 'abm-utils';
 
 const input = $<WidgetText>('w-text')!;

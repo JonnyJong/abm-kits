@@ -1,4 +1,4 @@
-import { WidgetRange } from 'abm-ui';
+import type { WidgetRange } from 'abm-ui';
 import { $ } from 'abm-utils';
 
 const range = $<WidgetRange>('w-range')!;

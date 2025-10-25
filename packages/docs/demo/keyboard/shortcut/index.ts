@@ -1,5 +1,5 @@
-import { keyboard } from "abm-ui";
-import { $, $apply, $div, $new } from "abm-utils";
+import { keyboard } from 'abm-ui';
+import { $, $apply, $div, $new } from 'abm-utils';
 
 function normalize(input: string): string {
 	return input.replaceAll('.', '-');
@@ -8,17 +8,21 @@ function normalize(input: string): string {
 const container = $('#main')!;
 
 container.append(
-	...Object.entries(keyboard.bindMap).map(([id, group])=>$div(
-		{ attr: { 'ui-layout': 'flow' }, style: { alignItems: 'center' } },
-		$div({ id: normalize(id) }, id),
-		...group.map((keys)=>$div(
-			{ attr: { 'ui-layout': 'flow', 'ui-panel': 'middle' } },
-			...[...keys].map((key) => $new('w-hint-key', { prop: { key } })),
-		)),
-	)),
+	...Object.entries(keyboard.bindMap).map(([id, group]) =>
+		$div(
+			{ attr: { 'ui-layout': 'flow' }, style: { alignItems: 'center' } },
+			$div({ id: normalize(id) }, id),
+			...group.map((keys) =>
+				$div(
+					{ attr: { 'ui-layout': 'flow', 'ui-panel': 'middle' } },
+					...[...keys].map((key) => $new('w-hint-key', { prop: { key } })),
+				),
+			),
+		),
+	),
 );
 
-keyboard.on('shortcutTrigger', (event)=>{
+keyboard.on('shortcutTrigger', (event) => {
 	console.log(event);
 	const item = $(`#${normalize(event.key)}`, container);
 	if (!item) return;

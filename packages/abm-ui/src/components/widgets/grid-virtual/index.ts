@@ -4,13 +4,13 @@ import {
 	clamp,
 	css,
 	Debounce,
-	EventsInitList,
+	type EventsInitList,
 	SyncList,
 	toReversed,
 	zip,
 } from 'abm-utils';
 import { customElement } from 'lit/decorators.js';
-import { Navigable } from '../../../navigate';
+import type { Navigable } from '../../../navigate';
 import { Widget } from '../base';
 import CSS from './index.styl';
 
@@ -463,6 +463,12 @@ export class WidgetGridVirtual<
 	get layout() {
 		return this.#layout;
 	}
+	set layout(value: WidgetGridVirtualLayout) {
+		if (!ALIGN.includes(value)) return;
+		if (this.#layout === value) return;
+		this.#layout = value;
+		this.#updateLayoutDebounce();
+	}
 	/**
 	 * 元素行内横向间隔
 	 * @description
@@ -473,6 +479,12 @@ export class WidgetGridVirtual<
 	 */
 	get itemScaping() {
 		return this.#itemScaping;
+	}
+	set itemScaping(value: WidgetGridVirtualItemSpacing) {
+		if (!ITEM_SPACING.includes(value)) return;
+		if (this.#itemScaping === value) return;
+		this.#itemScaping = value;
+		this.#updateLayoutDebounce();
 	}
 	/**
 	 * 元素行内横向对齐
@@ -485,6 +497,12 @@ export class WidgetGridVirtual<
 	get itemAlign() {
 		return this.#itemAlign;
 	}
+	set itemAlign(value: WidgetGridVirtualItemAlign) {
+		if (!ITEM_ALIGN.includes(value)) return;
+		if (this.#itemAlign === value) return;
+		this.#itemAlign = value;
+		this.#updateLayoutDebounce();
+	}
 	/**
 	 * 元素行内纵向对齐
 	 * @description
@@ -494,6 +512,12 @@ export class WidgetGridVirtual<
 	 */
 	get itemVerticalAlign() {
 		return this.#itemVerticalAlign;
+	}
+	set itemVerticalAlign(value: WidgetGridVirtualItemVerticalAlign) {
+		if (!ITEM_VERTICAL_ALIGN.includes(value)) return;
+		if (this.#itemVerticalAlign === value) return;
+		this.#itemVerticalAlign = value;
+		this.#updateLayoutDebounce();
 	}
 	/**
 	 * 元素宽度
@@ -506,61 +530,16 @@ export class WidgetGridVirtual<
 	get itemWidthType() {
 		return this.#itemWidthType;
 	}
-	/** 元素宽度系数 */
-	get itemWidthRatio() {
-		return this.#itemWidthRatio;
-	}
-	/**
-	 * 元素高度
-	 * @description
-	 * - `fixed`：固定高度，通过 `itemHeightRatio` 确定元素的高度
-	 * - `dynamic`：动态高度，每个项目提供自身高度
-	 */
-	get itemHeightType() {
-		return this.#itemHeightType;
-	}
-	/** 元素高度系数 */
-	get itemHeightRatio() {
-		return this.#itemHeightRatio;
-	}
-	/** 元素水平间距 */
-	get hGap() {
-		return this.#hGap;
-	}
-	/** 元素垂直间距 */
-	get vGap() {
-		return this.#vGap;
-	}
-	set layout(value: WidgetGridVirtualLayout) {
-		if (!ALIGN.includes(value)) return;
-		if (this.#layout === value) return;
-		this.#layout = value;
-		this.#updateLayoutDebounce();
-	}
-	set itemScaping(value: WidgetGridVirtualItemSpacing) {
-		if (!ITEM_SPACING.includes(value)) return;
-		if (this.#itemScaping === value) return;
-		this.#itemScaping = value;
-		this.#updateLayoutDebounce();
-	}
-	set itemAlign(value: WidgetGridVirtualItemAlign) {
-		if (!ITEM_ALIGN.includes(value)) return;
-		if (this.#itemAlign === value) return;
-		this.#itemAlign = value;
-		this.#updateLayoutDebounce();
-	}
-	set itemVerticalAlign(value: WidgetGridVirtualItemVerticalAlign) {
-		if (!ITEM_VERTICAL_ALIGN.includes(value)) return;
-		if (this.#itemVerticalAlign === value) return;
-		this.#itemVerticalAlign = value;
-		this.#updateLayoutDebounce();
-	}
 	set itemWidthType(value: WidgetGridVirtualItemWidthType) {
 		if (!ITEM_WIDTH_TYPE.includes(value)) return;
 		if (this.#itemWidthType === value) return;
 		this.#itemWidthType = value;
 		this.#requireUpdateItemLayout = true;
 		this.#updateLayoutDebounce();
+	}
+	/** 元素宽度系数 */
+	get itemWidthRatio() {
+		return this.#itemWidthRatio;
 	}
 	set itemWidthRatio(value: number) {
 		if (typeof value !== 'number') return;
@@ -571,12 +550,25 @@ export class WidgetGridVirtual<
 		}
 		this.#updateLayoutDebounce();
 	}
+	/**
+	 * 元素高度
+	 * @description
+	 * - `fixed`：固定高度，通过 `itemHeightRatio` 确定元素的高度
+	 * - `dynamic`：动态高度，每个项目提供自身高度
+	 */
+	get itemHeightType() {
+		return this.#itemHeightType;
+	}
 	set itemHeightType(value: WidgetGridVirtualItemHeightType) {
 		if (!ITEM_HEIGHT_TYPE.includes(value)) return;
 		if (this.#itemHeightType === value) return;
 		this.#itemHeightType = value;
 		this.#requireUpdateItemLayout = true;
 		this.#updateLayoutDebounce();
+	}
+	/** 元素高度系数 */
+	get itemHeightRatio() {
+		return this.#itemHeightRatio;
 	}
 	set itemHeightRatio(value: number) {
 		if (typeof value !== 'number') return;
@@ -587,6 +579,10 @@ export class WidgetGridVirtual<
 		}
 		this.#updateLayoutDebounce();
 	}
+	/** 元素水平间距 */
+	get hGap() {
+		return this.#hGap;
+	}
 	set hGap(value) {
 		if (!Number.isFinite(value)) return;
 		if (this.#hGap === value) return;
@@ -594,6 +590,10 @@ export class WidgetGridVirtual<
 		this.#hGap = value;
 		this.#requireUpdateItemLayout = true;
 		this.#updateLayoutDebounce();
+	}
+	/** 元素垂直间距 */
+	get vGap() {
+		return this.#vGap;
 	}
 	set vGap(value) {
 		if (!Number.isFinite(value)) return;

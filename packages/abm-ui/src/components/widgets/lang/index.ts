@@ -1,6 +1,6 @@
-import { FlatLocaleParams } from 'abm-utils';
+import type { FlatLocaleParams } from 'abm-utils';
 import { customElement, property } from 'lit/decorators.js';
-import { LocaleProvider, UIDefaultLocaleDict } from '../../../locale';
+import { LocaleProvider, type UIDefaultLocaleDict } from '../../../locale';
 import { Widget } from '../base';
 
 export interface WidgetLangProp<

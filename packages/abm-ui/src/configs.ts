@@ -3,30 +3,30 @@ import {
 	$apply,
 	$div,
 	$ready,
-	ArrayOr,
+	type ArrayOr,
 	asArray,
 	Color,
-	CSSProperty,
+	type CSSProperty,
 	callTask,
 	Debounce,
 	IterableWeakSet,
 	normalizeCSSFourValue,
-	PromiseOr,
-	ProxyObjectOptions,
+	type PromiseOr,
+	type ProxyObjectOptions,
 	proxyObject,
-	Rect,
-	RGB,
-	RGBA,
+	type Rect,
+	type RGB,
+	type RGBA,
 	range,
 	runTask,
 } from 'abm-utils';
-import { CSSResult } from 'lit';
+import type { CSSResult } from 'lit';
 import { DEFAULTS_ICONS } from './defaults';
 import {
-	AliasItem,
+	type AliasItem,
 	DEFAULT_ALIAS_MAP,
 	DEFAULT_SHORTCUT_MAP,
-	KeyBindGroup,
+	type KeyBindGroup,
 	keyboard,
 } from './keyboard';
 
@@ -99,9 +99,7 @@ class UIIconConfigs {
 
 		fetch(url)
 			.then((res) => res.text())
-			.then((text) => {
-				return this.#addFromString(text);
-			})
+			.then((text) => this.#addFromString(text))
 			.then(() => this.#update());
 	}
 	#add(style: CSSStyleSheet | CSSResult) {
@@ -179,7 +177,7 @@ class UIIconConfigs {
 		return this.#defaults;
 	}
 	set defaults(value: {
-		[key in UIDefaultsIcons]?: string;
+		[Key in UIDefaultsIcons]?: string;
 	}) {
 		if (typeof value !== 'object') return;
 
@@ -473,11 +471,11 @@ export interface UIConfigsInit {
 	borderRadius?: number | string;
 	/** 快捷键 */
 	keyShortcut?: {
-		[key in 'ui.navNext' | 'ui.navPrev' | (string & {})]?: KeyBindGroup;
+		[Key in 'ui.navNext' | 'ui.navPrev' | (string & {})]?: KeyBindGroup;
 	};
 	/** 按键别名 */
 	keyAlias?: {
-		[key in
+		[Key in
 			| 'ui.confirm'
 			| 'ui.cancel'
 			| 'ui.up'

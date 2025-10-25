@@ -1,24 +1,24 @@
 import {
-	EventBase,
-	EventBaseInit,
-	EventValue,
-	EventValueInit,
-	EventsInitList,
-	EventsList,
-	Fn,
-	SyncList,
 	applyConditionalOperation,
 	callTask,
 	css,
+	EventBase,
+	type EventBaseInit,
+	type EventsInitList,
+	type EventsList,
+	EventValue,
+	type EventValueInit,
+	type Fn,
+	SyncList,
 	shift,
 } from 'abm-utils';
 import { customElement, property } from 'lit/decorators.js';
-import { events, UIEventActive, UIEventSlide } from '../../../events';
-import { Slidable, SlideBorder } from '../../../events/slide';
+import { events, type UIEventActive, type UIEventSlide } from '../../../events';
+import type { Slidable, SlideBorder } from '../../../events/slide';
 import { keyboard } from '../../../keyboard';
 import {
-	Navigable,
-	NavigateCallbackOptions,
+	type Navigable,
+	type NavigateCallbackOptions,
 	navigate,
 } from '../../../navigate';
 import { Widget } from '../base';

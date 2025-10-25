@@ -1,4 +1,4 @@
-import { LangCate } from './build/main';
+import type { LangCate } from './build/main';
 
 export interface PageData {
 	title: string;

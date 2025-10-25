@@ -70,7 +70,7 @@ class Logging {
 		}
 	}
 	#subscriptions: {
-		[level in LogLevel]: Set<(log: Log) => any>;
+		[Level in LogLevel]: Set<(log: Log) => any>;
 	} = {
 		debug: new Set(),
 		info: new Set(),

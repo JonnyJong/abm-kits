@@ -2,7 +2,7 @@ ui:
   confirm: 确定
   cancel: 取消
   ok: 好
-  color_picker: 颜色选择器
+  colorPicker: 颜色选择器
   alpha: 不透明度
   red: 红
   green: 绿
