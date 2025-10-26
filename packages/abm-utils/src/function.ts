@@ -366,19 +366,28 @@ export class Throttle<
 	}
 }
 
-export interface ExecuteChain<T> {
-	run<R>(fn: Fn<[T], R>): ExecuteChain<R>;
-	result: T;
+/** 链式执行节点 */
+export class ChainNode<R, T> {
+	#fn: Fn<[T], R>;
+	#param: T;
+	#executed = false;
+	#value!: R;
+	constructor(fn: Fn<[T], R>, param: T) {
+		this.#fn = fn;
+		this.#param = param;
+	}
+	get result() {
+		if (this.#executed) return this.#value;
+		this.#value = this.#fn(this.#param);
+		this.#executed = true;
+		return this.#value;
+	}
+	run<N>(fn: Fn<[R], N>) {
+		return new ChainNode<N, R>(fn, this.result);
+	}
 }
 
-/**
- * 链式执行
- */
-export function chain<T>(value: T): ExecuteChain<T> {
-	return {
-		run(fn: Fn<[T], any>) {
-			return chain(fn(value));
-		},
-		result: value,
-	};
+/** 链式执行 */
+export function chain<T>(value: T): ChainNode<T, T> {
+	return new ChainNode((value) => value, value);
 }

@@ -97,7 +97,7 @@ source:
 ### `clean()`
 停止并清理计时器。
 
-# 接口 `ExecuteChain`
+# 类 `ChainNode`
 
 ## `run`
 添加链条中下一函数。
@@ -111,4 +111,4 @@ source:
 参数：
 - `value`：链中第一个函数的参数
 
-返回执行链 [`ExecuteChain`](#接口-executechain)。
+返回执行链 [`ChainNode`](#类-chainnode)。
