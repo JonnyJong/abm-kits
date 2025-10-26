@@ -5,7 +5,10 @@ source:
 ---
 
 # 接口 `HTMLElementProp`
-原生 DOM 元素接口的部分定义，用于代码提示补全。
+原生 DOM 元素接口的部分定义，用于代码提示补全。可扩展该接口以支持自定义元素。
+
+# 接口 `HTMLElementEvents`
+自定义元素事件，用于代码提示补全。可扩展该接口以支持自定义元素。
 
 # 类型 `CSSProperty`
 CSS 属性值对象定义。
