@@ -1,4 +1,7 @@
+import type { Stats } from 'node:fs';
 import util from 'node:util';
+import type { FSWatcher } from 'chokidar';
+import type { EventName } from 'chokidar/handler';
 
 export function stringify(data: any) {
 	// TODO：可能需要优化输出效果
@@ -94,4 +97,23 @@ export class OrderedMap<K, V> extends Map<K, V> {
 	[Symbol.iterator](): MapIterator<[K, V]> {
 		return this.entries();
 	}
+}
+
+const ALLOWED_FS_EVENTS: EventName[] = [
+	'add',
+	'addDir',
+	'change',
+	'unlink',
+	'unlinkDir',
+];
+export function setupWatcher(
+	watcher: FSWatcher,
+	handler: (path: string, stats?: Stats) => any,
+) {
+	watcher.once('ready', () => {
+		watcher.on('all', (event, path, stats) => {
+			if (!ALLOWED_FS_EVENTS.includes(event)) return;
+			handler(path, stats);
+		});
+	});
 }

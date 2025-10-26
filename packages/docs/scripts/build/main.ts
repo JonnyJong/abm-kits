@@ -8,7 +8,7 @@ import { MarkdownRenderer } from '../render/markdown';
 import { StylusRenderer } from '../render/stylus';
 import { TypeScriptRenderer } from '../render/typescript';
 import type { PageData } from '../types';
-import { OrderedMap } from '../utils';
+import { OrderedMap, setupWatcher } from '../utils';
 
 export interface LangCate {
 	locale: Record<string, any>;
@@ -24,7 +24,10 @@ interface LangPageData {
 const logger = new Logger('build/main');
 
 const root = here('src');
-const watcher = watch(here(root));
+const watcher = watch(here(root), {
+	awaitWriteFinish: true,
+	ignoreInitial: true,
+});
 const tsRenderer = new TypeScriptRenderer();
 const stylusRenderer = new StylusRenderer();
 const mdRenderer = new Map<string, MarkdownRenderer>();
@@ -358,25 +361,23 @@ async function buildAllDocs() {
 }
 
 export async function buildMain() {
-	watcher.once('ready', () => {
-		watcher.on('all', async (_, filepath) => {
-			if (tsRenderer.isTracing(filepath)) return;
-			if (stylusRenderer.isTracing(filepath)) return;
-			if (mdRenderer.has(filepath)) return;
-			if (isIgnore(filepath)) return;
-			if (!existsSync(filepath)) return;
-			try {
-				if (!statSync(filepath).isFile()) return;
-			} catch {
-				return;
-			}
-			logger.log(`Updating ${filepath}`);
-			if (await tryUpdateDoc(filepath)) return;
-			tryBuild(filepath);
-			const renderer = mdRenderer.get(filepath);
-			if (!renderer) return;
-			buildPage(filepath, renderer);
-		});
+	setupWatcher(watcher, async (filepath) => {
+		if (tsRenderer.isTracing(filepath)) return;
+		if (stylusRenderer.isTracing(filepath)) return;
+		if (mdRenderer.has(filepath)) return;
+		if (isIgnore(filepath)) return;
+		if (!existsSync(filepath)) return;
+		try {
+			if (!statSync(filepath).isFile()) return;
+		} catch {
+			return;
+		}
+		logger.log(`Updating ${filepath}`);
+		if (await tryUpdateDoc(filepath)) return;
+		tryBuild(filepath);
+		const renderer = mdRenderer.get(filepath);
+		if (!renderer) return;
+		buildPage(filepath, renderer);
 	});
 	await Promise.all(
 		[...iterFiles(root)].map((file) => tryBuild(path.join(root, file))),

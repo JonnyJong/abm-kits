@@ -5,11 +5,12 @@ import { here, isIgnore, iterFiles, out, writeFile } from '../fs';
 import { Logger } from '../logger';
 import { StylusRenderer } from '../render/stylus';
 import { TypeScriptRenderer } from '../render/typescript';
+import { setupWatcher } from '../utils';
 
 const logger = new Logger('build/deps');
 
 const root = here('deps');
-const watcher = watch(root);
+const watcher = watch(root, { awaitWriteFinish: true, ignoreInitial: true });
 const tsRenderer = new TypeScriptRenderer(() => false);
 const stylusRenderer = new StylusRenderer();
 
@@ -57,20 +58,18 @@ function tryBuild(filepath: string) {
 }
 
 export async function buildDeps() {
-	watcher.once('ready', () => {
-		watcher.on('all', (_, filepath) => {
-			if (tsRenderer.isTracing(filepath)) return;
-			if (stylusRenderer.isTracing(filepath)) return;
-			if (isIgnore(filepath)) return;
-			if (!existsSync(filepath)) return;
-			try {
-				if (!statSync(filepath).isFile()) return;
-			} catch {
-				return;
-			}
-			logger.log(`Updating ${filepath}`);
-			tryBuild(filepath);
-		});
+	setupWatcher(watcher, (filepath) => {
+		if (tsRenderer.isTracing(filepath)) return;
+		if (stylusRenderer.isTracing(filepath)) return;
+		if (isIgnore(filepath)) return;
+		if (!existsSync(filepath)) return;
+		try {
+			if (!statSync(filepath).isFile()) return;
+		} catch {
+			return;
+		}
+		logger.log(`Updating ${filepath}`);
+		tryBuild(filepath);
 	});
 	await Promise.all(
 		[...iterFiles(root)].map((file) => tryBuild(path.join(root, file))),

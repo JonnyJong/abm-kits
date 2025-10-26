@@ -3,6 +3,7 @@ import path from 'node:path';
 import { FSWatcher } from 'chokidar';
 import * as rolldown from 'rolldown';
 import { Logger } from '../logger';
+import { setupWatcher } from '../utils';
 
 const logger = new Logger('render/typescript');
 
@@ -19,15 +20,13 @@ function normalizeModName(mod: string): string {
 
 export class TypeScriptRenderer extends EventEmitter<{ update: [string[]] }> {
 	#external: (id: string) => boolean;
-	#watcher = new FSWatcher();
+	#watcher = new FSWatcher({ awaitWriteFinish: true, ignoreInitial: true });
 	#deps = new Map<string, string[]>();
 	#depsCounter = new Map<string, number>();
 	constructor(external: (id: string) => boolean = defaultExternal) {
 		super();
 		this.#external = external;
-		this.#watcher.once('ready', () => {
-			this.#watcher.on('all', (_, path) => this.#update(path));
-		});
+		setupWatcher(this.#watcher, (path) => this.#update(path));
 	}
 	isTracing(filepath: string) {
 		return this.#deps.has(filepath);

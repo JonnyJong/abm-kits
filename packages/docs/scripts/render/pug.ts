@@ -5,7 +5,7 @@ import { type FSWatcher, watch } from 'chokidar';
 import pug from 'pug';
 import { here } from '../fs';
 import { Logger } from '../logger';
-import { escapeHTML, stringify } from '../utils';
+import { escapeHTML, setupWatcher, stringify } from '../utils';
 
 const FALLBACK_REASON = {
 	UNINITIALIZED: 'The template has not been initialized.',
@@ -75,13 +75,14 @@ export class PugRenderer extends EventEmitter<{ update: [] }> {
 		this.#path = path.isAbsolute(layout)
 			? layout
 			: here('layouts', `${layout}.pug`);
-		this.#watcher = watch(this.#path, { awaitWriteFinish: true });
+		this.#watcher = watch(this.#path, {
+			awaitWriteFinish: true,
+			ignoreInitial: true,
+		});
 		this.#template = createFallbackTemplate(this.#layout, this.#path);
-		this.#watcher.once('ready', () => {
-			this.#watcher.on('all', () => {
-				this.#reload();
-				super.emit('update');
-			});
+		setupWatcher(this.#watcher, () => {
+			this.#reload();
+			super.emit('update');
 		});
 	}
 	#reload() {

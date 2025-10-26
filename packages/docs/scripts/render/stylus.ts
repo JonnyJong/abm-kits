@@ -4,6 +4,7 @@ import path from 'node:path';
 import { FSWatcher } from 'chokidar';
 import stylus from 'stylus';
 import { Logger } from '../logger';
+import { setupWatcher } from '../utils';
 
 const ERROR = {
 	FILE: 'Could not read stylus file',
@@ -17,14 +18,12 @@ const logger = new Logger('render/stylus');
 export class StylusRenderer extends EventEmitter<{
 	update: [files: string[]];
 }> {
-	#watcher = new FSWatcher();
+	#watcher = new FSWatcher({ awaitWriteFinish: true, ignoreInitial: true });
 	#deps = new Map<string, string[]>();
 	#depsCounter = new Map<string, number>();
 	constructor() {
 		super();
-		this.#watcher.once('ready', () => {
-			this.#watcher.on('all', (_, path) => this.#update(path));
-		});
+		setupWatcher(this.#watcher, (path) => this.#update(path));
 	}
 	isTracing(filepath: string) {
 		return this.#deps.has(filepath);

@@ -18,6 +18,7 @@ import yaml from 'yaml';
 import { here } from '../fs';
 import { Logger } from '../logger';
 import type { PageData } from '../types';
+import { setupWatcher } from '../utils';
 import { PugRenderer } from './pug';
 
 const ERROR = {
@@ -190,15 +191,13 @@ export class MarkdownRenderer extends EventEmitter<{ update: [] }> {
 	#filepath: string;
 	#filename: string;
 	#demo: string[] = [];
-	#watcher = new FSWatcher();
+	#watcher = new FSWatcher({ awaitWriteFinish: true, ignoreInitial: true });
 	constructor(filepath: string) {
 		super();
 		this.#filepath = filepath;
 		this.#filename = path.basename(this.#filepath, path.extname(this.#filepath));
 		this.#watcher.add(this.#filepath);
-		this.#watcher.once('ready', () => {
-			this.#watcher.on('all', () => this.#updateEmitter());
-		});
+		setupWatcher(this.#watcher, () => this.#updateEmitter());
 	}
 	#updateEmitter = () => {
 		this.emit('update');
