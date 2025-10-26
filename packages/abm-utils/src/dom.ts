@@ -698,9 +698,11 @@ export function $path(from: HTMLElement): HTMLElement[] {
 	return path;
 }
 
-/**
- * `document.addEventListener('DOMContentLoaded', ()=>{})` 别名
- */
-export function $ready(handler: (this: Document, ev: Event) => any) {
-	document.addEventListener('DOMContentLoaded', handler);
+/** `document.addEventListener('DOMContentLoaded', ()=>{})` 别名 */
+export function $ready(handler: () => any): void {
+	if (document.readyState !== 'loading') {
+		queueMicrotask(() => handler());
+		return;
+	}
+	document.addEventListener('DOMContentLoaded', () => handler(), { once: true });
 }
