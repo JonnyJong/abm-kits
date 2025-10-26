@@ -33,7 +33,16 @@ if (schema) {
 	} catch {}
 }
 
-configs.init({});
+configs.init({
+	icon: (() => {
+		const css = [...$<HTMLLinkElement>('#assets-icon')!.sheet!.cssRules]
+			.map((rule) => rule.cssText)
+			.join('');
+		const sheet = new CSSStyleSheet();
+		sheet.replaceSync(css);
+		return sheet;
+	})(),
+});
 
 //#region Main
 let main: HTMLElement;
