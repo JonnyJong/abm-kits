@@ -1,4 +1,10 @@
-import { callTask, EventBase, type EventHandler, Events } from 'abm-utils';
+import {
+	$ready,
+	callTask,
+	EventBase,
+	type EventHandler,
+	Events,
+} from 'abm-utils';
 import { initInput } from './input';
 import type {
 	INavigate,
@@ -28,7 +34,7 @@ export type {
 
 class Navigate implements INavigate {
 	//#region Nav Stack
-	#stack: StackItem[] = [[document.body, null, null]];
+	#stack: StackItem[] = [];
 	get #current() {
 		return this.#stack.at(-1)![1]?.deref() ?? null;
 	}
@@ -165,13 +171,16 @@ class Navigate implements INavigate {
 		clearCurrent: this.#clearCurrent,
 	});
 	constructor() {
-		initInput({
-			navigate: this,
-			events: this.#events,
-			ui: this.#ui,
-			getCurrentLayer: this.#getCurrentLayer,
-			clearCurrent: this.#clearCurrent,
-			callback: this.#callback,
+		$ready(() => {
+			this.#stack.push([document.body, null, null]);
+			initInput({
+				navigate: this,
+				events: this.#events,
+				ui: this.#ui,
+				getCurrentLayer: this.#getCurrentLayer,
+				clearCurrent: this.#clearCurrent,
+				callback: this.#callback,
+			});
 		});
 	}
 	blockKeyboard = false;
