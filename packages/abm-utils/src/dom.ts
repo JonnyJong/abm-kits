@@ -424,7 +424,7 @@ export interface HTMLElementProp {
 // biome-ignore lint/suspicious/noEmptyInterface: Merge declarations must be supported
 export interface HTMLElementEvents {}
 export type CSSProperty = {
-	[Key in keyof CSSStyleDeclaration]?: any;
+	[Key in keyof CSSStyleDeclaration & string]?: any;
 };
 export type CSSVariable = {
 	[key: `--${string}` | `$${string}`]: any;
