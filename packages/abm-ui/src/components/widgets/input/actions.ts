@@ -75,7 +75,8 @@ export class InputActions<Value extends WidgetInputValue = WidgetInputValue> {
 			);
 			if (element) prevElements.delete(element);
 			else {
-				element = $new('w-btn', {
+				element = $new({
+					tag: 'w-btn',
 					class: 'action',
 					data: { id: item.id },
 					prop: {

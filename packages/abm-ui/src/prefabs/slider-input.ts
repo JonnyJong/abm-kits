@@ -35,8 +35,8 @@ export interface PrefabSliderInputEvents
 
 /** 预制件：滑动条与输入框 */
 export class PrefabSliderInput extends Prefab<PrefabSliderInputEventsInit> {
-	#slider = $new('w-slider');
-	#input = $new('w-number');
+	#slider = $new({ tag: 'w-slider' });
+	#input = $new({ tag: 'w-number' });
 	constructor(init?: PrefabSliderInputInit) {
 		super({ eventTypes: ['input', 'change'] });
 		this.#slider.on('input', ({ value }) => {

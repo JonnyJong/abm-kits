@@ -24,7 +24,7 @@ export class WidgetText
 {
 	static properties = { value: { type: String } };
 	constructor() {
-		super($new('input'));
+		super($new({ tag: 'input' }));
 
 		this.input.addEventListener('input', () => this.emit('input', this.value));
 		this.input.addEventListener('blur', () => this.emit('confirm', this.value));

@@ -1,8 +1,6 @@
 /** biome-ignore-all lint/performance/noBarrelFile: Required as the primary library entry point for exporting public API */
 /** biome-ignore-all assist/source/organizeImports: There is a special sort */
 
-import type { DOMApplyOptions } from 'abm-utils';
-import type { Widget } from './components/widgets/base';
 import type {
 	WidgetBtn,
 	WidgetBtnEvents,
@@ -203,131 +201,92 @@ export * from './prefabs/base';
 export * from './prefabs/slider-input';
 
 // Utils
-export interface WidgetTagNameMap {
-	'w-lang': WidgetLang;
-	'w-icon': WidgetIcon;
-	'w-progress-bar': WidgetProgressBar;
-	'w-progress-ring': WidgetProgressRing;
-	'w-btn': WidgetBtn;
-	'w-list': WidgetList;
-	'w-text': WidgetText;
-	'w-password': WidgetPassword;
-	'w-text-field': WidgetTextField;
-	'w-number': WidgetNumber;
-	'w-select': WidgetSelect;
-	'w-nav': WidgetNav;
-	'w-slider': WidgetSlider;
-	'w-slider-2d': WidgetSlider2D;
-	'w-switch': WidgetSwitch;
-	'w-checkbox': WidgetCheckbox;
-	'w-color-picker': WidgetColorPicker;
-	'w-color': WidgetColor;
-	'w-gamepad': WidgetGamepad;
-	'w-hint-key': WidgetHintKey;
-	'w-hint-mouse': WidgetHintMouse;
-	'w-hint-gamepad': WidgetHintGamepad;
-	'w-hint-touch': WidgetHintTouch;
-	'w-hint-pen': WidgetHintPen;
-	'w-hint': WidgetHint;
-	'w-grid-virtual': WidgetGridVirtual;
-	'w-list-infinite': WidgetListInfinite;
-	'w-grid-data': WidgetGridData;
-	'w-label': WidgetLabel;
-	'w-file': WidgetFile;
-	'w-range': WidgetRange;
-}
-export type WidgetTagForType<E> = {
-	[K in keyof WidgetTagNameMap]: E extends WidgetTagNameMap[K] ? K : never;
-}[keyof WidgetTagNameMap];
-export interface WidgetsPropMap {
-	'w-lang': WidgetLangProp;
-	'w-icon': WidgetIconProp;
-	'w-progress-bar': WidgetProgressProp;
-	'w-progress-ring': WidgetProgressProp;
-	'w-btn': WidgetBtnProp;
-	'w-list': WidgetListProp;
-	'w-text': WidgetTextProp;
-	'w-password': WidgetPasswordProp;
-	'w-text-field': WidgetTextFieldProp;
-	'w-number': WidgetNumberProp;
-	'w-select': WidgetSelectProp;
-	'w-nav': WidgetNavProp;
-	'w-slider': WidgetSliderProp;
-	'w-slider-2d': WidgetSlider2DProp;
-	'w-switch': WidgetSwitchProp;
-	'w-checkbox': WidgetCheckboxProp;
-	'w-color-picker': WidgetColorPickerProp;
-	'w-color': WidgetColorProp;
-	'w-gamepad': WidgetGamepadProp;
-	'w-hint-key': WidgetHintKeyProp;
-	'w-hint-mouse': WidgetHintMouseProp;
-	'w-hint-gamepad': WidgetHintGamepadProp;
-	'w-hint-touch': WidgetHintTouchProp;
-	'w-hint-pen': WidgetHintPenProp;
-	'w-hint': WidgetHintProp;
-	'w-grid-virtual': WidgetGridVirtualProp;
-	'w-list-infinite': WidgetListInfiniteProp;
-	'w-label': WidgetLabelProp;
-	'w-file': WidgetFileProp;
-	'w-range': WidgetRangeProp;
-}
-export interface WidgetsEventsMap {
-	'w-btn': WidgetBtnEvents;
-	'w-list': WidgetListEvents;
-	'w-text': WidgetInputEvents<string, WidgetText>;
-	'w-password': WidgetInputEvents<string, WidgetPassword>;
-	'w-text-field': WidgetInputEvents<string, WidgetTextField>;
-	'w-number': WidgetInputEvents<number, WidgetNumber>;
-	'w-select': WidgetSelectEvents;
-	'w-nav': WidgetNavEvents;
-	'w-slider': WidgetSliderEvents;
-	'w-slider-2d': WidgetSlider2DEvents;
-	'w-switch': WidgetSwitchEvents;
-	'w-checkbox': WidgetCheckboxEvents;
-	'w-color-picker': WidgetColorPickerEvents;
-	'w-color': WidgetColorEvents;
-	'w-file': WidgetFileEvents;
-	'w-range': WidgetRangeEvents;
+declare global {
+	interface HTMLElementTagNameMap {
+		'w-lang': WidgetLang;
+		'w-icon': WidgetIcon;
+		'w-progress-bar': WidgetProgressBar;
+		'w-progress-ring': WidgetProgressRing;
+		'w-btn': WidgetBtn;
+		'w-list': WidgetList;
+		'w-text': WidgetText;
+		'w-password': WidgetPassword;
+		'w-text-field': WidgetTextField;
+		'w-number': WidgetNumber;
+		'w-select': WidgetSelect;
+		'w-nav': WidgetNav;
+		'w-slider': WidgetSlider;
+		'w-slider-2d': WidgetSlider2D;
+		'w-switch': WidgetSwitch;
+		'w-checkbox': WidgetCheckbox;
+		'w-color-picker': WidgetColorPicker;
+		'w-color': WidgetColor;
+		'w-gamepad': WidgetGamepad;
+		'w-hint-key': WidgetHintKey;
+		'w-hint-mouse': WidgetHintMouse;
+		'w-hint-gamepad': WidgetHintGamepad;
+		'w-hint-touch': WidgetHintTouch;
+		'w-hint-pen': WidgetHintPen;
+		'w-hint': WidgetHint;
+		'w-grid-virtual': WidgetGridVirtual;
+		'w-list-infinite': WidgetListInfinite;
+		'w-grid-data': WidgetGridData;
+		'w-label': WidgetLabel;
+		'w-file': WidgetFile;
+		'w-range': WidgetRange;
+	}
 }
 declare module 'abm-utils' {
-	type PropForType<E extends Widget> =
-		WidgetTagForType<E> extends keyof WidgetsPropMap
-			? WidgetsPropMap[WidgetTagForType<E>]
-			: Record<string, any>;
-	type EventForType<E extends Widget> =
-		WidgetTagForType<E> extends keyof WidgetsEventsMap
-			? WidgetsEventsMap[WidgetTagForType<E>]
-			: {};
-	/**
-	 * 应用配置到 DOM 元素
-	 * @param target - 目标 DOM 元素
-	 * @param options - 配置
-	 */
-	export function $apply<E extends Widget = Widget>(
-		target: E,
-		options: DOMApplyOptions<E, PropForType<E>, EventForType<E>>,
-	): E;
-	/**
-	 * 创建 DOM 元素并应用配置
-	 * @param tag 标签名
-	 * @param options 选项
-	 * @param content 内容
-	 */
-	export function $new<
-		E extends WidgetTagNameMap[K],
-		O,
-		K extends keyof WidgetTagNameMap = keyof WidgetTagNameMap,
-	>(
-		tag: K,
-		options?: O extends HTMLElement | string
-			? O
-			: DOMApplyOptions<
-					E,
-					K extends keyof WidgetsPropMap ? WidgetsPropMap[K] : {},
-					K extends keyof WidgetsEventsMap ? WidgetsEventsMap[K] : {}
-				>,
-		...content: (HTMLElement | string)[]
-	): E;
+	export interface HTMLElementProp {
+		'w-lang': WidgetLangProp;
+		'w-icon': WidgetIconProp;
+		'w-progress-bar': WidgetProgressProp;
+		'w-progress-ring': WidgetProgressProp;
+		'w-btn': WidgetBtnProp;
+		'w-list': WidgetListProp;
+		'w-text': WidgetTextProp;
+		'w-password': WidgetPasswordProp;
+		'w-text-field': WidgetTextFieldProp;
+		'w-number': WidgetNumberProp;
+		'w-select': WidgetSelectProp;
+		'w-nav': WidgetNavProp;
+		'w-slider': WidgetSliderProp;
+		'w-slider-2d': WidgetSlider2DProp;
+		'w-switch': WidgetSwitchProp;
+		'w-checkbox': WidgetCheckboxProp;
+		'w-color-picker': WidgetColorPickerProp;
+		'w-color': WidgetColorProp;
+		'w-gamepad': WidgetGamepadProp;
+		'w-hint-key': WidgetHintKeyProp;
+		'w-hint-mouse': WidgetHintMouseProp;
+		'w-hint-gamepad': WidgetHintGamepadProp;
+		'w-hint-touch': WidgetHintTouchProp;
+		'w-hint-pen': WidgetHintPenProp;
+		'w-hint': WidgetHintProp;
+		'w-grid-virtual': WidgetGridVirtualProp;
+		'w-list-infinite': WidgetListInfiniteProp;
+		'w-label': WidgetLabelProp;
+		'w-file': WidgetFileProp;
+		'w-range': WidgetRangeProp;
+	}
+	export interface HTMLElementEvents {
+		'w-btn': WidgetBtnEvents;
+		'w-list': WidgetListEvents;
+		'w-text': WidgetInputEvents<string, WidgetText>;
+		'w-password': WidgetInputEvents<string, WidgetPassword>;
+		'w-text-field': WidgetInputEvents<string, WidgetTextField>;
+		'w-number': WidgetInputEvents<number, WidgetNumber>;
+		'w-select': WidgetSelectEvents;
+		'w-nav': WidgetNavEvents;
+		'w-slider': WidgetSliderEvents;
+		'w-slider-2d': WidgetSlider2DEvents;
+		'w-switch': WidgetSwitchEvents;
+		'w-checkbox': WidgetCheckboxEvents;
+		'w-color-picker': WidgetColorPickerEvents;
+		'w-color': WidgetColorEvents;
+		'w-file': WidgetFileEvents;
+		'w-range': WidgetRangeEvents;
+	}
 }
 
 initContextMenu();

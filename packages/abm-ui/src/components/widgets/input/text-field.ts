@@ -10,7 +10,7 @@ export interface WidgetTextFieldProp extends WidgetInputProp<string> {}
 export class WidgetTextField extends WidgetInput<string, HTMLTextAreaElement> {
 	static properties = { value: { type: String } };
 	constructor() {
-		super($new('textarea'));
+		super($new({ tag: 'textarea' }));
 
 		this.input.addEventListener('input', () => this.emit('input', this.value));
 		this.input.addEventListener('blur', () => this.emit('confirm', this.value));

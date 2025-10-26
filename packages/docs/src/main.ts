@@ -1,4 +1,5 @@
 import {
+	$lang,
 	type ColorScheme,
 	configs,
 	defaultLocale,
@@ -6,7 +7,7 @@ import {
 	type WidgetColor,
 	type WidgetSelect,
 } from 'abm-ui';
-import { $, $$, $new, $ready } from 'abm-utils';
+import { $, $$, $ready } from 'abm-utils';
 
 const channel = new BroadcastChannel('abm_demo');
 const languages = (window as any).__LANGUAGES as string[];
@@ -37,9 +38,9 @@ function nav() {
 	const colorSchema = $<WidgetSelect<ColorScheme>>('#nav-schema')!;
 	const langSelect = $<WidgetSelect<string>>('#nav-lang')!;
 	colorSchema.options = [
-		{ value: 'system', label: $new('w-lang', 'schema.system') },
-		{ value: 'light', label: $new('w-lang', 'schema.light') },
-		{ value: 'dark', label: $new('w-lang', 'schema.dark') },
+		{ value: 'system', label: $lang('schema.system') },
+		{ value: 'light', label: $lang('schema.light') },
+		{ value: 'dark', label: $lang('schema.dark') },
 	];
 	colorSchema.value = 'system';
 	langSelect.options = languages.map((v) => ({ value: v, label: v }));
@@ -77,9 +78,9 @@ function nav() {
 		localStorage.setItem('language', value);
 		switchLanguage(value);
 	});
-	tooltips.set(colorPicker, $new('w-lang', 'nav.color'));
-	tooltips.set(colorSchema, $new('w-lang', 'nav.schema'));
-	tooltips.set(langSelect, $new('w-lang', 'nav.lang'));
+	tooltips.set(colorPicker, $lang('nav.color'));
+	tooltips.set(colorSchema, $lang('nav.schema'));
+	tooltips.set(langSelect, $lang('nav.lang'));
 }
 
 function toc() {

@@ -162,10 +162,8 @@ export class InputAutoFill<
 		this.#element.navParent = this.#container;
 	}
 	//#region Contents
-	#element: WidgetList<Item> & Navigable = $new<
-		WidgetList<Item> & Navigable,
-		{}
-	>('w-list', {
+	#element: WidgetList<Item> & Navigable = $new<WidgetList<Item> & Navigable>({
+		tag: 'w-list',
 		class: 'w-input-autofill',
 	});
 	get items() {

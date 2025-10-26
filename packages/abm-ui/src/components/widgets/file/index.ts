@@ -15,6 +15,7 @@ import { tooltips } from '../../tooltips';
 import { Widget } from '../base';
 import type { WidgetBtn } from '../btn';
 import type { WidgetIcon } from '../icon';
+import { $lang } from '../lang';
 import CSS from './index.styl';
 
 export type WidgetFileDisplay = 'row' | 'block';
@@ -53,19 +54,17 @@ export class WidgetFile
 	implements Navigable
 {
 	static styles = css(CSS);
-	#input: HTMLInputElement = $new<HTMLInputElement, {}>('input', {
-		prop: {
-			type: 'file',
-		},
-	});
+	#input = $new<HTMLInputElement>({ tag: 'input', prop: { type: 'file' } });
 	#files = new Signal.State<readonly File[]>(Object.freeze([]));
 	#addFile = false;
-	#pickBtn: WidgetBtn & Navigable = $new<WidgetBtn, {}>('w-btn', {
-		content: $new<WidgetIcon, {}>('w-icon', { prop: { keyUI: 'pickFile' } }),
+	#pickBtn: WidgetBtn & Navigable = $new<WidgetBtn>({
+		tag: 'w-btn',
+		content: $new<WidgetIcon>({ tag: 'w-icon', prop: { keyUI: 'pickFile' } }),
 		on: { active: () => this.#input.click() },
 	});
-	#addBtn: WidgetBtn & Navigable = $new<WidgetBtn, {}>('w-btn', {
-		content: $new<WidgetIcon, {}>('w-icon', { prop: { keyUI: 'addFile' } }),
+	#addBtn: WidgetBtn & Navigable = $new<WidgetBtn>({
+		tag: 'w-btn',
+		content: $new<WidgetIcon>({ tag: 'w-icon', prop: { keyUI: 'addFile' } }),
 		on: {
 			active: () => {
 				this.#addFile = true;
@@ -73,8 +72,9 @@ export class WidgetFile
 			},
 		},
 	});
-	#clearBtn: WidgetBtn & Navigable = $new<WidgetBtn, {}>('w-btn', {
-		content: $new<WidgetIcon, {}>('w-icon', { prop: { keyUI: 'clearFile' } }),
+	#clearBtn: WidgetBtn & Navigable = $new<WidgetBtn>({
+		tag: 'w-btn',
+		content: $new<WidgetIcon>({ tag: 'w-icon', prop: { keyUI: 'clearFile' } }),
 		on: {
 			active: () => {
 				this.#files.set(Object.freeze([]));
@@ -83,7 +83,10 @@ export class WidgetFile
 			},
 		},
 	});
-	#placeholder: HTMLDivElement = $div({ class: 'placeholder' }, $new('slot'));
+	#placeholder: HTMLDivElement = $div(
+		{ class: 'placeholder' },
+		$new({ tag: 'slot' }),
+	);
 	constructor() {
 		super({
 			eventTypes: ['change'],
@@ -99,9 +102,9 @@ export class WidgetFile
 		this.addEventListener('dragover', this.#dragOverHandler);
 		this.addEventListener('drop', this.#dropHandler);
 		this.#input.addEventListener('change', this.#fileChangeHandler);
-		tooltips.set(this.#pickBtn, $new('w-lang', 'ui.file.pick'));
-		tooltips.set(this.#addBtn, $new('w-lang', 'ui.file.add'));
-		tooltips.set(this.#clearBtn, $new('w-lang', 'ui.file.clear'));
+		tooltips.set(this.#pickBtn, $lang('ui.file.pick'));
+		tooltips.set(this.#addBtn, $lang('ui.file.add'));
+		tooltips.set(this.#clearBtn, $lang('ui.file.clear'));
 		this.#pickBtn.navParent = this;
 		this.#addBtn.navParent = this;
 		this.#clearBtn.navParent = this;
@@ -112,19 +115,23 @@ export class WidgetFile
 				<div class="file">
 					${
 						file.type.startsWith('image/') && this.previewImage
-							? $new('img', {
+							? $new({
+									tag: 'img',
 									class: 'file-icon',
 									prop: { src: URL.createObjectURL(file) },
 								})
-							: $new<WidgetIcon, {}>('w-icon', {
+							: $new<WidgetIcon>({
+									tag: 'w-icon',
 									class: 'file-icon',
 									prop: { keyUI: 'file' },
 								})
 					}
 					<div class="file-name">${file.name}</div>
-					${$new<WidgetBtn, {}>('w-btn', {
+					${$new<WidgetBtn>({
+						tag: 'w-btn',
 						prop: { flat: true },
-						content: $new<WidgetIcon, {}>('w-icon', {
+						content: $new<WidgetIcon>({
+							tag: 'w-icon',
 							prop: { keyUI: 'removeFile' },
 						}),
 						on: { active: () => this.#removeFile(file) },

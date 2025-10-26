@@ -1,4 +1,5 @@
 import {
+	$lang,
 	Dialog,
 	events,
 	type Navigable,
@@ -55,10 +56,12 @@ class ProjectListItem extends WidgetListItem<ProjectInfo> implements Navigable {
 		class: 'project-name',
 		attr: { 'ui-nav': '' },
 	});
-	#rename = $new<WidgetBtn & Navigable, {}>('w-btn', {
+	#rename = $new<WidgetBtn & Navigable>({
+		tag: 'w-btn',
 		prop: { icon: 'Rename' },
 	});
-	#delete = $new<WidgetBtn & Navigable, {}>('w-btn', {
+	#delete = $new<WidgetBtn & Navigable>({
+		tag: 'w-btn',
 		prop: { icon: 'Delete' },
 	});
 	#info!: ProjectInfo;
@@ -81,7 +84,7 @@ class ProjectListItem extends WidgetListItem<ProjectInfo> implements Navigable {
 		tooltips.set(this.#main, value.path);
 	}
 	static create(data: ProjectInfo): ProjectListItem {
-		const item = $new<ProjectListItem, {}>('project-item');
+		const item = $new<ProjectListItem>({ tag: 'project-item' });
 		item.data = data;
 		return item;
 	}
@@ -130,8 +133,11 @@ class ProjectIcon extends WidgetListItem<IconInfo> implements Navigable {
 	info!: IconInfo;
 	#icon = $div();
 	#id = $div({ class: 'id' });
-	#copy = $new<WidgetBtn, {}>('w-btn', { prop: { content: { icon: 'Copy' } } });
-	#del = $new<WidgetBtn, {}>('w-btn', { prop: { content: { icon: 'Delete' } } });
+	#copy = $new<WidgetBtn>({ tag: 'w-btn', prop: { content: { icon: 'Copy' } } });
+	#del = $new<WidgetBtn>({
+		tag: 'w-btn',
+		prop: { content: { icon: 'Delete' } },
+	});
 	constructor() {
 		super();
 		this.activeTrigger = this.#id;
@@ -156,7 +162,7 @@ class ProjectIcon extends WidgetListItem<IconInfo> implements Navigable {
 		return [this.#icon, this.#id, this.#copy, this.#del];
 	}
 	static create(data: IconInfo) {
-		const item = $new('project-icon') as ProjectIcon;
+		const item = $new<ProjectIcon>({ tag: 'project-icon' });
 		item.data = data;
 		return item;
 	}
@@ -178,23 +184,23 @@ async function updateList() {
 }
 
 async function addProject() {
-	const nameInput = $new('w-text');
-	const pathInput = $new('w-text');
-	const distInput = $new('w-text');
-	const includeDefaults = $new('w-checkbox');
+	const nameInput = $new({ tag: 'w-text' });
+	const pathInput = $new({ tag: 'w-text' });
+	const distInput = $new({ tag: 'w-text' });
+	const includeDefaults = $new({ tag: 'w-checkbox' });
 	const promise = Dialog.confirm({
 		title: 'create-project',
 		content: [
-			$new('w-lang', 'project-name'),
+			$lang('project-name'),
 			nameInput,
-			$new('w-lang', 'project-path'),
+			$lang('project-path'),
 			pathInput,
-			$new('w-lang', 'project-dist'),
+			$lang('project-dist'),
 			distInput,
 			$div(
 				{ attr: { 'ui-layout': 'flow' } },
 				includeDefaults,
-				$new('w-lang', 'include-with-defaults'),
+				$lang('include-with-defaults'),
 			),
 		],
 		actions: [
@@ -237,7 +243,7 @@ async function addProject() {
 }
 
 async function askRenameProject(info: ProjectInfo) {
-	const nameInput = $new('w-text');
+	const nameInput = $new({ tag: 'w-text' });
 	nameInput.value = info.name;
 	const confirm = Dialog.confirm({
 		title: 'rename-project',
@@ -310,7 +316,7 @@ function removeIcon(icon: IconInfo) {
 function compileStartMsg(error?: Error | any) {
 	Dialog.alert({
 		title: error ? 'error' : 'compile-project',
-		content: error ? error.message : $new('w-lang', 'compile-started'),
+		content: error ? error.message : $lang('compile-started'),
 		autoHide: true,
 	});
 }
@@ -342,7 +348,7 @@ export function initProject() {
 		if (
 			!(await Dialog.confirm({
 				title: 'compile-all',
-				content: $new('w-lang', 'compile-all-warning'),
+				content: $lang('compile-all-warning'),
 				actions: [Dialog.ACTION_DANGER_CONFIRM],
 			}))
 		)

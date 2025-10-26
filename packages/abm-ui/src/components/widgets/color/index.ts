@@ -67,7 +67,8 @@ export class WidgetColor
 	#activeHandler = async ({ cancel, active }: UIEventActive) => {
 		if (this.readOnly) return;
 		if (cancel || active) return;
-		const picker = $new('w-color-picker', {
+		const picker = $new({
+			tag: 'w-color-picker',
 			prop: {
 				enableAlpha: this.enableAlpha,
 				value: this.#value,

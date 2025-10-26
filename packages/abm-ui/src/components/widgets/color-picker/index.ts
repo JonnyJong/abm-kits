@@ -15,6 +15,7 @@ import { configs } from '../../../configs';
 import type { Navigable } from '../../../navigate';
 import { Widget } from '../base';
 import type { WidgetNumber } from '../input/number';
+import type { WidgetText } from '../input/text';
 import type { WidgetNav } from '../nav';
 import type { WidgetSlider } from '../slider';
 import type { WidgetSlider2D } from '../slider-2d';
@@ -500,7 +501,8 @@ export class WidgetColorPicker
 		this.events.emit(new EventValue('change', eventDetails));
 	}
 	//#region #View
-	#tab: WidgetNav<'rgb' | 'hsl'> = $new<WidgetNav<any>, {}>('w-nav', {
+	#tab: WidgetNav<'rgb' | 'hsl'> = $new<WidgetNav<'rgb' | 'hsl'>>({
+		tag: 'w-nav',
 		class: 'tab',
 		prop: {
 			display: 'text',
@@ -518,17 +520,19 @@ export class WidgetColorPicker
 		this.#indicator.style.setProperty('--color', hex);
 	}
 	//#region Hex
-	#hexValue = $new('w-text', { class: 'hex-value' });
+	#hexValue = $new<WidgetText>({ tag: 'w-text', class: 'hex-value' });
 	#updateHEX() {
 		this.#hexValue.value =
 			this.#current[this.enableAlpha ? 'hexa' : 'hex']().toUpperCase();
 	}
 	//#region Alpha
-	#alphaSlider = $new<WidgetSlider, {}>('w-slider', {
+	#alphaSlider = $new<WidgetSlider>({
+		tag: 'w-slider',
 		class: 'alpha-slider',
 		prop: SLIDER_U8,
 	});
-	#alphaValue = $new<WidgetNumber, {}>('w-number', {
+	#alphaValue = $new<WidgetNumber>({
+		tag: 'w-number',
 		class: 'alpha-value',
 		prop: VALUE_U8,
 	});
@@ -538,7 +542,8 @@ export class WidgetColorPicker
 		this.#alphaValue.value = alpha;
 	}
 	//#region HSL
-	#hslMain = $new<WidgetSlider2D, {}>('w-slider-2d', {
+	#hslMain = $new<WidgetSlider2D>({
+		tag: 'w-slider-2d',
 		class: 'main',
 		prop: {
 			minX: 0,
@@ -550,32 +555,39 @@ export class WidgetColorPicker
 			incrementStepY: 0.01,
 		},
 	});
-	#hslMainSlider = $new<WidgetSlider, {}>('w-slider', {
+	#hslMainSlider = $new<WidgetSlider>({
+		tag: 'w-slider',
 		class: 'main-slider',
 		prop: { from: 0, to: 1 },
 	});
-	#hSlider = $new('w-slider', {
+	#hSlider = $new<WidgetSlider>({
+		tag: 'w-slider',
 		class: 'h',
 		style: SLIDER_H,
 		prop: SLIDER_HUE,
 	});
-	#hValue = $new('w-number', {
+	#hValue = $new<WidgetNumber>({
+		tag: 'w-number',
 		style: VALUE_H,
 		prop: VALUE_HUE,
 	});
-	#sSlider = $new('w-slider', {
+	#sSlider = $new<WidgetSlider>({
+		tag: 'w-slider',
 		class: 's',
 		style: SLIDER_S,
 	});
-	#sValue = $new('w-number', {
+	#sValue = $new<WidgetNumber>({
+		tag: 'w-number',
 		style: VALUE_S,
 		prop: VALUE_SL,
 	});
-	#lSlider = $new('w-slider', {
+	#lSlider = $new<WidgetSlider>({
+		tag: 'w-slider',
 		class: 'l',
 		style: SLIDER_L,
 	});
-	#lValue = $new('w-number', {
+	#lValue = $new<WidgetNumber>({
+		tag: 'w-number',
 		style: VALUE_L,
 		prop: VALUE_SL,
 	});
@@ -613,30 +625,36 @@ export class WidgetColorPicker
 		this.#lValue.value = l * 100;
 	}
 	//#region RGB
-	#rSlider = $new('w-slider', {
+	#rSlider = $new<WidgetSlider>({
+		tag: 'w-slider',
 		class: 'r',
 		style: SLIDER_H,
 		prop: SLIDER_U8,
 	});
-	#rValue = $new('w-number', {
+	#rValue = $new<WidgetNumber>({
+		tag: 'w-number',
 		style: VALUE_H,
 		prop: VALUE_U8,
 	});
-	#gSlider = $new('w-slider', {
+	#gSlider = $new<WidgetSlider>({
+		tag: 'w-slider',
 		class: 'g',
 		style: SLIDER_S,
 		prop: SLIDER_U8,
 	});
-	#gValue = $new('w-number', {
+	#gValue = $new<WidgetNumber>({
+		tag: 'w-number',
 		style: VALUE_S,
 		prop: VALUE_U8,
 	});
-	#bSlider = $new('w-slider', {
+	#bSlider = $new<WidgetSlider>({
+		tag: 'w-slider',
 		class: 'b',
 		style: SLIDER_L,
 		prop: SLIDER_U8,
 	});
-	#bValue = $new('w-number', {
+	#bValue = $new<WidgetNumber>({
+		tag: 'w-number',
 		style: VALUE_L,
 		prop: VALUE_U8,
 	});

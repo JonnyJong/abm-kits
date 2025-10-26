@@ -57,14 +57,14 @@ export class WidgetNumber
 		'right',
 	);
 	constructor() {
-		super($new('input'));
+		super($new({ tag: 'input' }));
 
 		this.input.type = 'number';
 
 		this.#actionsLeft.items = [
 			{
 				id: 'calc',
-				content: $new<WidgetIcon, {}>('w-icon', { prop: { keyUI: 'calculate' } }),
+				content: $new<WidgetIcon>({ tag: 'w-icon', prop: { keyUI: 'calculate' } }),
 				hidden: true,
 				disabled: true,
 			},
@@ -72,11 +72,11 @@ export class WidgetNumber
 		this.#actionsRight.items = [
 			{
 				id: 'increase',
-				content: $new<WidgetIcon, {}>('w-icon', { prop: { keyUI: 'increase' } }),
+				content: $new<WidgetIcon>({ tag: 'w-icon', prop: { keyUI: 'increase' } }),
 			},
 			{
 				id: 'decrease',
-				content: $new<WidgetIcon, {}>('w-icon', { prop: { keyUI: 'decrease' } }),
+				content: $new<WidgetIcon>({ tag: 'w-icon', prop: { keyUI: 'decrease' } }),
 			},
 		];
 

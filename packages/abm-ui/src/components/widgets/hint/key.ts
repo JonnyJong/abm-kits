@@ -116,14 +116,14 @@ export class WidgetHintKey extends Widget {
 	#render() {
 		// Clean
 		if (!this.#key) {
-			this.#root.replaceChildren($new('w-icon'));
+			this.#root.replaceChildren($new({ tag: 'w-icon' }));
 			this.#icon = 'keyDisallow';
 			return;
 		}
 		this.#icon = undefined;
 		// Icon
 		if (ICON_KEYS.includes(this.#key)) {
-			this.#root.replaceChildren($new('w-icon'));
+			this.#root.replaceChildren($new({ tag: 'w-icon' }));
 			this.#icon = `key${this.#key}` as UIDefaultsIcons;
 			return;
 		}
@@ -134,7 +134,7 @@ export class WidgetHintKey extends Widget {
 		}
 		// Shift
 		if (this.#key.startsWith('Shift')) {
-			this.#root.replaceChildren(`${this.#key[5]} `, $new('w-icon'));
+			this.#root.replaceChildren(`${this.#key[5]} `, $new({ tag: 'w-icon' }));
 			this.#icon = 'keyShift';
 			return;
 		}

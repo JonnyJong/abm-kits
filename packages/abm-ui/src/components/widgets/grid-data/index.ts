@@ -304,7 +304,8 @@ export class WidgetGridData<Data extends object = object>
 		const headItem: HTMLDivElement & Navigable = $div(
 			{ class: 'head-item', attr: { 'ui-nav': '' } },
 			head(),
-			$new('w-icon', {
+			$new({
+				tag: 'w-icon',
 				class: 'sort',
 				prop: { key: configs.icon.defaults.orderDesc },
 			}),

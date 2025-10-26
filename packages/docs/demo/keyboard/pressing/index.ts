@@ -5,7 +5,7 @@ const container = $('#main')!;
 
 keyboard.on('down', (event) => {
 	container.append(
-		$new('w-hint-key', { prop: { key: event.key }, id: event.key }),
+		$new({ tag: 'w-hint-key', prop: { key: event.key }, id: event.key }),
 	);
 	console.log(event);
 });

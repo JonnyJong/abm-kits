@@ -12,7 +12,7 @@ container.append(
 		$div(
 			{ attr: { 'ui-layout': 'flow' }, style: { alignItems: 'center' } },
 			$div({ id: normalize(id) }, id),
-			...[...keys].map((key) => $new('w-hint-key', { prop: { key } })),
+			...[...keys].map((key) => $new({ tag: 'w-hint-key', prop: { key } })),
 		),
 	),
 );

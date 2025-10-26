@@ -27,7 +27,7 @@ class TestListInfiniteItem extends WidgetListInfiniteItem<number> {
 		return this.#identifier.get().toString();
 	}
 	static create(identifier: number): TestListInfiniteItem {
-		const node: TestListInfiniteItem = $new('test-list-infinite-item' as any);
+		const node = $new<TestListInfiniteItem>({ tag: 'test-list-infinite-item' });
 		node.identifier = identifier;
 		return node;
 	}

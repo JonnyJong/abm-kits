@@ -76,7 +76,7 @@ function update(value: OperateType) {
 //#region Widget
 @customElement('w-hint')
 export class WidgetHint extends Widget {
-	#slot = $new('slot', { attr: { name: 'mouse' } });
+	#slot = $new({ tag: 'slot', attr: { name: 'mouse' } });
 	protected render(): unknown {
 		return this.#slot;
 	}

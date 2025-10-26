@@ -38,10 +38,11 @@ const LANG_COLOR: Record<string, string> = {
 };
 
 function initCodeblock(root: HTMLElement) {
-	const figure = $new('figure', { class: 'codeblock' });
-	const caption = $new('figcaption', { class: 'codeblock-caption' });
+	const figure = $new({ tag: 'figure', class: 'codeblock' });
+	const caption = $new({ tag: 'figcaption', class: 'codeblock-caption' });
 	const code = root.children[0];
-	const copyBtn = $new<WidgetBtn, {}>('w-btn', {
+	const copyBtn = $new<WidgetBtn>({
+		tag: 'w-btn',
 		class: 'codeblock-copy',
 		attr: { icon: 'Copy' },
 	});
@@ -74,7 +75,7 @@ function initSourceList(div: HTMLElement) {
 		div.remove();
 		return;
 	}
-	const btn = $new('w-btn', { attr: { icon: 'Code', key: 'source' } });
+	const btn = $new({ tag: 'w-btn', attr: { icon: 'Code', key: 'source' } });
 	btn.on('active', () => {
 		window.open(`https://github.com/JonnyJong/abm-kits/tree/main/${list[0]}`);
 	});

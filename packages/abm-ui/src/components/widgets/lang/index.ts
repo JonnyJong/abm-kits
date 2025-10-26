@@ -1,4 +1,4 @@
-import type { FlatLocaleParams } from 'abm-utils';
+import { $new, type DOMApplyOptions, type FlatLocaleParams } from 'abm-utils';
 import { customElement, property } from 'lit/decorators.js';
 import { LocaleProvider, type UIDefaultLocaleDict } from '../../../locale';
 import { Widget } from '../base';
@@ -69,4 +69,18 @@ export class WidgetLang<
 		node.key = this.key;
 		return node;
 	}
+}
+
+/** 创建 <w-lang> 元素并应用配置 */
+export function $lang<T>(
+	options?: T extends HTMLElement | string ? T : DOMApplyOptions<'w-lang'>,
+	...content: (HTMLElement | string)[]
+): WidgetLang {
+	if (typeof options === 'string' || options instanceof HTMLElement) {
+		return $new({ tag: 'w-lang' }, options, ...content);
+	}
+	if (options && typeof options === 'object') {
+		return $new({ ...options, tag: 'w-lang' }, ...content);
+	}
+	return $new({ tag: 'w-lang' }, ...content);
 }

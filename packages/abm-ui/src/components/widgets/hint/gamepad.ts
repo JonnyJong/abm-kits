@@ -103,7 +103,7 @@ export class WidgetHintGamepad extends Widget {
 	#render() {
 		// Clean
 		if (!this.#key) {
-			this.#root.replaceChildren($new('w-icon'));
+			this.#root.replaceChildren($new({ tag: 'w-icon' }));
 			this.#icon = 'keyDisallow';
 			return;
 		}
@@ -116,25 +116,25 @@ export class WidgetHintGamepad extends Widget {
 		}
 		// Arrow
 		if (ARROW.includes(this.#key)) {
-			this.#root.replaceChildren($new('w-icon'));
+			this.#root.replaceChildren($new({ tag: 'w-icon' }));
 			this.#icon = this.#key.toLowerCase() as UIDefaultsIcons;
 			return;
 		}
 		// Home
 		if (this.#key === 'Home') {
-			this.#root.replaceChildren($new('w-icon'));
+			this.#root.replaceChildren($new({ tag: 'w-icon' }));
 			this.#icon = 'keyHome';
 			return;
 		}
 		// Start
 		if (this.#key === 'Start') {
-			this.#root.replaceChildren($new('w-icon'));
+			this.#root.replaceChildren($new({ tag: 'w-icon' }));
 			this.#icon = 'gamepadStart';
 			return;
 		}
 		// Back
 		if (this.#key === 'Back') {
-			this.#root.replaceChildren($new('w-icon'));
+			this.#root.replaceChildren($new({ tag: 'w-icon' }));
 			this.#icon = 'gamepadBack';
 			return;
 		}

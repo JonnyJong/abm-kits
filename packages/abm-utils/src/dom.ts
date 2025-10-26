@@ -1,12 +1,14 @@
-import { type ArrayOr, asArray, range } from './collection';
-import { Color } from './color';
-
 //#region #Define
+
+import { type ArrayOr, asArray, range } from './collection';
+import type { Color } from './color';
+
 type HTMLElementTagForType<E> = {
 	[K in keyof HTMLElementTagNameMap]: HTMLElementTagNameMap[K] extends E
 		? K
 		: never;
 }[keyof HTMLElementTagNameMap];
+
 export interface HTMLElementProp {
 	a: {
 		download?: string;
@@ -418,6 +420,9 @@ export interface HTMLElementProp {
 		src?: string;
 	};
 }
+
+// biome-ignore lint/suspicious/noEmptyInterface: Merge declarations must be supported
+export interface HTMLElementEvents {}
 export type CSSProperty = {
 	[Key in keyof CSSStyleDeclaration]?: any;
 };
@@ -433,9 +438,18 @@ export type DOMEventMap<E extends HTMLElement = HTMLElement> = {
 };
 
 export interface DOMApplyOptions<
-	E extends HTMLElement = HTMLElement,
-	Prop extends Record<string, any> = {},
-	Events extends Record<string, any> = {},
+	K extends keyof HTMLElementTagNameMap | (string & {}),
+	E extends K extends keyof HTMLElementTagNameMap
+		? HTMLElementTagNameMap[K]
+		: HTMLElement = K extends keyof HTMLElementTagNameMap
+		? HTMLElementTagNameMap[K]
+		: HTMLElement,
+	Prop extends K extends keyof HTMLElementProp
+		? HTMLElementProp[K]
+		: {} = K extends keyof HTMLElementProp ? HTMLElementProp[K] : {},
+	Events extends K extends keyof HTMLElementEvents
+		? HTMLElementEvents[K]
+		: {} = K extends keyof HTMLElementEvents ? HTMLElementEvents[K] : {},
 > {
 	/** 类名 */
 	class?: ArrayOr<string>;
@@ -475,105 +489,91 @@ export interface DOMApplyOptions<
 	};
 }
 
+type AnyApplyOptions = DOMApplyOptions<any, any, any, any>;
+
+//#region #Apply
+
+function applyBasic(target: HTMLElement, options: AnyApplyOptions): void {
+	if (typeof options.class === 'string' || Array.isArray(options.class)) {
+		target.className = '';
+		target.classList.add(...asArray(options.class));
+	}
+	if (typeof options.id === 'string') {
+		target.id = options.id;
+	}
+	if (options.attr && typeof options.attr === 'object') {
+		for (const [key, value] of Object.entries(options.attr)) {
+			if (value === undefined) target.removeAttribute(key);
+			else target.setAttribute(key, String(value));
+		}
+	}
+	if (options.data && typeof options.data === 'object') {
+		for (const [key, value] of Object.entries(options.data)) {
+			if (value === undefined) delete target.dataset[key];
+			else target.dataset[key] = value;
+		}
+	}
+}
+
 const PATTERN_CSS_VAR_DECLARE = /^\$/;
 const PATTERN_CSS_UPPER = /[A-Z]/g;
 const PATTERN_CSS_VAR = /\$[A-Za-z][A-Za-z0-9]*/g;
 
-//#region #Apply
-function applyBasic<E extends HTMLElement = HTMLElement>(
-	target: E,
-	options: DOMApplyOptions<E>,
-) {
-	if (options.class !== undefined) {
-		target.className = '';
-		target.classList.add(...asArray(options.class));
-	}
-	if (options.id !== undefined) {
-		target.id = options.id;
-	}
-	if (options.attr !== undefined) {
-		for (const [key, value] of Object.entries(options.attr)) {
-			if (value === undefined) {
-				target.removeAttribute(key);
-				continue;
-			}
-			target.setAttribute(key, String(value));
+function applyStyle(target: HTMLElement, options: AnyApplyOptions): void {
+	if (!options.style || typeof options.style !== 'object') return;
+	for (let [key, value] of Object.entries(options.style)) {
+		key = key
+			.replace(PATTERN_CSS_VAR_DECLARE, '--')
+			.replaceAll(PATTERN_CSS_UPPER, (char) => `-${char.toLowerCase()}`);
+		if ([undefined, null].includes(value)) {
+			target.style.removeProperty(key);
+			continue;
 		}
-	}
-	if (options.data !== undefined) {
-		for (const [key, value] of Object.entries(options.data)) {
-			if (value === undefined) {
-				delete target.dataset[key];
-				continue;
-			}
-			target.dataset[key] = String(value);
+		if (typeof value === 'number') {
+			value = `${value}px`;
+		} else if (typeof value === 'string') {
+			value = value.replace(
+				PATTERN_CSS_VAR,
+				(v) =>
+					`var(${v
+						.replace(PATTERN_CSS_VAR_DECLARE, '--')
+						.replaceAll(PATTERN_CSS_UPPER, (char) => `-${char.toLowerCase()}`)})`,
+			);
 		}
+		target.style.setProperty(key, String(value));
 	}
 }
-function applyStyle<E extends HTMLElement = HTMLElement>(
-	target: E,
-	options: DOMApplyOptions<E>,
-) {
-	if (options.style !== undefined) {
-		for (let [key, value] of Object.entries(options.style)) {
-			key = key
-				.replace(PATTERN_CSS_VAR_DECLARE, '--')
-				.replace(PATTERN_CSS_UPPER, (ch) => `-${ch.toLowerCase()}`);
-			if ([undefined, null].includes(value)) {
-				target.style.removeProperty(key);
-				continue;
-			}
-			if (typeof value === 'number') value = `${value}px`;
-			if (typeof value === 'string') {
-				value = value.replace(
-					PATTERN_CSS_VAR,
-					(v) =>
-						`var(${v
-							.replace(PATTERN_CSS_VAR_DECLARE, '--')
-							.replace(PATTERN_CSS_UPPER, (ch) => `-${ch.toLowerCase()}`)})`,
-				);
-			}
-			target.style.setProperty(key, String(value));
-		}
-	}
-}
-function applyContent<E extends HTMLElement = HTMLElement>(
-	target: E,
-	options: DOMApplyOptions<E>,
-) {
+
+function applyContent(target: HTMLElement, options: AnyApplyOptions) {
 	if (typeof options.html === 'string') {
 		target.innerHTML = options.html;
 	} else if (options.content !== undefined) {
 		target.replaceChildren(...asArray(options.content));
 	}
 }
-function applyProp<
-	E extends HTMLElement = HTMLElement,
-	Prop extends Record<string, any> = {},
->(target: E, options: DOMApplyOptions<E, Prop>) {
-	if (!options.prop) return;
+
+function applyProp(target: HTMLElement, options: AnyApplyOptions) {
+	if (!options.prop || typeof options.prop !== 'object') return;
 	for (const [key, value] of Object.entries(options.prop)) {
 		(target as any)[key] = value;
 	}
 }
-function applyEvent<E extends HTMLElement = HTMLElement>(
-	target: E,
-	options: DOMApplyOptions<E>,
-) {
-	if (options.event !== undefined) {
-		for (const [key, value] of Object.entries(options.event)) {
+
+function applyEvent(target: HTMLElement, options: AnyApplyOptions) {
+	if (options.event && typeof options.event === 'object') {
+		for (const [type, listener] of Object.entries(options.event)) {
 			target.addEventListener(
-				key as keyof HTMLElementEventMap,
-				value as EventListenerOrEventListenerObject,
+				type as keyof HTMLElementEventMap,
+				listener as EventListenerOrEventListenerObject,
 			);
 		}
 	}
-	if (options.on && typeof (target as any).on === 'function') {
+	if (options.on && typeof options.on === 'object') {
 		for (const [type, handler] of Object.entries(options.on)) {
 			(target as any).on(type, handler);
 		}
 	}
-	if (options.once && typeof (target as any).once === 'function') {
+	if (options.once && typeof options.once === 'object') {
 		for (const [type, handler] of Object.entries(options.once)) {
 			(target as any).once(type, handler);
 		}
@@ -586,7 +586,7 @@ for (const i of range(1, 16)) {
 }
 
 /** 应用颜色到 DOM 元素 */
-export function $applyColor(target: HTMLElement, color?: Color) {
+export function $applyColor(target: HTMLElement, color?: Color | null) {
 	if (!color) {
 		target.style.removeProperty('--theme');
 		for (const token of colorTokens) {
@@ -599,30 +599,64 @@ export function $applyColor(target: HTMLElement, color?: Color) {
 	}
 }
 
-type PropForType<E extends HTMLElement> =
-	HTMLElementTagForType<E> extends keyof HTMLElementProp
-		? HTMLElementProp[HTMLElementTagForType<E>]
-		: Record<string, any>;
 /**
  * 应用配置到 DOM 元素
  * @param target - 目标 DOM 元素
  * @param options - 配置
  */
-export function $apply<
-	E extends HTMLElement = HTMLElement,
-	Prop extends Record<string, any> = PropForType<E>,
->(target: E, options: DOMApplyOptions<E, Prop>): E {
+export function $apply<E extends HTMLElement = HTMLElement>(
+	target: E,
+	options: DOMApplyOptions<HTMLElementTagForType<E>>,
+): E {
 	applyBasic(target, options);
 	applyStyle(target, options);
 	applyContent(target, options);
 	applyProp(target, options);
 	applyEvent(target, options);
-	if (options.color === null) $applyColor(target);
-	else if (options.color instanceof Color) $applyColor(target, options.color);
+	if (options.color !== undefined) $applyColor(target, options.color);
 	return target;
 }
 
+//#region #Create
+
+/**
+ * 创建 DOM 元素并应用配置
+ * @param options 选项
+ * @param content 内容
+ */
+export function $new<
+	E extends K extends keyof HTMLElementTagNameMap
+		? HTMLElementTagNameMap[K]
+		: HTMLElement,
+	K extends keyof HTMLElementTagNameMap | (string & {}) =
+		| keyof HTMLElementTagNameMap
+		| (string & {}),
+>(
+	options: DOMApplyOptions<K> & { tag: K },
+	...content: (HTMLElement | string)[]
+): E {
+	const element = document.createElement(options.tag) as E;
+	$apply(element, options as AnyApplyOptions);
+	element.append(...content);
+	return element;
+}
+
+/** 创建 <div> 元素并应用配置 */
+export function $div<T>(
+	options?: T extends HTMLElement | string ? T : DOMApplyOptions<'div'>,
+	...content: (HTMLElement | string)[]
+) {
+	if (typeof options === 'string' || options instanceof HTMLElement) {
+		return $new({ tag: 'div' }, options, ...content);
+	}
+	if (options && typeof options === 'object') {
+		return $new({ ...options, tag: 'div' }, ...content);
+	}
+	return $new({ tag: 'div' }, ...content);
+}
+
 //#region Query
+
 /** Element.querySelector 别名 */
 export function $<E extends HTMLElement = HTMLElement>(
 	selector: string,
@@ -651,54 +685,8 @@ export function $$<E extends HTMLElement = HTMLElement>(
 	return [...scope.querySelectorAll<E>(selector)];
 }
 
-//#region #Create
-type HTMLElementTagName =
-	| keyof HTMLElementTagNameMap
-	| keyof HTMLElementDeprecatedTagNameMap
-	| (string & {});
-/**
- * 创建 DOM 元素并应用配置
- * @param tag 标签名
- * @param options 选项
- * @param content 内容
- */
-export function $new<
-	E extends K extends keyof HTMLElementTagNameMap
-		? HTMLElementTagNameMap[K]
-		: K extends keyof HTMLElementDeprecatedTagNameMap
-			? HTMLElementDeprecatedTagNameMap[K]
-			: HTMLElement,
-	O,
-	K extends HTMLElementTagName = HTMLElementTagName,
->(
-	tag: K,
-	options?: O extends HTMLElement | string
-		? O
-		: DOMApplyOptions<
-				E,
-				K extends keyof HTMLElementProp ? HTMLElementProp[K] : {}
-			>,
-	...content: (HTMLElement | string)[]
-): E {
-	const element = document.createElement(tag) as E;
-	if (typeof options === 'object' && !(options instanceof HTMLElement)) {
-		$apply(element, options);
-	} else if (options !== undefined) {
-		element.append(options);
-	}
-	element.append(...content);
-	return element;
-}
+//#region Other
 
-/** 创建 <div> 元素并应用配置 */
-export function $div<O>(
-	options?: O extends HTMLElement | string ? O : DOMApplyOptions<HTMLElement>,
-	...content: (HTMLElement | string)[]
-): HTMLDivElement {
-	return $new('div', options, ...content);
-}
-
-//#region #Other
 /** 获取元素路径 */
 export function $path(from: HTMLElement): HTMLElement[] {
 	const path = [from];

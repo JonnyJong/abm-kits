@@ -96,7 +96,7 @@ const DIALOG_HIDE_ANIMATION_REDUCED = {
 //#region #Action
 class DialogAction<ID extends string = string> {
 	id!: ID;
-	element = $new('w-btn', { class: 'ui-dialog-action' });
+	element = $new({ tag: 'w-btn', class: 'ui-dialog-action' });
 	#size: number | 'max-content' | (string & {}) = 1;
 	constructor(options: DialogActionInit<ID>, emit: (id: ID) => void) {
 		this.data = options;

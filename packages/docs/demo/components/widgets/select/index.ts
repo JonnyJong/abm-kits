@@ -1,4 +1,4 @@
-import type { WidgetSelect } from 'abm-ui';
+import { $lang, type WidgetSelect } from 'abm-ui';
 import { $, $new, type DOMContents, range } from 'abm-utils';
 
 const select = $<WidgetSelect<number>>('w-select')!;
@@ -10,7 +10,7 @@ select.options = range(-10, 20).map<{ value: number; label: DOMContents }>(
 		if (i < 10) {
 			return {
 				value: i,
-				label: $new('w-lang', {
+				label: $lang({
 					prop: {
 						key: 'dev.widget.select',
 						params: { i },
@@ -21,14 +21,14 @@ select.options = range(-10, 20).map<{ value: number; label: DOMContents }>(
 		return {
 			value: i,
 			label: [
-				$new('w-lang', {
+				$lang({
 					prop: {
 						key: 'dev.widget.select',
 						params: { i },
 					},
 				}),
-				$new('br'),
-				$new('w-lang', {
+				$new({ tag: 'br' }),
+				$lang({
 					prop: {
 						key: 'dev.widget.select',
 						params: { i },

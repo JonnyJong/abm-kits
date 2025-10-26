@@ -15,7 +15,7 @@ container.append(
 			...group.map((keys) =>
 				$div(
 					{ attr: { 'ui-layout': 'flow', 'ui-panel': 'middle' } },
-					...[...keys].map((key) => $new('w-hint-key', { prop: { key } })),
+					...[...keys].map((key) => $new({ tag: 'w-hint-key', prop: { key } })),
 				),
 			),
 		),

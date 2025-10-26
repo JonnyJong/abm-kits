@@ -91,12 +91,12 @@ export class WidgetListInfinite<
 	#bottomBoundaryContainer = $div({ class: 'boundary-content' });
 	#topBoundaryIndicator = $div(
 		{ class: 'boundary-container' },
-		$new('w-progress-ring'),
+		$new({ tag: 'w-progress-ring' }),
 		this.#topBoundaryContainer,
 	);
 	#bottomBoundaryIndicator = $div(
 		{ class: 'boundary-container' },
-		$new('w-progress-ring'),
+		$new({ tag: 'w-progress-ring' }),
 		this.#bottomBoundaryContainer,
 	);
 	#container = $div({ class: 'container', attr: { part: 'container' } });

@@ -84,7 +84,8 @@ grid.setup({
 			{
 				head: () => $div('progress'),
 				create: ({ progress }) =>
-					$new('w-progress-ring', {
+					$new({
+						tag: 'w-progress-ring',
 						prop: { value: progress },
 						style: { $wProgressRingSize: 16 },
 					}),
@@ -106,7 +107,7 @@ grid.setup({
 			{
 				head: () => $div('text'),
 				create: (row) => {
-					const node = $new('w-text');
+					const node = $new({ tag: 'w-text' });
 					node.value = row.text;
 					node.on('confirm', () => {
 						row.text = node.value;
@@ -124,7 +125,7 @@ grid.setup({
 			{
 				head: () => $div('psw'),
 				create: (row) => {
-					const node = $new('w-password');
+					const node = $new({ tag: 'w-password' });
 					node.value = row.psw;
 					node.on('confirm', () => {
 						row.psw = node.value;
@@ -142,7 +143,7 @@ grid.setup({
 			{
 				head: () => $div('number'),
 				create: (row) => {
-					const node = $new('w-number');
+					const node = $new({ tag: 'w-number' });
 					node.value = row.number;
 					node.on('confirm', () => {
 						row.number = node.value;
@@ -160,7 +161,8 @@ grid.setup({
 			{
 				head: () => $div('option'),
 				create: (row) => {
-					const node = $new<WidgetSelect<any>, {}>('w-select', {
+					const node = $new<WidgetSelect<any>>({
+						tag: 'w-select',
 						style: { width: '100%' },
 					});
 					node.options = OPTIONS;
@@ -181,7 +183,7 @@ grid.setup({
 			{
 				head: () => $div('number2'),
 				create: (row) => {
-					const node = $new('w-slider');
+					const node = $new({ tag: 'w-slider' });
 					node.value = row.number2;
 					node.on('change', () => {
 						row.number2 = node.value;
@@ -199,7 +201,7 @@ grid.setup({
 			{
 				head: () => $div('enable'),
 				create: (row) => {
-					const node = $new('w-switch');
+					const node = $new({ tag: 'w-switch' });
 					node.checked = row.enable;
 					node.on('change', () => {
 						row.enable = node.checked;
@@ -221,7 +223,7 @@ grid.setup({
 			{
 				head: () => $div('selected'),
 				create: (row) => {
-					const node = $new('w-checkbox');
+					const node = $new({ tag: 'w-checkbox' });
 					node.checked = row.selected;
 					node.on('change', () => {
 						row.selected = node.checked;
@@ -243,7 +245,7 @@ grid.setup({
 			{
 				head: () => $div('color'),
 				create: (row) => {
-					const node = $new('w-color');
+					const node = $new({ tag: 'w-color' });
 					node.value = row.color;
 					node.on('change', () => {
 						row.color = node.value.hex();

@@ -135,7 +135,8 @@ export class WidgetSelect<
 	#selected = new Signal.State(-1);
 	//#region Picker
 	#filter = $div({ class: 'ui-preset-fullscreen' });
-	#list: WidgetList<Data> & Navigable = $new('w-list' as any, {
+	#list = $new<WidgetList<Data> & Navigable>({
+		tag: 'w-list',
 		class: 'w-select-list',
 		prop: {
 			itemClass: WidgetSelectItem,
@@ -224,7 +225,8 @@ export class WidgetSelect<
 	}
 	//#region View
 	#content = new Signal.State<(string | Node)[]>([]);
-	#indicator = $new('w-icon', {
+	#indicator = $new({
+		tag: 'w-icon',
 		class: 'indicator',
 		prop: { key: configs.icon.defaults.selectExpand },
 	});
@@ -255,7 +257,7 @@ export class WidgetSelect<
 			return;
 		}
 		this.#content.set(
-			(this.#list.items[index].label as (string | Node)[]).map((node) => {
+			asArray(this.#list.items[index].label).map((node) => {
 				if (typeof node === 'string') return node;
 				return node.cloneNode(true);
 			}),

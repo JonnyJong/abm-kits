@@ -1,4 +1,4 @@
-import { configs, defaultLocale, type WidgetBtn } from 'abm-ui';
+import { $lang, configs, defaultLocale, type WidgetBtn } from 'abm-ui';
 import { $, $div, $new, $ready, IDGenerator, sleep } from 'abm-utils';
 import { error, log, warn } from 'log2dom';
 
@@ -43,7 +43,7 @@ let logPanel: HTMLElement;
 
 function createAttrKV(key: string, e: HTMLElement) {
 	const id = idGenerator.next();
-	const label = $new('w-label', { prop: { for: id }, content: key });
+	const label = $new({ tag: 'w-label', prop: { for: id }, content: key });
 	e.id = id;
 	return $div({ class: 'attr' }, label, e);
 }
@@ -52,9 +52,10 @@ window.register = (options) => {
 	// Event
 	let eventBtns: WidgetBtn[] | undefined;
 	if (options.events) {
-		ctrlPanel.append($new('h3', $new('w-lang', 'demo.events')));
+		ctrlPanel.append($new({ tag: 'h3' }, $new({ tag: 'w-lang' }, 'demo.events')));
 		eventBtns = options.events.map((event) =>
-			$new<WidgetBtn, {}>('w-btn', {
+			$new<WidgetBtn>({
+				tag: 'w-btn',
 				prop: { disabled: true, state: 'toggle', checked: false },
 				data: { event },
 				content: event,
@@ -65,13 +66,13 @@ window.register = (options) => {
 	// Attr
 	const attrMap = new Map<string, (value: any) => void>();
 	if (options.attrs) {
-		ctrlPanel.append($new('h3', $new('w-lang', 'demo.attrs')));
+		ctrlPanel.append($new({ tag: 'h3' }, $lang('demo.attrs')));
 		const attrPanel = $div({ class: 'attr-list' });
 		ctrlPanel.append(attrPanel);
 		for (const attr of options.attrs) {
 			switch (attr.type) {
 				case 'string': {
-					const e = $new('w-text');
+					const e = $new({ tag: 'w-text' });
 					e.value = attr.value;
 					e.on('input', ({ value }) => attr.action(value));
 					attrMap.set(attr.id, (value) => {
@@ -81,7 +82,7 @@ window.register = (options) => {
 					break;
 				}
 				case 'number': {
-					const e = $new('w-number');
+					const e = $new({ tag: 'w-number' });
 					e.value = attr.value;
 					if (attr.default) e.default = attr.default;
 					if (attr.min) e.min = attr.min;
@@ -95,7 +96,8 @@ window.register = (options) => {
 					break;
 				}
 				case 'boolean': {
-					const e = $new('w-btn', {
+					const e = $new({
+						tag: 'w-btn',
 						prop: { state: 'toggle', checked: attr.value },
 						content: attr.id,
 					});
@@ -107,7 +109,7 @@ window.register = (options) => {
 					break;
 				}
 				case 'color': {
-					const e = $new('w-color');
+					const e = $new({ tag: 'w-color' });
 					e.value = attr.value;
 					e.on('change', () => attr.action(e.value));
 					attrMap.set(attr.id, (value) => {
@@ -121,7 +123,7 @@ window.register = (options) => {
 					break;
 				}
 				case 'enum': {
-					const e = $new('w-select');
+					const e = $new({ tag: 'w-select' });
 					e.options = attr.options.map((v) => ({ value: v, label: String(v) }));
 					e.value = attr.value;
 					e.on('change', () => attr.action(e.value));
@@ -132,7 +134,7 @@ window.register = (options) => {
 					break;
 				}
 				case 'btn': {
-					const e = $new('w-btn', { content: attr.id });
+					const e = $new({ tag: 'w-btn', content: attr.id });
 					e.on('active', () => attr.action(undefined));
 					attrPanel.append(e);
 					break;

@@ -2,15 +2,16 @@ import { $new } from 'abm-utils';
 import type { IconInfo } from '../types';
 
 const observer = new IntersectionObserver((entries) => {
-	entries.forEach((entry) => {
+	for (const entry of entries) {
 		(entry.target as HTMLElement).style.visibility = entry.isIntersecting
 			? 'visible'
 			: 'hidden';
-	});
+	}
 });
 
 export function createIcon(info: IconInfo) {
-	const img = $new<HTMLImageElement & { info: IconInfo }, {}>('img', {
+	const img = $new<HTMLImageElement & { info: IconInfo }>({
+		tag: 'img',
 		class: 'icon',
 		attr: {
 			src: `node_modules/@fluentui/svg-icons/icons/${info.file}`,

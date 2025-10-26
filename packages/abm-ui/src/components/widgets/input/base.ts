@@ -76,7 +76,7 @@ export abstract class WidgetInput<
 	protected input: Input;
 	protected _placeholder: HTMLElement = $div(
 		{ class: 'placeholder' },
-		$new('slot'),
+		$new({ tag: 'slot' }),
 	);
 	constructor(input: Input) {
 		super({

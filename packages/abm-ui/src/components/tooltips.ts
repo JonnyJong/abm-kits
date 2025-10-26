@@ -76,7 +76,7 @@ class UITooltips {
 		for (const target of $$('[tooltips]')) {
 			const tooltips = target.getAttribute('tooltips');
 			if (!tooltips) continue;
-			const content = $new('w-lang');
+			const content = $new({ tag: 'w-lang' });
 			content.key = tooltips;
 			this.#map.set(target, content);
 		}

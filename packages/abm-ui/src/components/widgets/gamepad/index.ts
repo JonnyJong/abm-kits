@@ -19,7 +19,8 @@ export interface WidgetGamepadProp {
 @customElement('w-gamepad')
 export class WidgetGamepad extends Widget implements Navigable {
 	static styles = css(CSS);
-	#vibrate: WidgetBtn & Navigable = $new('w-btn', {
+	#vibrate: WidgetBtn & Navigable = $new({
+		tag: 'w-btn',
 		class: 'vibrate',
 		prop: { icon: 'PhoneVibrate', disabled: true },
 	});

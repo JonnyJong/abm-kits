@@ -110,9 +110,8 @@ DOM 元素事件“事件名-处理函数对”对象定义。
 import { $new } from 'abm-utils';
 
 $new(
-	'a',
-	{ class: 'link', prop: { href: '#' } },
-	$new('span', 'Hello world!'),
+	{ tag: 'a', class: 'link', prop: { href: '#' } },
+	$new({ tag: 'span' }, 'Hello world!'),
 );
 
 /*
@@ -124,7 +123,7 @@ $new(
 ```
 
 # `$div()`
-`$new('div', ...)` 的别名。
+`$new({ tag: 'div' }, ...)` 的别名。
 
 # `$path()`
 获取目标元素在 DOM 树中的路径。

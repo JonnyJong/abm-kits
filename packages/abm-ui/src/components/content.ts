@@ -109,7 +109,7 @@ export class UIContent implements IEventSource<UIContentEvents> {
 
 		if (typeof this.#key === 'string') {
 			if (!(element instanceof WidgetLang)) {
-				element = $new<WidgetLang, {}>('w-lang');
+				element = $new({ tag: 'w-lang' });
 				this.#labelState.set(element);
 				this.#events.emit(new EventBase('label', { target: this }));
 			}
@@ -189,7 +189,7 @@ export class UIContent implements IEventSource<UIContentEvents> {
 
 		if (typeof this.#progress === 'number') {
 			if (!(element instanceof WidgetProgressRing)) {
-				element = $new('w-progress-ring');
+				element = $new({ tag: 'w-progress-ring' });
 				this.#iconState.set(element);
 				this.#events.emit(new EventBase('icon', { target: this }));
 			}
@@ -199,7 +199,7 @@ export class UIContent implements IEventSource<UIContentEvents> {
 
 		if (typeof this.#icon === 'string') {
 			if (!(element instanceof WidgetIcon)) {
-				element = $new('w-icon');
+				element = $new({ tag: 'w-icon' });
 				this.#iconState.set(element);
 				this.#events.emit(new EventBase('icon', { target: this }));
 			}

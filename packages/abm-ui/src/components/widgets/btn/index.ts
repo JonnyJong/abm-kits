@@ -18,7 +18,6 @@ import { events, type UIEventActive } from '../../../events/index';
 import { Widget } from '../base';
 import { WidgetIcon } from '../icon';
 import { WidgetLang } from '../lang';
-import type { WidgetProgressBar } from '../progress';
 import CSS from './index.styl';
 
 /**
@@ -101,7 +100,7 @@ export class WidgetBtn extends Widget<WidgetBtnEventsInit> {
 			return;
 		}
 		if (value === undefined) return;
-		this.prepend($new('w-icon', value));
+		this.prepend($new({ tag: 'w-icon' }, value));
 	}
 	/** 翻译键 */
 	@property({ type: String })
@@ -119,7 +118,7 @@ export class WidgetBtn extends Widget<WidgetBtnEventsInit> {
 			return;
 		}
 		if (value === undefined) return;
-		this.append($new('w-lang', value));
+		this.append($new({ tag: 'w-lang' }, value));
 	}
 	/** 禁用 */
 	@property({ type: Boolean, reflect: true }) accessor disabled = false;
@@ -161,7 +160,8 @@ export class WidgetBtn extends Widget<WidgetBtnEventsInit> {
 		}
 		$applyColor(this, this.#color);
 	}
-	#progress = $new<WidgetProgressBar, {}>('w-progress-bar', {
+	#progress = $new({
+		tag: 'w-progress-bar',
 		class: 'progress',
 		prop: { value: 0 },
 	});
