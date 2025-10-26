@@ -39,7 +39,7 @@
 			"recommended": true,
 			"complexity": {
 				"noBannedTypes": "off",
-				"noForEach": "off",
+				"noForEach": "error",
 				"noUselessStringConcat": "error",
 				"noVoid": "error",
 				"useDateNow": "error",
@@ -49,7 +49,9 @@
 			"correctness": {
 				"noUndeclaredVariables": {
 					"level": "error",
-					"options": { "checkTypes": true }
+					"options": {
+						"checkTypes": true
+					}
 				},
 				"noUnusedFunctionParameters": "error",
 				"noUnusedImports": "error",
@@ -70,7 +72,9 @@
 				"useExhaustiveSwitchCases": "on",
 				"useMaxParams": {
 					"level": "warn",
-					"options": { "max": 6 }
+					"options": {
+						"max": 6
+					}
 				}
 			},
 			"performance": {
@@ -118,47 +122,49 @@
 						"requireAscii": true,
 						"conventions": [
 							{
-								"selector": { "kind":"importAlias" },
-								"formats": ["camelCase", "CONSTANT_CASE", "PascalCase"]
-							},
-							{
-								"selector": { "kind": "const" },
-								"formats": ["camelCase", "CONSTANT_CASE"]
+								"selector": {
+									"kind": "const"
+								},
+								"formats": [
+									"camelCase",
+									"CONSTANT_CASE"
+								]
 							},
 							{
 								"selector": {
 									"kind": "classProperty",
-									"modifiers": ["readonly", "static"]
+									"modifiers": [
+										"readonly",
+										"static"
+									]
 								},
-								"formats": ["CONSTANT_CASE"]
+								"formats": [
+									"CONSTANT_CASE"
+								]
 							},
 							{
 								"selector": {
-									"kind": "classProperty",
-									"modifiers": ["protected"]
+									"kind": "typeAlias"
 								},
-								"match": "_?[a-z][0-9a-zA-Z]*"
-							},
-							{
-								"selector": { "kind": "typeAlias" },
 								"match": "[A-Z][0-9a-zA-Z]*"
 							},
 							{
-								"selector": { "kind": "typeLike" },
+								"selector": {
+									"kind": "typeLike"
+								},
 								"match": "[A-Z][0-9a-zA-Z]*"
 							},
 							{
-								"selector": { "kind": "enumMember" },
-								"formats": ["CONSTANT_CASE"]
-							},
-							{
-								"selector": { "kind": "objectLiteralProperty" },
-								"formats": ["camelCase", "CONSTANT_CASE"],
-								"match": "[A-Z][A-Z0-9_]*|[a-z\\$][0-9a-zA-Z\\$]*"
+								"selector": {
+									"kind": "enumMember"
+								},
+								"formats": [
+									"CONSTANT_CASE"
+								]
 							},
 							{
 								"selector": { "kind": "any" },
-								"match": "[a-z\\$][0-9a-zA-Z\\$]*"
+								"match": ".*"
 							}
 						]
 					}
