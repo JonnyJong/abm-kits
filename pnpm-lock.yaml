@@ -185,8 +185,8 @@ importers:
         specifier: ^5.7.3
         version: 5.8.2
       vite:
-        specifier: ^7.1.7
-        version: 7.1.7(@types/node@22.14.1)(stylus@0.64.0)(yaml@2.8.1)
+        specifier: ^7.2.4
+        version: 7.2.4(@types/node@22.14.1)(stylus@0.64.0)(yaml@2.8.1)
       vite-plugin-pug:
         specifier: ^0.4.1
         version: 0.4.1
@@ -2351,8 +2351,8 @@ packages:
   vite-plugin-pug@0.4.1:
     resolution: {integrity: sha512-2M4qNpIgUV+zA63w566jyp3LpaIuSBMfghOzue7PYnFTms48Ux78Bp/ccRSaGRbFW9BkTxdqgi5h7xvBN7YruQ==}
 
-  vite@7.1.7:
-    resolution: {integrity: sha512-VbA8ScMvAISJNJVbRDTJdCwqQoAareR/wutevKanhR2/1EkoXVZVkkORaYm/tNVCjP/UDTKtcw3bAkwOUdedmA==}
+  vite@7.2.4:
+    resolution: {integrity: sha512-NL8jTlbo0Tn4dUEXEsUg8KeyG/Lkmc4Fnzb8JXN/Ykm9G4HNImjtABMJgkQoVjOBN/j2WAwDTRytdqJbZsah7w==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
     peerDependencies:
@@ -4612,7 +4612,7 @@ snapshots:
       picocolors: 1.1.1
       pug: 3.0.3
 
-  vite@7.1.7(@types/node@22.14.1)(stylus@0.64.0)(yaml@2.8.1):
+  vite@7.2.4(@types/node@22.14.1)(stylus@0.64.0)(yaml@2.8.1):
     dependencies:
       esbuild: 0.25.10
       fdir: 6.5.0(picomatch@4.0.3)
