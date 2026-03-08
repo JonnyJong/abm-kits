@@ -1,106 +1,72 @@
-import {
-	$apply,
-	$div,
-	$ready,
-	AnimationFrameController,
-	EventBase,
-	type Events,
-} from 'abm-utils';
-import type { INavigate, Navigable, NavigateEventsInit, Rect } from './types';
-import { isAvailable, searchClosest } from './utils';
+import { Debounce } from 'abm-utils';
+import { $div } from '../infra/dom';
+import { $style } from '../infra/style';
+import { track } from '../infra/viewport-tacker';
+import type { Navigable } from './types';
 
-const SCROLL_OPTIONS: ScrollIntoViewOptions = {
-	block: 'center',
-	inline: 'center',
-	behavior: 'smooth',
-};
+const CLASS_BASE = 'ui-nav';
+const CLASS_VISIBLE = `${CLASS_BASE}-visible`;
 
-const CLASS_VISIBLE = 'ui-nav-visible';
+const indicator = $div({ className: CLASS_BASE });
+const debounceMove = new Debounce((x: number, y: number) =>
+	$style(indicator, { top: y, left: x }),
+);
+let prev: WeakRef<Navigable> | undefined;
 
-export interface NavigateUIInit {
-	navigate: INavigate;
-	events: Events<NavigateEventsInit>;
-	getCurrentLayer(): {
-		root: Navigable;
-		current: Navigable | null;
-		lock: Navigable | null;
-	};
-	clearCurrent(): void;
-}
-
-export class NavigateUI {
-	#navigate: INavigate;
-	#events: NavigateUIInit['events'];
-	#getCurrentLayer: NavigateUIInit['getCurrentLayer'];
-	#clearCurrent: NavigateUIInit['clearCurrent'];
-	#indicator = $div({ class: 'ui-nav' });
-	#x = innerWidth / 2;
-	#y = innerHeight / 2;
-	#frameController = new AnimationFrameController(() => {
-		let { root, current, lock } = this.#getCurrentLayer();
-		if (!isAvailable(current, root) || current?.nonNavigable) {
-			current = searchClosest(root, this.getRect());
-			if (current) this.#navigate.current = current;
+/** 导航视图 */
+export const view = {
+	/** 初始化导航视图 */
+	init(): void {
+		document.body.append(indicator);
+		this.move(innerWidth / 2, innerHeight / 2);
+	},
+	/** 直接移动 */
+	move(x: number, y: number): void {
+		debounceMove.exe(x, y);
+	},
+	/** 更新外观 */
+	update(current: Navigable, timeDiff: number): void {
+		if (prev?.deref() !== current) {
+			prev = new WeakRef(current);
+			current.focus({ preventScroll: true });
 		}
-		current = lock ?? current;
+		debounceMove.clean();
+		let { top, left, height, width } = current.getBoundingClientRect();
+		const maxRadius = Math.min(top, left, height, width) / 2;
+		const radius = (value: string): number =>
+			Math.min(Number(value.slice(0, -2)), maxRadius) + 1;
+		const {
+			borderTopLeftRadius,
+			borderTopRightRadius,
+			borderBottomLeftRadius,
+			borderBottomRightRadius,
+		} = getComputedStyle(current);
+		top--;
+		left--;
+		height += 2;
+		width += 2;
 
-		if (!current) {
-			this.#clearCurrent();
-			this.hide();
-			this.#events.emit(new EventBase('nav', { target: this.#navigate }));
-			return;
-		}
-
-		const { top, left, width, height } = current.getBoundingClientRect();
-		this.#x = left + width / 2;
-		this.#y = top + height / 2;
-		$apply(this.#indicator, {
-			style: {
-				top,
-				left,
-				width,
-				height,
-				$borderRadiusTl: getComputedStyle(current).borderTopLeftRadius,
-				$borderRadiusTr: getComputedStyle(current).borderTopRightRadius,
-				$borderRadiusBr: getComputedStyle(current).borderBottomRightRadius,
-				$borderRadiusBl: getComputedStyle(current).borderBottomLeftRadius,
-			},
+		$style(indicator, {
+			top,
+			left,
+			height,
+			width,
+			borderTopLeftRadius: radius(borderTopLeftRadius),
+			borderTopRightRadius: radius(borderTopRightRadius),
+			borderBottomLeftRadius: radius(borderBottomLeftRadius),
+			borderBottomRightRadius: radius(borderBottomRightRadius),
 		});
-		this.#indicator.classList.add(CLASS_VISIBLE);
-	});
-	constructor({
-		navigate,
-		events,
-		getCurrentLayer,
-		clearCurrent,
-	}: NavigateUIInit) {
-		this.#navigate = navigate;
-		this.#events = events;
-		this.#getCurrentLayer = getCurrentLayer;
-		this.#clearCurrent = clearCurrent;
-		$ready(() => document.body.append(this.#indicator));
-	}
-	focus(target: Navigable) {
-		target.scrollIntoView(SCROLL_OPTIONS);
-		this.#frameController.start();
-	}
-	hide(x?: number, y?: number) {
-		this.#frameController.stop();
-		this.#indicator.classList.remove(CLASS_VISIBLE);
-		this.#indicator.style.width = '';
-		this.#indicator.style.height = '';
-		if (x === undefined || y === undefined) return;
-		this.#x = x;
-		this.#y = y;
-		this.#indicator.style.left = `${x}px`;
-		this.#indicator.style.top = `${y}px`;
-	}
-	getRect(): Rect {
-		return {
-			left: this.#x,
-			top: this.#y,
-			width: 0,
-			height: 0,
-		};
-	}
-}
+		track(timeDiff, current);
+	},
+	/** 显示 */
+	show(): void {
+		indicator.classList.add(CLASS_VISIBLE);
+	},
+	/** 隐藏 */
+	hide(): void {
+		if (!indicator.classList.contains(CLASS_VISIBLE)) return;
+		indicator.classList.remove(CLASS_VISIBLE);
+		$style(indicator, { width: 0, height: 0 });
+		prev = undefined;
+	},
+} as const;

@@ -1,0 +1,19 @@
+.surface
+[class*='surface-']
+	padding 16px
+	border 1px solid var(--surface-border)
+	border-radius var(--border-radius)
+	background var(--surface-bg)
+
+.surface-glass
+[ui-scheme='light'] .surface-glass
+	backdrop-filter saturate(1.5) blur(24px) brightness(var(--light-surface-glass))
+
+[ui-scheme='dark'] .surface-glass
+	backdrop-filter saturate(1.5) blur(24px) brightness(var(--dark-surface-glass))
+
+@media (prefers-color-scheme dark)
+	.surface-glass
+		backdrop-filter saturate(1.5) blur(24px) brightness(var(--dark-surface-glass))
+	[ui-scheme='light'] .surface-glass
+		backdrop-filter saturate(1.5) blur(24px) brightness(var(--light-surface-glass))

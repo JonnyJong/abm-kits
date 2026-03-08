@@ -31,16 +31,25 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Build kits
-        run: pnpm build
+      - name: Build abm utils
+        run: "pnpm run build:utils"
 
-      - name: Build docs
-        run: pnpm docs:build
+      - name: Build abm ui
+        run: "pnpm run build:ui"
+
+      - name: Build abm ui-style
+        run: "pnpm run build:ui-style"
+
+      - name: Build abm docs-theme
+        run: "pnpm run build:docs-theme"
+
+      - name: Build abm docs
+        run: "pnpm run build:docs"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './docs/abm-kits'
+          path: './packages/docs/dist'
 
   deploy:
     needs: build-and-deploy

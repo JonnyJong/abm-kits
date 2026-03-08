@@ -1,0 +1,198 @@
+article
+	flex 1
+	overflow auto
+	padding 16px
+	height 100%
+	border-top-left-radius var(--border-radius)
+	background var(--surface-bg)
+	cursor default
+	user-select text
+	&>*
+		margin 16px 0
+		max-width 1000px
+
+.sticky
+	position sticky
+	top var(--sticky)
+	z-index 4
+	background var(--panel)
+	backdrop-filter blur(4px)
+	--sticky 0px - 16px
+
+.sticky-content
+	.sticky
+		z-index 3
+		--sticky 32px - 16px
+	.sticky-content
+		.sticky
+			z-index 2
+			--sticky 32px - 16px
+		.sticky-content
+			.sticky
+				z-index 1
+				--sticky 32px - 16px
+			.sticky-content
+				.sticky
+					z-index 0
+					--sticky 32px - 16px
+
+.preview
+	display flex
+	justify-content center
+	align-items center
+	padding 16px
+	border 1px solid var(--ui-border)
+	border-radius var(--border-radius)
+	gap 8px
+
+// MARK: Heading
+h2
+	font-size 32px
+
+h3
+	font-size 26px
+
+h4
+	font-size 20px
+
+h5
+	font-size 18px
+
+h6
+	font-size 16px
+
+h2
+h3
+h4
+h5
+h6
+	font-weight normal
+
+// MARK: Link
+.source-link
+	display flex
+	align-items center
+	padding 4px 8px
+	width max-content
+	border 1px solid var(--ui-border)
+	border-radius var(--border-radius)
+	background var(--ui-bg)
+	color var(--ui-fg)
+	text-decoration none
+	gap 4px
+	&[hover]
+		border-color var(--ui-border-hover)
+		background var(--ui-bg-hover)
+		color var(--ui-fg-hover)
+	&[active]
+		border-color var(--ui-border-active)
+		background var(--ui-bg-active)
+		color var(--ui-fg-active)
+
+// MARK: Code
+.code
+	overflow clip
+	padding 0
+	figcaption
+		display flex
+		align-items center
+		overflow clip
+		border-radius var(--border-radius)
+		padding-inline-start 8px
+		code
+			margin-right 8px
+			opacity .8
+		.flex
+			flex 1
+	pre
+		overflow auto
+		margin 0
+		padding 8px 0
+		tab-size 2
+		hyphens none
+		direction ltr
+
+.line
+	display inline-block
+	padding 0 8px
+	width 100%
+
+:not(pre):not(figcaption)>code
+	padding 0 .5ex
+	border-radius 8px
+	background var(--secondary-bg)
+	color var(--secondary-fg)
+	word-break break-word
+
+.shiki
+	overflow auto
+	max-width 100%
+
+@media (prefers-color-scheme dark)
+	.shiki
+	.shiki span
+		background-color var(--shiki-dark-bg) !important
+		color var(--shiki-dark) !important
+		text-decoration var(--shiki-dark-text-decoration) !important
+		font-weight var(--shiki-dark-font-weight) !important
+		font-style var(--shiki-dark-font-style) !important
+
+[ui-scheme='light'] .shiki
+[ui-scheme='light'] .shiki span
+	background-color var(--shiki-light-bg) !important
+	color var(--shiki-light) !important
+	text-decoration var(--shiki-light-text-decoration) !important
+	font-weight var(--shiki-light-font-weight) !important
+	font-style var(--shiki-light-font-style) !important
+
+[ui-scheme='dark'] .shiki
+[ui-scheme='dark'] .shiki span
+	background-color var(--shiki-dark-bg) !important
+	color var(--shiki-dark) !important
+	text-decoration var(--shiki-dark-text-decoration) !important
+	font-weight var(--shiki-dark-font-weight) !important
+	font-style var(--shiki-dark-font-style) !important
+
+// MARK: Tabs
+.tabs
+	padding 0
+
+.tab-content
+	padding 8px
+	&>:not(.active)
+		display none
+	&>*
+		&>*
+			margin 16px 0
+		&>:first-child
+			margin-top 0
+		&>:last-child
+			margin-bottom 0
+
+// MARK：Table
+table
+	border 1px solid var(--ui-border)
+	border-collapse collapse
+
+th
+td
+	padding 4px 8px
+	border-block 1px solid var(--ui-border)
+	&:nth-child(odd)
+		background var(--ui-bg-hover)
+
+// Fold
+details
+	border 1px solid var(--ui-border)
+	border-radius var(--border-radius)
+	&>div
+		padding 8px
+
+summary
+	padding 6px 10px
+	border-radius var(--border-radius)
+	background var(--ui-bg)
+	&[hover]
+		background var(--ui-bg-hover)
+	&[active]
+		background var(--ui-bg-active)

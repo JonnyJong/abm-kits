@@ -1,14 +1,16 @@
 {
 	"extends": "../../tsconfig.json",
-	"include": ["./src/**/*.ts", "./styles/widgets/**/*.styl"],
+	"include": ["./src/**/*.ts"],
 	"exclude": [],
 	"compilerOptions": {
 		"module": "ES2020",
 		"moduleResolution": "node",
+		"types": [],
 		"lib": ["ES2022", "DOM", "DOM.Iterable"],
-		"outDir": "./dist",
-		"incremental": true,
-		"tsBuildInfoFile": "../../cache/abm-ui.tsbuildinfo",
-		"rootDir": "./src"
+		"rootDir": "./src",
+		"outDir": ".",
+		// "emitDeclarationOnly": true,
+		"isolatedModules": true,
+		"verbatimModuleSyntax": true,
 	},
 }

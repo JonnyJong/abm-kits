@@ -1,0 +1,70 @@
+@keyframes ui-dialog
+	0%
+		opacity 0
+		scale .92
+
+.ui-dialog
+	display grid
+	margin auto
+	padding 8px
+	min-width 200px
+	width max-content
+	height max-content
+	animation ui-dialog 1s cubic-bezier(0, 1, 0, 1)
+	grid-template-areas 'icon title close' 'icon content content' 'actions actions actions'
+	grid-template-columns max-content 1fr max-content
+	grid-template-rows max-content 1fr max-content
+	&[layout='vertical']
+		grid-template-areas 'icon' 'title' 'content' 'actions'
+		grid-template-rows max-content max-content 1fr max-content
+		grid-template-columns 1fr
+		.ui-dialog-close
+			position absolute
+			top 8px
+			right 8px
+		.ui-dialog-title
+		.ui-dialog-content
+			text-align center
+
+.ui-dialog-close
+	width 32px
+	height 32px
+	grid-area close
+	--ui-bg #0000
+
+.ui-dialog-icon
+	display flex
+	justify-content center
+	padding-top 8px
+	font-size 24px
+	grid-area icon
+
+.ui-dialog-title
+	padding 8px
+	font-weight bold
+	grid-area title
+
+.ui-dialog-content
+	overflow auto
+	padding 0 8px
+	grid-area content
+
+.ui-dialog-actions
+	display flex
+	padding 16px 8px 8px
+	width max-content
+	grid-area actions
+	margin-inline-start auto
+	gap 8px
+	&[layout='horizontal-full']
+		width 100%
+		&>*
+			flex 1
+	&[layout='vertical']
+		flex-direction column
+		width 100%
+
+.ui-dialog-title
+.ui-dialog-actions
+	&:empty
+		display none

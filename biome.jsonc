@@ -1,22 +1,13 @@
 {
-	"$schema": "https://biomejs.dev/schemas/2.3.7/schema.json",
-	"vcs": {
-		"enabled": false,
-		"clientKind": "git",
-		"useIgnoreFile": false
-	},
+	"$schema": "https://biomejs.dev/schemas/2.4.6/schema.json",
 	"files": {
-		"ignoreUnknown": false,
 		"includes": [
 			"**/*.ts",
+			"**/*.tsx",
 			"**/*.json",
-			"!**/.vscode",
 			"!**/node_modules",
 			"!**/dist",
-			"!**/tsconfig.*",
-			"!**/scripts/**/*.js",
-			"!**/packages/icons/projects.json",
-			"!**/packages/**/icons.json"
+			"!**/*.d.ts"
 		]
 	},
 	"formatter": {
@@ -27,10 +18,9 @@
 		"indentWidth": 1
 	},
 	"assist": {
+		"enabled": true,
 		"actions": {
-			"source": {
-				"organizeImports": "on"
-			}
+			"recommended": true
 		}
 	},
 	"linter": {
@@ -44,9 +34,16 @@
 				"noVoid": "error",
 				"useDateNow": "error",
 				"useSimplifiedLogicExpression": "error",
-				"useWhile": "info"
+				"useWhile": "info",
+				"useMaxParams": {
+					"level": "warn",
+					"options": {
+						"max": 6
+					}
+				}
 			},
 			"correctness": {
+				"noUnknownProperty": "off",
 				"noUndeclaredVariables": {
 					"level": "error",
 					"options": {
@@ -59,25 +56,6 @@
 				"noUnusedVariables": "error",
 				"useParseIntRadix": "off",
 				"useSingleJsDocAsterisk": "info"
-			},
-			"nursery": {
-				"noDeprecatedImports": "on",
-				"noEmptySource": "on",
-				"noImportCycles": "on",
-				"noMisusedPromises": "on",
-				"noUnusedExpressions": "on",
-				"noUselessCatchBinding": "on",
-				"noUselessUndefined": "on",
-				"useConsistentArrowReturn": "on",
-				"useExhaustiveSwitchCases": "on",
-				"useMaxParams": {
-					"level": "warn",
-					"options": {
-						"max": 6
-					}
-				},
-				"useArraySortCompare": "warn",
-				"useFind": "error"
 			},
 			"performance": {
 				"noAwaitInLoops": "info",
@@ -127,22 +105,14 @@
 								"selector": {
 									"kind": "const"
 								},
-								"formats": [
-									"camelCase",
-									"CONSTANT_CASE"
-								]
+								"formats": ["camelCase", "CONSTANT_CASE", "PascalCase"]
 							},
 							{
 								"selector": {
 									"kind": "classProperty",
-									"modifiers": [
-										"readonly",
-										"static"
-									]
+									"modifiers": ["readonly", "static"]
 								},
-								"formats": [
-									"CONSTANT_CASE"
-								]
+								"formats": ["CONSTANT_CASE"]
 							},
 							{
 								"selector": {
@@ -160,9 +130,7 @@
 								"selector": {
 									"kind": "enumMember"
 								},
-								"formats": [
-									"CONSTANT_CASE"
-								]
+								"formats": ["CONSTANT_CASE"]
 							},
 							{
 								"selector": {
@@ -181,7 +149,8 @@
 				"useTemplate": "error",
 				"useThrowNewError": "error",
 				"useThrowOnlyError": "error",
-				"useTrimStartEnd": "warn"
+				"useTrimStartEnd": "warn",
+				"useConsistentArrowReturn": "on"
 			},
 			"suspicious": {
 				"noAlert": "on",

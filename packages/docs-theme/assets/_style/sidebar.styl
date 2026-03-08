@@ -1,0 +1,57 @@
+aside
+	flex 0 0 auto
+	overflow auto
+	width 300px
+	transition .1s margin
+	abm-collapsible::part(head)
+		padding 0
+		background none
+	a
+		color var(--fg)
+		text-decoration none
+
+.aside-item
+	display flex
+	a
+		display block
+		flex 1
+		padding 8px
+		line-height 1
+	&:not(:has(.aside-collapse))
+		padding-inline-start 30px
+
+.aside-collapse
+	display flex
+	justify-content center
+	align-items center
+	width 30px
+	&>*
+		transition .1s rotate
+
+.aside-list[expanded]>.aside-item>.aside-collapse>*
+	rotate 90deg
+
+.aside-item a
+.aside-collapse
+	border-radius var(--border-radius)
+	&[hover]
+		background var(--ui-bg-hover)
+	&[active]
+		background var(--ui-bg-active)
+
+.aside-children
+	padding-inline-start 30px - 8px
+
+.aside-toggle
+	display none
+
+@media (max-width 800px)
+	.aside-toggle
+		display flex
+	aside
+		margin-inline-start -300px
+	.aside-open
+		margin-inline-start 0px
+	article
+		flex 0 0 auto
+		width 100%

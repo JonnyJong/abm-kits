@@ -1,0 +1,90 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"dependsOn": ["Watch: utils", "Watch: ui", "Watch: ui-style", "Watch: docs-theme"],
+			"dependsOrder": "parallel",
+			"group": "build",
+			"label": "Watch",
+		},
+		{
+			"dependsOn": ["Build: utils", "Build: ui", "Build: ui-style", "Build: docs"],
+			"dependsOrder": "sequence",
+			"group": "build",
+			"label": "Build",
+		},
+		{
+			"type": "process",
+			"command": "pnpm",
+			"args": ["run", "build:utils"],
+			"problemMatcher": [],
+			"group": "build",
+			"label": "Build: utils",
+		},
+		{
+			"type": "process",
+			"command": "pnpm",
+			"args": ["run", "build:ui"],
+			"problemMatcher": [],
+			"group": "build",
+			"label": "Build: ui",
+		},
+		{
+			"type": "process",
+			"command": "pnpm",
+			"args": ["run", "build:ui-style"],
+			"problemMatcher": [],
+			"group": "build",
+			"label": "Build: ui-style",
+		},
+		{
+			"type": "typescript",
+			"tsconfig": "packages/docs-theme/tsconfig.json",
+			"problemMatcher": [
+				"$tsc"
+			],
+			"group": "build",
+			"label": "Build: docs-theme"
+		},
+		{
+			"type": "process",
+			"command": "pnpm",
+			"args": ["run", "build:docs"],
+			"problemMatcher": [],
+			"group": "build",
+			"label": "Build: docs",
+		},
+		{
+			"type": "process",
+			"command": "pnpm",
+			"args": ["run", "watch:utils"],
+			"problemMatcher": ["$tsc-watch"],
+			"group": "build",
+			"label": "Watch: utils",
+		},
+		{
+			"type": "typescript",
+			"tsconfig": "packages/abm-ui/tsconfig.json",
+			"option": "watch",
+			"problemMatcher": ["$tsc-watch"],
+			"group": "build",
+			"label": "Watch: ui"
+		},
+		{
+			"type": "process",
+			"command": "pnpm",
+			"args": ["run", "watch:ui-style"],
+			"problemMatcher": [],
+			"group": "build",
+			"label": "Watch: ui-style",
+		},
+		{
+			"type": "typescript",
+			"tsconfig": "packages/docs-theme/tsconfig.json",
+			"option": "watch",
+			"problemMatcher": ["$tsc-watch"],
+			"group": "build",
+			"label": "Watch: docs-theme"
+		},
+	]
+}

@@ -1,9 +1,11 @@
+import { type Vec2, Vector2 } from './vector';
+
 /**
  * 限制目标值在最小值和最大值之间
  *
- * @param min - 最小值
- * @param target - 目标值
- * @param max - 最大值
+ * @param min 最小值
+ * @param target 目标值
+ * @param max 最大值
  * @returns 限制后的值
  */
 export function clamp(min: number, target: number, max: number) {
@@ -14,9 +16,9 @@ export function clamp(min: number, target: number, max: number) {
 /**
  * 将一个数值循环限制在指定范围内
  *
- * @param target - 需要限制的数值
- * @param max - 最大值
- * @param min - 最小值，默认为0
+ * @param target 需要限制的数值
+ * @param max 最大值
+ * @param min 最小值，默认为0
  * @returns 限制在范围内的数值
  *
  * @example
@@ -33,55 +35,6 @@ export function wrapInRange(target: number, max: number, min = 0): number {
 	const range = max - min;
 	const wrappedValue = ((((target - min) % range) + range) % range) + min;
 	return wrappedValue;
-}
-
-/**
- * 创建一个限制步长的函数，该函数将输入值限制在指定的范围内，并按照指定的步长进行取整
- *
- * @param from - 范围的起始值
- * @param to - 范围的结束值
- * @param step - 步长，默认为 0
- * @returns 一个函数，该函数接受一个数值参数，并返回一个在指定范围内，且按照指定步长取整的数值
- */
-export function createClampedStepper(from: number, to: number, step = 0) {
-	if (step < 0) step = -step;
-	if (from > to) [from, to] = [to, from];
-
-	if (step === 0) {
-		return function clampedStepper(value: number): number {
-			if (typeof value !== 'number' || Number.isNaN(value)) return NaN;
-			return clamp(from, value, to);
-		};
-	}
-
-	if (from === -Infinity) {
-		return function clampedStepper(value: number): number {
-			if (typeof value !== 'number' || Number.isNaN(value)) return NaN;
-			return clamp(from, value, to);
-		};
-	}
-
-	const range = to - from;
-	if (step >= to - from) {
-		const middle = from + range / 2;
-		return function clampedStepper(value: number): number {
-			if (typeof value !== 'number' || Number.isNaN(value)) return NaN;
-			value = clamp(from, value, to);
-			if (value >= middle) return to;
-			return from;
-		};
-	}
-
-	return function clampedStepper(value: number): number {
-		if (typeof value !== 'number' || Number.isNaN(value)) return NaN;
-		value = clamp(from, value, to);
-		if (value === from || value === to) return value;
-
-		const stepsCount = Math.round((value - from) / step);
-		const fittedValue = from + stepsCount * step;
-
-		return clamp(from, fittedValue, to);
-	};
 }
 
 const TRAILING_ZERO = /0+$/;
@@ -138,4 +91,71 @@ export function createLinearMapper(
 	y2 = 1,
 ): (value: number) => number {
 	return (value: number) => ((value - x1) / (x2 - x1)) * (y2 - y1) + y1;
+}
+
+function deltaToStep(d: number): number {
+	d = Math.abs(d);
+	if (Number.isInteger(d)) return d / 100;
+	return 1;
+}
+
+export function resolveStep<T extends number | Vec2>(a: T, b: T, step?: T): T {
+	// Number
+	if (typeof a === 'number') {
+		if (step && Math.abs(step as number) > Number.EPSILON) return step;
+		return deltaToStep(a - (b as number)) as T;
+	}
+	// Vec2
+	if (step && !Vector2.isZero(step as Vec2)) return step;
+	const [x, y] = Vector2.sub(a, b as Vec2);
+	return [deltaToStep(x), deltaToStep(y)] as T;
+}
+
+/**
+ * 将值限制在指定范围内，并按照指定的步长进行取整
+ *
+ * @param start 范围的起始值
+ * @param end 范围的结束值
+ * @param value 需要限制的值
+ * @param step 步长，默认为 0
+ * @returns 限制在范围内并按步长取整的值
+ *
+ * @example
+ * ```ts
+ * steppedClamp(0, 10, 5.5, 1) // 6
+ * steppedClamp(0, 10, 5.2, 1) // 5
+ * steppedClamp(0, 10, 15, 1) // 10
+ * steppedClamp(0, 10, -5, 1) // 0
+ * steppedClamp(0, 10, 5.5, 0) // 5.5
+ * ```
+ */
+export function steppedClamp(
+	start: number,
+	end: number,
+	value: number,
+	step = 0,
+): number {
+	if (!Number.isFinite(value)) return NaN;
+
+	step = Math.abs(step);
+	if (start > end) [start, end] = [end, start];
+	const startFinite = Number.isFinite(start);
+	const endFinite = Number.isFinite(end);
+
+	if (step < Number.EPSILON) return clamp(start, value, end);
+
+	if (!(startFinite || endFinite)) value;
+
+	if (step >= end - start) {
+		const startDistance = Math.abs(start - value);
+		const endDistance = Math.abs(end - value);
+		return startDistance < endDistance ? start : end;
+	}
+
+	if (startFinite) {
+		const count = Math.round((value - start) / step);
+		return clamp(start, start + count * step, end);
+	}
+	const count = Math.round((end - value) / step);
+	return clamp(start, end - count * step, end);
 }

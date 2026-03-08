@@ -1,0 +1,74 @@
+{
+	// Place your abm-kits-x 工作区 snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and 
+	// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope 
+	// is left empty or omitted, the snippet gets applied to all languages. The prefix is what is 
+	// used to trigger the snippet and the body will be expanded and inserted. Possible variables are: 
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. 
+	// Placeholders with the same ids are connected.
+	// Example:
+	// "Print to console": {
+	// 	"scope": "javascript,typescript",
+	// 	"prefix": "log",
+	// 	"body": [
+	// 		"console.log('$1');",
+	// 		"$2"
+	// 	],
+	// 	"description": "Log output to console"
+	// }
+	"Component": {
+		"scope": "typescript",
+		"prefix": "component",
+		"body": [
+			"import { defineElement } from '../infra/decorator';",
+			"import type { ElementProps } from '../infra/dom';",
+			"import { Component } from './base';",
+			"",
+			"declare module '../infra/dom' {",
+			"\tinterface CustomElementTagNameMap {",
+			"\t\t'abm-$2': $1;",
+			"\t}",
+			"}",
+			"",
+			"export interface $1Prop extends ElementProps<$1> {}",
+			"",
+			"@defineElement('abm-$2')",
+			"export class $1 extends Component<$1Prop> {$0",
+			"\tconstructor(_props?: $1Prop) {",
+			"\t\tsuper()",
+			"\t}",
+			"\tcloneNode(subtree?: boolean): this {",
+			"\t\tconst node = super.cloneNode(subtree);",
+			"\t\treturn node;",
+			"\t}",
+			"}",
+		]
+	},
+	"FormControl": {
+		"scope": "typescript",
+		"prefix": "control",
+		"body": [
+			"import { defineElement } from '../infra/decorator';",
+			"import type { ElementProps } from '../infra/dom';",
+			"import { FormControl } from './form';",
+			"",
+			"declare module '../infra/dom' {",
+			"\tinterface CustomElementTagNameMap {",
+			"\t\t'abm-$2': $1;",
+			"\t}",
+			"}",
+			"",
+			"export interface $1Prop extends ElementProps<$1> {}",
+			"",
+			"@defineElement('abm-$2')",
+			"export class $1 extends FormControl<$3, $1Prop> {$0",
+			"\tconstructor(_props?: $1Prop) {",
+			"\t\tsuper()",
+			"\t}",
+			"\tcloneNode(subtree?: boolean): this {",
+			"\t\tconst node = super.cloneNode(subtree);",
+			"\t\treturn node;",
+			"\t}",
+			"}",
+		]
+	},
+}

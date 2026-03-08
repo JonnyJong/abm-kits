@@ -1,144 +1,194 @@
 import {
-	EventBase,
-	type Events,
-	EventValue,
+	type Direction8,
 	RepeatingTriggerController,
+	type Vec2,
 } from 'abm-utils';
-import { GameController } from '../game-controller';
-import { keyboard } from '../keyboard';
-import type {
-	INavigate,
-	Navigable,
-	NavigateCallbackOptions,
-	NavigateEvents,
-	NavigateEventsInit,
-} from './types';
-import type { NavigateUI } from './view';
+import { CONSTANTS } from '../constant';
+import { $on } from '../infra/event';
+import {
+	GameController,
+	type GameControllerButton,
+} from '../input/game-controller';
+import { keyboard } from '../input/keyboard';
+import { state } from '../state';
+import { back, blur, emit, moveRect, nav } from './core';
+import { getCurrent, getCurrentLayer, getLock } from './layer';
+import type { Navigable } from './types';
 
-const KEY_ALIAS_DIRECTION_MAP = {
-	'ui.up': 'up',
-	'ui.right': 'right',
-	'ui.down': 'down',
-	'ui.left': 'left',
+export const inputConfig = {
+	keyboardDisabled: false,
+	controllerDisabled: false,
+	controller: GameController.get(0),
+	ls: true,
+	rs: false,
+	active: ['A'] as GameControllerButton[],
+	cancel: ['B'] as GameControllerButton[],
+	up: ['UP'] as GameControllerButton[],
+	right: ['RIGHT'] as GameControllerButton[],
+	down: ['DOWN'] as GameControllerButton[],
+	left: ['LEFT'] as GameControllerButton[],
 };
 
-const GAME_CONTROLLER_SWITCH_DEAD_ZONE = 0.3;
-
-interface NavigateInputInit {
-	navigate: INavigate;
-	events: Events<NavigateEventsInit>;
-	ui: NavigateUI;
-	getCurrentLayer(): { root: Navigable; current: Navigable | null };
-	clearCurrent(): void;
-	callback(options: NavigateCallbackOptions, target?: Navigable | null): void;
+function isGamepadAvailable() {
+	if (!document.hasFocus()) return false;
+	if (document.activeElement?.tagName === 'IFRAME') return false;
+	return true;
 }
 
-export function initInput({
-	navigate,
-	events,
-	ui,
-	getCurrentLayer: getTarget,
-	clearCurrent,
-	callback,
-}: NavigateInputInit) {
-	const upController = new RepeatingTriggerController(() => navigate.nav('up'));
-	const rightController = new RepeatingTriggerController(() =>
-		navigate.nav('right'),
-	);
-	const downController = new RepeatingTriggerController(() =>
-		navigate.nav('down'),
-	);
-	const leftController = new RepeatingTriggerController(() =>
-		navigate.nav('left'),
-	);
-	//#region Keyboard
-	keyboard.on('aliasTrigger', (event) => {
-		if (navigate.blockKeyboard) return;
-		const direction = (KEY_ALIAS_DIRECTION_MAP as any)[event.key];
-		if (!direction) return;
-		navigate.nav(direction);
-	});
-	keyboard.on('shortcutTrigger', (event) => {
-		if (navigate.blockKeyboard) return;
-		if (event.key === 'ui.navPrev') navigate.nav('prev');
-		else if (event.key === 'ui.navNext') navigate.nav('next');
-	});
-	keyboard.on('aliasDown', (event) => {
-		const { root, current } = getTarget();
-		let type: 'active' | 'cancel' | '' = '';
-		if (event.key === 'ui.confirm') type = 'active';
-		if (event.key === 'ui.cancel') type = 'cancel';
-		if (!type) return;
-		callback({ [type]: true }, root);
-		if (!current) return;
-		callback({ [type]: true });
-		if (navigate.locking) return;
-		events.emit(new EventValue(type, { target: navigate, value: true }));
-	});
-	keyboard.on('aliasUp', (event) => {
-		const { root, current } = getTarget();
-		let type: keyof NavigateEvents | '' = '';
-		if (event.key === 'ui.confirm') type = 'active';
-		if (event.key === 'ui.cancel') type = 'cancel';
-		if (!type) return;
-		callback({ [type]: false }, root);
-		if (!current) return;
-		callback({ [type]: false });
-		if (navigate.locking) return;
-		events.emit(new EventValue(type, { target: navigate, value: false }));
-	});
-	//#region Gamepad
-	const gameController = GameController.getInstance(0);
-	gameController.on('ls', () => {
-		if (navigate.blockGameController) return;
-		const vec = gameController.ls;
-		let direction = vec.direction;
-		if (vec.length < GAME_CONTROLLER_SWITCH_DEAD_ZONE) direction = undefined;
-		upController[direction === 'up' ? 'start' : 'stop']();
-		rightController[direction === 'right' ? 'start' : 'stop']();
-		downController[direction === 'down' ? 'start' : 'stop']();
-		leftController[direction === 'left' ? 'start' : 'stop']();
-	});
-	gameController.on('arrow', () => {
-		if (navigate.blockGameController) return;
-		upController[gameController.up ? 'start' : 'stop']();
-		rightController[gameController.right ? 'start' : 'stop']();
-		downController[gameController.down ? 'start' : 'stop']();
-		leftController[gameController.left ? 'start' : 'stop']();
-	});
-	gameController.on('a', () => {
-		if (navigate.blockGameController) return;
-		const { root, current } = getTarget();
-		callback({ active: gameController.a }, root);
-		if (!current) return;
-		callback({ active: gameController.a });
-		if (navigate.locking) return;
-		events.emit(
-			new EventValue('active', { target: navigate, value: gameController.a }),
-		);
-	});
-	gameController.on('b', () => {
-		if (navigate.blockGameController) return;
-		const { root, current } = getTarget();
-		callback({ cancel: gameController.b }, root);
-		if (!current) return;
-		callback({ cancel: gameController.b });
-		if (navigate.locking) return;
-		events.emit(
-			new EventValue('cancel', { target: navigate, value: gameController.b }),
-		);
-	});
-	//#region Other
-	const stopNavHandler = (event: MouseEvent) => {
-		const { current } = getTarget();
-		if (current && navigate.locking) callback({ active: false, cancel: true });
+function isKeyActivated(id: string): boolean {
+	if (inputConfig.keyboardDisabled) return false;
+	if (keyboard.isInputMode()) return false;
+	return keyboard.alias.isActivated(id) || keyboard.shortcut.isActivated(id);
+}
 
-		ui.hide(event.x, event.y);
+function isButtonActivated(buttons: GameControllerButton[]): boolean {
+	if (inputConfig.controllerDisabled) return false;
+	if (!isGamepadAvailable()) return false;
+	for (const button of buttons) {
+		if (inputConfig.controller.button(button)) return true;
+	}
+	return false;
+}
 
-		if (current === null) return;
-		clearCurrent();
-		events.emit(new EventBase('nav', { target: navigate }));
-	};
-	addEventListener('wheel', stopNavHandler);
-	addEventListener('pointermove', stopNavHandler);
+function isActivated(id: string, buttons: GameControllerButton[]): boolean {
+	return isKeyActivated(id) || isButtonActivated(buttons);
+}
+
+const direction8Trigger = new RepeatingTriggerController(() => {
+	const up = isActivated(CONSTANTS.NAV_UP, inputConfig.up);
+	const right = isActivated(CONSTANTS.NAV_RIGHT, inputConfig.right);
+	const down = isActivated(CONSTANTS.NAV_DOWN, inputConfig.down);
+	const left = isActivated(CONSTANTS.NAV_LEFT, inputConfig.left);
+	const active = up || right || down || left;
+	if (!active) return direction8Trigger.stop();
+	const direction: Vec2 = [0, 0];
+	if (up) direction[1]--;
+	if (right) direction[0]++;
+	if (down) direction[1]++;
+	if (left) direction[0]--;
+	nav(direction);
+});
+
+function handleActive(down: boolean): void {
+	emit({ type: 'active', down });
+	if (getLock()) return;
+	const target = getCurrent();
+	if (!target) return;
+	state.active.set(target, down);
+}
+
+let prevRoot: WeakRef<Navigable> | undefined;
+let prevCurrent: WeakRef<Navigable> | undefined;
+function handleCancel(down: boolean): void {
+	// Save state when press down cancel
+	if (down) {
+		const { root, current } = getCurrentLayer();
+		prevRoot = new WeakRef(root);
+		prevCurrent = current ? new WeakRef(current) : undefined;
+	}
+
+	// Emit cancel
+	emit({ type: 'cancel', down });
+	if (getLock()) return;
+	const { root, current } = getCurrentLayer();
+	if (current) state.active.set(current, false, true);
+
+	// Check root and current then back
+	if (down) return;
+	if (root !== prevRoot?.deref()) return;
+	if (current !== prevCurrent?.deref()) return;
+	back();
+}
+
+//#region Pointer
+function pointerMoveHandler({ x, y }: PointerEvent) {
+	blur();
+	moveRect(x, y);
+}
+
+//#region Keyboard
+
+function keyboardHandler(id: string): any {
+	if (inputConfig.keyboardDisabled) return;
+	switch (id) {
+		case 'ui.nav.prev':
+			return nav('prev');
+		case 'ui.nav.next':
+			return nav('next');
+		case 'ui.nav.up':
+		case 'ui.nav.right':
+		case 'ui.nav.down':
+		case 'ui.nav.left':
+			// TODO: 需要更好的处理方式
+			if (keyboard.isInputMode()) return;
+			direction8Trigger.restart();
+	}
+}
+
+function keyDownHandler(id: string) {
+	if (inputConfig.keyboardDisabled) return;
+	if (id === CONSTANTS.NAV_ACTIVE) handleActive(true);
+	else if (id === CONSTANTS.NAV_CANCEL) handleCancel(true);
+}
+function keyUpHandler(id: string) {
+	if (inputConfig.keyboardDisabled) return;
+	if (id === CONSTANTS.NAV_ACTIVE) handleActive(false);
+	else if (id === CONSTANTS.NAV_CANCEL) handleCancel(false);
+}
+
+//#region Gamepad
+
+function lsHandler(direction: Direction8, x: number, y: number): any {
+	if (inputConfig.controllerDisabled) return;
+	if (!inputConfig.ls) return;
+	if (!isGamepadAvailable()) return;
+	if (!getLock()) return nav(direction);
+	emit({ type: 'stick', x, y });
+}
+function rsHandler(direction: Direction8, x: number, y: number): any {
+	if (inputConfig.controllerDisabled) return;
+	if (!inputConfig.rs) return;
+	if (!isGamepadAvailable()) return;
+	if (!getLock()) return nav(direction);
+	emit({ type: 'stick', x, y });
+}
+
+function buttonHandler() {
+	if (inputConfig.controllerDisabled) return;
+	direction8Trigger.restart();
+}
+function buttonDownHandler(btn: GameControllerButton) {
+	if (inputConfig.controllerDisabled) return;
+	if (inputConfig.active.includes(btn)) handleActive(true);
+	else if (inputConfig.cancel.includes(btn)) handleCancel(true);
+}
+function buttonUpHandler(btn: GameControllerButton) {
+	if (inputConfig.controllerDisabled) return;
+	if (inputConfig.active.includes(btn)) handleActive(false);
+	else if (inputConfig.cancel.includes(btn)) handleCancel(false);
+}
+
+export function bindController() {
+	inputConfig.controller.on('lsTrigger', lsHandler);
+	inputConfig.controller.on('rsTrigger', rsHandler);
+	inputConfig.controller.on('trigger', buttonHandler);
+	inputConfig.controller.on('down', buttonDownHandler);
+	inputConfig.controller.on('up', buttonUpHandler);
+}
+export function unbindController() {
+	inputConfig.controller.off('lsTrigger', lsHandler);
+	inputConfig.controller.off('rsTrigger', rsHandler);
+	inputConfig.controller.off('trigger', buttonHandler);
+	inputConfig.controller.off('down', buttonDownHandler);
+	inputConfig.controller.off('up', buttonUpHandler);
+}
+
+//#region Main
+export function initInput() {
+	$on(window, 'pointermove', pointerMoveHandler, { passive: true });
+	keyboard.on('shortcutTrigger', keyboardHandler);
+	keyboard.on('aliasTrigger', keyboardHandler);
+	keyboard.on('aliasDown', keyDownHandler);
+	keyboard.on('aliasUp', keyUpHandler);
+	bindController();
 }

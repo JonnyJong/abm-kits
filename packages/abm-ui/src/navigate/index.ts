@@ -1,190 +1,107 @@
+/** biome-ignore-all lint/performance/noBarrelFile: Submodule entry */
+
+import { $ready } from '../infra/dom';
+import { GameController } from '../input/game-controller';
+import { back, coreConfig, nav } from './core';
 import {
-	$ready,
-	callTask,
-	EventBase,
-	type EventHandler,
-	Events,
-} from 'abm-utils';
-import { initInput } from './input';
-import type {
-	INavigate,
-	NavDirection,
-	Navigable,
-	NavigateCallbackOptions,
-	NavigateEvents,
-	NavigateEventsInit,
-	StackItem,
-} from './types';
+	bindController,
+	initInput,
+	inputConfig,
+	unbindController,
+} from './input';
 import {
-	isAvailable,
-	isContains,
-	searchByOrder,
-	searchInwards,
-	searchOutwards,
-} from './utils';
-import { NavigateUI } from './view';
+	addLayer,
+	getCurrentLayer,
+	initLayers,
+	lock,
+	rmLayer,
+	setCurrent,
+	unlock,
+} from './layer';
+import type { Navigable } from './types';
+import { isContains } from './utils';
+import { view } from './view';
 
-export type {
-	INavigate,
-	NavDirection,
-	Navigable,
-	NavigateCallbackOptions,
-	NavigateEvents,
-} from './types';
+$ready(() => {
+	initLayers();
+	view.init();
+	initInput();
+});
 
-class Navigate implements INavigate {
-	//#region Nav Stack
-	#stack: StackItem[] = [];
-	get #current() {
-		return this.#stack.at(-1)![1]?.deref() ?? null;
-	}
-	set #current(value: Navigable | null) {
-		const topLayer = this.#stack.at(-1)!;
-		if (value === null) topLayer[1] = value;
-		else topLayer[1] = new WeakRef(value);
-		topLayer[2] = null;
-		if (value) this.#ui.focus(value);
-	}
-	#getCurrentLayer = () => {
-		const [root, current, lock] = this.#stack.at(-1)!;
-		return {
-			root,
-			current: current?.deref() ?? null,
-			lock: lock?.deref() ?? null,
-		};
-	};
-	#clearCurrent = (): void => {
-		const layer = this.#stack.at(-1)!;
-		layer[1] = null;
-		layer[2] = null;
-	};
-	get current(): HTMLElement | null {
-		return this.#current;
-	}
-	set current(value: HTMLElement) {
-		if (!(value instanceof HTMLElement)) return;
-		if (!isAvailable(value, this.#stack.at(-1)![0])) return;
-		this.#current = value;
-	}
-	lock(value: HTMLElement | null): void {
-		if (!(value instanceof HTMLElement) && value !== null) return;
-		this.#stack.at(-1)![2] = value ? new WeakRef(value) : value;
-	}
-	get locking(): boolean {
-		return !!this.#stack.at(-1)?.[2]?.deref();
-	}
-	addLayer(root: Navigable, current?: Navigable): void {
-		if (!(root instanceof HTMLElement || (root as any) instanceof ShadowRoot))
-			return;
-		if (!isAvailable(root)) return;
-		const index = this.#stack.findIndex(([r]) => r === root);
-		const currentAvailable =
-			current instanceof HTMLElement && isContains(root, current);
-		if (index === -1) {
-			this.#stack.push([
-				root,
-				currentAvailable ? new WeakRef(current) : null,
-				null,
-			]);
-		} else {
-			const [layer] = this.#stack.splice(index, 1);
-			this.#stack.push(layer);
-			if (currentAvailable) layer[1] = new WeakRef(current);
-		}
-		this.#events.emit(new EventBase('layer', { target: this }));
-	}
-	rmLayer(root: Navigable): boolean {
-		if (!(root instanceof HTMLElement || (root as any) instanceof ShadowRoot))
-			return false;
-		const index = this.#stack.findIndex(([r]) => r === root);
-		if (index === -1) return false;
-		this.#stack.splice(index, 1);
-		if (this.#current) this.#ui.focus(this.#current);
-		this.#events.emit(new EventBase('layer', { target: this }));
-		return true;
-	}
-	//#region Nav
-	nav(direction: NavDirection) {
-		let { root, current, lock } = this.#getCurrentLayer();
-		if (lock) {
-			this.#callback({ direction });
-			return;
-		}
-		if (!isAvailable(current, root)) current = null;
+/** 导航 API */
+export const navigate = {
+	nav,
+	back,
+	addLayer,
+	rmLayer,
+	lock,
+	unlock,
+	get disableRootCallback() {
+		return coreConfig.disableRootCallback;
+	},
+	set disableRootCallback(value) {
+		coreConfig.disableRootCallback = value;
+	},
+	/** 全局返回处理 */
+	get onBack() {
+		return coreConfig.onBack;
+	},
+	set onBack(value) {
+		coreConfig.onBack = value;
+	},
+	/** 键盘相关 */
+	keyboard: {
+		/** 禁用键盘 */
+		get disabled() {
+			return inputConfig.keyboardDisabled;
+		},
+		set disabled(value) {
+			inputConfig.keyboardDisabled = value;
+		},
+	},
+	/** 游戏控制器相关 */
+	gameController: {
+		/** 禁用游戏控制器 */
+		get disabled() {
+			return inputConfig.controllerDisabled;
+		},
+		set disabled(value) {
+			inputConfig.controllerDisabled = value;
+		},
+		/** 游戏控制器索引 */
+		get index() {
+			return inputConfig.controller.index;
+		},
+		set index(value) {
+			const newController = GameController.get(value);
+			if (inputConfig.controller === newController) return;
+			unbindController();
+			inputConfig.controller = newController;
+			bindController();
+			window.dispatchEvent(new Event('__ABM_NAV:gamepad'));
+		},
+		/** 启用左摇杆 */
+		get ls() {
+			return inputConfig.ls;
+		},
+		set ls(value) {
+			inputConfig.ls = value;
+		},
+		/** 启用右摇杆 */
+		get rs() {
+			return inputConfig.rs;
+		},
+		set rs(value) {
+			inputConfig.rs = value;
+		},
+	},
+	/** 设置当前导航目标 */
+	setCurrent(target: Navigable): void {
+		const { root, current, lock } = getCurrentLayer();
+		if (lock || !current || current === target) return;
+		if (!isContains(root, target)) return;
+		setCurrent(target);
+	},
+} as const;
 
-		let next: Navigable | null = null;
-		if (direction === 'prev' || direction === 'next') {
-			next = searchByOrder(root, direction, current);
-		} else {
-			next = searchInwards(
-				current?.navParent ?? (current?.parentNode as Navigable) ?? root,
-				direction,
-				current ?? this.#ui.getRect(),
-			);
-			if (!next && current) {
-				next = searchOutwards(
-					root,
-					direction,
-					current.getBoundingClientRect(),
-					current,
-				);
-			}
-		}
-		if (!next) return;
-
-		this.#current = next;
-		this.#events.emit(new EventBase('nav', { target: this }));
-	}
-	//#region Events
-	#callback = (options: NavigateCallbackOptions, target = this.#current) => {
-		if (!target) return;
-		callTask<[NavigateCallbackOptions], Navigable>(
-			target.navCallback!,
-			target,
-			options,
-		);
-	};
-	#events = new Events<NavigateEventsInit>(['nav', 'active', 'cancel', 'layer']);
-	on<Type extends keyof NavigateEvents>(
-		type: Type,
-		handler: EventHandler<Type, NavigateEventsInit[Type], any>,
-	): void {
-		this.#events.on(type, handler);
-	}
-	once<Type extends keyof NavigateEvents>(
-		type: Type,
-		handler: EventHandler<Type, NavigateEventsInit[Type], any>,
-	): void {
-		this.#events.once(type, handler);
-	}
-	off<Type extends keyof NavigateEvents>(
-		type: Type,
-		handler: EventHandler<Type, NavigateEventsInit[Type], any>,
-	): void {
-		this.#events.on(type, handler);
-	}
-	//#region Other
-	#ui = new NavigateUI({
-		navigate: this,
-		events: this.#events,
-		getCurrentLayer: this.#getCurrentLayer,
-		clearCurrent: this.#clearCurrent,
-	});
-	constructor() {
-		$ready(() => {
-			this.#stack.push([document.body, null, null]);
-			initInput({
-				navigate: this,
-				events: this.#events,
-				ui: this.#ui,
-				getCurrentLayer: this.#getCurrentLayer,
-				clearCurrent: this.#clearCurrent,
-				callback: this.#callback,
-			});
-		});
-	}
-	blockKeyboard = false;
-	blockGameController = false;
-}
-
-export const navigate = new Navigate();
+export type { Navigable, NavState } from './types';

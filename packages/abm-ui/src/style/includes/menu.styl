@@ -1,0 +1,101 @@
+.ui-menu
+	overflow clip
+	padding 0
+	width 32px
+	height 0px
+	opacity 0
+	transition .2s height, .2s width, .2s opacity
+
+.ui-menu-show
+	width var(--width)
+	height var(--height, 0px)
+	opacity 1
+	&:has(.ui-menu-back-show)
+		height calc(var(--height, 0px) + 33px)
+
+@keyframes ui-menu-enter
+	0%
+		opacity 0
+		translate 32px 0
+
+@keyframes ui-menu-back
+	0%
+		opacity 0
+		translate -32px 0
+
+.ui-menu-list
+	overflow clip auto
+	padding 4px
+	max-width var(--safe-h-size)
+	max-height s('min(calc(var(--safe-v-size) - 33px), var(--height))')
+	width max-content
+	height max-content
+	&[transition='enter']>*
+		animation ui-menu-enter .2s
+	&[transition='back']>*
+		animation ui-menu-back .2s
+
+.ui-menu-main
+.ui-menu-enter
+.ui-menu-item
+	border-radius var(--border-radius)
+	transition .1s background
+
+.ui-menu-item
+	display flex
+
+.ui-menu-enter
+.ui-menu-icon
+	display flex
+	justify-content center
+	align-items center
+	width 32px
+	font-size 16px
+
+.ui-menu-label
+	display flex
+	flex 1
+	align-items center
+
+.ui-menu-main
+	display flex
+	flex 1
+	padding 6px 10px 6px 0
+	min-height 33px
+
+.ui-menu-item:not(.ui-menu-sub)
+	.ui-menu-main
+		padding-inline-end 24px
+	.ui-menu-enter
+		display none
+
+.ui-menu-disabled
+	opacity .5
+	pointer-events none
+
+.ui-menu-item
+.ui-menu-main
+.ui-menu-enter
+	&[nav]
+		&[hover]
+			background var(--ui-bg-hover)
+		&[active]
+			background var(--ui-bg-active)
+
+.ui-menu-sep
+	margin 4px 0
+	height 1px
+	background var(--ui-border)
+	pointer-events none
+	&>*
+		display none
+
+.ui-menu-hidden
+	display none
+
+.ui-menu-back
+	margin-top -33px
+	transition .2s margin-top
+
+.ui-menu-back-show
+	margin-top 0

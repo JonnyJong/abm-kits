@@ -1,19 +1,15 @@
 {
-	// Write
-  "editor.insertSpaces": false,
-  "files.eol": "\n",
-  "[typescript]": {
-    "editor.defaultFormatter": "biomejs.biome",
-		"editor.codeActionsOnSave": {
-			"source.fixAll.biome": "explicit",
-			"source.organizeImports.biome": "explicit"
-		},
-  },
-  "[javascript]": {
-    "editor.defaultFormatter": "biomejs.biome",
-  },
-  "[json]": {
-    "editor.defaultFormatter": "biomejs.biome",
-  },
-  "Codegeex.GenerationPreference": "line by line",
+	"files.exclude": {
+		"packages/abm-ui/component": true,
+		"packages/abm-ui/infra": true,
+		"packages/abm-ui/input": true,
+		"packages/abm-ui/navigate": true,
+		"packages/abm-ui/prefab": true,
+		"packages/abm-ui/state": true,
+		"packages/abm-ui/widget": true,
+		"packages/abm-ui/*.js": true,
+		"packages/abm-ui/*.js.map": true,
+		"packages/abm-ui/*.d.ts": true,
+		"packages/abm-ui/index.css": true,
+	},
 }

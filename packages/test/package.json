@@ -1,0 +1,12 @@
+{
+	"name": "test",
+	"private": true,
+	"scripts": {
+		"dev": "vite"
+	},
+	"dependencies": {
+		"abm-ui": "workspace:*",
+		"abm-utils": "workspace:*",
+		"vite": "^7.3.1"
+	}
+}

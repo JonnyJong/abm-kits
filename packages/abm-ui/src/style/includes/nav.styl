@@ -1,0 +1,14 @@
+.ui-nav
+	position fixed
+	z-index 90
+	outline var(--primary-bg) solid 4px
+	outline-offset 4px
+	opacity 0
+	transition .3s cubic-bezier(0, 1, 0, 1) all
+	pointer-events none
+
+.ui-nav-visible
+	opacity 1
+
+body:has(.ui-nav-visible)
+	cursor none

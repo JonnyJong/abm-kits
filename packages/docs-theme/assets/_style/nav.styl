@@ -1,0 +1,76 @@
+// MARK: Nav
+nav
+.site-logo
+.cfg
+	display flex
+	align-items center
+	gap 8px
+
+.site-icon
+	width 24px
+	height 24px
+	background currentColor
+	mask-size cover
+	mask-image url('/abm-kits/icon.svg')
+
+.site-logo
+	color var(--fg)
+	text-decoration none
+	font-size 18px
+	line-height 1
+
+nav
+	flex 0 0 auto
+	overflow clip
+	padding 16px
+	height 64px
+	gap 16px 8px
+
+.nav-flex
+	flex 1
+
+.cfg-direction
+	display flex
+	align-items center
+	gap 4px
+
+// MARK: Theme
+.cfg-theme-tabs
+	margin-bottom 8px
+
+.cfg-theme-host
+	min-width 350px
+	min-height 72px
+	transition .2s .1s height
+
+.cfg-theme-title
+	margin-bottom 8px
+	&:not(:first-child)
+		margin-top 16px
+
+.cfg-theme-field
+	display flex
+	align-items center
+	gap 8px
+	&:not(:last-child)
+		margin-bottom 8px
+	abm-label
+		white-space nowrap
+	abm-number-box
+		flex 0 0 auto
+		width 120px
+
+.cfg-toggle
+	display none
+
+@media (max-width 650px)
+	.cfg-toggle
+		display flex
+	nav
+		flex-wrap wrap
+	.nav-open
+		height auto
+	.cfg
+		flex-direction column
+		align-items flex-end
+		width 100%

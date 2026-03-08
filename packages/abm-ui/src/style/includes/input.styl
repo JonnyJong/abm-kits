@@ -1,0 +1,23 @@
+.abm-input-autofill
+	position fixed
+	z-index 50
+	overflow clip auto
+	padding 0
+	max-height calc(var(--safe-v-size) / 2 - 64px)
+	border-color var(--ui-border-focus)
+	overscroll-behavior contain
+	&[side='down']
+		border-top-left-radius 0
+		border-top-right-radius 0
+	&[side='up']
+		border-bottom-right-radius 0
+		border-bottom-left-radius 0
+	.item
+		padding 6px 12px
+		transition .1s background !important
+		&[hover]
+			background var(--ui-bg-hover)
+		&[active]
+			background var(--ui-bg-active)
+	.selected
+		background var(--selection)

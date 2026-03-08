@@ -1,0 +1,11 @@
+{
+	"extends": "../node_modules/ezal-layout/tsconfig.base.json",
+	"compilerOptions": {
+		"types": ["../node_modules/ezal-layout/runtime.d.ts", "./context.d.ts"],
+	},
+	"include": [
+		"./**/*",
+		"../node_modules/ezal-layout/runtime.d.ts",
+		"./context.d.ts"
+	],
+}

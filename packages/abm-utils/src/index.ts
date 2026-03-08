@@ -1,17 +1,20 @@
-/** biome-ignore-all lint/performance/noBarrelFile: Required as the primary library entry point for exporting public API */
+/** biome-ignore-all lint/performance/noBarrelFile: Module entry */
 
-export * from './collection';
+export * from './collection/array';
+export * from './collection/iter';
+export * from './collection/map';
+export * from './collection/queue';
+export * from './collection/set';
 export * from './color';
-export * from './css';
-export * from './dom';
-export * from './events';
+export * from './decorator';
+export * from './event';
 export * from './expression';
 export * from './function';
 export * from './id';
 export * from './locale';
-export * from './log';
 export * from './math';
 export * from './object';
 export * from './string';
 export * from './timer';
+export * from './type';
 export * from './vector';

@@ -1,0 +1,40 @@
+@keyframes abm-select-show
+	0%
+	100%
+		scrollbar-width none
+
+.abm-select
+	top var(--top-select)
+	left var(--left)
+	overflow clip
+	padding 0
+	width s('min(100vw, var(--width))')
+	height var(--height-select)
+	&>*
+		position relative
+		top var(--offset)
+		overflow clip overlay
+		max-height var(--height-display)
+	.item
+		display flex
+		align-items center
+		padding 5px 8px
+		min-height 32px
+		border-radius var(--border-radius)
+		word-wrap break-word
+		transition .1s background
+		animation none
+		&[hover]
+			background var(--ui-bg-hover)
+		&[active]
+			background var(--ui-bg-active)
+
+.abm-select-show
+	top var(--top-display)
+	height var(--height-display)
+	transition .3s height var(--ease-out), .3s top var(--ease-out)
+	animation abm-select-show .3s
+	--ease-out cubic-bezier(0, 0, 0, 1)
+	&>*
+		top 0px
+		transition .3s top var(--ease-out)

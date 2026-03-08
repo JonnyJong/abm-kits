@@ -1,0 +1,24 @@
+@import 'var.css'
+
+*
+	box-sizing border-box
+	scrollbar-width thin
+	scrollbar-color grey transparent
+
+:focus
+	outline 0
+
+body
+	margin 0
+	width 100%
+	height 100vh
+	background var(--bg)
+	color var(--fg)
+	font 14px / 1.5 var(--font)
+	user-select none
+
+::selection
+	background var(--selection)
+
+@import 'prefab/**/*'
+@import 'includes/**/*'

@@ -1,0 +1,47 @@
+.grid
+	display grid
+	--gap 8px
+	--base s('min(calc((100vw - 32px - var(--gap)) / 2), 128px)')
+	gap var(--gap)
+	grid-template-columns repeat(auto-fill, minmax(var(--base), 1fr))
+	grid-auto-flow row dense
+
+.grid-item
+	display flex
+	flex-direction column
+	overflow hidden
+	height calc(var(--base) * var(--h) + (var(--h) - 1) * var(--gap))
+	border 1px solid var(--ui-border)
+	border-radius var(--border-radius)
+	background var(--bg)
+	--w 1
+	--h 1
+	grid-column span var(--w)
+	grid-row span var(--h)
+
+.grid-preview
+	display flex
+	flex 1
+	justify-content center
+	align-items center
+	height 0
+	gap 8px
+	&>*
+		max-width calc(100% - 32px)
+		max-height calc(100% - 32px)
+
+.grid-link
+	display flex
+	justify-content center
+	align-items center
+	padding 8px
+	background var(--ui-bg)
+	color var(--fg)
+	text-align center
+	text-decoration none
+	text-wrap balance
+	transition .1s background
+	&[hover]
+		background var(--ui-bg-hover)
+	&[active]
+		background var(--ui-bg-active)

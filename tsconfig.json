@@ -1,10 +1,9 @@
 {
 	"compilerOptions": {
 		// Basic
-		"target": "ES2022",
-		"module": "ESNext",
+		"target": "es2022",
+		"module": "esnext",
 		"moduleResolution": "node",
-		"types": [],
 		// Checking
 		"strict": true,
 		"noImplicitAny": true,
@@ -20,14 +19,20 @@
 		"allowJs": false,
 		"allowSyntheticDefaultImports": true,
 		"forceConsistentCasingInFileNames": true,
+		"skipLibCheck": true,
 		// Features
 		"esModuleInterop": true,
 		"resolveJsonModule": true,
 		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true,
+		"useDefineForClassFields": false,
+		"erasableSyntaxOnly": true,
 		// Output
 		"sourceMap": true,
 		"removeComments": false,
 		"newLine": "lf",
 		"declaration": true,
+		"importHelpers": true,
+		"noEmitHelpers": true,
 	}
 }
