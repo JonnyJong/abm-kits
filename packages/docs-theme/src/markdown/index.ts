@@ -3,6 +3,7 @@ import { EzalMarkdown, extractFrontmatter, plugins } from 'ezal-markdown';
 import { codeblock } from './codeblock';
 import { demo } from './demo';
 import { fold } from './fold';
+import { link } from './link';
 import { tabs } from './tabs';
 
 const renderer = new EzalMarkdown();
@@ -14,6 +15,7 @@ export async function markdownPageHandler(): Promise<PageHandler> {
 		tabs,
 		fold,
 		demo,
+		link,
 	);
 	return {
 		exts: '.md',

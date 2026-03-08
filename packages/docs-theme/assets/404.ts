@@ -17,11 +17,11 @@
 		.filter((v) => !!v)
 		.slice(1);
 	if (paths.length === 0) {
-		location.pathname = `/abm-kits/${getPreferredLocale()}`;
+		location.pathname = `/abm-kits/${getPreferredLocale()}/`;
 		return;
 	}
 	if (!LOCALES.includes(paths[0])) {
-		location.pathname = `/abm-kits/${getPreferredLocale()}/${paths.join('/')}`;
+		location.pathname = `/abm-kits/${getPreferredLocale()}/${paths.join('/')}/`;
 		return;
 	}
 

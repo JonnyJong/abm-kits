@@ -21,8 +21,8 @@ const STATIC_URLS = new Set(['/404.html', '/demo.html']);
 function formatUrl(src: string): string {
 	if (STATIC_URLS.has(src)) return src;
 	const [dir, name] = parse(src.replaceAll('\\', '/'));
-	if (name === 'index') return dir;
-	return `${dir}/${name}`;
+	if (name === 'index') return `${dir}/`;
+	return `${dir}/${name}/`;
 }
 
 export default defineConfig(async () => ({
