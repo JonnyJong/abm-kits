@@ -672,3 +672,35 @@ export function $ready(handler?: () => any): Promise<void> {
 		$once(document, 'DOMContentLoaded', ready);
 	});
 }
+
+type PartComponent = (
+	options?: { children?: GlobalAttributes['children'] } | null,
+	...children: any[]
+) => DocumentFragment;
+
+/**
+ * 创建部分组件
+ * @param slot 插槽名称，子元素将自动设置 `slot` 属性
+ */
+export function $part(slot: string): PartComponent;
+/**
+ * 创建部分组件
+ * @param apply 自定义处理函数，接收每个子元素作为参数
+ */
+export function $part(apply: (element: Element) => any): PartComponent;
+export function $part(
+	apply: string | ((element: Element) => any),
+): PartComponent {
+	if (typeof apply === 'string') {
+		const slot = apply;
+		apply = (e: Element) => {
+			e.slot = slot;
+		};
+	}
+	return (options, ...children) => {
+		const content = notNil(options?.children) ? options?.children : children;
+		const fragment = $fragment(...flat(content));
+		for (const element of fragment.children) apply(element);
+		return fragment;
+	};
+}

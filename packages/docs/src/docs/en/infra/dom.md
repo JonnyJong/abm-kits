@@ -157,3 +157,12 @@ Get element path.
 Call the handler and resolve the Promise after DOM content is loaded; call and resolve immediately when DOM content is already loaded.
 
 Parameter: `() => any`, optional. Returns `Promise<void>`.
+
+# Function `$part`
+Create a part component for defining named parts of a component.
+
+When parameter is a string:
+- `slot`: Slot name, child elements will automatically have the `slot` attribute set
+
+When parameter is a function:
+- `apply`: Custom handler function that receives each child element as a parameter

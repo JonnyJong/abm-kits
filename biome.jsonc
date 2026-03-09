@@ -112,7 +112,7 @@
 									"kind": "classProperty",
 									"modifiers": ["readonly", "static"]
 								},
-								"formats": ["CONSTANT_CASE"]
+								"formats": ["CONSTANT_CASE", "PascalCase"]
 							},
 							{
 								"selector": {
