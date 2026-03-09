@@ -103,17 +103,14 @@ export class FilePicker extends FormControl<File[], FilePickerProp> {
 	protected static aria: AriaConfig = { role: 'group', label: 'File Picker' };
 	#input: HTMLInputElement = $new('input', { type: 'file' });
 	#items: [file: File, [element: HTMLElement, blob?: string]][] = [];
-	#list = $div({ className: 'list' });
+	#list = $div({ class: 'list' });
 	#container = $div(
-		{ className: 'container hidden' },
+		{ class: 'container hidden' },
 		$div({ part: 'before' }, $slot('before')),
 		this.#list,
 		$div({ part: 'after' }, $slot('after')),
 	);
-	#placeholder = $div(
-		{ className: 'placeholder', part: 'placeholder' },
-		$slot(),
-	);
+	#placeholder = $div({ class: 'placeholder', part: 'placeholder' }, $slot());
 	#checkFile: (type: string) => boolean = () => true;
 	constructor(_props?: FilePickerProp) {
 		super();
@@ -202,7 +199,7 @@ export class FilePicker extends FormControl<File[], FilePickerProp> {
 			return [icon];
 		}
 		const url = URL.createObjectURL(file);
-		return [$new(Img, { className: 'icon preview', value: url }, icon), url];
+		return [$new(Img, { class: 'icon preview', value: url }, icon), url];
 	}
 	#togglePlaceholder() {
 		const empty = this.#value.length === 0;
@@ -217,13 +214,13 @@ export class FilePicker extends FormControl<File[], FilePickerProp> {
 			const [icon, blob] = this.#icon(file);
 			const rmBtn = $new(
 				Button,
-				{ className: 'remove', flat: true },
+				{ class: 'remove', flat: true },
 				ico('ui.removeFile'),
 			);
 			const element = $div(
-				{ className: 'file' },
+				{ class: 'file' },
 				icon,
-				$div({ className: 'name' }, file.name),
+				$div({ class: 'name' }, file.name),
 				rmBtn,
 			);
 			rmBtn.on('active', () => this.#handleRemove(file, element, blob));

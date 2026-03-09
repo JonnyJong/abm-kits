@@ -79,8 +79,8 @@ export class Collapsible extends Component<
 		$slot('head'),
 	);
 	#body = $div(
-		{ className: 'body' },
-		$div({ className: 'content', part: 'body' }, $slot()),
+		{ class: 'body' },
+		$div({ class: 'content', part: 'body' }, $slot()),
 	);
 	constructor(_props?: CollapsibleProp) {
 		super();

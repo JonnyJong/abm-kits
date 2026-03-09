@@ -171,11 +171,11 @@ export class Slider<T extends ArrayOr<number>>
 		[part*="active"]:not([part*="logic"])~.track .fill { transition: none }
 	`;
 	protected static aria: AriaConfig = { role: 'group' };
-	#fill = $div({ className: 'fill', part: 'fill' });
-	#startAnchor = $div({ className: 'anchor start' });
-	#endAnchor = $div({ className: 'anchor end' });
+	#fill = $div({ class: 'fill', part: 'fill' });
+	#startAnchor = $div({ class: 'anchor start' });
+	#endAnchor = $div({ class: 'anchor end' });
 	#track = $div(
-		{ className: 'track', part: 'track' },
+		{ class: 'track', part: 'track' },
 		this.#fill,
 		this.#startAnchor,
 		this.#endAnchor,
@@ -206,7 +206,7 @@ export class Slider<T extends ArrayOr<number>>
 	}
 	#createThumb(value: number) {
 		const thumb: Thumb = $div({
-			className: 'thumb',
+			class: 'thumb',
 			part: 'thumb',
 			tabIndex: -1,
 			role: 'slider',
@@ -306,7 +306,7 @@ export class Slider<T extends ArrayOr<number>>
 		for (const [index, value] of ticks.entries()) {
 			let tick = this.#ticks[index];
 			if (!tick) {
-				tick = $div({ className: PART.TICK, part: PART.TICK });
+				tick = $div({ class: PART.TICK, part: PART.TICK });
 				this.#track.append(tick);
 			}
 			tick.style.setProperty('--tick', String(value));

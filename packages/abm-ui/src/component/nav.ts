@@ -191,7 +191,7 @@ export class Nav<T = any> extends FormControl<T | undefined, NavProp<T>> {
 		::slotted(*) { z-index: 1 }
 	`;
 	protected static aria: AriaConfig = { role: 'tablist' };
-	#indicator = $div({ className: 'indicator' });
+	#indicator = $div({ class: 'indicator' });
 	#resizeObserver = new ResizeObserver(() => this.#updateView());
 	#mutationObserver = new MutationObserver(([entry]) => {
 		if (!this.#active) return;

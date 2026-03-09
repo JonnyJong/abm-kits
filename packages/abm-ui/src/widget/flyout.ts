@@ -51,8 +51,8 @@ export class Flyout
 	extends EventEmitter<FlyoutEventMap>
 	implements Required<Omit<FlyoutInit, 'color' | 'onClose'>>
 {
-	#backdrop = $div({ className: 'backdrop' });
-	#flyout = $div<Navigable>({ className: 'surface-glass overlay safe-size' });
+	#backdrop = $div({ class: 'backdrop' });
+	#flyout = $div<Navigable>({ class: 'surface-glass overlay safe-size' });
 	#layout: LayoutController;
 	/**
 	 * @param anchor 锚点元素

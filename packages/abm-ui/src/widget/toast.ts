@@ -112,14 +112,14 @@ function toOption(
 
 /** 吐司通知 */
 export class Toast extends EventEmitter<ToastEventMap> {
-	#icon = $div({ className: 'ui-toast-icon' });
-	#title = $div({ className: 'ui-toast-title' });
-	#actions = $div({ className: 'ui-toast-actions' });
-	#details = $div({ className: 'ui-toast-details' });
+	#icon = $div({ class: 'ui-toast-icon' });
+	#title = $div({ class: 'ui-toast-title' });
+	#actions = $div({ class: 'ui-toast-actions' });
+	#details = $div({ class: 'ui-toast-details' });
 	#duration = 5000;
 	#level: ToastLevel = 'normal';
 	#toast = $div(
-		{ className: ['surface-glass', 'ui-toast'] },
+		{ class: ['surface-glass', 'ui-toast'] },
 		this.#icon,
 		this.#title,
 		this.#actions,
@@ -340,7 +340,7 @@ toast.promise = Toast.promise;
 /** 初始化吐司通知 */
 export function initToast() {
 	container = $div({
-		className: 'ui-toast-container',
+		class: 'ui-toast-container',
 		attr: { vertical: verticalAnchor, horizontal: horizontalAnchor },
 		style: { $offsetH: horizontalOffset, $offsetV: verticalOffset },
 	});

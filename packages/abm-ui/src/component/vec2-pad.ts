@@ -74,11 +74,11 @@ export class Vec2Pad
 		:host(:not([disabled])) .thumb[active] { scale: .9 }
 	`;
 	protected static aria = { role: 'group' };
-	#anchorO = $div({ className: 'anchor t l' });
-	#anchorX = $div({ className: 'anchor t r' });
-	#anchorY = $div({ className: 'anchor b l' });
+	#anchorO = $div({ class: 'anchor t l' });
+	#anchorX = $div({ class: 'anchor t r' });
+	#anchorY = $div({ class: 'anchor b l' });
 	#thumb = $div<Navigable>({
-		className: 'thumb',
+		class: 'thumb',
 		part: 'thumb',
 		nav: true,
 		tabIndex: -1,

@@ -51,8 +51,8 @@ export class Img extends FormControl<string, ImageProp> {
 		}
 	`;
 	protected static aria: AriaConfig = { role: 'img' };
-	#img: HTMLImageElement = $new('img', { className: 'img' });
-	#fallback = $div({ className: 'fallback show' }, $slot());
+	#img: HTMLImageElement = $new('img', { class: 'img' });
+	#fallback = $div({ class: 'fallback show' }, $slot());
 	constructor(_props?: ImageProp) {
 		super();
 		this.attachShadow({}, this.#fallback, this.#img);

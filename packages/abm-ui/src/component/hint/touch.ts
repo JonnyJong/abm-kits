@@ -89,11 +89,7 @@ export class TouchHint extends HintBase<TouchHintKey, TouchHintProp> {
 		.SwapDown { rotate: 180deg }
 		.SwapLeft { rotate: -90deg }
 	`;
-	#root = $div(
-		{ className: 'root' },
-		$div({ className: 'a' }),
-		$div({ className: 'b' }),
-	);
+	#root = $div({ class: 'root' }, $div({ class: 'a' }), $div({ class: 'b' }));
 	constructor(_props?: TouchHintProp) {
 		super();
 		this.attachShadow({}, this.#root);

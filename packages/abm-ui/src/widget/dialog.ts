@@ -180,22 +180,22 @@ export class Dialog
 {
 	#closeBtn = $new(
 		Button,
-		{ className: 'ui-dialog-close', flat: true },
+		{ class: 'ui-dialog-close', flat: true },
 		ico('ui.dialogClose'),
 	);
-	#icon = $div({ className: 'ui-dialog-icon' });
-	#title = $div({ className: 'ui-dialog-title' });
-	#content = $div({ className: 'ui-dialog-content' });
-	#actions = $div({ className: 'ui-dialog-actions' });
+	#icon = $div({ class: 'ui-dialog-icon' });
+	#title = $div({ class: 'ui-dialog-title' });
+	#content = $div({ class: 'ui-dialog-content' });
+	#actions = $div({ class: 'ui-dialog-actions' });
 	#dialog: HTMLDivElement & Navigable = $div(
-		{ className: 'surface-glass overlay safe-inset ui-dialog' },
+		{ class: 'surface-glass overlay safe-inset ui-dialog' },
 		this.#closeBtn,
 		this.#icon,
 		this.#title,
 		this.#content,
 		this.#actions,
 	);
-	#backdrop = $div({ className: 'backdrop-dim' });
+	#backdrop = $div({ class: 'backdrop-dim' });
 	constructor(init?: DialogInit) {
 		super();
 		this.#closeBtn.on('active', () => this.#close());

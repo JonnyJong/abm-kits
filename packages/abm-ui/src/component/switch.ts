@@ -70,9 +70,9 @@ export class Switch extends FormControl<boolean, SwitchProp> {
 		}
 	`;
 	protected static aria: AriaConfig = { role: 'switch', checked: false };
-	#anchorA = $div({ className: 'anchor a' });
-	#anchorB = $div({ className: 'anchor b' });
-	#thumb = $div({ className: 'thumb' });
+	#anchorA = $div({ class: 'anchor a' });
+	#anchorB = $div({ class: 'anchor b' });
+	#thumb = $div({ class: 'thumb' });
 	#move: MovementController<number>;
 	constructor(_props?: SwitchProp) {
 		super();

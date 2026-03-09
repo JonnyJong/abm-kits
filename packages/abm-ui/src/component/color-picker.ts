@@ -40,7 +40,7 @@ function channel(
 	numberBox.classList.add('channel-input');
 	numberBox.id = `${id}`;
 	return $div(
-		{ className: `channel channel-${name}` },
+		{ class: `channel channel-${name}` },
 		$new(Label, { for: id }, label),
 		slider,
 		numberBox,
@@ -92,7 +92,7 @@ class RGBPage extends ColorPickerPage {
 	init(): void {
 		$apply(
 			this.root,
-			{ className: 'channels' },
+			{ class: 'channels' },
 			channel(this.#r, t('ui.red'), 'red'),
 			channel(this.#g, t('ui.green'), 'green'),
 			channel(this.#b, t('ui.blue'), 'blue'),
@@ -139,7 +139,7 @@ class HSLPage extends ColorPickerPage {
 	init(): void {
 		$apply(
 			this.root,
-			{ className: 'channels' },
+			{ class: 'channels' },
 			channel(this.#h, t('ui.hue'), 'hue'),
 			channel(this.#s, t('ui.saturation'), 'saturation'),
 			channel(this.#l, t('ui.lightness'), 'lightness'),
@@ -194,7 +194,7 @@ class OklchPage extends ColorPickerPage {
 	init(): void {
 		$apply(
 			this.root,
-			{ className: 'channels' },
+			{ class: 'channels' },
 			channel(this.#l, t('ui.lightness'), 'lightness'),
 			channel(this.#c, t('ui.chroma'), 'chroma'),
 			channel(this.#h, t('ui.hue'), 'hue'),
@@ -310,9 +310,9 @@ export class ColorPicker
 		label: 'Color Picker',
 	};
 	#value = new Color();
-	#indicator = $div({ className: 'indicator' });
+	#indicator = $div({ class: 'indicator' });
 	#input: TextBox = $new(TextBox, {
-		className: 'input',
+		class: 'input',
 		value: '#000000',
 		$input: () => this.#handleInput(),
 		$change: () => this.#handleInput(true),
@@ -326,7 +326,7 @@ export class ColorPicker
 			oklch: { tab: 'Oklch', content: OklchPage },
 		},
 		{
-			nav: { className: 'type', props: { navParent: this } },
+			nav: { class: 'type', props: { navParent: this } },
 			pageHost: { style: { height: 112 }, props: { navParent: this } },
 			transition: 'slide',
 			args: [
@@ -336,7 +336,7 @@ export class ColorPicker
 			],
 		},
 	);
-	#bar = $div({ className: 'bar' }, this.#tabs.nav, 'HEX', this.#input);
+	#bar = $div({ class: 'bar' }, this.#tabs.nav, 'HEX', this.#input);
 	constructor(_props?: ColorPickerProp) {
 		super();
 		this.attachShadow(
@@ -383,7 +383,7 @@ export class ColorPicker
 		this.emitUpdate(end);
 	}
 	#pad: Vec2Pad = $new(Vec2Pad, {
-		className: 'pad',
+		class: 'pad',
 		start: [0, 1],
 		end: [360, 0],
 		value: [0, 0],
@@ -392,13 +392,13 @@ export class ColorPicker
 		props: { navParent: this },
 	});
 	#lightSlider: Slider<number> = $new(Slider<number>, {
-		className: 'light-slider',
+		class: 'light-slider',
 		$input: () => this.#handlePlaneInput(),
 		$change: () => this.#handlePlaneInput(true),
 		props: { navParent: this },
 	});
 	#plane = $div(
-		{ className: 'plane' },
+		{ class: 'plane' },
 		this.#pad,
 		this.#lightSlider,
 		this.#indicator,

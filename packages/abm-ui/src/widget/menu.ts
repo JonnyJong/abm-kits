@@ -300,11 +300,11 @@ interface MenuItemContext {
 
 function createItem(item: MenuItem, menu: Menu): MenuItemContext {
 	item[kUpdate] = menu[kUpdate];
-	const icon = $div({ className: 'ui-menu-icon' });
-	const label = $div({ className: 'ui-menu-label' });
-	const mainEntry = $div({ className: 'ui-menu-main' }, icon, label);
-	const subEntry = $div({ className: 'ui-menu-enter' }, ico('ui.menuEnter'));
-	const element = $div({ className: 'ui-menu-item' }, mainEntry, subEntry);
+	const icon = $div({ class: 'ui-menu-icon' });
+	const label = $div({ class: 'ui-menu-label' });
+	const mainEntry = $div({ class: 'ui-menu-main' }, icon, label);
+	const subEntry = $div({ class: 'ui-menu-enter' }, ico('ui.menuEnter'));
+	const element = $div({ class: 'ui-menu-item' }, mainEntry, subEntry);
 	const ctx: MenuItemContext = { element, icon, label, mainEntry, subEntry };
 
 	const activatable = () => !!item.action || item.type === 'checkbox';
@@ -494,16 +494,16 @@ export interface MenuOpenOptions {
 
 /** 菜单 */
 export class Menu extends MenuItem {
-	#backdrop = $div({ className: 'backdrop' });
-	[kBackLabel] = $div({ className: 'ui-menu-label' });
+	#backdrop = $div({ class: 'backdrop' });
+	[kBackLabel] = $div({ class: 'ui-menu-label' });
 	#back = $div(
-		{ className: 'ui-menu-main ui-menu-back' },
-		$div({ className: 'ui-menu-icon' }, ico('ui.menuBack')),
+		{ class: 'ui-menu-main ui-menu-back' },
+		$div({ class: 'ui-menu-icon' }, ico('ui.menuBack')),
 		this[kBackLabel],
 	);
-	[kList] = $div({ className: 'ui-menu-list' });
+	[kList] = $div({ class: 'ui-menu-list' });
 	[kContainer] = $div<Navigable>(
-		{ className: 'safe-size overlay surface-glass ui-menu' },
+		{ class: 'safe-size overlay surface-glass ui-menu' },
 		this.#back,
 		this[kList],
 	);

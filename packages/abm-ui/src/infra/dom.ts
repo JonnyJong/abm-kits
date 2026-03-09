@@ -178,6 +178,8 @@ export interface GlobalAttributes
 	/** 子元素 */
 	children?: ArrayOr<any>;
 	/** 类名 */
+	class?: ArrayOr<any> | Record<string, any>;
+	/** 类名 */
 	className?: ArrayOr<any> | Record<string, any>;
 	/** ID */
 	id?: string;
@@ -281,6 +283,7 @@ export type DOMApplyOptions<K, T> = Omit<GlobalAttributes, 'ref'> &
 
 const SPECIAL_KEYS = new Set([
 	'children',
+	'class',
 	'className',
 	'id',
 	'style',
@@ -292,16 +295,19 @@ const SPECIAL_KEYS = new Set([
 	'tooltip',
 ]);
 
-/** 标准化类名列表 */
-function normalizeClassList(input: GlobalAttributes['className']): string[] {
+/** 标准化标记列表 */
+function toTokenList(input: GlobalAttributes['className']): string[] {
 	if (!input) return [];
 	let result: any[];
 	if (Array.isArray(input)) {
-		result = input.flat(Number.POSITIVE_INFINITY);
+		result = input.flatMap(
+			(value) => String(value).split(' '),
+			Number.POSITIVE_INFINITY,
+		);
 	} else if (typeof input === 'object') {
 		result = Object.entries(input)
 			.filter(([_, check]) => check)
-			.map(([name]) => name);
+			.map(([name]) => name.split(' '));
 	} else {
 		result = input.split(' ');
 	}
@@ -338,9 +344,12 @@ export function $apply<T extends Element & ElementCSSInlineStyle>(
 
 	if (!options) return target;
 
-	if (options.className) {
+	if (options.class || options.className) {
 		target.className = '';
-		target.classList.add(...normalizeClassList(options.className));
+		target.classList.add(
+			...toTokenList(options.class),
+			...toTokenList(options.className),
+		);
 	}
 	if (notNil(options.id)) target.id = String(options.id);
 	$style(target, options?.style);

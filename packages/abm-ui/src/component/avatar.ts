@@ -67,8 +67,8 @@ export class Avatar extends FormControl<string | undefined, AvatarProp> {
 	`;
 	protected static aria: AriaConfig = { role: 'img' };
 	#value?: string;
-	#img: HTMLImageElement = $new('img', { className: 'img' });
-	#fallback = $div({ className: 'fallback show' }, $slot());
+	#img: HTMLImageElement = $new('img', { class: 'img' });
+	#fallback = $div({ class: 'fallback show' }, $slot());
 	constructor(_props?: AvatarProp) {
 		super();
 		this.attachShadow({}, this.#fallback, this.#img);

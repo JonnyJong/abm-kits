@@ -126,14 +126,14 @@ export class Select<T> extends FormControl<T | undefined, SelectProp<T>> {
 		expanded: false,
 	};
 	#placeholder = $div(
-		{ className: 'placeholder content', part: 'placeholder content' },
+		{ class: 'placeholder content', part: 'placeholder content' },
 		$slot(),
 	);
-	#content = $div({ className: 'content', part: 'content' });
+	#content = $div({ class: 'content', part: 'content' });
 	#list = $new(List<SelectOption<T>>);
-	#backdrop = $div({ className: 'backdrop' });
+	#backdrop = $div({ class: 'backdrop' });
 	#picker = $div<Navigable>(
-		{ className: 'surface-glass overlay abm-select' },
+		{ class: 'surface-glass overlay abm-select' },
 		this.#list,
 	);
 	#index = -1;

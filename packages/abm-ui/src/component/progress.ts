@@ -53,7 +53,7 @@ export class Progress extends Component<ProgressProp> {
 		}
 	`;
 	protected static aria: AriaConfig = { role: 'progressbar', valueText: 'NaN' };
-	#thumb = $div({ className: 'thumb loading' });
+	#thumb = $div({ class: 'thumb loading' });
 	constructor(_props?: ProgressProp) {
 		super();
 		this.attachShadow({}, this.#thumb);

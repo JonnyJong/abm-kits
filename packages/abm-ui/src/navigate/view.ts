@@ -7,7 +7,7 @@ import type { Navigable } from './types';
 const CLASS_BASE = 'ui-nav';
 const CLASS_VISIBLE = `${CLASS_BASE}-visible`;
 
-const indicator = $div({ className: CLASS_BASE });
+const indicator = $div({ class: CLASS_BASE });
 const debounceMove = new Debounce((x: number, y: number) =>
 	$style(indicator, { top: y, left: x }),
 );

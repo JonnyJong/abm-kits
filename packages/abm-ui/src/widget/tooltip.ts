@@ -110,7 +110,7 @@ function unlock(target: HTMLElement) {
 
 /** 初始化工具提示 */
 export function initTooltip() {
-	container = $div({ className: ['surface-glass', 'safe-size', CLASS_BASE] });
+	container = $div({ class: ['surface-glass', 'safe-size', CLASS_BASE] });
 	document.body.append(container);
 	for (const target of $$(`[${ATTR}]`)) {
 		const content = target.getAttribute(ATTR);

@@ -274,9 +274,9 @@ export class Table<T extends object = object>
 	`;
 	protected static aria: AriaConfig = { role: 'table' };
 	#headCells: [TableColumn<T>, CellInHead][] = [];
-	#head = $div({ className: 'head', part: 'head', role: 'head' });
+	#head = $div({ class: 'head', part: 'head', role: 'head' });
 	#body: List<T, TableRow<T>> = $new(List<T, TableRow<T>>, {
-		className: 'body',
+		class: 'body',
 		part: 'body',
 		role: 'body',
 	});
@@ -339,7 +339,7 @@ export class Table<T extends object = object>
 						{ part: 'cell', role: 'cell', attr: { nav: '' } },
 						...asArray(content),
 					),
-					ico('ui.increasing', { className: 'order' }),
+					ico('ui.increasing', { class: 'order' }),
 				);
 				state.hover.add(div);
 				state.active.on(div, (active, cancel) => {

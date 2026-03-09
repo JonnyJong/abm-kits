@@ -82,10 +82,7 @@ const itemCreator = PrefabListItem.creator<AutofillItem<any>>({
 /** 自动填充 */
 class Autofill<T> {
 	#list = $new(List<AutofillItem<T>>);
-	#container = $div(
-		{ className: 'surface-glass abm-input-autofill' },
-		this.#list,
-	);
+	#container = $div({ class: 'surface-glass abm-input-autofill' }, this.#list);
 	#input: HTMLElement;
 	#onFill: (item: AutofillItem<T>) => void;
 	#controller: LayoutController;
@@ -319,14 +316,11 @@ abstract class InputBox<T, P extends {} = {}>
 		:where(.slot) ::slotted(abm-btn) { padding: .5em }
 	`;
 	protected static aria: AriaConfig = { role: 'group' };
-	#size = $div({ className: 'size' });
-	#placeholder = $div(
-		{ className: 'placeholder', part: 'placeholder' },
-		$slot(),
-	);
+	#size = $div({ class: 'size' });
+	#placeholder = $div({ class: 'placeholder', part: 'placeholder' }, $slot());
 	#input: Navigable;
-	#left = $div({ className: 'slot left', part: 'left' }, $slot('left'));
-	#right = $div({ className: 'slot right', part: 'right' }, $slot('right'));
+	#left = $div({ class: 'slot left', part: 'left' }, $slot('left'));
+	#right = $div({ class: 'slot right', part: 'right' }, $slot('right'));
 	#resizeObserver = new ResizeObserver((entries) => {
 		for (const entry of entries) {
 			const width = `${entry.borderBoxSize[0].inlineSize}px`;
@@ -778,27 +772,22 @@ export class TextArea
 		.size:not(:empty)~.placeholder, .size:empty { display: none }
 	`;
 	protected static aria: AriaConfig = { role: 'group' };
-	#size = $div({ className: 'size', part: 'edit' });
+	#size = $div({ class: 'size', part: 'edit' });
 	#placeholder = $div(
-		{ className: 'placeholder', part: 'edit placeholder' },
+		{ class: 'placeholder', part: 'edit placeholder' },
 		$slot(),
 	);
 	#input: HTMLTextAreaElement & Navigable = $new('textarea', {
-		className: 'input',
+		class: 'input',
 		part: 'edit',
 		nav: true,
 		props: { navParent: this },
 	});
-	#edit = $div(
-		{ className: 'edit' },
-		this.#size,
-		this.#input,
-		this.#placeholder,
-	);
+	#edit = $div({ class: 'edit' }, this.#size, this.#input, this.#placeholder);
 	#slot = $div(
-		{ className: 'slot', part: 'slot' },
+		{ class: 'slot', part: 'slot' },
 		$slot('left'),
-		$div({ className: 'flex' }),
+		$div({ class: 'flex' }),
 		$slot('right'),
 	);
 	#resizeObserver = new ResizeObserver((entries) => {
