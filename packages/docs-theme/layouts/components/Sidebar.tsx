@@ -14,7 +14,7 @@ function Item(item: DocsNav) {
 	return (
 		<abm-collapsible class="aside-list">
 			<div slot="head" class="aside-item">
-				<div class="aside-collapse" nav>
+				<div class="aside-collapse" nav="" collapsible-trigger>
 					<abm-icon key="collapse" />
 				</div>
 				<a href={URL.for(item.url)} nav>

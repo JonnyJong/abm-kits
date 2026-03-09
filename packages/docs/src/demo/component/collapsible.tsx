@@ -1,9 +1,13 @@
-import { $new, Collapsible } from 'abm-ui';
+import { $new, Button, Collapsible } from 'abm-ui';
 
 const collapsible = $new(
 	Collapsible,
-	{ $expand: console.log },
-	<div slot="head">Click Me</div>,
+	{},
+	<Collapsible.Head>
+		<Collapsible.Trigger>
+			<Button flat>Click Me</Button>
+		</Collapsible.Trigger>
+	</Collapsible.Head>,
 	'Hello world',
 );
 
@@ -11,7 +15,6 @@ body.append(collapsible);
 
 //#region #Reg
 __registerControl(collapsible, {
-	events: ['expand', 'collapse'],
 	props: {
 		expanded: 'boolean',
 		disabled: 'boolean',

@@ -23,14 +23,18 @@ import 'abm-ui/component/collapsible';
 
 ```tsx
 <Collapsible>
-  <div slot="head">Click Me</div>
+	<Collapsible.Head>
+		<Collapsible.Trigger>
+			Click Me
+		</Collapsible.Trigger>
+	</Collapsible.Head>
   {'Hello world'}
 </Collapsible>
 ```
 
 ```html
 <abm-collapsible>
-  <div slot="head">Click Me</div>
+  <div slot="head" collapsible-trigger>Click Me</div>
   Hello world
 </abm-collapsible>
 ```
@@ -42,6 +46,17 @@ import 'abm-ui/component/collapsible';
 
 ## `disabled`
 布尔类型，设置为禁用状态，禁用后无法通过点击头元素来展开或折叠。
+
+# 方法
+
+## `setTrigger`
+设置展开/折叠触发器。
+
+## `hasTrigger`
+检查指定元素是否为展开/折叠触发器。
+
+## `rmTrigger`
+移除展开/折叠触发器。
 
 # 事件
 
@@ -63,3 +78,10 @@ import 'abm-ui/component/collapsible';
 | ------ | -------- |
 | `head` | 头元素   |
 | `body` | 内容元素 |
+
+# 子组件
+
+| 名称      | 说明                                                |
+| --------- | --------------------------------------------------- |
+| `Head`    | 部分组件，可为子元素设置 `slot="head"` 属性         |
+| `Trigger` | 部分组件，可为子元素添加 `collapsible-trigger` 属性 |

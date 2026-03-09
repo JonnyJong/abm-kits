@@ -17,7 +17,7 @@ import { LOCALES } from './_internal/locale';
 import { initSearch } from './_internal/search';
 import { initCodeblock } from './_markdown/codeblock';
 import { initFolds } from './_markdown/fold';
-import { handleActive, initLinks } from './_markdown/link';
+import { initLinks } from './_markdown/link';
 import { initTabs } from './_markdown/tabs';
 import { ThemeColorSetter } from './_nav/color';
 import { DirectionSetter, setDirection } from './_nav/direction';
@@ -98,12 +98,6 @@ setup({
 	for (const item of $$<Navigable>('aside [nav]')) {
 		state.hover.add(item);
 		state.active.add(item);
-		handleActive(item, () => {
-			if (item instanceof HTMLAnchorElement) return item.click();
-			const node = item.parentNode?.parentNode;
-			if (!(node && node instanceof Collapsible)) return;
-			node.expanded = !node.expanded;
-		});
 		Object.defineProperty(item, 'nonNavigable', { get: nonNavigable });
 	}
 
