@@ -10,6 +10,8 @@
 		"jsx": "react-jsx",
 		"jsxImportSource": "abm-ui",
 		"noEmit": true,
+		"importHelpers": false,
+		"noEmitHelpers": false,
 	},
 	"include": ["./**/*.tsx", "./global.d.ts", "./_declare.d.ts"],
 }

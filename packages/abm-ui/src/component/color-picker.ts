@@ -391,7 +391,7 @@ export class ColorPicker
 		$change: () => this.#handlePlaneInput(true),
 		props: { navParent: this },
 	});
-	#lightSlider: Slider<number> = $new(Slider, {
+	#lightSlider: Slider<number> = $new(Slider<number>, {
 		className: 'light-slider',
 		$input: () => this.#handlePlaneInput(),
 		$change: () => this.#handlePlaneInput(true),

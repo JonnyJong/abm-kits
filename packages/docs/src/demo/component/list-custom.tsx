@@ -72,7 +72,7 @@ class MyListItem extends ListItem<number> implements Navigable {
 const list = $new(List<number>, { style: { width: '100%' } });
 list.itemCreator = MyListItem.create;
 list.value = range(10);
-list.mouseSortDelay = 500;
+list.mouseStartDelay = 500;
 
 list.on('active', (value, index) => {
 	console.log('active', { value, index });

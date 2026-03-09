@@ -629,7 +629,7 @@ export class NumberBox extends InputBox<number, NumberBoxProp> {
 }
 
 //#region Password
-export interface PasswordBoxProp extends ElementProps<TextBox> {}
+export interface PasswordBoxProp extends ElementProps<PasswordBox> {}
 
 /**
  * 密码输入框
@@ -637,7 +637,7 @@ export interface PasswordBoxProp extends ElementProps<TextBox> {}
  */
 @register('password-box')
 @defineElement('abm-password-box')
-export class PasswordBox extends InputBox<string, PasswordBox> {
+export class PasswordBox extends InputBox<string, PasswordBoxProp> {
 	#input: HTMLInputElement & Navigable;
 	constructor(_props?: PasswordBoxProp) {
 		const input = $new('input', { type: 'password' });

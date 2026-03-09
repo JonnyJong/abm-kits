@@ -58,7 +58,7 @@ export interface TableColumn<T, K extends keyof T = keyof T> {
 	/** 列头 */
 	head?: (key: K) => DOMContents;
 	/** 单元格 */
-	cell?: TableCell<T, T[K]> | Constructor<FormControl<T[K]>>;
+	cell?: TableCell<T, T[K]> | Constructor<FormControl<T[K], any, any>>;
 	/** 排序比较 */
 	sort?: (a: T[K], b: T[K]) => number;
 	/** 列宽度 */
@@ -80,7 +80,7 @@ const DEFAULT_CELL: TableCell<any, any> = {
 	},
 };
 function controlToCell<T, K extends keyof T>(
-	control: Constructor<FormControl<T[K]>>,
+	control: Constructor<FormControl<T[K], any, any>>,
 	key: K,
 ): TableCell<T, T[K], FormControl<T[K]>> {
 	return {
@@ -159,9 +159,11 @@ class TableRow<T> extends ListItem<T> {
 				const data = row[column.key];
 				const rawDefine = column.cell ?? DEFAULT_CELL;
 				let cell = old.getOne(rawDefine);
-				const define = isForm(rawDefine)
-					? controlToCell(rawDefine, column.key)
-					: rawDefine;
+				const define = (
+					isForm(rawDefine)
+						? controlToCell<T, keyof T>(rawDefine, column.key)
+						: rawDefine
+				) as TableCell<T, T[keyof T]>;
 				if (cell) {
 					old.delete(rawDefine, cell);
 					if (!define.update) return [column.cell, cell];
@@ -184,9 +186,11 @@ class TableRow<T> extends ListItem<T> {
 		for (let [column, [rawDefine, cell]] of zip(this.columns, this.#cells)) {
 			const data = row[column.key];
 			rawDefine ??= DEFAULT_CELL;
-			const define = isForm(rawDefine)
-				? controlToCell(rawDefine, column.key)
-				: rawDefine;
+			const define = (
+				isForm(rawDefine)
+					? controlToCell<T, keyof T>(rawDefine, column.key)
+					: rawDefine
+			) as TableCell<T, T[keyof T]>;
 			if (!define.update) continue;
 			cell[1] = define.update(cell[1] as any, data, row);
 			cell[0].replaceChildren(...asArray(cell[1]));
