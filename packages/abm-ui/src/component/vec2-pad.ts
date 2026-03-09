@@ -2,6 +2,7 @@ import { formatWithStep, steppedClamp, type Vec2, Vector2 } from 'abm-utils';
 import { defineElement } from '../infra/decorator';
 import type { ElementProps } from '../infra/dom';
 import { $div } from '../infra/dom';
+import { register } from '../infra/registry';
 import { $style, css } from '../infra/style';
 import { MovementController, type MovementEvent } from '../movement';
 import { type Navigable, type NavState, navigate } from '../navigate/index';
@@ -15,6 +16,12 @@ declare module '../infra/dom' {
 	}
 }
 
+declare module '../infra/registry' {
+	interface Registry {
+		'vec2-pad': Vec2Pad;
+	}
+}
+
 export interface Vec2PadProp extends ElementProps<Vec2Pad> {}
 
 function format(value: Vec2, step: Vec2): string {
@@ -25,6 +32,7 @@ function format(value: Vec2, step: Vec2): string {
  * 二维向量面板
  * @link [ABM Kits Docs](https://jonnyjong.github.io/abm-kits/component/form/vec2-pad)
  */
+@register('vec2-pad')
 @defineElement('abm-vec2-pad')
 export class Vec2Pad
 	extends FormControl<Vec2, Vec2PadProp>

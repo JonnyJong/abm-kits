@@ -1,6 +1,7 @@
 import { EventEmitter } from 'abm-utils';
 import { defineElement } from '../infra/decorator';
 import { $new, type DOMApplyOptions, type ElementProps } from '../infra/dom';
+import { register } from '../infra/registry';
 import { css } from '../infra/style';
 import type { AriaConfig } from './base';
 import { KeyedComponent } from './keyed';
@@ -8,6 +9,12 @@ import { KeyedComponent } from './keyed';
 declare module '../infra/dom' {
 	interface CustomElementTagNameMap {
 		'abm-icon': Icon;
+	}
+}
+
+declare module '../infra/registry' {
+	interface Registry {
+		icon: Icon;
 	}
 }
 
@@ -67,6 +74,7 @@ export interface IconProp extends ElementProps<Icon> {}
  * 图标
  * @link [ABM Kits Docs](https://jonnyjong.github.io/abm-kits/component/icon)
  */
+@register('icon')
 @defineElement('abm-icon')
 export class Icon extends KeyedComponent<IconKey, IconProp> {
 	protected static style = css`

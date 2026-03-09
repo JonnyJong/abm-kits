@@ -1,10 +1,19 @@
 import { property } from '../infra/decorator';
+import { register } from '../infra/registry';
 import { Component } from './base';
+
+declare module '../infra/registry' {
+	interface Registry {
+		keyed: KeyedComponent;
+	}
+}
 
 /**
  * 键控组件
  * @link [ABM Kits Docs](https://jonnyjong.github.io/abm-kits/component/keyed)
  */
+// @ts-expect-error
+@register('keyed')
 export abstract class KeyedComponent<
 	T = string,
 	P extends {} = {},

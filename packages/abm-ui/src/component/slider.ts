@@ -11,7 +11,8 @@ import { defineElement, property } from '../infra/decorator';
 import type { ElementProps } from '../infra/dom';
 import { $div } from '../infra/dom';
 import { $on } from '../infra/event';
-import { type InteractionSource } from '../infra/interaction';
+import type { InteractionSource } from '../infra/interaction';
+import { register } from '../infra/registry';
 import { css } from '../infra/style';
 import { MovementController, type MovementEvent } from '../movement';
 import { type Navigable, type NavState, navigate } from '../navigate/index';
@@ -23,6 +24,12 @@ import { FormControl } from './form';
 declare module '../infra/dom' {
 	interface CustomElementTagNameMap {
 		'abm-slider': Slider<ArrayOr<number>>;
+	}
+}
+
+declare module '../infra/registry' {
+	interface Registry {
+		slider: Slider<ArrayOr<number>>;
 	}
 }
 
@@ -65,6 +72,7 @@ function computeTicks(
  * 滑动选择器
  * @link [ABM Kits Docs](https://jonnyjong.github.io/abm-kits/component/form/slider)
  */
+@register('slider')
 @defineElement('abm-slider')
 export class Slider<T extends ArrayOr<number>>
 	extends FormControl<T, SliderProp<T>>

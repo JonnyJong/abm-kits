@@ -2,6 +2,7 @@ import { toType } from 'abm-utils';
 import { defineElement, property } from '../infra/decorator';
 import type { ElementProps } from '../infra/dom';
 import { $svg } from '../infra/dom';
+import { register } from '../infra/registry';
 import { css } from '../infra/style';
 import { state } from '../state';
 import type { AriaConfig } from './base';
@@ -13,12 +14,19 @@ declare module '../infra/dom' {
 	}
 }
 
+declare module '../infra/registry' {
+	interface Registry {
+		checkbox: Checkbox;
+	}
+}
+
 export interface CheckboxProp extends ElementProps<Checkbox> {}
 
 /**
  * 复选框
  * @link [ABM Kits Docs](https://jonnyjong.github.io/abm-kits/component/form/checkbox)
  */
+@register('checkbox')
 @defineElement('abm-checkbox')
 export class Checkbox extends FormControl<boolean, CheckboxProp> {
 	protected static navigable = true;

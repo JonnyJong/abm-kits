@@ -2,6 +2,7 @@ import { Color, typeCheck } from 'abm-utils';
 import { defineElement, property } from '../infra/decorator';
 import type { ElementProps } from '../infra/dom';
 import { $new } from '../infra/dom';
+import { register } from '../infra/registry';
 import { $style, css } from '../infra/style';
 import { state } from '../state';
 import { Dialog } from '../widget/dialog';
@@ -17,12 +18,19 @@ declare module '../infra/dom' {
 	}
 }
 
+declare module '../infra/registry' {
+	interface Registry {
+		'color-box': ColorBox;
+	}
+}
+
 export interface ColorBoxProp extends ElementProps<ColorBox> {}
 
 /**
  * 颜色输入
  * @link [ABM Kits Docs](https://jonnyjong.github.io/abm-kits/component/form/color-box)
  */
+@register('color-box')
 @defineElement('abm-color-box')
 export class ColorBox extends FormControl<Color, ColorBoxProp> {
 	protected static navigable = true;

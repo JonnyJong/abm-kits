@@ -3,6 +3,7 @@ import { defineElement, property } from '../infra/decorator';
 import type { ElementProps } from '../infra/dom';
 import { $div, $new, $slot } from '../infra/dom';
 import { $on } from '../infra/event';
+import { register } from '../infra/registry';
 import { $style, css } from '../infra/style';
 import type { AriaConfig } from './base';
 import { FormControl } from './form';
@@ -13,12 +14,19 @@ declare module '../infra/dom' {
 	}
 }
 
+declare module '../infra/registry' {
+	interface Registry {
+		avatar: Avatar;
+	}
+}
+
 export interface AvatarProp extends ElementProps<Avatar> {}
 
 /**
  * 头像
  * @link [ABM Kits Docs](https://jonnyjong.github.io/abm-kits/component/form/avatar)
  */
+@register('avatar')
 @defineElement('abm-avatar')
 export class Avatar extends FormControl<string | undefined, AvatarProp> {
 	protected static style = css`
@@ -59,7 +67,7 @@ export class Avatar extends FormControl<string | undefined, AvatarProp> {
 	`;
 	protected static aria: AriaConfig = { role: 'img' };
 	#value?: string;
-	#img = $new('img', { className: 'img' });
+	#img: HTMLImageElement = $new('img', { className: 'img' });
 	#fallback = $div({ className: 'fallback show' }, $slot());
 	constructor(_props?: AvatarProp) {
 		super();

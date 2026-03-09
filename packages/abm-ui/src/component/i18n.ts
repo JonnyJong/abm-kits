@@ -9,6 +9,7 @@ import {
 import { defineElement } from '../infra/decorator';
 import type { ElementProps } from '../infra/dom';
 import { $new } from '../infra/dom';
+import { register } from '../infra/registry';
 import type { AriaConfig } from './base';
 import { KeyedComponent } from './keyed';
 
@@ -18,12 +19,19 @@ declare module '../infra/dom' {
 	}
 }
 
+declare module '../infra/registry' {
+	interface Registry {
+		i18n: I18n;
+	}
+}
+
 export interface I18nProp extends ElementProps<I18n> {}
 
 /**
  * 国际化
  * @link [ABM Kits Docs](https://jonnyjong.github.io/abm-kits/component/i18n)
  */
+@register('i18n')
 @defineElement('abm-i18n')
 export class I18n extends KeyedComponent<string, I18nProp> {
 	protected static aria: AriaConfig = { role: 'group' };

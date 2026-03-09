@@ -11,6 +11,7 @@ import { defineElement, property } from '../infra/decorator';
 import type { ElementProps } from '../infra/dom';
 import { $div, $new, $slot, type DOMContents } from '../infra/dom';
 import { $on } from '../infra/event';
+import { register } from '../infra/registry';
 import { safeRect } from '../infra/screen';
 import { css } from '../infra/style';
 import { keyboard } from '../input/keyboard';
@@ -29,6 +30,16 @@ declare module '../infra/dom' {
 		'abm-number-box': NumberBox;
 		'abm-password-box': PasswordBox;
 		'abm-textarea': TextArea;
+	}
+}
+
+declare module '../infra/registry' {
+	interface Registry {
+		input: InputBox<unknown>;
+		'text-box': TextBox;
+		'number-box': NumberBox;
+		'password-box': PasswordBox;
+		textarea: TextArea;
 	}
 }
 
@@ -204,6 +215,8 @@ interface InputBoxInit {
  * 输入框
  * @link [ABM Kits Docs](https://jonnyjong.github.io/abm-kits/component/form/input#类-inputbox)
  */
+// @ts-expect-error
+@register('input')
 abstract class InputBox<T>
 	extends FormControl<T, {}, InputBoxEventMap<T>>
 	implements Navigable
@@ -448,6 +461,7 @@ export interface TextBoxProp extends ElementProps<TextBox> {}
  * 文本输入框
  * @link [ABM Kits Docs](https://jonnyjong.github.io/abm-kits/component/form/input#textbox)
  */
+@register('text-box')
 @defineElement('abm-text-box')
 export class TextBox extends InputBox<string> {
 	#input: HTMLInputElement & Navigable;
@@ -493,6 +507,7 @@ export interface NumberBoxProp extends ElementProps<NumberBox> {}
  * 数字输入框
  * @link [ABM Kits Docs](https://jonnyjong.github.io/abm-kits/component/form/input#numberbox)
  */
+@register('number-box')
 @defineElement('abm-number-box')
 export class NumberBox extends InputBox<number> {
 	#input: HTMLInputElement & Navigable;
@@ -620,6 +635,7 @@ export interface PasswordBoxProp extends ElementProps<TextBox> {}
  * 密码输入框
  * @link [ABM Kits Docs](https://jonnyjong.github.io/abm-kits/component/form/input#passwordbox)
  */
+@register('password-box')
 @defineElement('abm-password-box')
 export class PasswordBox extends InputBox<string> {
 	#input: HTMLInputElement & Navigable;
@@ -676,6 +692,7 @@ export interface TextAreaProp extends ElementProps<TextArea> {}
  * 文本区域
  * @link [ABM Kits Docs](https://jonnyjong.github.io/abm-kits/component/form/textarea)
  */
+@register('textarea')
 @defineElement('abm-textarea')
 export class TextArea
 	extends FormControl<string, TextAreaProp, InputBoxEventMap<string>>

@@ -2,6 +2,7 @@ import { clamp } from 'abm-utils';
 import { defineElement, property } from '../infra/decorator';
 import type { ElementProps } from '../infra/dom';
 import { $div } from '../infra/dom';
+import { register } from '../infra/registry';
 import { css } from '../infra/style';
 import { type AriaConfig, Component } from './base';
 
@@ -11,12 +12,19 @@ declare module '../infra/dom' {
 	}
 }
 
+declare module '../infra/registry' {
+	interface Registry {
+		progress: Progress;
+	}
+}
+
 export interface ProgressProp extends ElementProps<Progress> {}
 
 /**
  * 进度条
  * @link [ABM Kits Docs](https://jonnyjong.github.io/abm-kits/component/progress)
  */
+@register('progress')
 @defineElement('abm-progress')
 export class Progress extends Component<ProgressProp> {
 	protected static style = css`

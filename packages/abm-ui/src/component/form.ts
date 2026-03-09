@@ -8,6 +8,7 @@ import {
 } from 'abm-utils';
 import { defineElement, property } from '../infra/decorator';
 import type { ElementProps } from '../infra/dom';
+import { register } from '../infra/registry';
 import type { Navigable } from '../navigate';
 import { state } from '../state';
 import { type AriaConfig, Component, getNavigableComponents } from './base';
@@ -15,8 +16,19 @@ import { type AriaConfig, Component, getNavigableComponents } from './base';
 declare module '../infra/dom' {
 	interface CustomElementTagNameMap {
 		'abm-label': Label;
+		'abm-form-message': FormMessage;
 		'abm-form-field': FormField;
 		'abm-form': Form;
+	}
+}
+
+declare module '../infra/registry' {
+	interface Registry {
+		control: FormControl<unknown, {}, FormControlEventMap<unknown>>;
+		lable: Label;
+		'form-message': FormMessage;
+		'form-field': FormField;
+		form: Form;
 	}
 }
 
@@ -106,6 +118,7 @@ export interface LabelProp extends ElementProps<Label> {}
  * 标签
  * @link [ABM Kits Docs](https://jonnyjong.github.io/abm-kits/component/form#label)
  */
+@register('lable')
 @defineElement('abm-label')
 export class Label extends Component<LabelProp> {
 	protected static aria: AriaConfig = { role: 'label' };
@@ -184,6 +197,7 @@ export interface FormMessageProps extends ElementProps<FormMessage> {}
  * 表单消息
  * @link [ABM Kits Docs](https://jonnyjong.github.io/abm-kits/component/form#formmessage)
  */
+@register('form-message')
 @defineElement('abm-form-message')
 export class FormMessage extends Component<FormMessageProps> {
 	/** 键名 */
@@ -216,6 +230,8 @@ export interface FormControlEventMap<T> {
 }
 
 /** 表单控件 */
+// @ts-expect-error
+@register('control')
 export abstract class FormControl<
 		T,
 		P extends {} = {},
@@ -285,6 +301,7 @@ function getId(name: string): string {
  * 表单域
  * @link [ABM Kits Docs](https://jonnyjong.github.io/abm-kits/component/form#formfield)
  */
+@register('form-field')
 @defineElement('abm-form-field')
 export class FormField<
 	T = any,
@@ -443,6 +460,7 @@ export interface FormProp extends ElementProps<Form> {}
  * 表单
  * @link [ABM Kits Docs](https://jonnyjong.github.io/abm-kits/component/form#form)
  */
+@register('form')
 @defineElement('abm-form')
 export class Form<
 	T extends any[] | Record<string, any> = Record<string, any>,

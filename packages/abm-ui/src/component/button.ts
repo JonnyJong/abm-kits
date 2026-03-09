@@ -2,6 +2,7 @@ import { RepeatingTriggerController } from 'abm-utils';
 import { defineElement, property } from '../infra/decorator';
 import type { ElementProps } from '../infra/dom';
 import { $slot } from '../infra/dom';
+import { register } from '../infra/registry';
 import { css } from '../infra/style';
 import type { Navigable } from '../navigate';
 import { state } from '../state';
@@ -10,6 +11,12 @@ import { type AriaConfig, Component } from './base';
 declare module '../infra/dom' {
 	interface CustomElementTagNameMap {
 		'abm-btn': Button;
+	}
+}
+
+declare module '../infra/registry' {
+	interface Registry {
+		button: Button;
 	}
 }
 
@@ -39,6 +46,7 @@ export type ButtonVariant =
  * 按钮
  * @link [ABM Kits Docs](https://jonnyjong.github.io/abm-kits/component/button)
  */
+@register('button')
 @defineElement('abm-btn')
 export class Button
 	extends Component<ButtonProp, ButtonEventMap>

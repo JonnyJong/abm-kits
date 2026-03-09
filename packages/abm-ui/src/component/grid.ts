@@ -7,6 +7,7 @@ import {
 import { defineElement, property } from '../infra/decorator';
 import type { ElementProps } from '../infra/dom';
 import { $rect, $slot } from '../infra/dom';
+import { register } from '../infra/registry';
 import { $style, css } from '../infra/style';
 import { keyboard } from '../input/keyboard';
 import type { Navigable } from '../navigate';
@@ -17,6 +18,12 @@ import { FormControl, type FormControlEventMap } from './form';
 declare module '../infra/dom' {
 	interface CustomElementTagNameMap {
 		'abm-grid': Grid;
+	}
+}
+
+declare module '../infra/registry' {
+	interface Registry {
+		grid: Grid;
 	}
 }
 
@@ -122,6 +129,7 @@ type LineItem = [item: HTMLElement, width: number, height: number];
  * 网格
  * @link [ABM Kits Docs](https://jonnyjong.github.io/abm-kits/component/form/grid)
  */
+@register('grid')
 @defineElement('abm-grid')
 export class Grid<
 	T = any,

@@ -9,6 +9,7 @@ import {
 import { defineElement } from '../infra/decorator';
 import type { ElementProps } from '../infra/dom';
 import { $div, $new, $rect, type DOMContents } from '../infra/dom';
+import { register } from '../infra/registry';
 import { css } from '../infra/style';
 import { MovementController } from '../movement';
 import type { Navigable } from '../navigate';
@@ -21,6 +22,12 @@ import { List, ListItem } from './list';
 declare module '../infra/dom' {
 	interface CustomElementTagNameMap {
 		'abm-table': Table;
+	}
+}
+
+declare module '../infra/registry' {
+	interface Registry {
+		table: Table;
 	}
 }
 
@@ -197,6 +204,7 @@ type CellInHead = [div: HTMLDivElement, resize: HTMLDivElement];
  * 表格
  * @link [ABM Kits Docs](https://jonnyjong.github.io/abm-kits/component/form/table)
  */
+@register('table')
 @defineElement('abm-table')
 export class Table<T extends object = object>
 	extends FormControl<T[], TableProp>

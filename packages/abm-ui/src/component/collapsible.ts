@@ -1,6 +1,7 @@
 import { toType } from 'abm-utils';
 import { defineElement, property } from '../infra/decorator';
 import { $div, $slot, type ElementProps } from '../infra/dom';
+import { register } from '../infra/registry';
 import { css } from '../infra/style';
 import { state } from '../state';
 import { Component } from './base';
@@ -8,6 +9,12 @@ import { Component } from './base';
 declare module '../infra/dom' {
 	interface CustomElementTagNameMap {
 		'abm-collapsible': Collapsible;
+	}
+}
+
+declare module '../infra/registry' {
+	interface Registry {
+		collapsible: Collapsible;
 	}
 }
 
@@ -22,6 +29,7 @@ export interface CollapsibleEventMap {
  * 可折叠面板
  * @link [ABM Kits Docs](https://jonnyjong.github.io/abm-kits/component/collapsible)
  */
+@register('collapsible')
 @defineElement('abm-collapsible')
 export class Collapsible extends Component<
 	CollapsibleProp,

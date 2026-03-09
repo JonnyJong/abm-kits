@@ -1,6 +1,7 @@
 import { toType } from 'abm-utils';
 import { defineElement, property } from '../infra/decorator';
 import type { ElementProps } from '../infra/dom';
+import { register } from '../infra/registry';
 import { css } from '../infra/style';
 import { state } from '../state';
 import type { AriaConfig } from './base';
@@ -10,6 +11,13 @@ declare module '../infra/dom' {
 	interface CustomElementTagNameMap {
 		'abm-radio': Radio<any>;
 		'abm-radio-group': RadioGroup<any>;
+	}
+}
+
+declare module '../infra/registry' {
+	interface Registry {
+		radio: Radio<any>;
+		'radio-group': RadioGroup<any>;
 	}
 }
 
@@ -81,6 +89,7 @@ export interface RadioProp<T> extends ElementProps<Radio<T>> {}
  * 单选框
  * @link [ABM Kits Docs](https://jonnyjong.github.io/abm-kits/component/form/radio#radio)
  */
+@register('radio')
 @defineElement('abm-radio')
 export class Radio<T> extends FormControl<T, RadioProp<T>> {
 	protected static hoverable = true;
@@ -153,6 +162,7 @@ export interface RadioGroupProp<T> extends ElementProps<RadioGroup<T>> {}
  * 单选框组
  * @link [ABM Kits Docs](https://jonnyjong.github.io/abm-kits/component/form/radio#radiogroup)
  */
+@register('radio-group')
 @defineElement('abm-radio-group')
 export class RadioGroup<T> extends FormControl<
 	T | undefined,

@@ -3,6 +3,7 @@ import { defineElement } from '../infra/decorator';
 import type { ElementProps } from '../infra/dom';
 import { $clone, $div, $new, $slot, type DOMContents } from '../infra/dom';
 import { $on } from '../infra/event';
+import { register } from '../infra/registry';
 import { safeRect } from '../infra/screen';
 import { $style, css } from '../infra/style';
 import { LayoutController } from '../layout';
@@ -17,6 +18,12 @@ import { List } from './list';
 declare module '../infra/dom' {
 	interface CustomElementTagNameMap {
 		'abm-select': Select<any>;
+	}
+}
+
+declare module '../infra/registry' {
+	interface Registry {
+		select: Select<any>;
 	}
 }
 
@@ -76,6 +83,7 @@ function computeExpandOrigin<T extends HTMLElement>(
  * 选择框
  * @link [ABM Kits Docs](https://jonnyjong.github.io/abm-kits/component/form/select)
  */
+@register('select')
 @defineElement('abm-select')
 export class Select<T> extends FormControl<T | undefined, SelectProp<T>> {
 	protected static hoverable = true;

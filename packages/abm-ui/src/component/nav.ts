@@ -2,6 +2,7 @@ import { asArray, toType } from 'abm-utils';
 import { defineElement, property } from '../infra/decorator';
 import type { ElementProps } from '../infra/dom';
 import { $content, $div, $new, $slot, type DOMContents } from '../infra/dom';
+import { register } from '../infra/registry';
 import { $style, css } from '../infra/style';
 import { state } from '../state';
 import { type AriaConfig, Component } from './base';
@@ -12,6 +13,14 @@ declare module '../infra/dom' {
 		'abm-nav': Nav;
 		'abm-nav-item': NavItem;
 		'abm-nav-flex': NavFlex;
+	}
+}
+
+declare module '../infra/registry' {
+	interface Registry {
+		nav: Nav;
+		'nav-item': NavItem;
+		'nav-flex': NavFlex;
 	}
 }
 
@@ -60,6 +69,7 @@ function getLogicLayout(
 
 export interface NavFlexProp extends ElementProps<NavFlex> {}
 
+@register('nav-flex')
 @defineElement('abm-nav-flex')
 export class NavFlex extends Component<NavFlexProp> {
 	protected static style = css`:host { flex: 1 }`;
@@ -78,6 +88,7 @@ export interface INavItem<T> {
 
 export interface NavItemProp<T> extends ElementProps<NavItem<T>> {}
 
+@register('nav-item')
 @defineElement('abm-nav-item')
 export class NavItem<T = any>
 	extends Component<NavItemProp<T>>
@@ -152,6 +163,7 @@ export interface NavProp<T> extends ElementProps<Nav<T>> {}
  * 导航
  * @link [ABM Kits Docs](https://jonnyjong.github.io/abm-kits/component/form/nav)
  */
+@register('nav')
 @defineElement('abm-nav')
 export class Nav<T = any> extends FormControl<T | undefined, NavProp<T>> {
 	protected static style = css`

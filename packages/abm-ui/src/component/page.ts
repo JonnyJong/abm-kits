@@ -2,12 +2,19 @@ import { BiMap, type Constructor, clamp, typeCheck } from 'abm-utils';
 import { defineElement, property } from '../infra/decorator';
 import type { ElementProps } from '../infra/dom';
 import { $div, $new, $rect, $slot } from '../infra/dom';
+import { register } from '../infra/registry';
 import { $style, css } from '../infra/style';
 import { Component } from './base';
 
 declare module '../infra/dom' {
 	interface CustomElementTagNameMap {
 		'abm-page-host': PageHost<PageRecord>;
+	}
+}
+
+declare module '../infra/registry' {
+	interface Registry {
+		'page-host': PageHost<any>;
 	}
 }
 
@@ -500,6 +507,7 @@ export interface PageHostProp<T extends PageRecord>
  * 页面宿主
  * @link [ABM Kits Docs](https://jonnyjong.github.io/abm-kits/component/page)
  */
+@register('page-host')
 @defineElement('abm-page-host')
 export class PageHost<T extends PageRecord> extends Component<PageHostProp<T>> {
 	protected static style = css`

@@ -2,6 +2,7 @@ import { clamp } from 'abm-utils';
 import { defineElement, property } from '../infra/decorator';
 import type { ElementProps } from '../infra/dom';
 import { $svg } from '../infra/dom';
+import { register } from '../infra/registry';
 import { css } from '../infra/style';
 import { type AriaConfig, Component } from './base';
 
@@ -11,12 +12,19 @@ declare module '../infra/dom' {
 	}
 }
 
+declare module '../infra/registry' {
+	interface Registry {
+		spinner: Spinner;
+	}
+}
+
 export interface SpinnerProp extends ElementProps<Spinner> {}
 
 /**
  * 转盘
  * @link [ABM Kits Docs](https://jonnyjong.github.io/abm-kits/component/spinner)
  */
+@register('spinner')
 @defineElement('abm-spinner')
 export class Spinner extends Component<SpinnerProp> {
 	protected static style = css`

@@ -9,6 +9,7 @@ import {
 import { defineElement, property } from '../infra/decorator';
 import type { ElementProps } from '../infra/dom';
 import { $slot } from '../infra/dom';
+import { register } from '../infra/registry';
 import { $style, css } from '../infra/style';
 import { viewportTracker } from '../infra/viewport-tacker';
 import { keyboard } from '../input/keyboard';
@@ -21,6 +22,12 @@ import { FormControl, type FormControlEventMap } from './form';
 declare module '../infra/dom' {
 	interface CustomElementTagNameMap {
 		'abm-list': List;
+	}
+}
+
+declare module '../infra/registry' {
+	interface Registry {
+		list: List;
 	}
 }
 
@@ -181,6 +188,7 @@ export interface ListEventMap<T> extends FormControlEventMap<T[]> {
  * 列表
  * @link [ABM Kits Docs](https://jonnyjong.github.io/abm-kits/component/form/list)
  */
+@register('list')
 @defineElement('abm-list')
 export class List<T = any, I extends ListItem<T> = ListItem<T>>
 	extends FormControl<T[], ListProp<T>, ListEventMap<T>>

@@ -2,6 +2,7 @@ import { Color, IDGenerator, typeCheck } from 'abm-utils';
 import { defineElement, property } from '../infra/decorator';
 import type { ElementProps } from '../infra/dom';
 import { $apply, $div, $new } from '../infra/dom';
+import { register } from '../infra/registry';
 import { $style, css } from '../infra/style';
 import type { Navigable } from '../navigate/index';
 import { createNumberInputPrefab } from '../prefab/number';
@@ -17,6 +18,12 @@ import { Vec2Pad } from './vec2-pad';
 declare module '../infra/dom' {
 	interface CustomElementTagNameMap {
 		'abm-color-picker': ColorPicker;
+	}
+}
+
+declare module '../infra/registry' {
+	interface Registry {
+		'color-picker': ColorPicker;
 	}
 }
 
@@ -226,6 +233,7 @@ class OklchPage extends ColorPickerPage {
  * 颜色选择器
  * @link [ABM Kits Docs](https://jonnyjong.github.io/abm-kits/component/form/color-picker)
  */
+@register('color-picker')
 @defineElement('abm-color-picker')
 export class ColorPicker
 	extends FormControl<Color, ColorPickerProp>

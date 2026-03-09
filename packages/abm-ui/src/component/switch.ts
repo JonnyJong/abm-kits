@@ -2,6 +2,7 @@ import { clamp, toType, type Vec2, Vector2 } from 'abm-utils';
 import { defineElement, property } from '../infra/decorator';
 import type { ElementProps } from '../infra/dom';
 import { $div } from '../infra/dom';
+import { register } from '../infra/registry';
 import { css } from '../infra/style';
 import { MovementController, type MovementEvent } from '../movement';
 import { state } from '../state';
@@ -14,12 +15,19 @@ declare module '../infra/dom' {
 	}
 }
 
+declare module '../infra/registry' {
+	interface Registry {
+		switch: Switch;
+	}
+}
+
 export interface SwitchProp extends ElementProps<Switch> {}
 
 /**
  * 开关
  * @link [ABM Kits Docs](https://jonnyjong.github.io/abm-kits/form/component/switch)
  */
+@register('switch')
 @defineElement('abm-switch')
 export class Switch extends FormControl<boolean, SwitchProp> {
 	protected static navigable = true;

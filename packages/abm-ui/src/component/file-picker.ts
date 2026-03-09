@@ -2,6 +2,7 @@ import { defineElement, property } from '../infra/decorator';
 import type { ElementProps } from '../infra/dom';
 import { $div, $new, $slot } from '../infra/dom';
 import { $on } from '../infra/event';
+import { register } from '../infra/registry';
 import { css } from '../infra/style';
 import type { AriaConfig } from './base';
 import { Button } from './button';
@@ -12,6 +13,12 @@ import { Img } from './img';
 declare module '../infra/dom' {
 	interface CustomElementTagNameMap {
 		'abm-file-picker': FilePicker;
+	}
+}
+
+declare module '../infra/registry' {
+	interface Registry {
+		'file-picker': FilePicker;
 	}
 }
 
@@ -30,6 +37,7 @@ export interface FilePickerProp extends ElementProps<FilePicker> {}
  * 文件选择器
  * @link [ABM Kits Docs](https://jonnyjong.github.io/abm-kits/component/form/file-picker)
  */
+@register('file-picker')
 @defineElement('abm-file-picker')
 export class FilePicker extends FormControl<File[], FilePickerProp> {
 	protected static style = css`
