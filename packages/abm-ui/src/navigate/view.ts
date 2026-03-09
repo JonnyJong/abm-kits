@@ -1,4 +1,4 @@
-import { Debounce } from 'abm-utils';
+import { Debounce, runSync } from 'abm-utils';
 import { $div } from '../infra/dom';
 import { $style } from '../infra/style';
 import { track } from '../infra/viewport-tacker';
@@ -28,6 +28,14 @@ export const view = {
 	update(current: Navigable, timeDiff: number): void {
 		if (prev?.deref() !== current) {
 			prev = new WeakRef(current);
+			const activated = document.activeElement;
+			if (
+				activated &&
+				'blur' in activated &&
+				typeof activated.blur === 'function'
+			) {
+				runSync(() => (activated as any).blur());
+			}
 			current.focus({ preventScroll: true });
 		}
 		debounceMove.clean();
