@@ -217,8 +217,8 @@ interface InputBoxInit {
  */
 // @ts-expect-error
 @register('input')
-abstract class InputBox<T>
-	extends FormControl<T, {}, InputBoxEventMap<T>>
+abstract class InputBox<T, P extends {} = {}>
+	extends FormControl<T, P, InputBoxEventMap<T>>
 	implements Navigable
 {
 	protected static hoverable = true;
@@ -463,7 +463,7 @@ export interface TextBoxProp extends ElementProps<TextBox> {}
  */
 @register('text-box')
 @defineElement('abm-text-box')
-export class TextBox extends InputBox<string> {
+export class TextBox extends InputBox<string, TextBoxProp> {
 	#input: HTMLInputElement & Navigable;
 	constructor(_props?: TextBoxProp) {
 		const input = $new('input');
@@ -509,7 +509,7 @@ export interface NumberBoxProp extends ElementProps<NumberBox> {}
  */
 @register('number-box')
 @defineElement('abm-number-box')
-export class NumberBox extends InputBox<number> {
+export class NumberBox extends InputBox<number, NumberBoxProp> {
 	#input: HTMLInputElement & Navigable;
 	#addBtn: Button;
 	#subBtn: Button;
@@ -637,7 +637,7 @@ export interface PasswordBoxProp extends ElementProps<TextBox> {}
  */
 @register('password-box')
 @defineElement('abm-password-box')
-export class PasswordBox extends InputBox<string> {
+export class PasswordBox extends InputBox<string, PasswordBox> {
 	#input: HTMLInputElement & Navigable;
 	constructor(_props?: PasswordBoxProp) {
 		const input = $new('input', { type: 'password' });

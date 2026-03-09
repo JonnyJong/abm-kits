@@ -24,7 +24,7 @@ interface ControlRegisterOptions {
 
 declare global {
 	let body: HTMLElement;
-	function __registerControl(control: HTMLElement, options: ControlRegisterOptions): void;
+	function __registerControl(control: Node, options: ControlRegisterOptions): void;
 }
 
 export {};

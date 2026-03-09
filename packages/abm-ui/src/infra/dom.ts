@@ -29,6 +29,12 @@ type Properties<T> = {
 			: K;
 }[keyof T & string];
 
+type EventProps<T, M = T extends Component<any, infer E> ? E : {}> = {
+	[K in keyof M as `$${K & string}`]?: (
+		...args: M[K] extends any[] ? M[K] : [M[K]]
+	) => any;
+};
+
 /**
  * 从自定义元素类中提取适用于 JSX 的属性类型定义
  * @template T 自定义元素类，必须继承自 `HTMLElement`
@@ -111,7 +117,7 @@ export type ElementProps<
 					: K extends Properties<T>
 						? T[K]
 						: never;
-	} & { ref?: (current: T) => void }
+	} & { ref?: (current: T) => void } & EventProps<T>
 >;
 
 /**
@@ -470,31 +476,38 @@ export function $fragment(...nodes: (Node | string)[]): DocumentFragment {
 	return fragment;
 }
 
-/** 创建并设置元素 */
-export function $new<
-	T extends K extends Constructor<infer E extends HTMLElement>
+type InferElementType<K> = K extends typeof DocumentFragment
+	? DocumentFragment
+	: K extends Constructor<infer E extends Element | DocumentFragment>
 		? E
 		: K extends keyof HTMLElementTagNameMap
 			? HTMLElementTagNameMap[K]
-			: K extends keyof CustomElementTagNameMap
-				? CustomElementTagNameMap[K]
-				: K extends DocumentFragment
-					? DocumentFragment
-					: K extends (options?: GlobalAttributes | null) => infer R
+			: K extends keyof SVGElementTagNameMap
+				? SVGElementTagNameMap[K]
+				: K extends keyof CustomElementTagNameMap
+					? CustomElementTagNameMap[K]
+					: K extends (options?: any) => infer R
 						? R
-						: HTMLElement,
+						: K extends string
+							? HTMLElement
+							: Element | DocumentFragment;
+
+/** 创建并设置元素 */
+export function $new<
+	T extends InferElementType<K>,
 	K extends
 		| keyof HTMLElementTagNameMap
+		| keyof SVGElementTagNameMap
 		| keyof CustomElementTagNameMap
 		| (string & {})
 		| ElementConstructor
 		| typeof DocumentFragment
-		| ((options?: GlobalAttributes | null) => any),
+		| ((options?: any, ...children: any[]) => any),
 >(type: K, options?: DOMApplyOptions<K, T> | null, ...children: any[]): T {
 	// Fragment
 	if (isFragment(type)) return $fragment(...(options?.children ?? [])) as T;
 	// Factory
-	if (isDOMFactory(type)) return type(options as any);
+	if (isDOMFactory(type)) return type(options, ...children);
 	// Normal
 	let name: string | null;
 	if (typeof type === 'string') name = type;

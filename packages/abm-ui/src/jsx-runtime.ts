@@ -4,8 +4,11 @@ declare global {
 	namespace JSX {
 		interface IntrinsicAttributes extends GlobalAttributes {}
 		interface IntrinsicElements extends ElementPropMap {}
-		type Element = HTMLElement;
-		type ElementAttributesProperty = 'props';
+		type Element = globalThis.Element | DocumentFragment;
+		type ElementClass = globalThis.Element;
+		interface ElementAttributesProperty {
+			_props: any;
+		}
 	}
 }
 

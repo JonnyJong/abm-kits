@@ -306,6 +306,16 @@ export abstract class Component<P extends {} = {}, E extends {} = {}>
 	extends HTMLElement
 	implements EventEmitter<E>, Navigable
 {
+	/**
+	 * @description
+	 * 仅用于属性声明，请勿覆盖、实现
+	 */
+	declare _props: P;
+	/**
+	 * @description
+	 * 仅用于属性声明，请勿覆盖、实现
+	 */
+	declare _eventMap: E;
 	_eventHandlers = new TwoKeyMap<keyof E, EventHandler<any>, AbortController>();
 	#shadowRoot?: ShadowRoot;
 	#style?: CSSStyleSheet[];
