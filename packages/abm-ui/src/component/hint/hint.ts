@@ -4,6 +4,7 @@ import {
 	$,
 	$$,
 	$new,
+	$part,
 	$slot,
 	type DOMContents,
 	type ElementProps,
@@ -135,4 +136,12 @@ export class Hint extends Component<HintProp> {
 	set pen(content: DOMContents) {
 		this.#setSlot('pen', content);
 	}
+	/** `slot="mouse"` */
+	static readonly Mouse = $part('mouse');
+	/** `slot="gamepad" */
+	static readonly Gamepad = $part('gamepad');
+	/** `slot="touch"` */
+	static readonly Touch = $part('touch');
+	/** `slot="pen"` */
+	static readonly Pen = $part('pen');
 }
