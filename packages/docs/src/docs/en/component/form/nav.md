@@ -57,3 +57,10 @@ nav.setup([
   { type: 'flex' }, // Insert blank space
 ]);
 ```
+
+# Sub Components
+
+| Name   | Description        |
+| ------ | ------------------ |
+| `Item` | `NavItem` Alias ​​ |
+| `Flex` | `NavFlex` Alias ​​ |

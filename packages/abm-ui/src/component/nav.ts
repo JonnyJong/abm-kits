@@ -274,4 +274,8 @@ export class Nav<T = any> extends FormControl<T | undefined, NavProp<T>> {
 			}),
 		);
 	}
+	/** @see {@link NavItem} */
+	static readonly Item = NavItem;
+	/** @see {@link NavFlex} */
+	static readonly Flex = NavFlex;
 }
