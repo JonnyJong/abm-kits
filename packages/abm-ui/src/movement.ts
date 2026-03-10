@@ -800,7 +800,7 @@ export class MovementController<
 		if (this.#delaying) return this.stop(true);
 		// Transform
 		const value = this.#computeValueFromPosition(position);
-		const delta = sub(value, this.#initial);
+		const delta = sub(value, this.#value);
 		const positionDelta = Vector2.sub(position, this.#currentPosition);
 		this.#value = value;
 		this.#currentPosition = position;
