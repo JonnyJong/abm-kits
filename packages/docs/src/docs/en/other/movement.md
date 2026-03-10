@@ -220,6 +220,13 @@ Remove multiple movement trigger elements.
 rmTriggers(...triggers: E[]): void
 ```
 
+### `clearTriggers`
+Clear all movement trigger elements.
+
+```ts
+clearTriggers(): void
+```
+
 ## Static Methods
 
 ### `isPrefer`

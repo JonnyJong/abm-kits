@@ -3,6 +3,7 @@ import {
 	type ArrayOr,
 	asArray,
 	clamp,
+	IterableWeakSet,
 	notNil,
 	resolveStep,
 	runSync,
@@ -495,7 +496,7 @@ export class MovementController<
 	/** 轴线获取器 */
 	axis?: MovementAxisGetter<T>;
 	/** 触发器 */
-	#triggers = new WeakSet<E>();
+	#triggers = new IterableWeakSet<E>();
 	/** 交互源 */
 	#source: InteractionSource | null = null;
 	constructor(target: MovementTarget<T>, init?: MovementControllerInit<T, E>) {
@@ -875,7 +876,7 @@ export class MovementController<
 		}
 	};
 	//#region Trigger
-	/** 添加触发移动元素 */
+	/** 添加移动触发元素 */
 	addTriggers(...triggers: E[]): void {
 		for (const trigger of triggers) {
 			if (this.#triggers.has(trigger)) continue;
@@ -884,9 +885,11 @@ export class MovementController<
 			this.#triggers.add(trigger);
 		}
 	}
+	/** 检查是否存在移动触发元素 */
 	hasTrigger(trigger: E): boolean {
 		return this.#triggers.has(trigger);
 	}
+	/** 移除移动触发元素 */
 	rmTriggers(...triggers: E[]): void {
 		for (const trigger of triggers) {
 			if (!this.#triggers.has(trigger)) continue;
@@ -894,6 +897,14 @@ export class MovementController<
 			$off(trigger, 'touchstart', this.#touchStartHandler);
 			this.#triggers.delete(trigger);
 		}
+	}
+	/** 清除所有移动触发元素 */
+	clearTriggers(): void {
+		for (const trigger of this.#triggers) {
+			$off(trigger, 'pointerdown', this.#pointerDownHandler);
+			$off(trigger, 'touchstart', this.#touchStartHandler);
+		}
+		this.#triggers.clear();
 	}
 	//#region Other
 	static isPrefer(prefer: Vec2, offset: Vec2): boolean {

@@ -220,6 +220,13 @@ hasTrigger(trigger: E): boolean
 rmTriggers(...triggers: E[]): void
 ```
 
+### `clearTriggers`
+清除所有移动触发元素。
+
+```ts
+clearTriggers(): void
+```
+
 ## 静态方法
 
 ### `isPrefer`
