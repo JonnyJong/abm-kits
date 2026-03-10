@@ -21,6 +21,7 @@
 		"body": [
 			"import { defineElement } from '../infra/decorator';",
 			"import type { ElementProps } from '../infra/dom';",
+			"import { register } from '../infra/registry';",
 			"import { Component } from './base';",
 			"",
 			"declare module '../infra/dom' {",
@@ -37,6 +38,7 @@
 			"",
 			"export interface $1Props extends ElementProps<$1> {}",
 			"",
+			"@register('$2')",
 			"@defineElement('abm-$2')",
 			"export class $1 extends Component<$1Props> {$0",
 			"\tconstructor(_props?: $1Props) {",
@@ -50,6 +52,7 @@
 		"prefix": "control",
 		"body": [
 			"import { defineElement } from '../infra/decorator';",
+			"import { register } from '../infra/registry';",
 			"import { FormControl, type FormControlProps } from './form';",
 			"",
 			"declare module '../infra/dom' {",
@@ -66,6 +69,7 @@
 			"",
 			"export interface $1Props extends FormControlProps<$1> {}",
 			"",
+			"@register('$2')",
 			"@defineElement('abm-$2')",
 			"export class $1 extends FormControl<$3, $1Props> {$0",
 			"\tconstructor(_props?: $1Props) {",
