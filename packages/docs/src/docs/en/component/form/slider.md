@@ -9,6 +9,29 @@ This component's form value type is `T extends ArrayOr<number>`.
 {{[demo](../../../../demo/component/slider-single.tsx)}}
 {{[demo](../../../../demo/component/slider-array.tsx)}}
 
+# Usage
+:::Global Import
+```ts
+import { Slider } from 'abm-ui';
+```
+:::On-demand Import
+```ts
+import { Slider } from 'abm-ui/component/slider';
+```
+:::Registration Import
+```ts
+import 'abm-ui/component/slider';
+```
+:::
+
+```tsx
+<Slider/>
+```
+
+```html
+<abm-slider></abm-slider>
+```
+
 # Properties
 
 ## `vertical`
@@ -41,5 +64,5 @@ Format tooltip, used to customize the value displayed when selecting or sliding 
 
 | Part Name | Description |
 | --------- | ----------- |
-| `track`   | Track |
-| `thumb`   | Thumb |
+| `track`   | Track       |
+| `thumb`   | Thumb       |

@@ -9,6 +9,29 @@ source: packages/abm-ui/src/component/slider.ts
 {{[demo](../../../../demo/component/slider-single.tsx)}}
 {{[demo](../../../../demo/component/slider-array.tsx)}}
 
+# 使用
+:::全局导入
+```ts
+import { Slider } from 'abm-ui';
+```
+::: 按需导入
+```ts
+import { Slider } from 'abm-ui/component/slider';
+```
+:::注册导入
+```ts
+import 'abm-ui/component/slider';
+```
+:::
+
+```tsx
+<Slider/>
+```
+
+```html
+<abm-slider></abm-slider>
+```
+
 # 属性
 
 ## `vertical`
