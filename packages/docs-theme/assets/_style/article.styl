@@ -20,6 +20,12 @@ article
 	--sticky 0px - 16px
 
 .sticky-content
+	&>*
+		margin 16px 0
+	&>:first-child
+		margin-top 0
+	&>:last-child
+		margin-bottom 0
 	.sticky
 		z-index 3
 		--sticky 32px - 16px

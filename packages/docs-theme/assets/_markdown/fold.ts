@@ -1,5 +1,4 @@
 import { $, $$, type Navigable, state } from 'abm-ui';
-import { handleActive } from './link';
 
 export function initFolds() {
 	for (const fold of $$('details')) {
@@ -8,8 +7,5 @@ export function initFolds() {
 		state.hover.add(trigger);
 		state.active.add(trigger);
 		trigger.setAttribute('nav', '');
-		handleActive(trigger, () => {
-			fold.open = !fold.open;
-		});
 	}
 }
