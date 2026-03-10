@@ -468,7 +468,7 @@ function computeUV<T extends MovementValue>(
 	const u = (dp[0] * vy[1] - dp[1] * vy[0]) / det;
 	const v = (vx[0] * dp[1] - vx[1] * dp[0]) / det;
 
-	return [clamp(0, u, 1), clamp(0, v, 1)];
+	return [u, v];
 }
 
 const SCREEN_AXIS: MovementAxisGetter<number | Vec2> = () => ({
