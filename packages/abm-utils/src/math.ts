@@ -144,7 +144,7 @@ export function steppedClamp(
 
 	if (step < Number.EPSILON) return clamp(start, value, end);
 
-	if (!(startFinite || endFinite)) value;
+	if (!(startFinite || endFinite)) return value - (value % step);
 
 	if (step >= end - start) {
 		const startDistance = Math.abs(start - value);
