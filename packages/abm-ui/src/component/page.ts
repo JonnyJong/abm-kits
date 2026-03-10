@@ -500,8 +500,8 @@ interface PageHistoryItem {
 /** 新页面打开参数 */
 type PagePushOption<T> = T | ({ page: T } & PageTransitionOptions);
 
-export interface PageHostProp<T extends PageRecord>
-	extends ElementProps<PageHost<T>> {}
+export interface PageHostProps<T extends PageRecord>
+	extends ElementProps<PageHost<T>, never, 'current'> {}
 
 /**
  * 页面宿主
@@ -509,7 +509,9 @@ export interface PageHostProp<T extends PageRecord>
  */
 @register('page-host')
 @defineElement('abm-page-host')
-export class PageHost<T extends PageRecord> extends Component<PageHostProp<T>> {
+export class PageHost<T extends PageRecord> extends Component<
+	PageHostProps<T>
+> {
 	protected static style = css`
 		:host {
 			display: block;
@@ -532,7 +534,7 @@ export class PageHost<T extends PageRecord> extends Component<PageHostProp<T>> {
 	#map = new BiMap<string, PageConstructor>();
 	#cancelAnimation?: () => void;
 	#resizeObserver = new ResizeObserver(() => this.#updateView());
-	constructor(_props?: PageHostProp<T>) {
+	constructor(_props?: PageHostProps<T>) {
 		super();
 		this.attachShadow({}, $slot());
 	}

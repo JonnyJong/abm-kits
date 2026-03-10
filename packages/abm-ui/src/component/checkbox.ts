@@ -1,12 +1,11 @@
 import { toType } from 'abm-utils';
 import { defineElement, property } from '../infra/decorator';
-import type { ElementProps } from '../infra/dom';
 import { $svg } from '../infra/dom';
 import { register } from '../infra/registry';
 import { css } from '../infra/style';
 import { state } from '../state';
 import type { AriaConfig } from './base';
-import { FormControl } from './form';
+import { FormControl, type FormControlProps } from './form';
 
 declare module '../infra/dom' {
 	interface CustomElementTagNameMap {
@@ -20,7 +19,7 @@ declare module '../infra/registry' {
 	}
 }
 
-export interface CheckboxProp extends ElementProps<Checkbox> {}
+export interface CheckboxProps extends FormControlProps<Checkbox> {}
 
 /**
  * 复选框
@@ -28,7 +27,7 @@ export interface CheckboxProp extends ElementProps<Checkbox> {}
  */
 @register('checkbox')
 @defineElement('abm-checkbox')
-export class Checkbox extends FormControl<boolean, CheckboxProp> {
+export class Checkbox extends FormControl<boolean, CheckboxProps> {
 	protected static navigable = true;
 	protected static hoverable = true;
 	protected static style = css`
@@ -98,7 +97,7 @@ export class Checkbox extends FormControl<boolean, CheckboxProp> {
 		}
 	`;
 	protected static aria: AriaConfig = { role: 'checkbox' };
-	constructor(_props?: CheckboxProp) {
+	constructor(_props?: CheckboxProps) {
 		super();
 		this.attachShadow(
 			{},

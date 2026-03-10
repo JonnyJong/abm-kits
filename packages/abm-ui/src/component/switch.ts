@@ -1,13 +1,12 @@
 import { clamp, toType, type Vec2, Vector2 } from 'abm-utils';
 import { defineElement, property } from '../infra/decorator';
-import type { ElementProps } from '../infra/dom';
 import { $div } from '../infra/dom';
 import { register } from '../infra/registry';
 import { css } from '../infra/style';
 import { MovementController, type MovementEvent } from '../movement';
 import { state } from '../state';
 import type { AriaConfig } from './base';
-import { FormControl } from './form';
+import { FormControl, type FormControlProps } from './form';
 
 declare module '../infra/dom' {
 	interface CustomElementTagNameMap {
@@ -21,7 +20,7 @@ declare module '../infra/registry' {
 	}
 }
 
-export interface SwitchProp extends ElementProps<Switch> {}
+export interface SwitchProps extends FormControlProps<Switch> {}
 
 /**
  * 开关
@@ -29,7 +28,7 @@ export interface SwitchProp extends ElementProps<Switch> {}
  */
 @register('switch')
 @defineElement('abm-switch')
-export class Switch extends FormControl<boolean, SwitchProp> {
+export class Switch extends FormControl<boolean, SwitchProps> {
 	protected static navigable = true;
 	protected static hoverable = true;
 	protected static style = css`
@@ -74,7 +73,7 @@ export class Switch extends FormControl<boolean, SwitchProp> {
 	#anchorB = $div({ class: 'anchor b' });
 	#thumb = $div({ class: 'thumb' });
 	#move: MovementController<number>;
-	constructor(_props?: SwitchProp) {
+	constructor(_props?: SwitchProps) {
 		super();
 		this.attachShadow({}, this.#anchorA, this.#anchorB, this.#thumb);
 		this.#move = new MovementController<number>(

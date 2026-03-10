@@ -1,10 +1,10 @@
-import { NumberBox, type NumberBoxProp } from '../component/input';
-import { Slider, type SliderProp } from '../component/slider';
+import { NumberBox, type NumberBoxProps } from '../component/input';
+import { Slider, type SliderProps } from '../component/slider';
 import { $new } from '../infra/dom';
 
 export interface NumberInputPrefabInit {
-	slider?: SliderProp<number> | Slider<number>;
-	numberBox?: NumberBoxProp | NumberBox;
+	slider?: SliderProps<number> | Slider<number>;
+	numberBox?: NumberBoxProps | NumberBox;
 	default?: number;
 	value?: number;
 	start?: number;

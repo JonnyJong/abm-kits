@@ -17,7 +17,11 @@ import { MovementController, type MovementEvent } from '../movement';
 import type { Navigable, NavState } from '../navigate/index';
 import { state } from '../state';
 import { type AriaConfig, Component } from './base';
-import { FormControl, type FormControlEventMap } from './form';
+import {
+	FormControl,
+	type FormControlEventMap,
+	type FormControlProps,
+} from './form';
 
 declare module '../infra/dom' {
 	interface CustomElementTagNameMap {
@@ -42,12 +46,14 @@ const kHost = Symbol();
 
 //#region #Item
 
-export interface ListItemProp<T = any> extends ElementProps<ListItem<T>> {}
+export interface ListItemProps<T = any>
+	extends ElementProps<ListItem<T>, 'value'> {}
 
 export abstract class ListItem<T = any>
-	extends Component<ListItemProp<T>>
+	extends Component<ListItemProps<T>>
 	implements Navigable
 {
+	declare _props: ElementProps<ListItem<T>>;
 	[kHost]!: List<T>;
 	/** 宿主列表 */
 	get host() {
@@ -173,7 +179,8 @@ export abstract class ListItem<T = any>
 
 //#region #List
 
-export interface ListProp<T = any> extends ElementProps<List<T>> {}
+export interface ListProps<T = any>
+	extends FormControlProps<List<T>, 'itemCreator', 'items'> {}
 
 export interface ListEventMap<T> extends FormControlEventMap<T[]> {
 	/** 激活事件 */
@@ -191,7 +198,7 @@ export interface ListEventMap<T> extends FormControlEventMap<T[]> {
 @register('list')
 @defineElement('abm-list')
 export class List<T = any, I extends ListItem<T> = ListItem<T>>
-	extends FormControl<T[], ListProp<T>, ListEventMap<T>>
+	extends FormControl<T[], ListProps<T>, ListEventMap<T>>
 	implements Navigable
 {
 	protected static style = css`
@@ -224,7 +231,7 @@ export class List<T = any, I extends ListItem<T> = ListItem<T>>
 		},
 		{ rootMargin: '128px' },
 	);
-	constructor(_props?: ListProp<T>) {
+	constructor(_props?: ListProps<T>) {
 		super();
 		this.attachShadow({}, $slot());
 		this.#resizeObserver.observe(this);
@@ -410,7 +417,6 @@ export class List<T = any, I extends ListItem<T> = ListItem<T>>
 			.filter((i) => i >= 0);
 	}
 	//#region Sort
-	// TODO: Rewrite this shit
 	#sorting?: WeakRef<I>;
 	#startTop = 0;
 	#startIndex = 0;

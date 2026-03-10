@@ -25,7 +25,7 @@ declare module '../infra/registry' {
 	}
 }
 
-export interface I18nProp extends ElementProps<I18n> {}
+export interface I18nProps extends ElementProps<I18n> {}
 
 /**
  * 国际化
@@ -33,10 +33,10 @@ export interface I18nProp extends ElementProps<I18n> {}
  */
 @register('i18n')
 @defineElement('abm-i18n')
-export class I18n extends KeyedComponent<string, I18nProp> {
+export class I18n extends KeyedComponent<string, I18nProps> {
 	protected static aria: AriaConfig = { role: 'group' };
 	#root = this.attachShadow();
-	constructor(_props?: I18nProp) {
+	constructor(_props?: I18nProps) {
 		super();
 		locale.on('update', () => this.update());
 	}

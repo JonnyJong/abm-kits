@@ -1,5 +1,13 @@
-import { type ArrayOr, type Constructor, notNil } from 'abm-utils';
+import {
+	type ArrayOr,
+	type Constructor,
+	type EventEmitter,
+	type EventHandler,
+	notNil,
+} from 'abm-utils';
+import classnames from 'classnames';
 import { Component } from '../component/base';
+import type { Navigable } from '../navigate';
 import { tooltip } from '../widget/tooltip';
 import { $color, type ThemeColor } from './color';
 import { $once } from './event';
@@ -16,23 +24,19 @@ export type ElementConstructor = Constructor<HTMLElement> & typeof HTMLElement;
 /** 组件构造器 */
 export type ComponentConstructor = Constructor<Component> & typeof Component;
 
-/** 定义元素属性 */
-type Props<T> = Partial<T> & { [name: string]: any };
-/** 定义闭合元素属性 */
-type VoidProps<T> = Props<T> & { children?: never };
+export type SelfProps<T, E> = {
+	[K in Exclude<
+		keyof T,
+		E | keyof HTMLElement | `_${string}` | keyof Navigable
+	> as T[K] extends Function ? never : K]?: T[K];
+};
 
-type Properties<T> = {
-	[K in keyof T]: T[K] extends Function
-		? never
-		: K extends keyof HTMLElement | keyof GlobalAttributes
-			? never
-			: K;
-}[keyof T & string];
+type RefProps<T> = { ref?: (current: T) => any };
 
-type EventProps<T, M = T extends Component<any, infer E> ? E : {}> = {
-	[K in keyof M as `$${K & string}`]?: (
-		...args: M[K] extends any[] ? M[K] : [M[K]]
-	) => any;
+type EventProps<T, M = T extends EventEmitter<infer E> ? E : {}> = {
+	[K in keyof M as `$${K & string}`]?: EventHandler<
+		M[K] extends any[] ? M[K] : [M[K]]
+	>;
 };
 
 /**
@@ -99,26 +103,17 @@ type EventProps<T, M = T extends Component<any, infer E> ? E : {}> = {
  * // 结果: { a?: number; c?: (() => void) } & { [name: string]: any }
  * ```
  *
- * @see {@link Properties} 了解默认属性提取规则
- * @see {@link JSX.Props} 了解基础属性类型扩展
+ * @see {@link GlobalAttributes} 了解基础属性类型扩展
  */
 export type ElementProps<
 	T extends HTMLElement,
 	I extends keyof T = never,
 	E extends keyof T = never,
-> = Props<
-	{
-		[K in keyof T]?: K extends keyof GlobalAttributes
-			? GlobalAttributes[K]
-			: K extends I
-				? T[K]
-				: K extends E
-					? never
-					: K extends Properties<T>
-						? T[K]
-						: never;
-	} & { ref?: (current: T) => void } & EventProps<T>
->;
+> = SelfProps<T, I | E> &
+	Partial<Pick<T, I>> &
+	RefProps<T> &
+	Omit<GlobalAttributes, 'ref'> &
+	EventProps<T>;
 
 /**
  * 从自定义的自闭合元素类中提取适用于 JSX 的属性类型定义
@@ -128,12 +123,32 @@ export type VoidElementProps<
 	T extends HTMLElement,
 	I extends keyof T = never,
 	E extends keyof T = never,
-> = VoidProps<
-	Pick<T, Exclude<Properties<T>, E> | I> & { ref?: (current: T) => void }
->;
+> = Omit<ElementProps<T, I, E>, 'children'>;
 
-/** 全局属性 */
-type BasicAttributesKeys =
+type SVGValues =
+	| SVGAnimatedAngle
+	| SVGAnimatedBoolean
+	| SVGAnimatedEnumeration
+	| SVGAnimatedInteger
+	| SVGAnimatedLength
+	| SVGAnimatedLengthList
+	| SVGAnimatedNumber
+	| SVGAnimatedNumberList
+	| SVGAnimatedPreserveAspectRatio
+	| SVGAnimatedRect
+	| SVGAnimatedString
+	| SVGAnimatedTransformList;
+
+type SVGProps<T extends SVGElement> = {
+	[K in keyof T as T[K] extends SVGValues ? K : never]?: number;
+};
+
+export type SVGElementProps<T extends SVGElement> = SVGProps<T> &
+	Omit<GlobalAttributes, 'ref'> &
+	RefProps<T> & { [name: string]: any };
+
+/** 基础全局属性键名 */
+type BasicAttributeKeys =
 	| 'title'
 	| 'lang'
 	| 'dir'
@@ -144,26 +159,12 @@ type BasicAttributesKeys =
 	| 'spellcheck'
 	| 'draggable'
 	| 'role'
-	| 'part'
 	| 'slot'
 	| 'nonce'
 	| 'translate';
+/** 基础全局属性 */
 type BasicAttributes = {
-	[K in keyof HTMLElement &
-		BasicAttributesKeys]?: HTMLElement[K] extends DOMTokenList
-		? HTMLElement[K] | string
-		: HTMLElement[K];
-};
-
-/** 原始全局事件属性 */
-type RawEventAttributes = {
-	[K in keyof HTMLElement & `on${string}`]?: HTMLElement[K];
-};
-/** 全局事件属性 */
-type EventAttributes<T, K extends keyof T = keyof T> = {
-	[E in K extends `on${infer N extends string}`
-		? `on${Capitalize<N>}`
-		: K]?: T[K];
+	[K in keyof HTMLElement & BasicAttributeKeys]?: HTMLElement[K];
 };
 
 /** ARIA 属性 */
@@ -171,16 +172,23 @@ type AriaAttributes = {
 	[K in keyof HTMLElement & `aria${string}`]?: HTMLElement[K];
 };
 
-export interface GlobalAttributes
-	extends BasicAttributes,
-		EventAttributes<RawEventAttributes>,
-		AriaAttributes {
+/** 全局事件属性 */
+type EventAttributes = {
+	[K in keyof HTMLElement & `on${string}` as K extends `on${infer E}`
+		? `on${Capitalize<E>}`
+		: never]?: HTMLElement[K];
+};
+
+/** 特殊全局属性 */
+interface SpecialAttributes {
 	/** 子元素 */
 	children?: ArrayOr<any>;
 	/** 类名 */
-	class?: ArrayOr<any> | Record<string, any>;
+	class?: classnames.Argument;
 	/** 类名 */
-	className?: ArrayOr<any> | Record<string, any>;
+	className?: classnames.Argument;
+	/** 部分名 */
+	part?: classnames.Argument;
 	/** ID */
 	id?: string;
 	/** 样式 @see {@link $style} */
@@ -188,19 +196,11 @@ export interface GlobalAttributes
 	/** 主题配色 */
 	color?: ThemeColor;
 	/**
-	 * 数据属性
-	 * @description
-	 * 当值为 `null` 或 `undefined` 时不会被设置
-	 */
-	[name: `data-${string}`]: string | undefined | null;
-	/** UI 组件事件监听器 */
-	[event: `$${string}`]: ((...args: any) => any) | undefined | null;
-	/**
 	 * 获取 DOM 引用
 	 * @description
 	 * 在元素创建并设置后调用
 	 */
-	ref?: (current: HTMLElement) => void;
+	ref?: (current: HTMLElement) => any;
 	/**
 	 * 属性
 	 * @description
@@ -214,6 +214,12 @@ export interface GlobalAttributes
 	 */
 	props?: Record<string, any>;
 	/**
+	 * 数据属性
+	 * @description
+	 * 当值为 `null` 或 `undefined` 时不会被设置
+	 */
+	[name: `data-${string}`]: string | undefined | null;
+	/**
 	 * 设置 `innerHTML`
 	 * @description
 	 * 当包含子元素时，该选项失效
@@ -224,6 +230,13 @@ export interface GlobalAttributes
 	/** 标签命名空间 */
 	xmlns?: string;
 }
+
+/** 全局属性 */
+export interface GlobalAttributes
+	extends BasicAttributes,
+		AriaAttributes,
+		EventAttributes,
+		SpecialAttributes {}
 
 /** 自闭合元素标签名 */
 type VoidHTMLTagNames =
@@ -241,45 +254,51 @@ type VoidHTMLTagNames =
 	| 'track'
 	| 'wbr';
 
-/** 一般 HTML 元素 */
-type GeneralHTMLElementPropMap = {
-	[Name in keyof HTMLElementTagNameMap]: Name extends VoidHTMLTagNames
-		? VoidElementProps<HTMLElementTagNameMap[Name]>
-		: ElementProps<HTMLElementTagNameMap[Name]>;
+type HTMLElementPropsMap = {
+	[K in keyof HTMLElementTagNameMap]: K extends VoidHTMLTagNames
+		? VoidElementProps<HTMLElementTagNameMap[K]>
+		: ElementProps<HTMLElementTagNameMap[K]>;
+};
+
+type SupportedSVGTagNames =
+	typeof SVG_TAGS extends Set<infer K extends keyof SVGElementTagNameMap>
+		? K
+		: never;
+type SVGElementPropsMap = {
+	[K in SupportedSVGTagNames]: SVGElementProps<SVGElementTagNameMap[K]>;
 };
 
 // biome-ignore lint/suspicious/noEmptyInterface: Empty By Default
 export interface CustomElementTagNameMap {}
 
 // biome-ignore lint/suspicious/noEmptyInterface: Empty By Default
-export interface CustomElementPropMap {}
+export interface CustomElementPropsMap {}
 
 type PatchedCustomElementPropMap = {
-	[K in keyof CustomElementTagNameMap]: K extends keyof CustomElementPropMap
-		? CustomElementPropMap[K]
+	[K in keyof CustomElementTagNameMap]: K extends keyof CustomElementPropsMap
+		? CustomElementPropsMap[K]
 		: ElementProps<CustomElementTagNameMap[K]>;
 };
 
 export interface ElementPropMap
-	extends GeneralHTMLElementPropMap,
-		PatchedCustomElementPropMap {
-	[name: string]: Props<{}>;
-}
+	extends HTMLElementPropsMap,
+		SVGElementPropsMap,
+		PatchedCustomElementPropMap {}
 
 //#region Modify
-type BaseDOMOptions<K> = K extends keyof ElementPropMap
-	? ElementPropMap[K]
-	: {};
-type PropsDOMOptions<K> = K extends (props?: infer T extends {}) => any
-	? Partial<T>
-	: K extends Constructor<any, [infer T extends {} | undefined]>
-		? Partial<Exclude<T, undefined>>
-		: {};
-type RefDOMOptions<T> = { ref?: (current: T) => any };
-export type DOMApplyOptions<K, T> = Omit<GlobalAttributes, 'ref'> &
-	BaseDOMOptions<K> &
-	PropsDOMOptions<K> &
-	RefDOMOptions<T>;
+export type DOMApplyOptions<K, T> = RefProps<T> &
+	Omit<
+		K extends keyof ElementPropMap
+			? ElementPropMap[K]
+			: K extends typeof DocumentFragment
+				? Pick<GlobalAttributes, 'children'>
+				: K extends Constructor<any, [infer O]>
+					? Exclude<O, undefined | null>
+					: K extends (options: infer O extends object) => any
+						? Exclude<O, undefined | null>
+						: GlobalAttributes,
+		'ref'
+	>;
 
 const SPECIAL_KEYS = new Set([
 	'children',
@@ -295,28 +314,37 @@ const SPECIAL_KEYS = new Set([
 	'tooltip',
 ]);
 
+const PATTERN_EVENT = /^on[A-Z]/;
+
+const SVG_VALUES: Constructor<SVGValues>[] = [
+	SVGAnimatedAngle,
+	SVGAnimatedBoolean,
+	SVGAnimatedEnumeration,
+	SVGAnimatedInteger,
+	SVGAnimatedLength,
+	SVGAnimatedLengthList,
+	SVGAnimatedNumber,
+	SVGAnimatedNumberList,
+	SVGAnimatedPreserveAspectRatio,
+	SVGAnimatedRect,
+	SVGAnimatedString,
+	SVGAnimatedTransformList,
+];
+
 /** 标准化标记列表 */
-function toTokenList(input: GlobalAttributes['className']): string[] {
-	if (!input) return [];
-	let result: any[];
-	if (Array.isArray(input)) {
-		result = input.flatMap(
-			(value) => String(value).split(' '),
-			Number.POSITIVE_INFINITY,
-		);
-	} else if (typeof input === 'object') {
-		result = Object.entries(input)
-			.filter(([_, check]) => check)
-			.map(([name]) => name.split(' '));
-	} else {
-		result = input.split(' ');
-	}
-	return result.map(String);
+function toTokenList(...input: classnames.Argument[]): string[] {
+	return classnames(...input).split(' ');
 }
 
 /** 安全设置属性 */
-function setProp(target: any, key: string, value: unknown): void {
+function setProp(target: any, key: string, value: unknown): any {
 	try {
+		if (target instanceof SVGElement) {
+			for (const type of SVG_VALUES) {
+				if ((target as any)[key] instanceof type)
+					return target.setAttribute(key, String(value));
+			}
+		}
 		target[key] = value;
 	} catch (error) {
 		console.error(error);
@@ -346,10 +374,7 @@ export function $apply<T extends Element & ElementCSSInlineStyle>(
 
 	if (options.class || options.className) {
 		target.className = '';
-		target.classList.add(
-			...toTokenList(options.class),
-			...toTokenList(options.className),
-		);
+		target.classList.add(...toTokenList(options.class, options.className));
 	}
 	if (notNil(options.id)) target.id = String(options.id);
 	$style(target, options?.style);
@@ -364,7 +389,7 @@ export function $apply<T extends Element & ElementCSSInlineStyle>(
 			target.on(name.slice(1), value);
 			continue;
 		}
-		if (name.startsWith('on')) {
+		if (PATTERN_EVENT.test(name)) {
 			const event = name.slice(2).toLowerCase();
 			target.addEventListener(event, value);
 			continue;
@@ -462,7 +487,7 @@ const SVG_TAGS = new Set([
 	'filter',
 	'view',
 	'image',
-]);
+] as const satisfies (keyof SVGElementTagNameMap)[]);
 const SVG_NAMESPACE = 'http://www.w3.org/2000/svg';
 
 function isFragment(type: unknown): type is typeof DocumentFragment {
@@ -513,10 +538,12 @@ export function $new<
 		| typeof DocumentFragment
 		| ((options?: any, ...children: any[]) => any),
 >(type: K, options?: DOMApplyOptions<K, T> | null, ...children: any[]): T {
+	// Isolate options
+	const opt = options as GlobalAttributes | undefined;
 	// Fragment
-	if (isFragment(type)) return $fragment(...(options?.children ?? [])) as T;
+	if (isFragment(type)) return $fragment(...(opt?.children ?? [])) as T;
 	// Factory
-	if (isDOMFactory(type)) return type(options, ...children);
+	if (isDOMFactory(type)) return type(opt, ...children);
 	// Normal
 	let name: string | null;
 	if (typeof type === 'string') name = type;
@@ -524,20 +551,20 @@ export function $new<
 	if (name === null) throw new Error(ERR_NO_REG);
 
 	let element: T;
-	if (typeof options?.xmlns === 'string') {
-		element = document.createElementNS(options.xmlns, name) as T;
-	} else if (SVG_TAGS.has(name)) {
+	if (typeof opt?.xmlns === 'string') {
+		element = document.createElementNS(opt.xmlns, name) as T;
+	} else if (SVG_TAGS.has(name as any)) {
 		element = document.createElementNS(SVG_NAMESPACE, name) as T;
 	} else {
 		element = document.createElement(name) as T;
 	}
-	$apply(element, options, ...children);
+	$apply(element, opt as any, ...children);
 
-	if (!options) return element;
+	if (!opt) return element;
 
-	if (typeof options.ref === 'function') {
+	if (typeof opt.ref === 'function') {
 		try {
-			options.ref(element);
+			opt.ref(element);
 		} catch (err) {
 			console.error(err);
 		}

@@ -7,7 +7,6 @@ import {
 	zip,
 } from 'abm-utils';
 import { defineElement } from '../infra/decorator';
-import type { ElementProps } from '../infra/dom';
 import { $div, $new, $rect, type DOMContents } from '../infra/dom';
 import { register } from '../infra/registry';
 import { css } from '../infra/style';
@@ -15,7 +14,7 @@ import { MovementController } from '../movement';
 import type { Navigable } from '../navigate';
 import { state } from '../state';
 import type { AriaConfig } from './base';
-import { FormControl } from './form';
+import { FormControl, type FormControlProps } from './form';
 import { ico } from './icon';
 import { List, ListItem } from './list';
 
@@ -199,8 +198,8 @@ class TableRow<T> extends ListItem<T> {
 }
 
 //#region #Table
-export interface TableProp<T extends object = object>
-	extends ElementProps<Table<T>> {}
+export interface TableProps<T extends object = object>
+	extends FormControlProps<Table<T>, 'columns'> {}
 
 type CellInHead = [div: HTMLDivElement, resize: HTMLDivElement];
 
@@ -211,7 +210,7 @@ type CellInHead = [div: HTMLDivElement, resize: HTMLDivElement];
 @register('table')
 @defineElement('abm-table')
 export class Table<T extends object = object>
-	extends FormControl<T[], TableProp>
+	extends FormControl<T[], TableProps<T>>
 	implements Navigable
 {
 	protected static style = css`
@@ -285,7 +284,7 @@ export class Table<T extends object = object>
 		debounceDelay: 50,
 	});
 	#sort?: [index: number, reverse: boolean];
-	constructor(_props?: TableProp) {
+	constructor(_props?: TableProps<T>) {
 		super();
 		this.attachShadow({}, this.#head, this.#body);
 		this.#body.itemCreator = this.#create;

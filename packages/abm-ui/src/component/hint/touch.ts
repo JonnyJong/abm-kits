@@ -9,7 +9,7 @@ declare module '../../infra/dom' {
 	}
 }
 
-export interface TouchHintProp extends ElementProps<TouchHint> {}
+export interface TouchHintProps extends ElementProps<TouchHint> {}
 
 export type TouchHintKey = (typeof KEYS)[number];
 
@@ -29,7 +29,7 @@ const KEYS = [
  * @link [ABM Kits Docs](https://jonnyjong.github.io/abm-kits/component/hint#touchhint)
  */
 @defineElement('abm-hint-touch')
-export class TouchHint extends HintBase<TouchHintKey, TouchHintProp> {
+export class TouchHint extends HintBase<TouchHintKey, TouchHintProps> {
 	protected static style = css`
 		:host {
 			display: inline-block;
@@ -90,7 +90,7 @@ export class TouchHint extends HintBase<TouchHintKey, TouchHintProp> {
 		.SwapLeft { rotate: -90deg }
 	`;
 	#root = $div({ class: 'root' }, $div({ class: 'a' }), $div({ class: 'b' }));
-	constructor(_props?: TouchHintProp) {
+	constructor(_props?: TouchHintProps) {
 		super();
 		this.attachShadow({}, this.#root);
 	}

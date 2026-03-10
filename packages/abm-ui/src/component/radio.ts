@@ -1,11 +1,10 @@
 import { toType } from 'abm-utils';
 import { defineElement, property } from '../infra/decorator';
-import type { ElementProps } from '../infra/dom';
 import { register } from '../infra/registry';
 import { css } from '../infra/style';
 import { state } from '../state';
 import type { AriaConfig } from './base';
-import { FormControl } from './form';
+import { FormControl, type FormControlProps } from './form';
 
 declare module '../infra/dom' {
 	interface CustomElementTagNameMap {
@@ -83,7 +82,7 @@ function getValueFromGroup(root: RadioGroup<any>): any {
 }
 
 //#region Radio
-export interface RadioProp<T> extends ElementProps<Radio<T>> {}
+export interface RadioProps<T> extends FormControlProps<Radio<T>> {}
 
 /**
  * 单选框
@@ -91,7 +90,7 @@ export interface RadioProp<T> extends ElementProps<Radio<T>> {}
  */
 @register('radio')
 @defineElement('abm-radio')
-export class Radio<T> extends FormControl<T, RadioProp<T>> {
+export class Radio<T> extends FormControl<T, RadioProps<T>> {
 	protected static hoverable = true;
 	protected static navigable = true;
 	protected static style = css`
@@ -130,7 +129,7 @@ export class Radio<T> extends FormControl<T, RadioProp<T>> {
 		}
 	`;
 	protected static aria: AriaConfig = { role: 'radio', checked: false };
-	constructor(_props?: RadioProp<T>) {
+	constructor(_props?: RadioProps<T>) {
 		super();
 		this.attachShadow();
 		state.active.on(this, (active, cancel) => {
@@ -156,7 +155,7 @@ export class Radio<T> extends FormControl<T, RadioProp<T>> {
 }
 
 //#region Group
-export interface RadioGroupProp<T> extends ElementProps<RadioGroup<T>> {}
+export interface RadioGroupProps<T> extends FormControlProps<RadioGroup<T>> {}
 
 /**
  * 单选框组
@@ -166,7 +165,7 @@ export interface RadioGroupProp<T> extends ElementProps<RadioGroup<T>> {}
 @defineElement('abm-radio-group')
 export class RadioGroup<T> extends FormControl<
 	T | undefined,
-	RadioGroupProp<T>
+	RadioGroupProps<T>
 > {
 	accessor default: T | undefined;
 	get value() {

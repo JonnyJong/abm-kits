@@ -1,8 +1,7 @@
 import { defineElement, property } from '../infra/decorator';
-import type { ElementProps } from '../infra/dom';
 import { register } from '../infra/registry';
 import { css } from '../infra/style';
-import { FormControl } from './form';
+import { FormControl, type FormControlProps } from './form';
 
 declare module '../infra/dom' {
 	interface CustomElementTagNameMap {
@@ -16,7 +15,7 @@ declare module '../infra/registry' {
 	}
 }
 
-export interface ValueProp<T = any> extends ElementProps<Value<T>> {}
+export interface ValueProps<T> extends FormControlProps<Value<T>> {}
 
 /**
  * 值
@@ -24,9 +23,9 @@ export interface ValueProp<T = any> extends ElementProps<Value<T>> {}
  */
 @register('value')
 @defineElement('abm-value')
-export class Value<T = any> extends FormControl<T, ValueProp> {
+export class Value<T = any> extends FormControl<T, ValueProps<T>> {
 	protected static style = css`:host{display:none}`;
-	constructor(_props?: ValueProp<T>) {
+	constructor(_props?: ValueProps<T>) {
 		super();
 		this.attachShadow();
 	}

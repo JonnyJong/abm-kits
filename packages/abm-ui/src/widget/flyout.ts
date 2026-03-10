@@ -1,5 +1,5 @@
 import { asArray, clamp, EventEmitter } from 'abm-utils';
-import { Button, type ButtonProp } from '../component/button';
+import { Button, type ButtonProps } from '../component/button';
 import { t } from '../component/i18n';
 import { $color, type ThemeColor } from '../infra/color';
 import { $content, $div, $new, type DOMContents } from '../infra/dom';
@@ -31,7 +31,7 @@ export interface FlyoutInit {
 /** 确认浮出面板初始化参数 */
 export interface ConfirmFlyoutInit extends FlyoutInit {
 	/** 操作按钮 */
-	button?: Button | ButtonProp;
+	button?: Button | ButtonProps;
 }
 
 export interface FlyoutEventMap {

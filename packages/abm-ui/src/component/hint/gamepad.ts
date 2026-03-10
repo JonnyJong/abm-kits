@@ -28,7 +28,7 @@ declare module '../icon' {
 	}
 }
 
-export interface GamepadHintProp extends ElementProps<GamepadHint> {}
+export interface GamepadHintProps extends ElementProps<GamepadHint> {}
 
 export type GamepadHintKey = (typeof KEYS)[number];
 
@@ -46,7 +46,7 @@ const ICON_KEYS = new Set<GamepadHintKey>([
  * @link [ABM Kits Docs](https://jonnyjong.github.io/abm-kits/component/hint#gamepadhint)
  */
 @defineElement('abm-hint-gamepad')
-export class GamepadHint extends HintBase<GamepadHintKey, GamepadHintProp> {
+export class GamepadHint extends HintBase<GamepadHintKey, GamepadHintProps> {
 	protected static style = css`
 		:host {
 			position: relative;

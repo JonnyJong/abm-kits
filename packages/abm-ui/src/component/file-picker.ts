@@ -1,12 +1,11 @@
 import { defineElement, property } from '../infra/decorator';
-import type { ElementProps } from '../infra/dom';
 import { $div, $new, $slot } from '../infra/dom';
 import { $on } from '../infra/event';
 import { register } from '../infra/registry';
 import { css } from '../infra/style';
 import type { AriaConfig } from './base';
 import { Button } from './button';
-import { FormControl } from './form';
+import { FormControl, type FormControlProps } from './form';
 import { ico } from './icon';
 import { Img } from './img';
 
@@ -31,7 +30,7 @@ declare module './icon' {
 	}
 }
 
-export interface FilePickerProp extends ElementProps<FilePicker> {}
+export interface FilePickerProps extends FormControlProps<FilePicker> {}
 
 /**
  * 文件选择器
@@ -39,7 +38,7 @@ export interface FilePickerProp extends ElementProps<FilePicker> {}
  */
 @register('file-picker')
 @defineElement('abm-file-picker')
-export class FilePicker extends FormControl<File[], FilePickerProp> {
+export class FilePicker extends FormControl<File[], FilePickerProps> {
 	protected static style = css`
 		:host {
 			position: relative;
@@ -112,7 +111,7 @@ export class FilePicker extends FormControl<File[], FilePickerProp> {
 	);
 	#placeholder = $div({ class: 'placeholder', part: 'placeholder' }, $slot());
 	#checkFile: (type: string) => boolean = () => true;
-	constructor(_props?: FilePickerProp) {
+	constructor(_props?: FilePickerProps) {
 		super();
 		this.attachShadow({}, this.#container, this.#placeholder);
 		this.#input.multiple = false;

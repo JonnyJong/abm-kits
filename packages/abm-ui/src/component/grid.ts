@@ -13,7 +13,11 @@ import { keyboard } from '../input/keyboard';
 import type { Navigable } from '../navigate';
 import { state } from '../state';
 import { type AriaConfig, Component } from './base';
-import { FormControl, type FormControlEventMap } from './form';
+import {
+	FormControl,
+	type FormControlEventMap,
+	type FormControlProps,
+} from './form';
 
 declare module '../infra/dom' {
 	interface CustomElementTagNameMap {
@@ -37,12 +41,14 @@ const kHost = Symbol();
 
 //#region #Item
 
-export interface GridItemProp<T = any> extends ElementProps<GridItem<T>> {}
+export interface GridItemProps<T = any>
+	extends ElementProps<GridItem<T>, 'value'> {}
 
 export abstract class GridItem<T = any>
-	extends Component<GridItemProp<T>>
+	extends Component<GridItemProps<T>>
 	implements Navigable
 {
+	declare _props: ElementProps<GridItem<T>>;
 	protected static aria: AriaConfig = { role: 'gridcell' };
 	[kHost]!: Grid<T>;
 	/** 宿主网格 */
@@ -113,8 +119,8 @@ export abstract class GridItem<T = any>
 
 //#region #Grid
 
-export interface GridProp<T = any, I extends GridItem<T> = GridItem<T>>
-	extends ElementProps<Grid<T, I>> {}
+export interface GridProps<T = any, I extends GridItem<T> = GridItem<T>>
+	extends FormControlProps<Grid<T, I>, 'itemCreator', 'items'> {}
 
 export interface GridEventMap<T> extends FormControlEventMap<T[]> {
 	/** 激活事件 */
@@ -134,7 +140,7 @@ type LineItem = [item: HTMLElement, width: number, height: number];
 export class Grid<
 	T = any,
 	I extends GridItem<T> = GridItem<T>,
-> extends FormControl<T[], GridProp<T, I>, GridEventMap<T>> {
+> extends FormControl<T[], GridProps<T, I>, GridEventMap<T>> {
 	protected static style = css`
 		:host {
 			display: block;
@@ -157,7 +163,7 @@ export class Grid<
 		},
 		{ rootMargin: '128px' },
 	);
-	constructor(_props?: GridProp) {
+	constructor(_props?: GridProps<T, I>) {
 		super();
 		this.attachShadow({}, $slot());
 		this.#resizeObserver.observe(this);

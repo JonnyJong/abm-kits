@@ -32,6 +32,9 @@ importers:
       abm-utils:
         specifier: workspace:~
         version: link:../abm-utils
+      classnames:
+        specifier: ^2.5.1
+        version: 2.5.1
       reflect-metadata:
         specifier: ^0.2.2
         version: 0.2.2
@@ -661,6 +664,9 @@ packages:
   chrono-node@2.9.0:
     resolution: {integrity: sha512-glI4YY2Jy6JII5l3d5FN6rcrIbKSQqKPhWsIRYPK2IK8Mm4Q1ZZFdYIaDqglUNf7gNwG+kWIzTn0omzzE0VkvQ==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+
+  classnames@2.5.1:
+    resolution: {integrity: sha512-saHYOzhIQs6wy2sVxTM6bUDsQO4F50V9RQ22qBpEdCW+I+/Wmke2HOl6lS6dTpdxVhb88/I6+Hs+438c3lfUow==}
 
   clean-css@5.3.3:
     resolution: {integrity: sha512-D5J+kHaVb/wKSFcyyV75uCn8fiY4sV38XJoe4CUyGQ+mOU/fMVYUdH1hJC+CJQ5uY3EnW27SbJYS4X8BiLrAFg==}
@@ -1739,6 +1745,8 @@ snapshots:
       readdirp: 5.0.0
 
   chrono-node@2.9.0: {}
+
+  classnames@2.5.1: {}
 
   clean-css@5.3.3:
     dependencies:

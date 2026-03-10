@@ -28,7 +28,7 @@ declare module '../infra/registry' {
 	}
 }
 
-export interface CollapsibleProp extends ElementProps<Collapsible> {}
+export interface CollapsibleProps extends ElementProps<Collapsible> {}
 
 export interface CollapsibleEventMap {
 	expand: [];
@@ -54,7 +54,7 @@ function checkParent(collapsible: Collapsible, trigger: HTMLElement): boolean {
 @register('collapsible')
 @defineElement('abm-collapsible')
 export class Collapsible extends Component<
-	CollapsibleProp,
+	CollapsibleProps,
 	CollapsibleEventMap
 > {
 	protected static style = css`
@@ -82,7 +82,7 @@ export class Collapsible extends Component<
 		{ class: 'body' },
 		$div({ class: 'content', part: 'body' }, $slot()),
 	);
-	constructor(_props?: CollapsibleProp) {
+	constructor(_props?: CollapsibleProps) {
 		super();
 		this.attachShadow({}, this.#head, this.#body);
 	}

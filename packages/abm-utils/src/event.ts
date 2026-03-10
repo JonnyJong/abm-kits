@@ -57,6 +57,7 @@ export interface IEventEmitter<T> {
  * emitter.emit('ready');
  */
 export class EventEmitter<T> extends EventTarget implements IEventEmitter<T> {
+	declare _eventMap: T;
 	/** 事件处理器 */
 	_eventHandlers = new TwoKeyMap<keyof T, EventHandler<any>, AbortController>();
 	on<K extends Key<T>>(event: K, handler: EventHandler<Args<T, K>>): void {

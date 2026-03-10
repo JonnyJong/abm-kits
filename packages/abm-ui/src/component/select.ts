@@ -1,6 +1,5 @@
 import { asArray, clamp, sleep } from 'abm-utils';
 import { defineElement } from '../infra/decorator';
-import type { ElementProps } from '../infra/dom';
 import { $clone, $div, $new, $slot, type DOMContents } from '../infra/dom';
 import { $on } from '../infra/event';
 import { register } from '../infra/registry';
@@ -11,7 +10,7 @@ import { type Navigable, type NavState, navigate } from '../navigate/index';
 import { PrefabListItem } from '../prefab/list';
 import { state } from '../state';
 import type { AriaConfig } from './base';
-import { FormControl } from './form';
+import { FormControl, type FormControlProps } from './form';
 import { ico } from './icon';
 import { List } from './list';
 
@@ -39,7 +38,7 @@ export interface SelectOption<T> {
 	label: DOMContents;
 }
 
-export interface SelectProp<T = any> extends ElementProps<Select<T>> {}
+export interface SelectProps<T = any> extends FormControlProps<Select<T>> {}
 
 const itemCreator = PrefabListItem.creator<SelectOption<any>>({
 	init(self) {
@@ -85,7 +84,10 @@ function computeExpandOrigin<T extends HTMLElement>(
  */
 @register('select')
 @defineElement('abm-select')
-export class Select<T> extends FormControl<T | undefined, SelectProp<T>> {
+export class Select<T = any> extends FormControl<
+	T | undefined,
+	SelectProps<T>
+> {
 	protected static hoverable = true;
 	protected static navigable = true;
 	protected static style = css`
@@ -137,7 +139,7 @@ export class Select<T> extends FormControl<T | undefined, SelectProp<T>> {
 		this.#list,
 	);
 	#index = -1;
-	constructor(_props?: SelectProp<T>) {
+	constructor(_props?: SelectProps<T>) {
 		super();
 		this.attachShadow(
 			{},

@@ -20,7 +20,7 @@ declare module '../infra/registry' {
 	}
 }
 
-export interface ButtonProp extends ElementProps<Button> {}
+export interface ButtonProps extends ElementProps<Button> {}
 export interface ButtonEventMap {
 	/** 按钮触发事件 */
 	active: [element: Button];
@@ -49,7 +49,7 @@ export type ButtonVariant =
 @register('button')
 @defineElement('abm-btn')
 export class Button
-	extends Component<ButtonProp, ButtonEventMap>
+	extends Component<ButtonProps, ButtonEventMap>
 	implements Navigable
 {
 	protected static hoverable = true;
@@ -130,7 +130,7 @@ export class Button
 	#repeatController = new RepeatingTriggerController(() =>
 		this.emit('active', this),
 	);
-	constructor(_props?: ButtonProp) {
+	constructor(_props?: ButtonProps) {
 		super();
 		this.attachShadow({}, $slot());
 		state.active.on(this, this.#activeHandler);

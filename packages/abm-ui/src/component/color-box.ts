@@ -1,6 +1,5 @@
 import { Color, typeCheck } from 'abm-utils';
 import { defineElement, property } from '../infra/decorator';
-import type { ElementProps } from '../infra/dom';
 import { $new } from '../infra/dom';
 import { register } from '../infra/registry';
 import { $style, css } from '../infra/style';
@@ -9,7 +8,7 @@ import { Dialog } from '../widget/dialog';
 import { Flyout } from '../widget/flyout';
 import type { AriaConfig } from './base';
 import { ColorPicker } from './color-picker';
-import { FormControl } from './form';
+import { FormControl, type FormControlProps } from './form';
 import { t } from './i18n';
 
 declare module '../infra/dom' {
@@ -24,7 +23,7 @@ declare module '../infra/registry' {
 	}
 }
 
-export interface ColorBoxProp extends ElementProps<ColorBox> {}
+export interface ColorBoxProps extends FormControlProps<ColorBox> {}
 
 /**
  * 颜色输入
@@ -32,7 +31,7 @@ export interface ColorBoxProp extends ElementProps<ColorBox> {}
  */
 @register('color-box')
 @defineElement('abm-color-box')
-export class ColorBox extends FormControl<Color, ColorBoxProp> {
+export class ColorBox extends FormControl<Color, ColorBoxProps> {
 	protected static navigable = true;
 	protected static style = css`
 		:host {
@@ -58,7 +57,7 @@ export class ColorBox extends FormControl<Color, ColorBoxProp> {
 		label: 'Color box: #000000',
 	};
 	#value = new Color();
-	constructor(_props?: ColorBoxProp) {
+	constructor(_props?: ColorBoxProps) {
 		super();
 		this.attachShadow();
 		state.active.on(this, (active, cancel) => this.#handleActive(active, cancel));

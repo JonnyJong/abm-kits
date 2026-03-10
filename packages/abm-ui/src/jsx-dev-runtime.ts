@@ -1,12 +1,4 @@
-import type { Constructor } from 'abm-utils';
-import {
-	$new,
-	$path,
-	type CustomElementTagNameMap,
-	type DOMApplyOptions,
-	type ElementConstructor,
-	type GlobalAttributes,
-} from './infra/dom';
+import { $new, $path } from './infra/dom';
 import { $on } from './infra/event';
 
 interface DevSource {
@@ -57,39 +49,20 @@ function info<T>(
 	});
 }
 
-export function jsxDEV<
-	T extends K extends Constructor<infer E extends HTMLElement>
-		? E
-		: K extends keyof HTMLElementTagNameMap
-			? HTMLElementTagNameMap[K]
-			: K extends keyof CustomElementTagNameMap
-				? CustomElementTagNameMap[K]
-				: K extends DocumentFragment
-					? DocumentFragment
-					: K extends (options?: GlobalAttributes | null) => infer R
-						? R
-						: HTMLElement,
-	K extends
-		| keyof HTMLElementTagNameMap
-		| keyof CustomElementTagNameMap
-		| (string & {})
-		| ElementConstructor
-		| typeof DocumentFragment
-		| ((options?: GlobalAttributes | null) => any),
->(
-	type: K,
-	options: DOMApplyOptions<K, T> | null | undefined,
+export function jsxDEV(
+	type: any,
+	options: any,
 	key: string | null | undefined,
 	_isStaticChildren: boolean,
 	source?: DevSource,
 	self?: any,
-): T {
+): any {
 	if (key !== undefined) {
 		if (!options) options = {} as any;
 		(options as any).key ??= key;
 	}
 
-	const node = $new(type, options);
+	const node = $new<any, any>(type, options);
 
 	if (self) {
 		if (typeof self !== 'object') info(node, kOwner, { value: self });

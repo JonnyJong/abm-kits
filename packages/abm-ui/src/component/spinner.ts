@@ -18,7 +18,7 @@ declare module '../infra/registry' {
 	}
 }
 
-export interface SpinnerProp extends ElementProps<Spinner> {}
+export interface SpinnerProps extends ElementProps<Spinner> {}
 
 /**
  * 转盘
@@ -26,7 +26,7 @@ export interface SpinnerProp extends ElementProps<Spinner> {}
  */
 @register('spinner')
 @defineElement('abm-spinner')
-export class Spinner extends Component<SpinnerProp> {
+export class Spinner extends Component<SpinnerProps> {
 	protected static style = css`
 		:host {
 			--size: 14px;
@@ -62,7 +62,7 @@ export class Spinner extends Component<SpinnerProp> {
 	`;
 	protected static aria: AriaConfig = { role: 'progressbar', valueText: 'NaN' };
 	#svg = $svg('svg');
-	constructor(_props?: SpinnerProp) {
+	constructor(_props?: SpinnerProps) {
 		super();
 		this.#svg.classList.add('loading');
 		this.#svg.setAttribute('viewBox', '-8 -8 16 16');

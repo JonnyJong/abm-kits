@@ -6,7 +6,7 @@ import { register } from '../infra/registry';
 import { $style, css } from '../infra/style';
 import { state } from '../state';
 import { type AriaConfig, Component } from './base';
-import { FormControl } from './form';
+import { FormControl, type FormControlProps } from './form';
 
 declare module '../infra/dom' {
 	interface CustomElementTagNameMap {
@@ -67,13 +67,13 @@ function getLogicLayout(
 
 //#region Flex
 
-export interface NavFlexProp extends ElementProps<NavFlex> {}
+export interface NavFlexProps extends ElementProps<NavFlex> {}
 
 @register('nav-flex')
 @defineElement('abm-nav-flex')
-export class NavFlex extends Component<NavFlexProp> {
+export class NavFlex extends Component<NavFlexProps> {
 	protected static style = css`:host { flex: 1 }`;
-	constructor(_props?: NavFlexProp) {
+	constructor(_props?: NavFlexProps) {
 		super();
 		this.attachShadow();
 	}
@@ -86,12 +86,13 @@ export interface INavItem<T> {
 	content: DOMContents;
 }
 
-export interface NavItemProp<T> extends ElementProps<NavItem<T>> {}
+export interface NavItemProps<T = any>
+	extends ElementProps<NavItem<T>, 'value'> {}
 
 @register('nav-item')
 @defineElement('abm-nav-item')
 export class NavItem<T = any>
-	extends Component<NavItemProp<T>>
+	extends Component<NavItemProps<T>>
 	implements INavItem<T>
 {
 	protected static hoverable = true;
@@ -122,7 +123,7 @@ export class NavItem<T = any>
 		disabled: false,
 		checked: false,
 	};
-	constructor(_props?: NavItemProp<T>) {
+	constructor(_props?: NavItemProps<T>) {
 		super();
 		this.attachShadow({}, $slot());
 		state.active.on(this, (active, cancel) => {
@@ -157,7 +158,7 @@ export class NavItem<T = any>
 }
 
 //#region Nav
-export interface NavProp<T> extends ElementProps<Nav<T>> {}
+export interface NavProps<T = any> extends FormControlProps<Nav<T>> {}
 
 /**
  * 导航
@@ -165,7 +166,7 @@ export interface NavProp<T> extends ElementProps<Nav<T>> {}
  */
 @register('nav')
 @defineElement('abm-nav')
-export class Nav<T = any> extends FormControl<T | undefined, NavProp<T>> {
+export class Nav<T = any> extends FormControl<T | undefined, NavProps<T>> {
 	protected static style = css`
 		:host {
 			position: relative;
@@ -198,7 +199,7 @@ export class Nav<T = any> extends FormControl<T | undefined, NavProp<T>> {
 		if (![...entry.removedNodes].includes(this.#active)) return;
 		this.#setValue(this.#active.value);
 	});
-	constructor(_props?: NavProp<T>) {
+	constructor(_props?: NavProps<T>) {
 		super();
 		this.attachShadow({}, this.#indicator, $slot());
 		this.#resizeObserver.observe(this);

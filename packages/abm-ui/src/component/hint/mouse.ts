@@ -9,7 +9,7 @@ declare module '../../infra/dom' {
 	}
 }
 
-export interface MouseHintProp extends ElementProps<MouseHint> {}
+export interface MouseHintProps extends ElementProps<MouseHint> {}
 
 export type MouseHintKey = (typeof KEYS)[number];
 
@@ -44,7 +44,7 @@ const TEMPLATE = `
  * @link [ABM Kits Docs](https://jonnyjong.github.io/abm-kits/component/hint#mousehint)
  */
 @defineElement('abm-hint-mouse')
-export class MouseHint extends HintBase<MouseHintKey, MouseHintProp> {
+export class MouseHint extends HintBase<MouseHintKey, MouseHintProps> {
 	protected static style = css`
 		:host {
 			display: inline-block;
@@ -69,7 +69,7 @@ export class MouseHint extends HintBase<MouseHintKey, MouseHintProp> {
 		.WheelPress .wheel { stroke: var(--primary) }
 	`;
 	#svg: SVGSVGElement;
-	constructor(_props?: MouseHintProp) {
+	constructor(_props?: MouseHintProps) {
 		super();
 		const root = this.attachShadow();
 		root.innerHTML = TEMPLATE;

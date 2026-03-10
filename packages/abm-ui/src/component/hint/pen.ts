@@ -9,7 +9,7 @@ declare module '../../infra/dom' {
 	}
 }
 
-export interface PenHintProp extends ElementProps<PenHint> {}
+export interface PenHintProps extends ElementProps<PenHint> {}
 
 export type PenHintKey = (typeof KEYS)[number];
 
@@ -46,7 +46,7 @@ const TEMPLATE = `
  * @link [ABM Kits Docs](https://jonnyjong.github.io/abm-kits/component/hint#penhint)
  */
 @defineElement('abm-hint-pen')
-export class PenHint extends HintBase<PenHintKey, PenHintProp> {
+export class PenHint extends HintBase<PenHintKey, PenHintProps> {
 	protected static style = css`
 		:host {
 			display: inline-block;
@@ -69,7 +69,7 @@ export class PenHint extends HintBase<PenHintKey, PenHintProp> {
 		.Hold .tap { fill: var(--primary) }
 	`;
 	#svg: SVGSVGElement;
-	constructor(_props?: PenHintProp) {
+	constructor(_props?: PenHintProps) {
 		super();
 		const root = this.attachShadow();
 		root.innerHTML = TEMPLATE;

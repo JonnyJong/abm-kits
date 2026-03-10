@@ -68,7 +68,7 @@ export type IconPackage<T extends object = IconRegistry> = {
 };
 
 //#region Icon
-export interface IconProp extends ElementProps<Icon> {}
+export interface IconProps extends ElementProps<Icon> {}
 
 /**
  * 图标
@@ -76,7 +76,7 @@ export interface IconProp extends ElementProps<Icon> {}
  */
 @register('icon')
 @defineElement('abm-icon')
-export class Icon extends KeyedComponent<IconKey, IconProp> {
+export class Icon extends KeyedComponent<IconKey, IconProps> {
 	protected static style = css`
 		:host {
 			display: inline-block;

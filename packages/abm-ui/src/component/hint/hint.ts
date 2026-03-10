@@ -67,16 +67,16 @@ function update(type: OperateType) {
 
 //#region Hint
 
-export interface HintProp extends ElementProps<Hint> {}
+export interface HintProps extends ElementProps<Hint> {}
 
 /**
  * 操作提示
  * @link [ABM Kits Docs](https://jonnyjong.github.io/abm-kits/component/hint#hint)
  */
 @defineElement('abm-hint')
-export class Hint extends Component<HintProp> {
+export class Hint extends Component<HintProps> {
 	#slot = $slot(slot);
-	constructor(_props?: HintProp) {
+	constructor(_props?: HintProps) {
 		super();
 		this.attachShadow({}, this.#slot);
 		new MutationObserver(() => this.update()).observe(this, { childList: true });

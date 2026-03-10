@@ -1,6 +1,5 @@
 import { Color, IDGenerator, typeCheck } from 'abm-utils';
 import { defineElement, property } from '../infra/decorator';
-import type { ElementProps } from '../infra/dom';
 import { $apply, $div, $new } from '../infra/dom';
 import { register } from '../infra/registry';
 import { $style, css } from '../infra/style';
@@ -8,7 +7,7 @@ import type { Navigable } from '../navigate/index';
 import { createNumberInputPrefab } from '../prefab/number';
 import { createTabsPrefab } from '../prefab/tabs';
 import type { AriaConfig } from './base';
-import { FormControl, Label } from './form';
+import { FormControl, type FormControlProps, Label } from './form';
 import { t } from './i18n';
 import { type NumberBox, TextBox } from './input';
 import { SingletonPage } from './page';
@@ -27,7 +26,7 @@ declare module '../infra/registry' {
 	}
 }
 
-export interface ColorPickerProp extends ElementProps<ColorPicker> {}
+export interface ColorPickerProps extends FormControlProps<ColorPicker> {}
 
 const idGenerator = new IDGenerator();
 function channel(
@@ -236,7 +235,7 @@ class OklchPage extends ColorPickerPage {
 @register('color-picker')
 @defineElement('abm-color-picker')
 export class ColorPicker
-	extends FormControl<Color, ColorPickerProp>
+	extends FormControl<Color, ColorPickerProps>
 	implements Navigable
 {
 	protected static style = css`
@@ -337,7 +336,7 @@ export class ColorPicker
 		},
 	);
 	#bar = $div({ class: 'bar' }, this.#tabs.nav, 'HEX', this.#input);
-	constructor(_props?: ColorPickerProp) {
+	constructor(_props?: ColorPickerProps) {
 		super();
 		this.attachShadow(
 			{},

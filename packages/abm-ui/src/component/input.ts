@@ -8,7 +8,6 @@ import {
 	wrapInRange,
 } from 'abm-utils';
 import { defineElement, property } from '../infra/decorator';
-import type { ElementProps } from '../infra/dom';
 import { $div, $new, $slot, type DOMContents } from '../infra/dom';
 import { $on } from '../infra/event';
 import { register } from '../infra/registry';
@@ -20,7 +19,11 @@ import { type Navigable, type NavState, navigate } from '../navigate/index';
 import { PrefabListItem } from '../prefab/list';
 import type { AriaConfig } from './base';
 import { Button } from './button';
-import { FormControl, type FormControlEventMap } from './form';
+import {
+	FormControl,
+	type FormControlEventMap,
+	type FormControlProps,
+} from './form';
 import { ico } from './icon';
 import { List } from './list';
 
@@ -449,7 +452,7 @@ abstract class InputBox<T, P extends {} = {}>
 }
 
 //#region Text
-export interface TextBoxProp extends ElementProps<TextBox> {}
+export interface TextBoxProps extends FormControlProps<TextBox> {}
 
 /**
  * 文本输入框
@@ -457,9 +460,9 @@ export interface TextBoxProp extends ElementProps<TextBox> {}
  */
 @register('text-box')
 @defineElement('abm-text-box')
-export class TextBox extends InputBox<string, TextBoxProp> {
+export class TextBox extends InputBox<string, TextBoxProps> {
 	#input: HTMLInputElement & Navigable;
-	constructor(_props?: TextBoxProp) {
+	constructor(_props?: TextBoxProps) {
 		const input = $new('input');
 		super(input);
 		this.#input = input;
@@ -495,7 +498,7 @@ export class TextBox extends InputBox<string, TextBoxProp> {
 }
 
 //#region Number
-export interface NumberBoxProp extends ElementProps<NumberBox> {}
+export interface NumberBoxProps extends FormControlProps<NumberBox> {}
 
 /**
  * 数字输入框
@@ -503,11 +506,11 @@ export interface NumberBoxProp extends ElementProps<NumberBox> {}
  */
 @register('number-box')
 @defineElement('abm-number-box')
-export class NumberBox extends InputBox<number, NumberBoxProp> {
+export class NumberBox extends InputBox<number, NumberBoxProps> {
 	#input: HTMLInputElement & Navigable;
 	#addBtn: Button;
 	#subBtn: Button;
-	constructor(_props?: NumberBoxProp) {
+	constructor(_props?: NumberBoxProps) {
 		const input = $new('input', { type: 'number' });
 		const addBtn = $new(Button, { flat: true, repeat: true }, ico('ui.increase'));
 		const subBtn = $new(Button, { flat: true, repeat: true }, ico('ui.decrease'));
@@ -623,7 +626,7 @@ export class NumberBox extends InputBox<number, NumberBoxProp> {
 }
 
 //#region Password
-export interface PasswordBoxProp extends ElementProps<PasswordBox> {}
+export interface PasswordBoxProps extends FormControlProps<PasswordBox> {}
 
 /**
  * 密码输入框
@@ -631,9 +634,9 @@ export interface PasswordBoxProp extends ElementProps<PasswordBox> {}
  */
 @register('password-box')
 @defineElement('abm-password-box')
-export class PasswordBox extends InputBox<string, PasswordBoxProp> {
+export class PasswordBox extends InputBox<string, PasswordBoxProps> {
 	#input: HTMLInputElement & Navigable;
-	constructor(_props?: PasswordBoxProp) {
+	constructor(_props?: PasswordBoxProps) {
 		const input = $new('input', { type: 'password' });
 		super(input);
 		this.#input = input;
@@ -680,7 +683,7 @@ export class PasswordBox extends InputBox<string, PasswordBoxProp> {
 }
 
 //#region TextArea
-export interface TextAreaProp extends ElementProps<TextArea> {}
+export interface TextAreaProps extends FormControlProps<TextArea> {}
 
 /**
  * 文本区域
@@ -689,7 +692,7 @@ export interface TextAreaProp extends ElementProps<TextArea> {}
 @register('textarea')
 @defineElement('abm-textarea')
 export class TextArea
-	extends FormControl<string, TextAreaProp, InputBoxEventMap<string>>
+	extends FormControl<string, TextAreaProps, InputBoxEventMap<string>>
 	implements Navigable
 {
 	protected static hoverable = true;
@@ -780,7 +783,7 @@ export class TextArea
 	#input: HTMLTextAreaElement & Navigable = $new('textarea', {
 		class: 'input',
 		part: 'edit',
-		nav: true,
+		attr: { nav: true },
 		props: { navParent: this },
 	});
 	#edit = $div({ class: 'edit' }, this.#size, this.#input, this.#placeholder);
@@ -806,7 +809,7 @@ export class TextArea
 	});
 	#focusing = false;
 	#changed = false;
-	constructor(_props?: TextAreaProp) {
+	constructor(_props?: TextAreaProps) {
 		super();
 		this.attachShadow({}, this.#edit, this.#slot);
 		this.#input.navCallback = (state) => handleNav(state, this.#input);

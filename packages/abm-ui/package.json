@@ -18,6 +18,7 @@
 	"types": "index.d.ts",
 	"dependencies": {
 		"abm-utils": "workspace:~",
+		"classnames": "^2.5.1",
 		"reflect-metadata": "^0.2.2",
 		"tslib": "^2.8.1"
 	}

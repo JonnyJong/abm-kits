@@ -8,7 +8,6 @@ import {
 	Vector2,
 } from 'abm-utils';
 import { defineElement, property } from '../infra/decorator';
-import type { ElementProps } from '../infra/dom';
 import { $div } from '../infra/dom';
 import { $on } from '../infra/event';
 import type { InteractionSource } from '../infra/interaction';
@@ -19,7 +18,7 @@ import { type Navigable, type NavState, navigate } from '../navigate/index';
 import { state } from '../state';
 import { tooltip } from '../widget/tooltip';
 import type { AriaConfig } from './base';
-import { FormControl } from './form';
+import { FormControl, type FormControlProps } from './form';
 
 declare module '../infra/dom' {
 	interface CustomElementTagNameMap {
@@ -33,8 +32,8 @@ declare module '../infra/registry' {
 	}
 }
 
-export interface SliderProp<T extends ArrayOr<number>>
-	extends ElementProps<Slider<T>> {}
+export interface SliderProps<T extends ArrayOr<number>>
+	extends FormControlProps<Slider<T>> {}
 
 type Thumb = HTMLDivElement & Navigable;
 type ThumbIndex = number;
@@ -75,7 +74,7 @@ function computeTicks(
 @register('slider')
 @defineElement('abm-slider')
 export class Slider<T extends ArrayOr<number>>
-	extends FormControl<T, SliderProp<T>>
+	extends FormControl<T, SliderProps<T>>
 	implements Navigable
 {
 	protected static style = css`
@@ -190,7 +189,7 @@ export class Slider<T extends ArrayOr<number>>
 	#end = 1;
 	#step = 0;
 	#preferNumber = true;
-	constructor(_props?: SliderProp<T>) {
+	constructor(_props?: SliderProps<T>) {
 		super();
 		$on(this, 'pointermove', this.#handlePointerMove);
 		$on(this, 'pointerleave', this.#handlePointerLeave);

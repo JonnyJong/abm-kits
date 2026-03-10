@@ -1,12 +1,11 @@
 import { Color, toType } from 'abm-utils';
 import { defineElement, property } from '../infra/decorator';
-import type { ElementProps } from '../infra/dom';
 import { $div, $new, $slot } from '../infra/dom';
 import { $on } from '../infra/event';
 import { register } from '../infra/registry';
 import { $style, css } from '../infra/style';
 import type { AriaConfig } from './base';
-import { FormControl } from './form';
+import { FormControl, type FormControlProps } from './form';
 
 declare module '../infra/dom' {
 	interface CustomElementTagNameMap {
@@ -20,7 +19,7 @@ declare module '../infra/registry' {
 	}
 }
 
-export interface AvatarProp extends ElementProps<Avatar> {}
+export interface AvatarProps extends FormControlProps<Avatar> {}
 
 /**
  * 头像
@@ -28,7 +27,7 @@ export interface AvatarProp extends ElementProps<Avatar> {}
  */
 @register('avatar')
 @defineElement('abm-avatar')
-export class Avatar extends FormControl<string | undefined, AvatarProp> {
+export class Avatar extends FormControl<string | undefined, AvatarProps> {
 	protected static style = css`
 		:host {
 			position: relative;
@@ -69,7 +68,7 @@ export class Avatar extends FormControl<string | undefined, AvatarProp> {
 	#value?: string;
 	#img: HTMLImageElement = $new('img', { class: 'img' });
 	#fallback = $div({ class: 'fallback show' }, $slot());
-	constructor(_props?: AvatarProp) {
+	constructor(_props?: AvatarProps) {
 		super();
 		this.attachShadow({}, this.#fallback, this.#img);
 		$on(this.#img, 'load', () => this.#fallback.classList.remove('show'));

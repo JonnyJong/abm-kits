@@ -41,7 +41,7 @@ declare module '../icon' {
 	}
 }
 
-export interface KeyHintProp extends ElementProps<KeyHint> {}
+export interface KeyHintProps extends ElementProps<KeyHint> {}
 
 const ICON_KEYS = new Set<KeyCode>([
 	'Tab',
@@ -86,7 +86,7 @@ const KEY_MAP: { [K in KeyCode]?: string } = {
  * @link [ABM Kits Docs](https://jonnyjong.github.io/abm-kits/component/hint#keyhint)
  */
 @defineElement('abm-hint-key')
-export class KeyHint extends HintBase<KeyCode, KeyHintProp> {
+export class KeyHint extends HintBase<KeyCode, KeyHintProps> {
 	protected static style = css`
 		:host {
 			display: inline-flex;

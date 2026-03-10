@@ -1,8 +1,8 @@
 import type { Constructor } from 'abm-utils';
-import { Nav, type NavProp } from '../component/nav';
+import { Nav, type NavProps } from '../component/nav';
 import {
 	PageHost,
-	type PageHostProp,
+	type PageHostProps,
 	type PageTransitionType,
 	type SingletonPage,
 } from '../component/page';
@@ -16,8 +16,8 @@ export interface TabsPrefabItem<Args extends any[] = any[]> {
 }
 export type TabsPrefabItemRecord = Record<string, TabsPrefabItem>;
 export interface TabsPrefabInit<T extends TabsPrefabItemRecord> {
-	nav?: Nav | NavProp<any>;
-	pageHost?: PageHost<any> | PageHostProp<any>;
+	nav?: Nav | NavProps;
+	pageHost?: PageHost<any> | PageHostProps<any>;
 	args?: any[];
 	default?: keyof T & string;
 	transition?: 'suppress' | 'fade' | 'entrance' | 'drill' | 'slide';
@@ -36,7 +36,7 @@ export function createTabsPrefab<T extends TabsPrefabItemRecord>(
 	let nav: TabsPrefabNav<T>;
 	let pageHost: PageHost<any>;
 	if (init?.nav instanceof Nav) nav = init.nav;
-	else nav = $new(Nav, init?.nav);
+	else nav = $new(Nav<keyof T & string>, init?.nav as any);
 	if (init?.pageHost instanceof PageHost) pageHost = init.pageHost;
 	else pageHost = $new(PageHost, init?.pageHost);
 	// Setup

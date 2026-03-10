@@ -36,7 +36,7 @@ Global attributes, all values are optional.
 # Interface `CustomElementTagNameMap`
 Custom element tag name map, structure same as `HTMLElementTagNameMap`.
 
-# Interface `CustomElementPropMap`
+# Interface `CustomElementPropsMap`
 Custom element property map, structure same as `JSX.IntrinsicElements`
 
 # Function `$apply`

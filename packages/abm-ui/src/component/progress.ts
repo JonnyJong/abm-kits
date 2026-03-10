@@ -18,7 +18,7 @@ declare module '../infra/registry' {
 	}
 }
 
-export interface ProgressProp extends ElementProps<Progress> {}
+export interface ProgressProps extends ElementProps<Progress> {}
 
 /**
  * 进度条
@@ -26,7 +26,7 @@ export interface ProgressProp extends ElementProps<Progress> {}
  */
 @register('progress')
 @defineElement('abm-progress')
-export class Progress extends Component<ProgressProp> {
+export class Progress extends Component<ProgressProps> {
 	protected static style = css`
 		:host {
 			display: block;
@@ -54,7 +54,7 @@ export class Progress extends Component<ProgressProp> {
 	`;
 	protected static aria: AriaConfig = { role: 'progressbar', valueText: 'NaN' };
 	#thumb = $div({ class: 'thumb loading' });
-	constructor(_props?: ProgressProp) {
+	constructor(_props?: ProgressProps) {
 		super();
 		this.attachShadow({}, this.#thumb);
 	}

@@ -36,7 +36,7 @@ DOM 内容，`Node | string | (Node | string)[]` 的别名。
 # 接口 `CustomElementTagNameMap`
 自定义元素标签名映射，结构同 `HTMLElementTagNameMap`。
 
-# 接口 `CustomElementPropMap`
+# 接口 `CustomElementPropsMap`
 自定义元素属性映射，结构同 `JSX.IntrinsicElements`
 
 # 函数 `$apply`

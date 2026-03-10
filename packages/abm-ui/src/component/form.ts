@@ -25,7 +25,7 @@ declare module '../infra/dom' {
 declare module '../infra/registry' {
 	interface Registry {
 		control: FormControl<unknown, {}, FormControlEventMap<unknown>>;
-		lable: Label;
+		label: Label;
 		'form-message': FormMessage;
 		'form-field': FormField;
 		form: Form;
@@ -112,20 +112,20 @@ export function proxyChildFormEvents(
 
 //#region Label
 
-export interface LabelProp extends ElementProps<Label> {}
+export interface LabelProps extends ElementProps<Label> {}
 
 /**
  * 标签
  * @link [ABM Kits Docs](https://jonnyjong.github.io/abm-kits/component/form#label)
  */
-@register('lable')
+@register('label')
 @defineElement('abm-label')
-export class Label extends Component<LabelProp> {
+export class Label extends Component<LabelProps> {
 	protected static aria: AriaConfig = { role: 'label' };
 	#targets = new IterableWeakSet<Component>();
 	#hovering = false;
 	#activating = false;
-	constructor(_props?: LabelProp) {
+	constructor(_props?: LabelProps) {
 		super();
 		state.hover.on(this, (hover) => {
 			this.#hovering = hover;
@@ -216,6 +216,11 @@ export class FormMessage extends Component<FormMessageProps> {
 
 //#region Control
 
+export type FormControlProps<
+	T extends FormControl<any, any, any>,
+	I extends keyof T = never,
+	E extends keyof T = never,
+> = ElementProps<T, I | 'value' | 'default', E>;
 /**
  * 表单控件事件
  * @link [ABM Kits Docs](https://jonnyjong.github.io/abm-kits/component/form#类-formcontrol)
@@ -289,7 +294,7 @@ export abstract class FormControl<
 
 //#region Field
 
-export interface FormFieldProp extends ElementProps<FormField> {}
+export interface FormFieldProps<T> extends FormControlProps<FormField<T>> {}
 
 const idGenerator = new IDGenerator();
 
@@ -305,7 +310,7 @@ function getId(name: string): string {
 @defineElement('abm-form-field')
 export class FormField<
 	T = any,
-	P extends FormFieldProp = FormFieldProp,
+	P extends FormFieldProps<T> = FormFieldProps<T>,
 	E extends FormControlEventMap<T> = FormControlEventMap<T>,
 > extends FormControl<T, P, E> {
 	#mutationObserver = new MutationObserver((entries) => {
@@ -333,7 +338,7 @@ export class FormField<
 			}
 		}
 	});
-	constructor(_props?: FormFieldProp) {
+	constructor(_props?: P) {
 		super();
 		this.#mutationObserver.observe(this, { childList: true, attributes: false });
 		proxyChildFormEvents(this, true);
@@ -454,7 +459,9 @@ export class FormField<
 
 //#region Form
 
-export interface FormProp extends ElementProps<Form> {}
+export interface FormProp<
+	T extends any[] | Record<string, any> = Record<string, any>,
+> extends FormControlProps<Form<T>, 'as'> {}
 
 /**
  * 表单
@@ -464,7 +471,7 @@ export interface FormProp extends ElementProps<Form> {}
 @defineElement('abm-form')
 export class Form<
 	T extends any[] | Record<string, any> = Record<string, any>,
-	P extends FormProp = FormProp,
+	P extends FormProp<T> = FormProp<T>,
 	E extends FormControlEventMap<T> = FormControlEventMap<T>,
 > extends FormControl<T, P, E> {
 	protected static aria: AriaConfig = { role: 'form' };

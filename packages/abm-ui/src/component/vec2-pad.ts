@@ -1,6 +1,5 @@
 import { formatWithStep, steppedClamp, type Vec2, Vector2 } from 'abm-utils';
 import { defineElement } from '../infra/decorator';
-import type { ElementProps } from '../infra/dom';
 import { $div } from '../infra/dom';
 import { register } from '../infra/registry';
 import { $style, css } from '../infra/style';
@@ -8,7 +7,7 @@ import { MovementController, type MovementEvent } from '../movement';
 import { type Navigable, type NavState, navigate } from '../navigate/index';
 import { state } from '../state';
 import { tooltip } from '../widget/tooltip';
-import { FormControl } from './form';
+import { FormControl, type FormControlProps } from './form';
 
 declare module '../infra/dom' {
 	interface CustomElementTagNameMap {
@@ -22,7 +21,7 @@ declare module '../infra/registry' {
 	}
 }
 
-export interface Vec2PadProp extends ElementProps<Vec2Pad> {}
+export interface Vec2PadProps extends FormControlProps<Vec2Pad> {}
 
 function format(value: Vec2, step: Vec2): string {
 	return `(${value.map((v, i) => formatWithStep(v, step[i])).join(', ')})`;
@@ -35,7 +34,7 @@ function format(value: Vec2, step: Vec2): string {
 @register('vec2-pad')
 @defineElement('abm-vec2-pad')
 export class Vec2Pad
-	extends FormControl<Vec2, Vec2PadProp>
+	extends FormControl<Vec2, Vec2PadProps>
 	implements Navigable
 {
 	protected static hoverable = true;
@@ -80,7 +79,6 @@ export class Vec2Pad
 	#thumb = $div<Navigable>({
 		class: 'thumb',
 		part: 'thumb',
-		nav: true,
 		tabIndex: -1,
 		tooltip: '(0, 0)',
 		role: 'slider',
@@ -88,6 +86,7 @@ export class Vec2Pad
 		ariaValueMin: '(0, 0)',
 		ariaValueMax: '(1, 1)',
 		ariaValueText: '(0, 0)',
+		attr: { nav: true },
 	});
 	#default: Vec2 = [0, 0];
 	#value: Vec2 = [0, 0];
@@ -95,7 +94,7 @@ export class Vec2Pad
 	#end: Vec2 = [1, 1];
 	#step: Vec2 = [0, 0];
 	#move: MovementController<Vec2, this>;
-	constructor(_props?: Vec2PadProp) {
+	constructor(_props?: Vec2PadProps) {
 		super();
 		this.#thumb.navParent = this;
 		this.#thumb.navCallback = this.#handleNav;
