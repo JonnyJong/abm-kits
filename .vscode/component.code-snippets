@@ -42,10 +42,6 @@
 			"\tconstructor(_props?: $1Props) {",
 			"\t\tsuper()",
 			"\t}",
-			"\tcloneNode(subtree?: boolean): this {",
-			"\t\tconst node = super.cloneNode(subtree);",
-			"\t\treturn node;",
-			"\t}",
 			"}",
 		]
 	},
@@ -74,10 +70,6 @@
 			"export class $1 extends FormControl<$3, $1Props> {$0",
 			"\tconstructor(_props?: $1Props) {",
 			"\t\tsuper()",
-			"\t}",
-			"\tcloneNode(subtree?: boolean): this {",
-			"\t\tconst node = super.cloneNode(subtree);",
-			"\t\treturn node;",
 			"\t}",
 			"}",
 		]
