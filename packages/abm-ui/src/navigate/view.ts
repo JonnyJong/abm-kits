@@ -31,6 +31,7 @@ export const view = {
 			const activated = document.activeElement;
 			if (
 				activated &&
+				activated !== current &&
 				'blur' in activated &&
 				typeof activated.blur === 'function'
 			) {
