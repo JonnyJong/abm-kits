@@ -55,6 +55,8 @@ declare module './icon' {
 	}
 }
 
+const UP_DOWN_KEY = ['ArrowUp', 'ArrowDown'];
+
 //#region Autofill
 /** 自动填充项 */
 export interface AutofillItem<T> {
@@ -173,13 +175,32 @@ class Autofill<T> {
 
 //#region Input
 
-function tryNav(input: HTMLElement, direction?: Vec2) {
+function vec2Type(vec: Vec2): boolean | null {
+	const y = Math.abs(vec[1]);
+	if (y < Number.EPSILON) return null;
+	if (Math.abs(vec[0]) > y) return null;
+	return vec[1] > 0;
+}
+
+function tryNav(
+	input: HTMLElement,
+	direction?: Vec2,
+	nav?: (type: boolean) => boolean,
+) {
+	if (direction && nav) {
+		const delta = vec2Type(direction);
+		if (delta !== null && nav(delta)) return;
+	}
 	navigate.unlock();
 	if (direction ? navigate.nav(direction) : navigate.back()) return;
 	navigate.lock(input);
 }
 
-function handleNav(state: NavState, input: HTMLElement) {
+function handleNav(
+	state: NavState,
+	input: HTMLElement,
+	nav?: (type?: boolean) => boolean,
+) {
 	switch (state.type) {
 		case 'focus':
 			return input.focus();
@@ -190,15 +211,18 @@ function handleNav(state: NavState, input: HTMLElement) {
 			input.blur();
 			navigate.nav(state.direction, input);
 			return;
+		case 'active':
+			if (state.down) return;
+			return nav?.();
 		case 'cancel':
 			if (state.down) return;
 			return tryNav(input);
 		case 'stick': {
 			const { x, y } = state;
-			return tryNav(input, [x, y]);
+			return tryNav(input, [x, y], nav);
 		}
 		case 'direction':
-			return tryNav(input, state.direction);
+			return tryNav(input, state.direction, nav);
 	}
 }
 
@@ -207,6 +231,7 @@ export interface InputBoxEventMap<T> extends FormControlEventMap<T> {
 }
 
 interface InputBoxInit {
+	step?: (add: boolean) => void;
 	left?: DOMContents;
 	right?: DOMContents;
 }
@@ -337,18 +362,20 @@ abstract class InputBox<T, P extends {} = {}>
 	});
 	#focusing = false;
 	#changed = false;
+	#step?: InputBoxInit['step'];
 	constructor(input: Navigable, init?: InputBoxInit) {
 		super();
 		this.#input = input;
 		input.setAttribute('nav', '');
 		input.navParent = this;
-		input.navCallback = (state) => handleNav(state, input);
+		input.navCallback = (state) => handleNav(state, input, this.#handleNav);
 		$on(input, 'input', this.#handleInput);
 		$on(input, 'focus', this.#handleFocus);
 		$on(input, 'blur', this.#handleBlur);
 		$on(input, 'keydown', this.#handleKey);
 		if (init?.left) this.#left.append(...asArray(init.left));
 		if (init?.right) this.#right.append(...asArray(init.right));
+		this.#step = init?.step;
 		this.attachShadow(
 			{},
 			this.#size,
@@ -394,20 +421,29 @@ abstract class InputBox<T, P extends {} = {}>
 			this.emit('submit');
 			return;
 		}
-		if (!['ArrowUp', 'ArrowDown'].includes(event.key)) return;
+		if (!UP_DOWN_KEY.includes(event.key)) return;
 		if (this.autofill.length === 0) return;
 		event.preventDefault();
 	};
-	#handleAlias = (id: string) => {
+	#handleAlias = (id: string): any => {
 		if (!this.#focusing) return;
 		switch (id) {
 			case 'ui.nav.up':
-				return this.#autofill.select(false);
+				return this.#handleNav(false);
 			case 'ui.nav.down':
-				return this.#autofill.select(true);
+				return this.#handleNav(true);
 			case 'ui.nav.active':
-				return this.#autofill.select();
+				return this.#handleNav();
 		}
+	};
+	#handleNav = (type?: boolean): boolean => {
+		if (this.#autofill.items.length > 0) {
+			this.#autofill.select(type);
+			return true;
+		}
+		if (!this.#step) return false;
+		this.#step(!type);
+		return true;
 	};
 	handleLabelActive(active: boolean, cancel: boolean): void {
 		if (active || cancel) return;
@@ -514,7 +550,10 @@ export class NumberBox extends InputBox<number, NumberBoxProps> {
 		const input = $new('input', { type: 'number' });
 		const addBtn = $new(Button, { flat: true, repeat: true }, ico('ui.increase'));
 		const subBtn = $new(Button, { flat: true, repeat: true }, ico('ui.decrease'));
-		super(input, { right: [addBtn, subBtn] });
+		super(input, {
+			right: [addBtn, subBtn],
+			step: (add) => this.#stepValue(add),
+		});
 		this.#input = input;
 		$on(input, 'blur', () => this.#handleBlur());
 		$on(input, 'keydown', (event) => this.#handleKeyDown(event));
@@ -536,11 +575,8 @@ export class NumberBox extends InputBox<number, NumberBoxProps> {
 		this.handleValue();
 	}
 	#handleKeyDown(event: KeyboardEvent) {
-		let add = false;
-		if (event.key === 'ArrowUp') add = true;
-		else if (event.key !== 'ArrowDown') return;
+		if (!UP_DOWN_KEY.includes(event.key)) return;
 		event.preventDefault();
-		this.#stepValue(add);
 	}
 	#stepValue(add: boolean) {
 		if (this.disabled) return;
