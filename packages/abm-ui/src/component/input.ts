@@ -363,12 +363,15 @@ abstract class InputBox<T, P extends {} = {}>
 	#focusing = false;
 	#changed = false;
 	#step?: InputBoxInit['step'];
+	#composition = false;
 	constructor(input: Navigable, init?: InputBoxInit) {
 		super();
 		this.#input = input;
 		input.setAttribute('nav', '');
 		input.navParent = this;
 		input.navCallback = (state) => handleNav(state, input, this.#handleNav);
+		$on(this, 'compositionstart', this.#handleComposition);
+		$on(this, 'compositionend', this.#handleComposition);
 		$on(input, 'input', this.#handleInput);
 		$on(input, 'focus', this.#handleFocus);
 		$on(input, 'blur', this.#handleBlur);
@@ -396,7 +399,13 @@ abstract class InputBox<T, P extends {} = {}>
 		if (this.#focusing) this.#changed = true;
 		this.#size.textContent = String(this.value);
 	}
+	#handleComposition(event: CompositionEvent) {
+		this.#composition = event.type.at(-1) === 't';
+		if (this.#composition) return;
+		this.#handleInput();
+	}
 	#handleInput = () => {
+		if (this.#composition) return;
 		this.handleValue();
 		this.emit('input', this.value);
 	};
