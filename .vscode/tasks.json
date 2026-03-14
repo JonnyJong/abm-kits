@@ -58,7 +58,7 @@
 			"type": "process",
 			"command": "pnpm",
 			"args": ["run", "watch:utils"],
-			"problemMatcher": ["$tsc-watch"],
+			"problemMatcher": [],
 			"group": "build",
 			"label": "Watch: utils",
 		},
