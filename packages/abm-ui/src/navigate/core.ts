@@ -2,6 +2,7 @@ import {
 	AnimationFrameController,
 	callSync,
 	type Direction8,
+	runSync,
 	type Vec2,
 	Vector2,
 } from 'abm-utils';
@@ -240,7 +241,7 @@ export function back(): boolean {
 	const { root, current, lock } = getCurrentLayer();
 
 	if (lock) callSync(lock.navCallback, lock, { type: 'back' });
-	else if (root === document.body) callSync(coreConfig.onBack);
+	else if (root === document.body) runSync(coreConfig.onBack);
 	else callSync(root.navCallback, root, { type: 'back' });
 
 	const layer = getCurrentLayer();

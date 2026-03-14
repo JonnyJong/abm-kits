@@ -323,10 +323,8 @@ export class Timeout<T = unknown> {
  * @description
  * 模拟按键长按重复触发
  */
-export class RepeatingTriggerController<
-	F extends Function | ((...args: any) => any) = Function,
-> {
-	#fn: F;
+export class RepeatingTriggerController {
+	#fn: Fn<[], any>;
 	#initialDelay = 500;
 	#repeatInterval = 100;
 	#repeating = false;
@@ -336,7 +334,7 @@ export class RepeatingTriggerController<
 	 * @param initialDelay - 初始延迟时间，可选，默认为 500 毫秒
 	 * @param repeatInterval - 重复触发的时间间隔，可选，默认为 100 毫秒
 	 */
-	constructor(fn: F, initialDelay?: number, repeatInterval?: number) {
+	constructor(fn: Fn<[], any>, initialDelay?: number, repeatInterval?: number) {
 		if (typeof fn !== 'function') throw new TypeError('fn must be a function');
 		this.#fn = fn;
 		if (initialDelay) this.initialDelay = initialDelay;
@@ -371,10 +369,10 @@ export class RepeatingTriggerController<
 		return this.#timer !== null;
 	}
 	/** 要执行的函数 */
-	get fn(): F {
+	get fn(): Fn<[], any> {
 		return this.#fn;
 	}
-	set fn(fn: F) {
+	set fn(fn: Fn<[], any>) {
 		if (typeof fn !== 'function') return;
 		this.#fn = fn;
 	}

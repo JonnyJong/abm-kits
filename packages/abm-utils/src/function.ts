@@ -1,6 +1,6 @@
 import { normalizeError } from './object';
 
-export type Fn<P extends unknown[] = unknown[], R = unknown, T = unknown> = ((
+export type Fn<P extends any[] = [], R = unknown, T = unknown> = ((
 	this: T,
 	...args: P
 ) => R) &
@@ -25,50 +25,38 @@ export function sequential<R, A extends any[]>(fn: (...args: A) => Promise<R>) {
 /**
  * 异步运行一个函数，并返回其结果或错误
  *
- * @template P 函数参数类型数组
- * @template R 函数返回类型
- *
  * @param fn 要运行的函数
  * @param args 传递给函数的参数数组
  *
  * @returns 一个 `Promise`，解析为函数的返回值或错误
  */
-export async function run<P extends any[] = any[], R = any>(
-	fn: Fn<P, PromiseOr<R>>,
-	...args: P
-): Promise<R | Error>;
-export async function run(fn: Function, ...args: any): Promise<any>;
-export async function run(...args: any): Promise<any>;
-export async function run(fn: any, ...args: any): Promise<any> {
+export async function run<T>(
+	fn: T,
+	...args: T extends Fn<infer P> ? P : any
+): Promise<T extends Fn<any, infer R> ? R | Error : any> {
 	try {
-		return await fn(...args);
+		return await (fn as any)(...args);
 	} catch (error) {
-		return normalizeError(error);
+		return normalizeError(error) as any;
 	}
 }
 
 /**
  * 同步运行一个函数，并返回结果或错误
  *
- * @template P 函数参数类型数组
- * @template R 函数返回类型
- *
  * @param fn 要运行的函数
  * @param args 传递给函数的参数数组
  *
  * @returns 返回函数的执行结果或错误
  */
-export function runSync<P extends any[] = any[], R = any>(
-	fn: Fn<P, R>,
-	...args: P
-): R | Error;
-export function runSync(fn: Function, ...args: any): any;
-export function runSync(...args: any): any;
-export function runSync(fn: any, ...args: any): any {
+export function runSync<T>(
+	fn: T,
+	...args: T extends Fn<infer P> ? P : any[]
+): T extends Fn<any, infer R> ? R | Error : any {
 	try {
-		return fn(...args);
+		return (fn as any)(...args);
 	} catch (error) {
-		return normalizeError(error);
+		return normalizeError(error) as any;
 	}
 }
 
@@ -80,10 +68,10 @@ export function runSync(fn: any, ...args: any): any {
  * @param fn 要运行的函数
  * @param args 传递给函数的参数数组
  */
-export function runTask<P extends any[] = any[]>(fn: Fn<P>, ...args: P): void;
-export function runTask(fn: Function, ...args: any): void;
-export function runTask(...args: any): void;
-export function runTask(fn: any, ...args: any): void {
+export function runTask<T>(
+	fn: T,
+	...args: T extends Fn<infer P> ? P : any[]
+): void {
 	if (typeof fn !== 'function') return;
 	queueMicrotask(() => fn(...args));
 }
@@ -92,78 +80,57 @@ export function runTask(fn: any, ...args: any): void {
 /**
  * 异步运行一个函数，并返回其结果或错误
  *
- * @template P 函数参数类型数组
- * @template R 函数返回类型
- * @template T 函数上下文类型
- *
  * @param fn 要运行的函数
+ * @param thisArg 目标函数 `this` 上下文
  * @param args 传递给函数的参数数组
  *
  * @returns 一个 `Promise`，解析为函数的返回值或错误
  */
-export async function call<P extends any[] = any[], R = any, T = any>(
-	fn: Fn<P, PromiseOr<R>, T>,
-	thisArg: T,
-	...args: P
-): Promise<R | Error>;
-export async function call(
-	fn: Function,
-	thisArg: any,
-	...args: any
-): Promise<any>;
-export async function call(...args: any): Promise<any>;
-export async function call(fn: any, thisArg: any, ...args: any): Promise<any> {
+export async function call<T>(
+	fn: T,
+	thisArg: T extends Fn<any, any, infer C> ? C : any,
+	...args: T extends Fn<infer P> ? P : any
+): Promise<T extends Fn<any, infer R> ? R | Error : any> {
 	try {
-		return await fn.call(thisArg, ...args);
+		return await (fn as any).call(thisArg, ...args);
 	} catch (error) {
-		return normalizeError(error);
+		return normalizeError(error) as any;
 	}
 }
 
 /**
  * 同步运行一个函数，并返回结果或错误
  *
- * @template P 函数参数类型数组
- * @template R 函数返回类型
- * @template T 函数上下文类型
- *
  * @param fn 要运行的函数
+ * @param thisArg 目标函数 `this` 上下文
  * @param args 传递给函数的参数数组
  *
  * @returns 返回函数的执行结果或错误
  */
-export function callSync<P extends any[] = any[], R = any, T = any>(
-	fn: Fn<P, R, T>,
-	thisArg: T,
-	...args: P
-): R | Error;
-export function callSync(fn: Function, thisArg: any, ...args: any): any;
-export function callSync(...args: any): any;
-export function callSync(fn: any, thisArg: any, ...args: any): any {
+export function callSync<T>(
+	fn: T,
+	thisArg: T extends Fn<any, any, infer C> ? C : any,
+	...args: T extends Fn<infer P> ? P : any[]
+): T extends Fn<any, infer R> ? R | Error : any {
 	try {
-		return fn.call(thisArg, ...args);
+		return (fn as any).call(thisArg, ...args);
 	} catch (error) {
-		return normalizeError(error);
+		return normalizeError(error) as any;
 	}
 }
 
 /**
  * 将函数加入微任务队列中运行
  *
- * @template P 函数参数类型数组
- * @template T 函数上下文类型
- *
  * @param fn 要运行的函数
+ * @param thisArg 目标函数 `this` 上下文
  * @param args 传递给函数的参数数组
  */
-export function callTask<P extends any[] = any[], T = any>(
-	fn: Fn<P, any, T>,
-	thisArg: T,
-	...args: P
-): void;
-export function callTask(fn: Function, thisArg: any, ...args: any): void;
-export function callTask(...args: any): void;
-export function callTask(fn: any, thisArg: any, ...args: any): void {
+export function callTask<T>(
+	fn: T,
+	thisArg: T extends Fn<any, any, infer C> ? C : any,
+	...args: T extends Fn<infer P> ? P : any[]
+): void {
 	if (typeof fn !== 'function') return;
 	queueMicrotask(() => fn.call(thisArg, ...args));
 }
@@ -320,13 +287,13 @@ export class SerialCallbackExecutor<Args extends any[], Result> {
 		const task = this.#tasks.shift()!;
 		this.#promise = new Promise<Result>((resolve) => resolve(this.#exe(...task)))
 			.then((result) => {
-				runTask(() => this.#callback(result));
+				runTask(this.#callback, result);
 				this.#promise = null;
 				this.#run();
 			})
 			.catch((reason) => {
 				const error = new Error('Error while executing', { cause: reason });
-				runTask(() => this.#callback(undefined, error));
+				runTask(this.#callback, undefined, error);
 				this.#promise = null;
 				this.#run();
 			});

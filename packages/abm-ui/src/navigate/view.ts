@@ -1,4 +1,4 @@
-import { Debounce, runSync } from 'abm-utils';
+import { callSync, Debounce } from 'abm-utils';
 import { $div } from '../infra/dom';
 import { $style } from '../infra/style';
 import { track } from '../infra/viewport-tacker';
@@ -35,7 +35,7 @@ export const view = {
 				'blur' in activated &&
 				typeof activated.blur === 'function'
 			) {
-				runSync(() => (activated as any).blur());
+				callSync(activated.blur, activated);
 			}
 			current.focus({ preventScroll: true });
 		}

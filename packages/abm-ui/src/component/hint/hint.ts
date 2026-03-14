@@ -62,7 +62,7 @@ for (const event of ['pointerdown', 'pointermove'] as const) {
 function update(type: OperateType) {
 	if (type === slot) return;
 	slot = type;
-	for (const hint of hints) callTask(() => hint.update());
+	for (const hint of hints) callTask(hint.update, hint);
 }
 
 //#region Hint
