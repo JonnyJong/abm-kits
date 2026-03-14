@@ -30,6 +30,9 @@ import 'abm-utils/function';
 # 函数 `wrap`、`warpSync`
 用于将函数包装为可安全执行的函数，若被包装函数抛出错误，则返回 `Error`。其中 `wrap` 用于包装异步函数；`wrapSync` 用于包装同步函数。
 
+# 函数 `lazy`
+惰性求值函数，将函数包装为带缓存的形式。首次调用时执行原函数并缓存结果，后续调用若参数相同则直接返回缓存值。
+
 # 函数 `chain`
 从单个参数开始链式执行，返回 [`ChainNode`](#类-chainnode)。
 

@@ -19,16 +19,19 @@ Serializes async functions, ensuring that each execution of the function only ru
 # Functions `run`, `runSync`, `runTask`, `call`, `callSync`, `callTask`
 Used to safely execute the passed function.
 | Function   | Execution Method | Specify `this` |
-| ---------- | --------------- | ------------- |
-| `run`      | Async           | No            |
-| `runSync`  | Sync            | No            |
-| `runTask`  | Microtask       | No            |
-| `call`     | Async           | Yes           |
-| `callSync` | Sync            | Yes           |
-| `callTask` | Microtask       | Yes           |
+| ---------- | ---------------- | -------------- |
+| `run`      | Async            | No             |
+| `runSync`  | Sync             | No             |
+| `runTask`  | Microtask        | No             |
+| `call`     | Async            | Yes            |
+| `callSync` | Sync             | Yes            |
+| `callTask` | Microtask        | Yes            |
 
 # Functions `wrap`, `warpSync`
 Used to wrap functions as safely executable functions. If the wrapped function throws an error, it returns an `Error`. `wrap` is used for wrapping async functions; `wrapSync` is used for wrapping sync functions.
+
+# Function `lazy`
+Lazy evaluation function that wraps a function with caching. Executes the original function on first call and caches the result; subsequent calls with the same arguments return the cached value directly.
 
 # Function `chain`
 Starts chain execution from a single parameter, returns [`ChainNode`](#class-chainnode).

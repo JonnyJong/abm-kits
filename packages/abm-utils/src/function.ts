@@ -316,3 +316,22 @@ export class SerialCallbackExecutor<Args extends any[], Result> {
 		this.#run();
 	}
 }
+
+//#region Lazy
+/**
+ * 惰性求值函数，将函数包装为带缓存的形式
+ * @description
+ * 首次调用时执行原函数并缓存结果，后续调用若参数相同则直接返回缓存值
+ */
+export function lazy<T, P extends any[]>(fn: Fn<P, T>): Fn<P, T> {
+	const cache = new Map<P, T>();
+	return (...args: P): T => {
+		for (const [params, value] of cache) {
+			if (params.some((v, i) => args[i] !== v)) continue;
+			return value;
+		}
+		const value = fn(...args);
+		cache.set(args, value);
+		return value;
+	};
+}
