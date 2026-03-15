@@ -60,6 +60,7 @@ export * from './component/avatar';
 export * from './component/file-picker';
 export * from './component/radio';
 export * from './component/value';
+export * from './component/segment-input';
 
 //#region 部件
 export * from './widget/flyout';
