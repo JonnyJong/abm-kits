@@ -1,3 +1,5 @@
+import 'temporal-polyfill/global';
+
 const PATTERN_ESC = /\W/g;
 const mods = new Map();
 

@@ -61,6 +61,7 @@ export * from './component/file-picker';
 export * from './component/radio';
 export * from './component/value';
 export * from './component/segment-input';
+export * from './component/datetime-picker';
 
 //#region 部件
 export * from './widget/flyout';
