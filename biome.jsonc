@@ -1,5 +1,5 @@
 {
-	"$schema": "https://biomejs.dev/schemas/2.4.6/schema.json",
+	"$schema": "https://biomejs.dev/schemas/2.4.7/schema.json",
 	"files": {
 		"includes": [
 			"**/*.ts",
@@ -105,14 +105,24 @@
 								"selector": {
 									"kind": "const"
 								},
-								"formats": ["camelCase", "CONSTANT_CASE", "PascalCase"]
+								"formats": [
+									"camelCase",
+									"CONSTANT_CASE",
+									"PascalCase"
+								]
 							},
 							{
 								"selector": {
 									"kind": "classProperty",
-									"modifiers": ["readonly", "static"]
+									"modifiers": [
+										"readonly",
+										"static"
+									]
 								},
-								"formats": ["CONSTANT_CASE", "PascalCase"]
+								"formats": [
+									"CONSTANT_CASE",
+									"PascalCase"
+								]
 							},
 							{
 								"selector": {
@@ -130,7 +140,9 @@
 								"selector": {
 									"kind": "enumMember"
 								},
-								"formats": ["CONSTANT_CASE"]
+								"formats": [
+									"CONSTANT_CASE"
+								]
 							},
 							{
 								"selector": {
