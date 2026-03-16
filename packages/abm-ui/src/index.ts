@@ -11,6 +11,7 @@ export * from './infra/decorator';
 export * from './infra/color';
 export * from './infra/style';
 export * from './infra/dom';
+export * from './infra/screen';
 export * from './jsx-runtime';
 export { viewportTracker } from './infra/viewport-tacker';
 
