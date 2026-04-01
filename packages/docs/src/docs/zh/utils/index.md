@@ -22,45 +22,45 @@ yarn add abm-utils
 
 <div class="grid">
   <div class="grid-item" style="--w: 2">
-    <a class="grid-link grid-preview" href="./utils/collection">集合工具</a>
+    <a class="grid-link grid-preview" href="./collection">集合工具</a>
   </div>
   <div class="grid-item">
-    <a class="grid-link grid-preview" href="./utils/color">颜色</a>
+    <a class="grid-link grid-preview" href="./color">颜色</a>
   </div>
   <div class="grid-item">
-    <a class="grid-link grid-preview" href="./utils/decorator">装饰器</a>
+    <a class="grid-link grid-preview" href="./decorator">装饰器</a>
   </div>
   <div class="grid-item">
-    <a class="grid-link grid-preview" href="./utils/event">事件</a>
+    <a class="grid-link grid-preview" href="./event">事件</a>
   </div>
   <div class="grid-item">
-    <a class="grid-link grid-preview" href="./utils/expression">表达式</a>
+    <a class="grid-link grid-preview" href="./expression">表达式</a>
   </div>
   <div class="grid-item">
-    <a class="grid-link grid-preview" href="./utils/function">函数</a>
+    <a class="grid-link grid-preview" href="./function">函数</a>
   </div>
   <div class="grid-item">
-    <a class="grid-link grid-preview" href="./utils/id">ID</a>
+    <a class="grid-link grid-preview" href="./id">ID</a>
   </div>
   <div class="grid-item">
-    <a class="grid-link grid-preview" href="./utils/locale">本地化</a>
+    <a class="grid-link grid-preview" href="./locale">本地化</a>
   </div>
   <div class="grid-item">
-    <a class="grid-link grid-preview" href="./utils/math">数学工具</a>
+    <a class="grid-link grid-preview" href="./math">数学工具</a>
   </div>
   <div class="grid-item">
-    <a class="grid-link grid-preview" href="./utils/object">对象工具</a>
+    <a class="grid-link grid-preview" href="./object">对象工具</a>
   </div>
   <div class="grid-item">
-    <a class="grid-link grid-preview" href="./utils/string">字符串</a>
+    <a class="grid-link grid-preview" href="./string">字符串</a>
   </div>
   <div class="grid-item">
-    <a class="grid-link grid-preview" href="./utils/timer">事件工具</a>
+    <a class="grid-link grid-preview" href="./timer">事件工具</a>
   </div>
   <div class="grid-item">
-    <a class="grid-link grid-preview" href="./utils/type">类型</a>
+    <a class="grid-link grid-preview" href="./type">类型</a>
   </div>
   <div class="grid-item">
-    <a class="grid-link grid-preview" href="./utils/vector">向量</a>
+    <a class="grid-link grid-preview" href="./vector">向量</a>
   </div>
 </div>

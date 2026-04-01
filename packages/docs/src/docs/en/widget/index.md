@@ -20,13 +20,13 @@ order: 1
         </div>
       </div>
     </div>
-    <a class="grid-link" href="./widget/dialog">Dialog</a>
+    <a class="grid-link" href="./dialog">Dialog</a>
   </div>
   <div class="grid-item">
     <div class="grid-preview">
       <div class="surface-glass ui-flyout">Flyout</div>
     </div>
-    <a class="grid-link" href="./widget/flyout">Flyout</a>
+    <a class="grid-link" href="./flyout">Flyout</a>
   </div>
   <div class="grid-item" style="--w: 2">
     <div class="grid-preview">
@@ -37,17 +37,17 @@ order: 1
         <div class="ui-toast-details"></div>
       </div>
     </div>
-    <a class="grid-link" href="./widget/toast">Toast Notification</a>
+    <a class="grid-link" href="./toast">Toast Notification</a>
   </div>
   <div class="grid-item">
     <div class="grid-preview">
       <abm-btn id="grid-open-menu">Open Menu</abm-btn>
     </div>
-    <a class="grid-link" href="./widget/menu">Menu</a>
+    <a class="grid-link" href="./menu">Menu</a>
   </div>
   <div class="grid-item">
     <div class="grid-preview" tooltip="Ta-da!" style="user-select: none">Hover/Press here</div>
-    <a class="grid-link" href="./widget/tooltip">Tooltip</a>
+    <a class="grid-link" href="./tooltip">Tooltip</a>
   </div>
 </div>
 

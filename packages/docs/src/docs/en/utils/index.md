@@ -22,45 +22,45 @@ yarn add abm-utils
 
 <div class="grid">
   <div class="grid-item" style="--w: 2">
-    <a class="grid-link grid-preview" href="./utils/collection">Collection Tools</a>
+    <a class="grid-link grid-preview" href="./collection">Collection Tools</a>
   </div>
   <div class="grid-item">
-    <a class="grid-link grid-preview" href="./utils/color">Color</a>
+    <a class="grid-link grid-preview" href="./color">Color</a>
   </div>
   <div class="grid-item">
-    <a class="grid-link grid-preview" href="./utils/decorator">Decorator</a>
+    <a class="grid-link grid-preview" href="./decorator">Decorator</a>
   </div>
   <div class="grid-item">
-    <a class="grid-link grid-preview" href="./utils/event">Event</a>
+    <a class="grid-link grid-preview" href="./event">Event</a>
   </div>
   <div class="grid-item">
-    <a class="grid-link grid-preview" href="./utils/expression">Expression</a>
+    <a class="grid-link grid-preview" href="./expression">Expression</a>
   </div>
   <div class="grid-item">
-    <a class="grid-link grid-preview" href="./utils/function">Function</a>
+    <a class="grid-link grid-preview" href="./function">Function</a>
   </div>
   <div class="grid-item">
-    <a class="grid-link grid-preview" href="./utils/id">ID</a>
+    <a class="grid-link grid-preview" href="./id">ID</a>
   </div>
   <div class="grid-item">
-    <a class="grid-link grid-preview" href="./utils/locale">Localization</a>
+    <a class="grid-link grid-preview" href="./locale">Localization</a>
   </div>
   <div class="grid-item">
-    <a class="grid-link grid-preview" href="./utils/math">Math Tools</a>
+    <a class="grid-link grid-preview" href="./math">Math Tools</a>
   </div>
   <div class="grid-item">
-    <a class="grid-link grid-preview" href="./utils/object">Object Tools</a>
+    <a class="grid-link grid-preview" href="./object">Object Tools</a>
   </div>
   <div class="grid-item">
-    <a class="grid-link grid-preview" href="./utils/string">String</a>
+    <a class="grid-link grid-preview" href="./string">String</a>
   </div>
   <div class="grid-item">
-    <a class="grid-link grid-preview" href="./utils/timer">Timer Tools</a>
+    <a class="grid-link grid-preview" href="./timer">Timer Tools</a>
   </div>
   <div class="grid-item">
-    <a class="grid-link grid-preview" href="./utils/type">Type</a>
+    <a class="grid-link grid-preview" href="./type">Type</a>
   </div>
   <div class="grid-item">
-    <a class="grid-link grid-preview" href="./utils/vector">Vector</a>
+    <a class="grid-link grid-preview" href="./vector">Vector</a>
   </div>
 </div>

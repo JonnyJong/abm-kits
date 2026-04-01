@@ -17,7 +17,7 @@ order: 4
       <abm-hint-key key="KeyR"></abm-hint-key>
       <abm-hint-key key="KeyD"></abm-hint-key>
     </div>
-    <a class="grid-link" href="./input/keyboard">键盘</a>
+    <a class="grid-link" href="./keyboard">键盘</a>
   </div>
   <div class="grid-item" style="--w: 2">
     <div class="grid-preview">
@@ -26,6 +26,6 @@ order: 4
       <abm-hint-gamepad key="RS"></abm-hint-gamepad>
       <abm-hint-gamepad key="RB"></abm-hint-gamepad>
     </div>
-    <a class="grid-link" href="./input/game-controller">游戏控制器</a>
+    <a class="grid-link" href="./game-controller">游戏控制器</a>
   </div>
 </div>

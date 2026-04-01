@@ -18,7 +18,7 @@ layout: index
         <abm-nav-item>Documentation</abm-nav-item>
       </abm-nav>
     </div>
-    <a class="grid-link" href="./en/component">Components</a>
+    <a class="grid-link" href="./component">Components</a>
   </div>
   <div class="grid-item" style="--w: 2; --h: 2">
     <div class="grid-preview" style="flex-direction: column">
@@ -39,24 +39,24 @@ layout: index
         <div class="ui-toast-details"></div>
       </div>
     </div>
-    <a class="grid-link" href="./en/widget">Widgets</a>
+    <a class="grid-link" href="./widget">Widgets</a>
   </div>
   <div class="grid-item">
-    <a class="grid-link grid-preview" href="./en/prefab">Prefab UI</a>
+    <a class="grid-link grid-preview" href="./prefab">Prefab UI</a>
   </div>
   <div class="grid-item" style="--w: 2">
-    <a class="grid-link grid-preview" href="./en/infra">Infrastructure</a>
+    <a class="grid-link grid-preview" href="./infra">Infrastructure</a>
   </div>
   <div class="grid-item">
-    <a class="grid-link grid-preview" href="./en/input">Input</a>
+    <a class="grid-link grid-preview" href="./input">Input</a>
   </div>
   <div class="grid-item" style="--w: 2">
-    <a class="grid-link grid-preview" href="./en/utils">ABM Utils</a>
+    <a class="grid-link grid-preview" href="./utils">ABM Utils</a>
   </div>
   <div class="grid-item">
-    <a class="grid-link grid-preview" href="./en/cheat-sheet">Cheat Sheet</a>
+    <a class="grid-link grid-preview" href="./cheat-sheet">Cheat Sheet</a>
   </div>
   <div class="grid-item">
-    <a class="grid-link grid-preview" href="./en/other">Other</a>
+    <a class="grid-link grid-preview" href="./other">Other</a>
   </div>
 </div>

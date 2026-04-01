@@ -12,7 +12,7 @@ order: 2
         <abm-btn variant="primary" disabled style="white-space: nowrap">发送</abm-btn>
       </div>
     </div>
-    <a class="grid-link" href="./prefab/css"><code>.group</code></a>
+    <a class="grid-link" href="./css"><code>.group</code></a>
   </div>
   <div class="grid-item" style="--h: 2">
     <div class="grid-preview">
@@ -28,7 +28,7 @@ order: 2
         <div class="grid-preview-h" style="opacity: .2"></div>
       </div>
     </div>
-    <a class="grid-link" href="./prefab/list">列表</a>
+    <a class="grid-link" href="./list">列表</a>
   </div>
   <div class="grid-item">
     <div class="grid-preview">
@@ -45,13 +45,13 @@ order: 2
         <div class="grid-preview-v" style="opacity: .3"></div>
       </div>
     </div>
-    <a class="grid-link" href="./prefab/grid">网格</a>
+    <a class="grid-link" href="./grid">网格</a>
   </div>
   <div class="grid-item">
-    <a class="grid-link grid-preview" href="./prefab/number">数字输入<wbr>预制件</a>
+    <a class="grid-link grid-preview" href="./number">数字输入<wbr>预制件</a>
   </div>
   <div class="grid-item">
-    <a class="grid-link grid-preview" href="./prefab/tabs">多标签页<wbr>预制件</a>
+    <a class="grid-link grid-preview" href="./tabs">多标签页<wbr>预制件</a>
   </div>
 </div>
 

@@ -9,49 +9,49 @@ order: 0
     <div class="grid-preview">
       <abm-icon key="ui.keyHome" style="font-size: 32px"></abm-icon>
     </div>
-    <a class="grid-link" href="./component/icon">Icon</a>
+    <a class="grid-link" href="./icon">Icon</a>
   </div>
   <div class="grid-item">
     <div class="grid-preview">
       <abm-i18n key="ui.confirm" style="font-size: 18px"></abm-i18n>
     </div>
-    <a class="grid-link" href="./component/i18n">Internationalization</a>
+    <a class="grid-link" href="./i18n">Internationalization</a>
   </div>
   <div class="grid-item">
     <div class="grid-preview">
       <abm-btn>Press</abm-btn>
     </div>
-    <a class="grid-link" href="./component/button">Button</a>
+    <a class="grid-link" href="./button">Button</a>
   </div>
   <div class="grid-item" style="--w: 2">
     <div class="grid-preview">
       <abm-text-box>Enter something...</abm-text-box>
     </div>
-    <a class="grid-link" href="./component/form/input#textbox">Text Input</a>
+    <a class="grid-link" href="./form/input#textbox">Text Input</a>
   </div>
   <div class="grid-item">
     <div class="grid-preview">
       <abm-spinner size="32"></abm-spinner>
     </div>
-    <a class="grid-link" href="./component/spinner">Spinner</a>
+    <a class="grid-link" href="./spinner">Spinner</a>
   </div>
   <div class="grid-item" style="--w: 2">
     <div class="grid-preview">
       <abm-progress></abm-progress>
     </div>
-    <a class="grid-link" href="./component/progress">Progress Bar</a>
+    <a class="grid-link" href="./progress">Progress Bar</a>
   </div>
   <div class="grid-item">
     <div class="grid-preview">
       <abm-checkbox checked></abm-checkbox>
     </div>
-    <a class="grid-link" href="./component/form/checkbox">Checkbox</a>
+    <a class="grid-link" href="./form/checkbox">Checkbox</a>
   </div>
   <div class="grid-item" style="--h: 2">
     <div class="grid-preview">
       <abm-slider vertical></abm-slider>
     </div>
-    <a class="grid-link" href="./component/form/slider">Slider</a>
+    <a class="grid-link" href="./form/slider">Slider</a>
   </div>
   <div class="grid-item" style="--w: 2">
     <div class="grid-preview">
@@ -61,13 +61,13 @@ order: 0
         <abm-nav-item>Documentation</abm-nav-item>
       </abm-nav>
     </div>
-    <a class="grid-link" href="./component/form/nav">Navigation</a>
+    <a class="grid-link" href="./form/nav">Navigation</a>
   </div>
   <div class="grid-item">
     <div class="grid-preview">
       <abm-switch checked></abm-switch>
     </div>
-    <a class="grid-link" href="./component/form/switch">Switch</a>
+    <a class="grid-link" href="./form/switch">Switch</a>
   </div>
   <div class="grid-item" style="--w: 2">
     <div class="grid-preview">
@@ -77,7 +77,7 @@ order: 0
       <abm-hint-gamepad key="A"></abm-hint-gamepad>
       <abm-hint-touch key="Tap"></abm-hint-touch>
     </div>
-    <a class="grid-link" href="./component/hint">Hint</a>
+    <a class="grid-link" href="./hint">Hint</a>
   </div>
   <div class="grid-item">
     <div class="grid-preview">
@@ -87,12 +87,12 @@ order: 0
         <abm-avatar>I</abm-avatar>
       </div>
     </div>
-    <a class="grid-link" href="./component/form/avatar">Avatar</a>
+    <a class="grid-link" href="./form/avatar">Avatar</a>
   </div>
   <div class="grid-item">
     <div class="grid-preview">
       <abm-color-box></abm-color-box>
     </div>
-    <a class="grid-link" href="./component/form/color-box">Color Input</a>
+    <a class="grid-link" href="./form/color-box">Color Input</a>
   </div>
 </div>

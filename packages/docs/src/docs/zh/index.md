@@ -18,7 +18,7 @@ layout: index
         <abm-nav-item>文档</abm-nav-item>
       </abm-nav>
     </div>
-    <a class="grid-link" href="./zh/component">组件</a>
+    <a class="grid-link" href="./component">组件</a>
   </div>
   <div class="grid-item" style="--w: 2; --h: 2">
     <div class="grid-preview" style="flex-direction: column">
@@ -39,24 +39,24 @@ layout: index
         <div class="ui-toast-details"></div>
       </div>
     </div>
-    <a class="grid-link" href="./zh/widget">微件</a>
+    <a class="grid-link" href="./widget">微件</a>
   </div>
   <div class="grid-item">
-    <a class="grid-link grid-preview" href="./zh/prefab">预制 UI</a>
+    <a class="grid-link grid-preview" href="./prefab">预制 UI</a>
   </div>
   <div class="grid-item" style="--w: 2">
-    <a class="grid-link grid-preview" href="./zh/infra">基础设施</a>
+    <a class="grid-link grid-preview" href="./infra">基础设施</a>
   </div>
   <div class="grid-item">
-    <a class="grid-link grid-preview" href="./zh/input">输入</a>
+    <a class="grid-link grid-preview" href="./input">输入</a>
   </div>
   <div class="grid-item" style="--w: 2">
-    <a class="grid-link grid-preview" href="./zh/utils">ABM Utils</a>
+    <a class="grid-link grid-preview" href="./utils">ABM Utils</a>
   </div>
   <div class="grid-item">
-    <a class="grid-link grid-preview" href="./zh/cheat-sheet">速查表</a>
+    <a class="grid-link grid-preview" href="./cheat-sheet">速查表</a>
   </div>
   <div class="grid-item">
-    <a class="grid-link grid-preview" href="./zh/other">其他</a>
+    <a class="grid-link grid-preview" href="./other">其他</a>
   </div>
 </div>

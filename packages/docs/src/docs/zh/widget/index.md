@@ -20,13 +20,13 @@ order: 1
         </div>
       </div>
     </div>
-    <a class="grid-link" href="./widget/dialog">对话框</a>
+    <a class="grid-link" href="./dialog">对话框</a>
   </div>
   <div class="grid-item">
     <div class="grid-preview">
       <div class="surface-glass ui-flyout">Flyout</div>
     </div>
-    <a class="grid-link" href="./widget/flyout">浮出面板</a>
+    <a class="grid-link" href="./flyout">浮出面板</a>
   </div>
   <div class="grid-item" style="--w: 2">
     <div class="grid-preview">
@@ -37,17 +37,17 @@ order: 1
         <div class="ui-toast-details"></div>
       </div>
     </div>
-    <a class="grid-link" href="./widget/toast">吐司通知</a>
+    <a class="grid-link" href="./toast">吐司通知</a>
   </div>
   <div class="grid-item">
     <div class="grid-preview">
       <abm-btn id="grid-open-menu">打开菜单</abm-btn>
     </div>
-    <a class="grid-link" href="./widget/menu">菜单</a>
+    <a class="grid-link" href="./menu">菜单</a>
   </div>
   <div class="grid-item">
     <div class="grid-preview" tooltip="哒哒！" style="user-select: none">悬停/按住这里</div>
-    <a class="grid-link" href="./widget/tooltip">工具提示</a>
+    <a class="grid-link" href="./tooltip">工具提示</a>
   </div>
 </div>
 
